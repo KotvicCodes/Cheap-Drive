@@ -52,7 +52,9 @@ Add the following under [Settings → Secrets and variables → Actions → Repo
 | `SPREAD_KEY` | Yes, for live practice | Your team's key from the challenge registration page. |
 | `SPREAD_URL` | No | Server address; defaults to `https://spread.bahnexpress.com`. |
 
-After this workflow is merged to `main`, open **Actions → Practice comparison → Run workflow**. Select a level or `all` and a shared seed. The default runs both existing models at all eight levels on one seed: **16 ordinary practice weeks**. A single level runs two weeks. Runs start only when manually requested; adding a secret does not start a run.
+After this workflow is merged to `main`, open **Actions → Practice comparison → Run workflow**. Select a level or `all` and a shared seed. The default runs both existing models at all eight levels on one seed: **16 ordinary practice weeks**. A single level runs two weeks.
+
+To verify credentials and live execution before merging a repository branch, add the **run-practice** label to its pull request. This runs both models at level 4 on seed `github-pr-smoke-1` (two ordinary practice weeks). Remove and reapply the label to request another run. Fork pull requests are excluded. Runs start only when manually dispatched or labeled; adding a secret or pushing a commit does not start practice.
 
 The workflow shows the leaderboard in its run summary and uploads `leaderboard.md`, `results.json` and the JSONL traces as a **practice-comparison** artifact retained for 14 days. Failed runs also upload any partial results and traces that were written. Download results before they expire. Practice jobs run sequentially within the workflow, but local runs and other users still share the team's unfinished-world slots and rate limit. A forced cancellation or timeout may leave an unfinished world; check the world IDs in the traces if you need to clean one up.
 
