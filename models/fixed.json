@@ -1,0 +1,8 @@
+{
+  "name": "Fixed €100 / €150",
+  "factory": "fixed",
+  "settings": {
+    "dealer_price": "100",
+    "driver_fee": "150"
+  }
+}
