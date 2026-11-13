@@ -79,16 +79,26 @@ class MetricsJournal(Journal):
 
     def record(self, kind, **fields):
         super().record(kind, **fields)
+        events, results = [], []
         if kind == "event":
-            event = fields["event"]
+            events = [fields["event"]]
+        elif kind == "action_result":
+            results = [fields["result"]]
+        elif kind == "act_result":
+            results = fields["results"]
+        elif kind == "advance_batch":
+            events = fields["response"]["events"]
+            results = fields["response"]["results"]
+        for event in events:
             self.events[event["kind"]] += 1
             if event["kind"] == "visit_failed":
                 self.visit_failures[event["reason"]] += 1
             if event["kind"] == "ledger":
                 line = event["line"]
                 self.ledger[line["kind"]] += line["cents"]
-        elif kind == "action_result" and not fields["result"]["ok"]:
-            self.rejections[fields["result"]["reason"]] += 1
+        for result in results:
+            if not result["ok"]:
+                self.rejections[result["reason"]] += 1
 
     def metrics(self):
         return {"events": dict(self.events), "rejections": dict(self.rejections),
@@ -110,7 +120,7 @@ def save_results(path, results):
     temporary.replace(path)
 
 
-def run_comparison(client, models, levels, seeds, output: Path):
+def run_comparison(client, models, levels, seeds, output: Path, *, delete_on_error=False):
     """Sequential paired runs; never create a ranking/final world or overwrite a run."""
     if len(models) != 2 or models[0].spec["name"] == models[1].spec["name"]:
         raise ValueError("choose two models with distinct names")
@@ -146,13 +156,13 @@ def run_comparison(client, models, levels, seeds, output: Path):
                         run["diagnostics"] = journal.metrics()
                     run["status"] = "complete"
                 except (Exception, KeyboardInterrupt) as error:
-                    run.update(status="failed", error="interrupted" if isinstance(error, KeyboardInterrupt) else str(error))
+                    run.update(status="failed", error="interrupted" if isinstance(error, KeyboardInterrupt) else "operation failed")
                     results["status"] = "failed"
-                    if world is not None:
+                    if world is not None and delete_on_error:
                         try:
                             world.delete()
-                        except Exception as cleanup_error:
-                            run["cleanup_error"] = str(cleanup_error)
+                        except Exception:
+                            run["cleanup_error"] = "cleanup failed"
                             print(f"Could not delete practice world {world.id}; it may hold a slot.", file=sys.stderr)
                     save_results(result_path, results)
                     raise
@@ -174,6 +184,7 @@ def main(argv=None):
     run.add_argument("--seeds", nargs="+", default=[f"cheap-drive-eval-{i}" for i in range(1, 11)])
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     run.add_argument("--output", type=Path, default=Path("runs") / f"comparison-{timestamp}")
+    run.add_argument("--delete-on-error", action="store_true", help="delete this invocation's failed practice world; default preserves it")
     report = commands.add_parser("report", help="regenerate Markdown from completed results without a key")
     report.add_argument("results", type=Path)
     report.add_argument("--output", type=Path, help="fresh Markdown file (otherwise stdout only)")
@@ -190,12 +201,12 @@ def main(argv=None):
             if not os.environ.get("SPREAD_KEY"):
                 parser.error("set SPREAD_KEY to your team key to run actual practice comparisons")
             client = Client(url=os.environ.get("SPREAD_URL") or "https://spread.bahnexpress.com")
-            markdown = run_comparison(client, models, args.levels, args.seeds, args.output)
+            markdown = run_comparison(client, models, args.levels, args.seeds, args.output, delete_on_error=args.delete_on_error)
             print(f"Saved report, results and traces to {args.output}", file=sys.stderr)
         print(markdown, end="")
         return 0
     except (Exception, KeyboardInterrupt) as error:
-        print(f"Comparison stopped: {'interrupted' if isinstance(error, KeyboardInterrupt) else error}", file=sys.stderr)
+        print(f"Comparison stopped: {'interrupted' if isinstance(error, KeyboardInterrupt) else 'operation failed; inspect local results'}", file=sys.stderr)
         return 130 if isinstance(error, KeyboardInterrupt) else 1
 
 

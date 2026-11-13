@@ -40,7 +40,9 @@ class PracticeClient:
 
 class ComparisonTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        cache = ROOT / ".cache" / "tmp"
+        cache.mkdir(parents=True, exist_ok=True)
+        self.temp = tempfile.TemporaryDirectory(dir=cache)
         self.addCleanup(self.temp.cleanup)
         self.directory = Path(self.temp.name)
         self.output = self.directory / "comparison"
@@ -50,9 +52,9 @@ class ComparisonTests(unittest.TestCase):
         patch("compare.code_revision", return_value={"commit": "test-revision", "dirty": False}).start()
         self.stdout, self.stderr = io.StringIO(), io.StringIO()
 
-    def run_suite(self, levels, seeds):
+    def run_suite(self, levels, seeds, **kwargs):
         with redirect_stdout(self.stdout), redirect_stderr(self.stderr):
-            return run_comparison(self.client, self.models, levels, seeds, self.output)
+            return run_comparison(self.client, self.models, levels, seeds, self.output, **kwargs)
 
     def test_all_levels_pair_identical_seeds_and_preserve_scores_and_diagnostics(self):
         levels, seeds = list(range(1, 9)), ["seed-a", "../seed|b"]
@@ -71,29 +73,36 @@ class ComparisonTests(unittest.TestCase):
             self.assertLess(run["diagnostics"]["ledger"]["driver_fee"], 0)
             trace = [json.loads(line) for line in (self.output / run["trace"]).read_text().splitlines()]
             self.assertEqual(trace[0]["code"]["commit"], "test-revision")
-            self.assertEqual(trace[-1]["score"], run["score"])
+            self.assertEqual(next(row["score"] for row in reversed(trace) if row["type"] == "score"), run["score"])
         self.assertIn("All levels (1–8)", markdown)
         self.assertEqual((self.output / "leaderboard.md").read_text(), markdown)
 
-    def test_failed_run_saves_partial_results_cleans_world_and_has_no_leaderboard(self):
+    def test_failed_run_saves_partial_results_preserves_world_and_has_no_leaderboard(self):
         with patch("compare.play_model", side_effect=RuntimeError("broken policy")):
             with self.assertRaisesRegex(RuntimeError, "broken policy"):
                 self.run_suite([8], ["seed"])
-        self.assertTrue(self.client.worlds[0].deleted)
+        self.assertFalse(self.client.worlds[0].deleted)
         results = json.loads((self.output / "results.json").read_text())
         self.assertEqual(results["status"], "failed")
-        self.assertEqual(results["runs"][0]["error"], "broken policy")
+        self.assertEqual(results["runs"][0]["error"], "operation failed")
         self.assertFalse((self.output / "leaderboard.md").exists())
         with self.assertRaisesRegex(ValueError, "complete"):
             render_markdown(results)
 
+    def test_failed_world_cleanup_requires_explicit_opt_in(self):
+        with patch("compare.play_model", side_effect=RuntimeError("private fixture error")):
+            with self.assertRaises(RuntimeError):
+                self.run_suite([8], ["seed"], delete_on_error=True)
+        self.assertTrue(self.client.worlds[0].deleted)
+        self.assertNotIn("private fixture error", (self.output / "results.json").read_text())
+
     def test_interrupt_and_cleanup_failure_preserve_world_identity(self):
         with patch("compare.play_model", side_effect=KeyboardInterrupt), patch.object(PracticeWorld, "delete", side_effect=RuntimeError("offline")):
             with self.assertRaises(KeyboardInterrupt):
-                self.run_suite([8], ["seed"])
+                self.run_suite([8], ["seed"], delete_on_error=True)
         run = json.loads((self.output / "results.json").read_text())["runs"][0]
         self.assertEqual(run["error"], "interrupted")
-        self.assertEqual(run["cleanup_error"], "offline")
+        self.assertEqual(run["cleanup_error"], "cleanup failed")
         self.assertIn(run["world_id"], self.stderr.getvalue())
 
     def test_reject_invalid_or_duplicate_selection_before_creating_worlds(self):
@@ -142,6 +151,23 @@ class ComparisonTests(unittest.TestCase):
         self.assertEqual(len(self.client.calls), 16)
         self.assertEqual({call["level"] for call in self.client.calls}, set(range(1, 9)))
         self.assertEqual(self.stdout.getvalue(), (self.output / "leaderboard.md").read_text())
+
+    def test_captured_batches_preserve_comparison_diagnostics(self):
+        from capture import CapturedWorld
+        class World:
+            def act(self, actions):
+                return [{"ok": False, "reason": "fixture rejection"} for _ in actions]
+            def advance(self, actions, **parameters):
+                return {"now": 1, "results": self.act(actions), "events": [
+                    {"kind": "visit_failed", "reason": "licence"},
+                    {"kind": "ledger", "line": {"kind": "driver_fee", "cents": -100}}]}
+        journal = MetricsJournal(io.StringIO())
+        CapturedWorld(World(), journal).advance(actions=[{"type": "withdraw"}] * 51, max=1)
+        metrics = journal.metrics()
+        self.assertEqual(metrics["rejections"], {"fixture rejection": 51})
+        self.assertEqual(metrics["visit_failures"], {"licence": 1})
+        self.assertEqual(metrics["ledger"], {"driver_fee": -100})
+        self.assertEqual(metrics["events"], {"visit_failed": 1, "ledger": 1})
 
     def test_diagnostics_count_rejections_and_failed_visit_reasons(self):
         trace = io.StringIO()

@@ -89,7 +89,7 @@ class DispatcherTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             score = play_practice(DemoWorld(), 4, FixedPrices(40_000, 17_500), Journal(self.trace))
         records = [json.loads(line) for line in self.trace.getvalue().splitlines()]
-        kinds = [record["event"]["kind"] for record in records if record["type"] == "event"]
+        kinds = [event["kind"] for record in records if record["type"] == "advance_batch" for event in record["response"]["events"]]
         self.assertIn("price_request", kinds)
         self.assertIn("order_won", kinds)
         self.assertIn("gig_booked", kinds)
