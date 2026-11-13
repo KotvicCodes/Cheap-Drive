@@ -5,12 +5,11 @@ import argparse
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
-import json
 import logging
 import os
 from pathlib import Path
 import sys
-from typing import TextIO
+from capture import CapturedWorld, Journal
 
 from spread import Client, SpreadError, World
 from spread.starter import DAY, WAKE_ON, WEEKDAYS, Desk, report
@@ -41,17 +40,6 @@ class FixedPrices:
     driver_cents: int = 15_000
 
 
-class Journal:
-    """An inspectable JSONL trace; deliberately records decisions, not credentials."""
-
-    def __init__(self, output: TextIO):
-        self.output = output
-
-    def record(self, kind: str, **fields: object) -> None:
-        self.output.write(json.dumps({"type": kind, **fields}, ensure_ascii=False) + "\n")
-        self.output.flush()
-
-
 class FixedDesk(Desk):
     """Keep the starter's delivery handling and replace its pricing decisions."""
 
@@ -74,7 +62,8 @@ class FixedDesk(Desk):
         LOG.warning("minute=%s order=%s deadline warning; fixed driver fee stays unchanged", self.now, order_id)
 
     def handle(self, event: DeskEvent) -> None:
-        self.journal.record("event", event=event)
+        if not isinstance(self.world, CapturedWorld):
+            self.journal.record("event", event=event)
         if event["kind"] not in ("gig_viewed", "ledger"):
             request = event.get("request", {})
             order = event.get("order", {})
@@ -83,12 +72,14 @@ class FixedDesk(Desk):
         super().handle(event)
 
     def read_results(self, actions: list[Action], results: list[ActionResult]) -> None:
+        if not isinstance(self.world, CapturedWorld):
+            for action, result in zip(actions, results):
+                self.journal.record("action_result", at=self.now, action=action, result=result)
         if len(actions) != len(results):
             raise RuntimeError("API returned a different number of action results")
         for action, result in zip(actions, results):
-            self.journal.record("action_result", at=self.now, action=action, result=result)
             if not result["ok"]:
-                LOG.warning("minute=%s action=%s rejected: %s", self.now, action["type"], result["reason"])
+                LOG.warning("minute=%s action=%s rejected; inspect the local journal", self.now, action["type"])
             elif action["type"] == "quote":
                 LOG.info("minute=%s QUOTE %s %s", self.now, action["requestId"], action["prices"])
             elif action["type"] == "post":
@@ -97,7 +88,10 @@ class FixedDesk(Desk):
 
 
 def play_practice(world: World, level: int, prices: FixedPrices, journal: Journal) -> Score:
-    snapshot = world.snapshot()
+    world = CapturedWorld(world, journal)
+    snapshot = world.capture("snapshot", world.world.snapshot, "initial")
+    world.optional("map", lambda: world.world.client.map(), "initial")
+    world.optional("roster", lambda: world.world.roster(), "initial")
     desk = FixedDesk(world, level, snapshot["now"], prices, journal)
     while desk.now < snapshot["endsAt"]:
         day = desk.now // DAY
@@ -108,11 +102,15 @@ def play_practice(world: World, level: int, prices: FixedPrices, journal: Journa
         for event in step["events"]:
             desk.handle(event)
         if desk.now // DAY > day:
-            score = world.score()
+            score = world.world.score()
             report(WEEKDAYS[day % 7], score)
             journal.record("daily_score", at=desk.now, score=score)
-    score = world.score()
-    journal.record("score", score=score)
+    score = world.world.score()
+    journal.record("score", at=desk.now, score=score)
+    world.optional("snapshot", world.world.snapshot, "end")
+    world.optional("roster", lambda: world.world.roster(), "end")
+    world.optional("reveal", lambda: world.world.reveal(), "end")
+    journal.record("run_end", at=desk.now, endsAt=snapshot["endsAt"])
     return score
 
 
@@ -124,6 +122,7 @@ def main() -> int:
     parser.add_argument("--dealer-price", type=euro_cents, default=10_000, metavar="EUROS", help="fixed quote per order/option (default 100)")
     parser.add_argument("--driver-fee", type=euro_cents, default=15_000, metavar="EUROS", help="fixed fee per car (default 150)")
     parser.add_argument("--log", type=Path, help="JSONL trace path (default runs/<time>.jsonl)")
+    parser.add_argument("--delete-on-error", action="store_true", help="explicitly delete this invocation's failed practice world; default preserves it")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
     prices = FixedPrices(args.dealer_price, args.driver_fee)
@@ -153,13 +152,15 @@ def main() -> int:
         return 0
     except (Exception, KeyboardInterrupt) as error:
         # Only ordinary practice worlds created by this process: never a ranking/final world.
-        if world is not None and not args.demo:
+        if world is not None and not args.demo and args.delete_on_error:
             try:
                 world.delete()
                 LOG.warning("Stopped; removed practice world %s to free its slot.", world.id)
             except SpreadError:
                 LOG.warning("Could not remove practice world %s; it may still hold a practice slot.", world.id)
-        LOG.error("Stopped: %s", "interrupted" if isinstance(error, KeyboardInterrupt) else error)
+        if world is not None and not args.demo and not args.delete_on_error:
+            LOG.warning("Stopped; practice world preserved for debugging and may hold an unfinished slot.")
+        LOG.error("Stopped: %s; inspect the local journal", "interrupted" if isinstance(error, KeyboardInterrupt) else "operation failed")
         return 130 if isinstance(error, KeyboardInterrupt) else 1
 
 
