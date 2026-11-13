@@ -39,20 +39,24 @@ python dispatch.py --demo
 
 The setup command checks installed dependencies and verifies the kit's SHA-256 against `requirements.txt`. It uses Python's built-in `venv`, falling back to `uv` if installed when Python cannot bootstrap pip. If neither works, install your Python's venv support (for example, `python3-venv` on Debian/Ubuntu) or [uv](https://docs.astral.sh/uv/getting-started/installation/), then rerun it. Select a particular installed interpreter with `PYTHON=python3.12 bash scripts/setup.sh`. Setup and offline checks require no team key; installation requires network access to download the kit.
 
-For local live runs, optionally copy `.env.example` to `.env`, fill in the key locally and load it with `set -a; source .env; set +a`. The `.env` file is ignored by Git. GitHub secrets are available to Actions workflows; they do not automatically populate your local terminal.
+The team's API key is already configured as the `SPREAD_KEY` repository secret for GitHub Actions. Agents must not ask the user to provide, paste, recreate or re-add it for normal setup or testing. Use the existing `.github/workflows/practice.yml` (**Practice comparison**) for authorized live validation; it injects `${{ secrets.SPREAD_KEY }}` into the run.
+
+GitHub secrets do not automatically populate local terminals, and their plaintext values cannot be retrieved from GitHub. An unset local `SPREAD_KEY` does not mean the repository secret is missing. For local work, use the key if already supplied in the environment; otherwise run offline tests and `python dispatch.py --demo`, and use Actions for authorized live runs. Never print, log or commit credentials. Report actual Actions credential failures with the workflow error instead of asking for the key because it is unavailable locally.
+
+For local live runs where the key is already available to you, optionally copy `.env.example` to `.env`, fill in the key locally and load it with `set -a; source .env; set +a`. The `.env` file is ignored by Git. Local setup, offline tests and the demo need no key.
 
 ## GitHub setup and practice runs
 
 The **Checks** workflow installs the kit, runs the offline tests and exercises the demo on each pull request and push to `main`. It needs no secrets.
 
-Add the following under [Settings → Secrets and variables → Actions → Repository secrets](https://github.com/KotvicCodes/Cheap-Drive/settings/secrets/actions):
+The team key is already saved under [Settings → Secrets and variables → Actions → Repository secrets](https://github.com/KotvicCodes/Cheap-Drive/settings/secrets/actions). No credential setup is needed for this repository's practice workflow:
 
 | Secret | Required | Value |
 | --- | --- | --- |
-| `SPREAD_KEY` | Yes, for live practice | Your team's key from the challenge registration page. |
+| `SPREAD_KEY` | Yes, for live practice; already configured | The team's existing API key, injected by the practice workflow. |
 | `SPREAD_URL` | No | Server address; defaults to `https://spread.bahnexpress.com`. |
 
-After this workflow is merged to `main`, open **Actions → Practice comparison → Run workflow**. Select a level or `all` and a shared seed. The default runs both existing models at all eight levels on one seed: **16 ordinary practice weeks**. A single level runs two weeks.
+Open **Actions → Practice comparison → Run workflow**. Select a level or `all` and a shared seed. The default runs both existing models at all eight levels on one seed: **16 ordinary practice weeks**. A single level runs two weeks.
 
 To verify credentials and live execution before merging a repository branch, add the **run-practice** label to its pull request. This runs both models at level 4 on seed `github-pr-smoke-1` (two ordinary practice weeks). Remove and reapply the label to request another run. Fork pull requests are excluded. Runs start only when manually dispatched or labeled; adding a secret or pushing a commit does not start practice.
 
@@ -69,7 +73,7 @@ The demo feeds a scripted request, win, booking and delivery through our actual 
 
 ## Play an actual practice week
 
-Create a team at [the challenge registration page](https://spread.bahnexpress.com/join), then set the server address and your team key:
+Use the GitHub practice workflow above with the saved repository secret. For a local live run, if the team key is already available to you, set the server address and key in your local shell:
 
 ```bash
 export SPREAD_URL=https://spread.bahnexpress.com
