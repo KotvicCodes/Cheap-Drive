@@ -80,13 +80,68 @@ The prototype subclasses the official starter's `Desk`, reusing its basic window
 
 Keep the team key outside Git. The application reads environment variables directly; it does not automatically load `.env` files. Run traces and local environments are ignored by Git.
 
+## Compare two models across all levels
+
+Here, a **model** is a dispatch strategy plus its settings. With `SPREAD_KEY` set as above, one command compares our fixed-price model with the official starter:
+
+```bash
+python compare.py run
+```
+
+The default suite runs **both models at levels 1–8 on the same ten seeds**: 160 ordinary practice weeks, run sequentially. It prints a Markdown leaderboard to stdout and saves `leaderboard.md`, machine-readable `results.json`, and a JSONL trace per world in a fresh `runs/comparison-<time>/` directory. Progress goes to stderr, so stdout can also be redirected to a Markdown file. This uses actual Spread practice worlds, not the scripted offline demo or official ranking rounds.
+
+For a quick all-level comparison with one paired seed:
+
+```bash
+python compare.py run --seeds smoke-1 --output runs/smoke-comparison
+```
+
+For a focused experiment with explicit model definitions:
+
+```bash
+python compare.py run --model-a models/fixed.json --model-b models/starter.json \
+  --levels 4 8 --seeds validation-1 validation-2 validation-3 \
+  --output runs/fixed-vs-starter
+```
+
+The report includes:
+
+- Overall and per-level leaderboards: qualified weeks, mean gross margin, revenue, on-time share, undelivered share and won orders.
+- Paired wins and losses, plus margin, revenue and delivery-rate differences in a consistent **B − A** direction.
+- Signed ledger totals, deadline warnings, drops, no-shows, failed-visit reasons and rejected actions.
+- Suggested next experiments based on qualification failures, observed costs and the largest per-level margin gap. Level 8 gets its own recommendation because it is the final's difficulty.
+- Code revision, dirty-tree flag, exact configurations and seeds for reproduction; raw results retain individual scores, world IDs and trace paths.
+
+The comparison ranks **qualification count first, then mean gross margin across all sampled weeks**. It uses each world's official `ranked` flag; a high average delivery rate cannot hide failed weeks. Neither model is recommended if neither qualifies. Overall results cover the requested levels equally; use level 8 and separate held-out seeds when selecting the final strategy. Ten seeds are an initial comparison, not proof that a model will win on unseen weeks. Weekly delivery percentages are averaged per week, not pooled across orders.
+
+To compare two fixed-price variants, copy [models/fixed.json](models/fixed.json), give the copy a different `name`, and change its euro amounts:
+
+```json
+{
+  "name": "Fixed €350 / €180",
+  "factory": "fixed",
+  "settings": {"dealer_price": "350", "driver_fee": "180"}
+}
+```
+
+For a future strategy, set `factory` to `your_module:your_factory`. The factory receives `(world, level, now, journal, **settings)` and must return a subclass of `dispatch.JournalDesk` (or `FixedDesk`), calling the inherited `handle` and `read_results` methods so diagnostics remain complete. `JournalDesk` is the official starter with logging; it adds no pricing changes. Factories are trusted local Python code imported from the project/Python path. Both models use the same practice clock and wake events. Keep credentials in the environment, outside model JSON.
+
+Regenerate the report later without a team key or new simulations:
+
+```bash
+python compare.py report runs/fixed-vs-starter/results.json
+python compare.py report runs/fixed-vs-starter/results.json --output comparison.md
+```
+
+Existing output directories and report files are never overwritten. Results are checkpointed after every run. On an error or Ctrl-C, the suite stops, saves the failure and attempts to delete only its current practice world; completed worlds remain inspectable. If cleanup fails, it reports the world ID. Incomplete or mismatched pairs cannot produce a leaderboard; rerun the suite into a fresh output directory after fixing the failure.
+
 ## Checks
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The checks cover exact currency parsing, constant prices across delivery options and deadline warnings, rejected trade-in splitting, manual-licence retry handling, action rejection logging and the offline request-to-ledger flow.
+The checks cover exact currency parsing, constant prices across delivery options and deadline warnings, rejected trade-in splitting, manual-licence retry handling, action rejection logging and the offline request-to-ledger flow. Comparison tests use scripted worlds to verify all-level pairing, both models' traces, qualification-first ranking, delta signs, ties, incomplete-result rejection, output preservation and failure/interrupt cleanup. They make no claims about simulator performance.
 
 ## Project icon
 
