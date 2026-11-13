@@ -1,0 +1,85 @@
+name: Practice comparison
+
+on:
+  pull_request:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      level:
+        description: 'Level to compare (all runs two models at levels 1–8)'
+        type: choice
+        options: [all, '1', '2', '3', '4', '5', '6', '7', '8']
+        default: all
+        required: true
+      seed:
+        description: 'One shared seed for both models'
+        type: string
+        default: github-smoke-1
+        required: true
+
+permissions:
+  contents: read
+
+# Serialize this workflow's practice use of the shared team key.
+concurrency:
+  group: spread-practice
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    # Only explicitly requested runs of trusted repository branches get the key.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.label.name == 'run-practice' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    # Two level-4 worlds take about nine minutes; the default suite has 16.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check team key is configured
+        env:
+          SPREAD_KEY: ${{ secrets.SPREAD_KEY }}
+        run: |
+          if [[ -z "$SPREAD_KEY" ]]; then
+            echo "::error::Add the SPREAD_KEY repository secret under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install official kit
+        run: bash scripts/setup.sh
+      - name: Verify offline behavior
+        run: .venv/bin/python -m unittest discover -s tests -v
+      - name: Compare models in ordinary practice worlds
+        env:
+          SPREAD_KEY: ${{ secrets.SPREAD_KEY }}
+          SPREAD_URL: ${{ secrets.SPREAD_URL || 'https://spread.bahnexpress.com' }}
+          PRACTICE_LEVEL: ${{ inputs.level || '4' }}
+          PRACTICE_SEED: ${{ inputs.seed || 'github-pr-smoke-1' }}
+        run: |
+          if [[ "$PRACTICE_LEVEL" == all ]]; then
+            levels=(1 2 3 4 5 6 7 8)
+          else
+            levels=("$PRACTICE_LEVEL")
+          fi
+          .venv/bin/python compare.py run --levels "${levels[@]}" --seeds "$PRACTICE_SEED" --output runs/comparison
+      - name: Add leaderboard to run summary
+        if: ${{ always() }}
+        run: |
+          if [[ -f runs/comparison/leaderboard.md ]]; then
+            cat runs/comparison/leaderboard.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Save report, results, and traces
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: practice-comparison-${{ github.run_id }}-${{ github.run_attempt }}
+          path: runs/comparison/
+          if-no-files-found: ignore
+          retention-days: 14
