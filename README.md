@@ -8,9 +8,9 @@ Cheap-Drive is a project dedicated to tackling the Bahn Express challenge at [sp
 
 ## Challenge resources
 
-- [How it works](https://spread.bahnexpress.com/how) — challenge overview and instructions.
-- [Judging](https://spread.bahnexpress.com/judging) — judging criteria for submissions.
-- [Leaderboard](https://spread.bahnexpress.com/leaderboard) — challenge standings.
+- [How it works](https://spread.bahnexpress.com/how) ; challenge overview and instructions.
+- [Judging](https://spread.bahnexpress.com/judging) ; judging criteria for submissions.
+- [Leaderboard](https://spread.bahnexpress.com/leaderboard) ; challenge standings.
 
 Our implementation uses **Python** and the official Spread client. See [AI overview.md](AI%20overview.md) for observations, priorities and project decisions.
 
@@ -63,18 +63,41 @@ python dispatch.py --level 4 --seed cheap-drive-1 --dealer-price 350 --driver-fe
 
 Level 4 is the default because dealer quotes compete on price there. At levels 1–3 every quote wins at the first option's list price, so those levels cannot demonstrate the effect of changing our dealer price. Level 8 is available with `--level 8`, but scarcity and additional constraints make the constant-price baseline deliberately unsophisticated.
 
-Each invocation creates an **ordinary practice world**, never a ranking run or a final. Completed worlds remain available for inspection and do not occupy unfinished-world slots. On an error or Ctrl-C, the runner attempts to delete its own practice world to free its slot; it reports the world ID if cleanup fails.
+Each invocation creates an **ordinary practice world**, never a ranking run or a final. Completed worlds remain available for inspection and do not occupy unfinished-world slots. On an error or Ctrl-C, the runner **preserves its practice world by default** for debugging. An unfinished world may hold one of the team's eight unfinished-world slots. Inspect it before explicitly cleaning it up through the API. If you deliberately want this invocation's failed practice world deleted, pass `--delete-on-error`. This option does not affect completed worlds. A lost create response can leave a world whose ID the process never received.
 
 ## Inspect a run
 
 The terminal shows requests, accepted quotes, posted driver fees, bookings, delivery events and the final score. Full events and action results are written as JSON lines under `runs/`. Use `--log runs/my-run.jsonl` to choose a fresh path; existing log files are not overwritten. All amounts inside API payloads and logs are integer cents, and times are integer world minutes.
 
-Look for these trace records:
+New runs capture:
 
-- `run`: world ID, seed, level and the chosen fixed prices.
-- `event`: the raw event, including order wins/losses, bookings, drops, failed visits and account entries.
-- `action_result`: the action and its individual API result, including rejection reasons.
-- `daily_score` and `score`: the daily and final outcomes.
+- `run`: world ID, seed, level and fixed prices. `mode=demo` always means synthetic data.
+- `snapshot`: initial and end state, including score and world `endsAt` when available.
+- `map`, `roster`, `reveal`: complete returned payloads when the SDK exposes them and the server permits access. Failed optional reads produce a sanitized `capability_unavailable` record.
+- `action_intent`: batch ID, world minute, method, parameters and actions, flushed and fsynced **before** each mutation call. This also captures sends made internally by the official starter. Large outboxes are split into calls of at most 50 actions so each return is journaled separately.
+- `advance_batch` and `act_result`: the full SDK return, flushed and fsynced **before** desk processing. A handler crash cannot discard later events in an already saved batch.
+- `daily_score`, `score`, `run_end`: recorded checkpoints and the loop reaching its known endpoint.
+
+Capture is at the pinned SDK boundary, not a packet recorder. The SDK can filter repeated event sequences and retry transport calls internally. A process crash before a completed journal write, disk failure, an interrupted response, or a lost server response can still leave missing information. An intent without its result means **unknown server outcome**, not a rejected action. Do not blindly replay it. The runner does not implement automatic resume or exactly-once delivery. HTTP headers, API keys and raw exception strings are not journaled; credential-shaped fields/text are redacted before capture.
+
+## Analyze an existing week offline
+
+```bash
+python week_report.py runs/my-run.jsonl
+python week_report.py runs/my-run.jsonl --output runs/my-week.html
+```
+
+Open the generated HTML directly in your browser. No server, key, Spread installation, CDN, map tiles, telemetry or internet connection is needed. The report generator uses Python's standard library. Output files must be fresh; the CLI refuses to overwrite an existing report or input. The application version is in `VERSION` and appears in each report.
+
+The report includes financial and score charts, every observed request and quote, wins/losses, original notes and options, order/leg histories and windows, gigs/stops/fee changes, driver activity, incidents, the complete ledger, and a searchable raw explorer. Entity IDs open histories. Tables support sorting, pagination, text search, entity filters, world-day and clock filters, and exports of all filtered rows across pages. Clock ranges spanning midnight are supported. Entity-time filters match any captured activity for that entity. Overview charts always cover the full source. Days after Sunday retain distinct day numbers, including the delivery tail beyond the request week.
+
+**Original source is preserved byte for byte inside the HTML**, with SHA-256 provenance and an exact JSONL download. Complete analysis JSON and filtered JSON downloads keep unknown fields. Invalid UTF-8, malformed/partial lines, blank lines and duplicate object keys stay inspectable through exact byte ranges. Displayed invalid UTF-8 uses replacement characters; the binary download does not. The generator refuses credential-shaped input rather than embedding secrets or silently deleting fields. If refused, keep the original privately and deliberately prepare a sanitized copy for reporting. Do not import arbitrary credential-bearing logs.
+
+The report reads both the older `run` / `event` / `action_result` / `daily_score` / `score` format and new batch captures. Exact duplicate event sequences count once in derived views while all original copies remain in raw records. Conflicting sequence payloads are shown and excluded from derived totals. Gaps, malformed records, pending intents and missing final observations lower confidence. A numerically matching ledger is not proof that a whole simulated week was captured. Only an end snapshot reaching `endsAt` verifies that endpoint. Missing map, roster and reveal are labeled unavailable. Missing quote records are not labeled unquoted unless a captured reveal confirms it.
+
+Reconciliation compares signed ledger totals with recorded final margin and revenue. Posted and booked fees are not charged a second time. Direct order net uses only ledger lines naming that order. Gig-only/shared and unattributed costs stay separate. Gig totals can overlap directly attributed order entries and must not be added to order totals. Reliability and ranking are displayed from the recorded score rather than reverse-engineered from incomplete observations.
+
+**Treat the HTML and its downloads as private run data**: they include the complete source, not just a dashboard. Keep them under ignored `runs/`. Share only deliberately. No real trace or generated real report belongs in a commit.
 
 The prototype subclasses the official starter's `Desk`, reusing its basic windows, retry, expiration and trade-in handling. The client is pinned because this starter class is an implementation detail rather than a guaranteed stable API. Notes still use the starter's limited keyword parser. This prototype does not yet add capacity selection, robust multilingual parsing, ranking mode or final mode.
 
@@ -86,7 +109,23 @@ Keep the team key outside Git. The application reads environment variables direc
 python -m unittest discover -s tests -v
 ```
 
-The checks cover exact currency parsing, constant prices across delivery options and deadline warnings, rejected trade-in splitting, manual-licence retry handling, action rejection logging and the offline request-to-ledger flow.
+The standard-library suite covers dispatch behavior, capture-before-processing, starter-internal sends, lost responses, exact-byte preservation, unknown/malformed/partial records, duplicate/conflicting sequences, shared-cost reconciliation, incomplete runs, credential refusal and script injection.
+
+Optional browser checks exercise actual report controls, dialogs, pagination, filters, sorting, exact source downloads, JSON exports, captured map rendering, XSS and mobile overflow using synthetic fixtures. They require a local Chromium installation managed by Playwright:
+
+```bash
+python -m pip install -r requirements-dev.txt
+# Keep all downloaded environments, caches and test artifacts inside this repository.
+export PLAYWRIGHT_BROWSERS_PATH="$PWD/.cache/browsers"
+export TMPDIR="$PWD/.cache/tmp"
+mkdir -p "$TMPDIR"
+python -m playwright install chromium
+python tests/check_browser.py
+# Optionally validate the known completed level-4 trace locally as well:
+python tests/check_browser.py --real-trace runs/<completed-level-4-trace>.jsonl
+```
+
+`tests/make_browser_fixture.py` also writes a clearly labeled synthetic report under ignored `.cache/`. `tests/browser_checks.js` and `tests/real_browser_checks.js` can be evaluated in that report through an existing browser automation session. No browser test starts a server or a simulator world.
 
 ## Project icon
 

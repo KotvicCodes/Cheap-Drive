@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Cheap-Drive | Week analysis</title>
+<style>/* REPORT_CSS */</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to report</a>
+<aside class="sidebar">
+  <div class="brand"><div class="brand-icon"><!-- BRAND --></div><div><strong>CHEAP-DRIVE</strong><span>Operations journal</span></div></div>
+  <div class="side-label">WEEK ANALYSIS</div>
+  <nav id="nav" aria-label="Report sections"></nav>
+  <div class="side-bottom"><span class="offline-dot"></span> Offline · private by design<p id="version"></p><button id="export-source">↓ Original JSONL</button><button id="export-model">↓ Complete analysis JSON</button></div>
+</aside>
+<main id="main" tabindex="-1">
+  <header class="topbar"><div><div class="eyebrow" id="run-label"></div><h1 id="title">Week overview</h1><p id="subtitle"></p></div><span id="mode" class="badge"></span></header>
+  <div id="integrity-banner" class="integrity-banner"></div>
+  <section id="overview"></section>
+  <section id="workspace" hidden>
+    <div id="section-intro" class="section-intro"></div>
+    <form id="filters" class="filters" role="search" autocomplete="off">
+      <label class="search">Search all captured fields<input id="search" type="search" placeholder="Order, gig, driver, note, reason…"></label>
+      <label>World day<select id="day"><option value="">All days</option></select></label>
+      <label>From clock<input id="from" type="time" aria-label="From clock time each day"></label>
+      <label>To clock<input id="to" type="time" aria-label="To clock time each day"></label>
+      <label>Kind<select id="kind"><option value="">All kinds</option></select></label>
+      <label>State<select id="state"><option value="">All states</option></select></label>
+      <button id="reset" type="button">Reset</button>
+    </form>
+    <p class="muted" id="filter-help">Filters match captured data. Clock bounds apply within each selected day, inclusively.</p>
+    <div class="table-toolbar"><strong id="row-count" aria-live="polite"></strong><button id="export-filtered">↓ Export filtered rows</button></div>
+    <div class="table-wrap"><table id="table"><thead></thead><tbody></tbody></table></div>
+    <div id="empty" class="empty" hidden><strong>No matching records</strong><p>Try resetting the filters. Missing capture is described in Source & integrity.</p></div>
+    <div class="pagination"><div><label>Rows <select id="page-size"><option>50</option><option>100</option><option>250</option></select></label><span id="page-info"></span></div><div><button id="first" aria-label="First page">«</button><button id="prev">Previous</button><label>Page <input id="page-number" type="number" min="1" value="1"></label><button id="next">Next</button><button id="last" aria-label="Last page">»</button></div></div>
+  </section>
+  <section id="captures" hidden></section>
+  <footer>Amounts are recorded game euros. Times are world minutes from Monday 00:00, not wall-clock dates. This report makes no network requests.</footer>
+</main>
+<dialog id="detail"><div class="dialog-top"><div><div id="detail-label" class="eyebrow"></div><h2 id="detail-title"></h2></div><button id="close-detail" aria-label="Close details">Close ×</button></div><div id="detail-body"></div></dialog>
+<script id="report-data" type="application/json">REPORT_DATA</script>
+<script>/* REPORT_JS */</script>
+</body>
+</html>
