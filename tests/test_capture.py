@@ -55,6 +55,12 @@ class CaptureTests(unittest.TestCase):
         self.assertEqual(self.records()[1]['type'],'act_result')
         self.assertFalse(self.records()[1]['results'][0]['ok'])
 
+    def test_optional_capture_does_not_swallow_persistence_failure(self):
+        world=CapturedWorld(object(),self.journal)
+        with patch.object(self.journal, 'record', side_effect=OSError('fixture disk full')):
+            with self.assertRaises(OSError):
+                world.optional('map', lambda: {'places': []})
+
     def test_lost_return_leaves_intent_with_unknown_outcome(self):
         class World:
             def act(self,actions):raise ConnectionError('fixture connection lost')

@@ -71,6 +71,9 @@ class CapturedWorld:
 
     def capture(self, kind, getter, phase=None):
         value = getter()
+        return self._save_capture(kind, value, phase)
+
+    def _save_capture(self, kind, value, phase):
         self.journal.record(kind, phase=phase, at=self.now, **{kind: value})
         if kind == 'snapshot':
             self.now = value['now']
@@ -78,10 +81,12 @@ class CapturedWorld:
 
     def optional(self, kind, getter, phase=None):
         try:
-            return self.capture(kind, getter, phase)
+            value = getter()
         except (Exception, KeyboardInterrupt) as error:
             if isinstance(error, KeyboardInterrupt):
                 raise
             # Exception messages can contain URLs, headers or credentials.
             self.journal.record('capability_unavailable', capability=kind, phase=phase)
             return None
+        # Persistence failure must stop the run, even for optional SDK capabilities.
+        return self._save_capture(kind, value, phase)
