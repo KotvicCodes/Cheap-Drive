@@ -9,6 +9,8 @@ import logging
 import os
 from pathlib import Path
 import sys
+from typing import Callable
+
 from capture import CapturedWorld, Journal
 
 from spread import Client, SpreadError, World
@@ -40,26 +42,12 @@ class FixedPrices:
     driver_cents: int = 15_000
 
 
-class FixedDesk(Desk):
-    """Keep the starter's delivery handling and replace its pricing decisions."""
+class JournalDesk(Desk):
+    """The official starter with the same trace instrumentation as our models."""
 
-    def __init__(self, world: World, level: int, now: int, prices: FixedPrices, journal: Journal):
+    def __init__(self, world: World, level: int, now: int, journal: Journal):
         super().__init__(world, level, now)
-        self.prices, self.journal = prices, journal
-
-    def quote(self, request: PriceRequest) -> None:
-        self.requests[request["id"]] = request
-        self.outbox.append({"type": "quote", "requestId": request["id"],
-                            "prices": {option["kind"]: self.prices.dealer_cents for option in request["options"]}})
-
-    def fees_for(self, order: Order, cars: int) -> list[FeeStep]:
-        # One fixed fee per car: a two-car trade-in pays twice the configured amount.
-        return [{"at": self.now, "feeCents": self.prices.driver_cents * cars}]
-
-    def raise_fees(self, order_id: str) -> None:
-        # Keep even urgent work at the same fee so this stays a constant-price baseline.
-        self.urgent.add(order_id)
-        LOG.warning("minute=%s order=%s deadline warning; fixed driver fee stays unchanged", self.now, order_id)
+        self.journal = journal
 
     def handle(self, event: DeskEvent) -> None:
         if not isinstance(self.world, CapturedWorld):
@@ -87,12 +75,38 @@ class FixedDesk(Desk):
         super().read_results(actions, results)
 
 
-def play_practice(world: World, level: int, prices: FixedPrices, journal: Journal) -> Score:
+class FixedDesk(JournalDesk):
+    """Keep the starter's delivery handling and replace its pricing decisions."""
+
+    def __init__(self, world: World, level: int, now: int, prices: FixedPrices, journal: Journal):
+        super().__init__(world, level, now, journal)
+        self.prices = prices
+
+    def quote(self, request: PriceRequest) -> None:
+        self.requests[request["id"]] = request
+        self.outbox.append({"type": "quote", "requestId": request["id"],
+                            "prices": {option["kind"]: self.prices.dealer_cents for option in request["options"]}})
+
+    def fees_for(self, order: Order, cars: int) -> list[FeeStep]:
+        # One fixed fee per car: a two-car trade-in pays twice the configured amount.
+        return [{"at": self.now, "feeCents": self.prices.driver_cents * cars}]
+
+    def raise_fees(self, order_id: str) -> None:
+        # Keep even urgent work at the same fee so this stays a constant-price baseline.
+        self.urgent.add(order_id)
+        LOG.warning("minute=%s order=%s deadline warning; fixed driver fee stays unchanged", self.now, order_id)
+
+
+DeskFactory = Callable[[World, int, int, Journal], Desk]
+
+
+def play_model(world: World, level: int, journal: Journal, factory: DeskFactory) -> Score:
+    """Run any desk on the same practice clock and wake events."""
     world = CapturedWorld(world, journal)
     snapshot = world.capture("snapshot", world.world.snapshot, "initial")
     world.optional("map", lambda: world.world.client.map(), "initial")
     world.optional("roster", lambda: world.world.roster(), "initial")
-    desk = FixedDesk(world, level, snapshot["now"], prices, journal)
+    desk = factory(world, level, snapshot["now"], journal)
     while desk.now < snapshot["endsAt"]:
         day = desk.now // DAY
         actions, desk.outbox = desk.outbox, []
@@ -112,6 +126,11 @@ def play_practice(world: World, level: int, prices: FixedPrices, journal: Journa
     world.optional("reveal", lambda: world.world.reveal(), "end")
     journal.record("run_end", at=desk.now, endsAt=snapshot["endsAt"])
     return score
+
+
+def play_practice(world: World, level: int, prices: FixedPrices, journal: Journal) -> Score:
+    return play_model(world, level, journal,
+                      lambda world, level, now, journal: FixedDesk(world, level, now, prices, journal))
 
 
 def main() -> int:
