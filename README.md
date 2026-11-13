@@ -28,13 +28,33 @@ Both amounts are configurable. These defaults demonstrate the API flow; they are
 
 ## Setup
 
-Python 3.9 or later is supported by the official kit. Create a virtual environment and install the pinned client:
+Python 3.9 or later is supported by the official kit. We use Python 3.12 for GitHub practice runs and check 3.9, 3.12 and 3.14 in CI. From the repository root, create a local environment and install the official client:
 
 ```bash
-python3 -m venv .venv
+bash scripts/setup.sh
 source .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m unittest discover -s tests -v
+python dispatch.py --demo
 ```
+
+The setup command checks installed dependencies and verifies the kit's SHA-256 against `requirements.txt`. It uses Python's built-in `venv`, falling back to `uv` if installed when Python cannot bootstrap pip. If neither works, install your Python's venv support (for example, `python3-venv` on Debian/Ubuntu) or [uv](https://docs.astral.sh/uv/getting-started/installation/), then rerun it. Select a particular installed interpreter with `PYTHON=python3.12 bash scripts/setup.sh`. Setup and offline checks require no team key; installation requires network access to download the kit.
+
+For local live runs, optionally copy `.env.example` to `.env`, fill in the key locally and load it with `set -a; source .env; set +a`. The `.env` file is ignored by Git. GitHub secrets are available to Actions workflows; they do not automatically populate your local terminal.
+
+## GitHub setup and practice runs
+
+The **Checks** workflow installs the kit, runs the offline tests and exercises the demo on each pull request and push to `main`. It needs no secrets.
+
+Add the following under [Settings → Secrets and variables → Actions → Repository secrets](https://github.com/KotvicCodes/Cheap-Drive/settings/secrets/actions):
+
+| Secret | Required | Value |
+| --- | --- | --- |
+| `SPREAD_KEY` | Yes, for live practice | Your team's key from the challenge registration page. |
+| `SPREAD_URL` | No | Server address; defaults to `https://spread.bahnexpress.com`. |
+
+After this workflow is merged to `main`, open **Actions → Practice comparison → Run workflow**. Select a level or `all` and a shared seed. The default runs both existing models at all eight levels on one seed: **16 ordinary practice weeks**. A single level runs two weeks. Runs start only when manually requested; adding a secret does not start a run.
+
+The workflow shows the leaderboard in its run summary and uploads `leaderboard.md`, `results.json` and the JSONL traces as a **practice-comparison** artifact retained for 14 days. Failed runs also upload any partial results and traces that were written. Download results before they expire. Practice jobs run sequentially within the workflow, but local runs and other users still share the team's unfinished-world slots and rate limit. A forced cancellation or timeout may leave an unfinished world; check the world IDs in the traces if you need to clean one up.
 
 ## Try it without a team key
 
