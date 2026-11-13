@@ -6,6 +6,7 @@ import base64
 from collections import Counter, defaultdict
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 
@@ -74,6 +75,11 @@ def load_source(source: bytes):
     offset = 0
     def invalid_constant(_):
         raise ValueError('non JSON constant')
+    def finite_float(text):
+        value = float(text)
+        if not math.isfinite(value):
+            raise ValueError('number exceeds supported range')
+        return value
     for line_number, raw in enumerate(source.split(b'\n'), 1):
         if offset == len(source):
             break
@@ -104,7 +110,7 @@ def load_source(source: bytes):
                         duplicate_keys.append(True)
                     result[key] = value
                 return result
-            value = json.loads(text, parse_constant=invalid_constant, object_pairs_hook=pairs)
+            value = json.loads(text, parse_constant=invalid_constant, parse_float=finite_float, object_pairs_hook=pairs)
             if credentials(value):
                 raise UnsafeSource('Credential-bearing input is refused. The original source has not been modified.')
             record['value'] = value

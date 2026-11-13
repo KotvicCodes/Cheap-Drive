@@ -54,6 +54,13 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(m['integrity']['invalidLines'],2)
         self.assertEqual(base64.b64decode(m['source']['base64']),b'{"type":"future","x":1,"x":2}\n{"x":NaN}\n')
 
+    def test_overflowing_json_numbers_preserve_source_without_breaking_report(self):
+        source=b'{"type":"future","value":1e400}\n{"type":"future","value":-1e400}\n'
+        model=analyze(source)
+        self.assertEqual(base64.b64decode(model['source']['base64']),source)
+        self.assertEqual(model['integrity']['invalidLines'],2)
+        self.assertIn('report-data',render(model))
+
     def test_duplicate_events_count_once_conflicts_are_quarantined_and_gaps_flagged(self):
         a=entry(0,1000)
         m=analyze(journal(a,a,entry(2,-100,'driver_fee'),entry(2,-200,'driver_fee')))
