@@ -1,0 +1,2 @@
+# Official client and starter; pin because dispatch.py extends the starter's Desk.
+spread @ https://spread.bahnexpress.com/kit/spread-0.1.0-py3-none-any.whl

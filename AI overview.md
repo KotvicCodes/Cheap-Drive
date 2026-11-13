@@ -2,6 +2,12 @@
 
 Reviewed on 13 November 2026. This document records observations from the official documentation and my recommendations for Cheap-Drive. Recommendations are hypotheses to test, not measured results from our system. No authenticated practice worlds or ranking runs were played for this review.
 
+## Current project decisions
+
+- **Language: Python.** Use the official Python kit and keep the strategy easy to inspect and change. Revisit the implementation language only if there is a demonstrated reason later.
+- **Compute time is not a current optimization target.** Prioritize a working prototype, correctness and strategy experiments. We explicitly accept slow or computationally expensive approaches for now; runtime and compute-cost optimization will be addressed later.
+- **First baseline: constant prices on both sides.** Quote a configurable fixed euro amount per order for every offered delivery option, and pay a configurable fixed driver fee per car. This establishes the request-to-delivery flow before adding smarter bidding.
+
 ## What we should focus on
 
 **Build a selective, reliable dispatcher that earns good margin from work it can actually deliver.** At the final's difficulty, winning more orders can make the result worse: scarce drivers become overloaded, deliveries become late, and the team can lose its ranking altogether.
@@ -14,7 +20,7 @@ My recommended order of work is:
 4. Improve opening driver fees and targeted direct offers.
 5. Add simple combinations of cars, adaptive pricing and dealer-trust strategies when experiments justify them.
 
-Treat the final runtime as essential from the start. A strategy that works only while practice time is paused is incomplete.
+The final's live-clock requirements are documented below for later work. They do not change our current decision to defer compute-time optimization while building and testing the prototype.
 
 ## What winning means
 
@@ -117,9 +123,9 @@ Dealer trust creates an additional reason to favour reliable work. At level 8, e
 
 **Hypothesis worth testing:** serving a recurring dealer reliably early in the week may enable higher-margin work later. Track trust per dealer, test modest price adjustments as it grows, and protect it from risky commitments. Do not assume trust guarantees a win or makes a loss-making early order worthwhile; the competitor may also lower prices when we win most of that dealer's requests.
 
-## Runtime: practice success must transfer to the final
+## Later runtime work: transferring practice success to the final
 
-Use the official Python or TypeScript client initially. Both provide practice and final modes; the client already handles rate-limit headers and stream reconnection. Keep strategy decisions separate from the transport so the same policy runs in both modes. [API reference](https://spread.bahnexpress.com/kit/API.md) and [OpenAPI contract](https://spread.bahnexpress.com/openapi.json)
+Use the official Python client initially. Both official language kits provide practice and final modes; the clients already handle rate-limit headers and stream reconnection. Our first prototype targets ordinary practice only. Keep strategy decisions separate from the transport so we can later reuse the policy in final mode. The following are final-integration requirements, not current compute-time optimization goals. [API reference](https://spread.bahnexpress.com/kit/API.md) and [OpenAPI contract](https://spread.bahnexpress.com/openapi.json)
 
 - Practice time pauses until `advance`. The final clock moves independently. During ordinary weekday daytime, fifteen world minutes are only **4.5 real seconds** to answer a quote. Other portions of the week are compressed differently.
 - Prioritize time-sensitive quotes and recovery actions over optional learning, analysis and diagnostics. Budget for bursts such as a bulk order; a slow operation in the event handler can delay later requests.
