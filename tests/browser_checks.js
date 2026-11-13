@@ -49,6 +49,9 @@
   id('export-model').click();const model=JSON.parse(await downloads.at(-1).blob.text());check(model.records.length===JSON.parse(id('report-data').textContent).records.length,'complete JSON export retains every raw record');
  }finally{URL.createObjectURL=create;HTMLAnchorElement.prototype.click=anchor;for(const url of blobs.keys())URL.revokeObjectURL(url);}
  nav('overview');check(document.querySelectorAll('.chart').length===3,'cumulative, daily and score charts render');
+ const heatRequests=()=>[...document.querySelectorAll('.heat-row button')].reduce((sum,b)=>sum+Number(b.getAttribute('aria-label').match(/, ([\d,]+) requests$/)[1].replaceAll(',','')),0);
+ const beforeConflicts=heatRequests();D.timeline.push({kind:'price_request',at:480,conflict:true},{kind:'price_request',at:480,conflict:true});
+ try{nav('overview');check(heatRequests()===beforeConflicts,'request heatmap excludes conflicting sequence variants from counts');}finally{D.timeline.splice(-2);nav('overview');}
  document.querySelector('.heat-row button:not(:disabled)').click();check(id('title').textContent==='Event timeline'&&id('kind').value==='price_request'&&id('from').value.endsWith(':00')&&rows().length>0&&rows().every(r=>r.textContent.includes('price request')),'request heatmap opens the matching timeline hour');
  nav('overview');const theme=()=>document.documentElement.dataset.theme||'system',before=theme();id('theme-toggle').click();check(theme()!==before,'theme toggle changes color theme');id('theme-toggle').click();id('theme-toggle').click();check(theme()===before,'theme toggle cycles back');
  check(!performance.getEntriesByType('resource').some(e=>/^https?:/.test(e.name)),'offline report loads no network resources');

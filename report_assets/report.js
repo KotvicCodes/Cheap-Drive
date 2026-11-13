@@ -298,7 +298,7 @@ function bars(parent, entries, {money = false, onPick} = {}) {
 }
 function heatmap() {
   const counts = new Map();
-  for (const x of D.timeline) if (x.kind === 'price_request' && Number.isInteger(x.at)) { const k = Math.floor(x.at / 1440) * 24 + Math.floor(((x.at % 1440) + 1440) % 1440 / 60); counts.set(k, (counts.get(k) || 0) + 1); }
+  for (const x of D.timeline) if (x.kind === 'price_request' && !x.conflict && Number.isInteger(x.at)) { const k = Math.floor(x.at / 1440) * 24 + Math.floor(((x.at % 1440) + 1440) % 1440 / 60); counts.set(k, (counts.get(k) || 0) + 1); }
   const dayList = [...new Set([...counts.keys()].map(k => Math.floor(k / 24)))].sort((a, b) => a - b);
   const wrap = N('div');
   if (!dayList.length) { wrap.append(N('p', 'No timed request arrivals captured.', 'muted')); return wrap; }
