@@ -4,42 +4,72 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="color-scheme" content="light dark">
 <title>Cheap-Drive | Week analysis</title>
 <style>/* REPORT_CSS */</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to report</a>
 <aside class="sidebar">
-  <div class="brand"><div class="brand-icon"><!-- BRAND --></div><div><strong>CHEAP-DRIVE</strong><span>Operations journal</span></div></div>
-  <div class="side-label">WEEK ANALYSIS</div>
+  <div class="brand"><div class="brand-icon"><!-- BRAND --></div><div><strong>Cheap-Drive</strong><span>Week analysis</span></div></div>
+  <div class="run-card" id="run-card"></div>
   <nav id="nav" aria-label="Report sections"></nav>
-  <div class="side-bottom"><span class="offline-dot"></span> Offline · private by design<p id="version"></p><button id="export-source">↓ Original JSONL</button><button id="export-model">↓ Complete analysis JSON</button></div>
+  <div class="side-bottom">
+    <div class="nav-group">Exports</div>
+    <button id="export-source" type="button">↓ Original JSONL <small>exact bytes</small></button>
+    <button id="export-model" type="button">↓ Complete analysis JSON</button>
+    <div class="offline"><span class="dot" aria-hidden="true"></span>Offline · private by design</div>
+    <p id="version"></p>
+  </div>
 </aside>
 <main id="main" tabindex="-1">
-  <header class="topbar"><div><div class="eyebrow" id="run-label"></div><h1 id="title">Week overview</h1><p id="subtitle"></p></div><span id="mode" class="badge"></span></header>
+  <header class="topbar">
+    <div><div class="eyebrow" id="run-label"></div><h1 id="title">Week overview</h1><p id="subtitle"></p></div>
+    <div class="top-actions"><span id="mode" class="badge lg"></span><button id="theme-toggle" class="theme-toggle" type="button"></button></div>
+  </header>
   <div id="integrity-banner" class="integrity-banner"></div>
   <section id="overview"></section>
   <section id="workspace" hidden>
     <div id="section-intro" class="section-intro"></div>
     <form id="filters" class="filters" role="search" autocomplete="off">
-      <label class="search">Search all captured fields<input id="search" type="search" placeholder="Order, gig, driver, note, reason…"></label>
-      <label>World day<select id="day"><option value="">All days</option></select></label>
-      <label>From clock<input id="from" type="time" aria-label="From clock time each day"></label>
-      <label>To clock<input id="to" type="time" aria-label="To clock time each day"></label>
-      <label>Kind<select id="kind"><option value="">All kinds</option></select></label>
-      <label>State<select id="state"><option value="">All states</option></select></label>
-      <button id="reset" type="button">Reset</button>
+      <div class="filter-main">
+        <label class="search"><span class="lbl">Search all captured fields</span><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><input id="search" type="search" placeholder="Search order, gig, driver, note, reason…"><kbd aria-hidden="true">/</kbd></label>
+        <button id="filters-toggle" class="filters-toggle" type="button" aria-expanded="false" aria-controls="filter-grid">Filters</button>
+        <button id="reset" type="button">Reset</button>
+      </div>
+      <div class="filter-grid" id="filter-grid">
+        <label>World day<select id="day"><option value="">All days</option></select></label>
+        <label>From clock<input id="from" type="time" aria-label="From clock time each day"></label>
+        <label>To clock<input id="to" type="time" aria-label="To clock time each day"></label>
+        <label>Kind<select id="kind"><option value="">All kinds</option></select></label>
+        <label>State<select id="state"><option value="">All states</option></select></label>
+      </div>
     </form>
-    <p class="muted" id="filter-help">Filters match captured data. Clock bounds apply within each selected day, inclusively.</p>
-    <div class="table-toolbar"><strong id="row-count" aria-live="polite"></strong><button id="export-filtered">↓ Export filtered rows</button></div>
+    <div id="active-filters" class="chips" aria-label="Active filters"></div>
+    <div id="distribution" class="distribution"></div>
+    <div class="table-toolbar">
+      <div><strong id="row-count" aria-live="polite"></strong><span id="sort-info"></span></div>
+      <div><label>Rows per page <select id="page-size"><option>50</option><option>100</option><option>250</option></select></label><button id="export-filtered" type="button">↓ Export filtered rows</button></div>
+    </div>
     <div class="table-wrap"><table id="table"><thead></thead><tbody></tbody></table></div>
-    <div id="empty" class="empty" hidden><strong>No matching records</strong><p>Try resetting the filters. Missing capture is described in Source & integrity.</p></div>
-    <div class="pagination"><div><label>Rows <select id="page-size"><option>50</option><option>100</option><option>250</option></select></label><span id="page-info"></span></div><div><button id="first" aria-label="First page">«</button><button id="prev">Previous</button><label>Page <input id="page-number" type="number" min="1" value="1"></label><button id="next">Next</button><button id="last" aria-label="Last page">»</button></div></div>
+    <div id="empty" class="empty" hidden><strong>No matching records</strong><p>Try resetting the filters. Missing capture is described in Source &amp; integrity.</p></div>
+    <div class="pagination">
+      <span id="page-info"></span>
+      <div><button id="first" type="button" aria-label="First page">«</button><button id="prev" type="button">‹ Previous</button><label>Page <input id="page-number" type="number" min="1" value="1"></label><span id="page-total"></span><button id="next" type="button">Next ›</button><button id="last" type="button" aria-label="Last page">»</button></div>
+    </div>
+    <p class="muted" id="filter-help">Filters match captured data. Clock bounds apply within each selected day, inclusively.</p>
   </section>
   <section id="captures" hidden></section>
   <footer>Amounts are recorded game euros. Times are world minutes from Monday 00:00, not wall-clock dates. This report makes no network requests.</footer>
 </main>
-<dialog id="detail"><div class="dialog-top"><div><div id="detail-label" class="eyebrow"></div><h2 id="detail-title"></h2></div><button id="close-detail" aria-label="Close details">Close ×</button></div><div id="detail-body"></div></dialog>
+<dialog id="detail" aria-labelledby="detail-title">
+  <div class="dialog-top">
+    <div><div id="detail-label" class="eyebrow"></div><h2 id="detail-title"></h2><div id="detail-crumbs"></div></div>
+    <div class="dialog-actions"><button id="detail-back" type="button" hidden>‹ Back</button><button id="close-detail" type="button" aria-label="Close details">Close ×</button></div>
+  </div>
+  <div id="detail-body"></div>
+</dialog>
+<div id="tip" class="tip" hidden></div>
 <script id="report-data" type="application/json">REPORT_DATA</script>
 <script>/* REPORT_JS */</script>
 </body>

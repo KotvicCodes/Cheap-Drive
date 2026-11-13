@@ -18,11 +18,17 @@
  check(id('detail-body').textContent.includes('Leg 1'),'leg history available');
  check(!globalThis.__xss && id('detail-body').querySelectorAll('img,script').length===0,'imported markup renders as inert text');
  id('close-detail').click();check(!id('detail').open,'dialog closes');
+ rows()[0].cells[1].click();check(id('detail').open&&id('detail-title').textContent==='synthetic-000','clicking a row opens its history');
+ [...id('detail-body').querySelectorAll('button')].find(b=>b.textContent==='shared-gig').click();check(id('detail-title').textContent==='shared-gig'&&!id('detail-back').hidden,'linked entity opens in the drawer with back navigation');
+ id('detail-back').click();check(id('detail-title').textContent==='synthetic-000'&&id('detail-back').hidden,'back returns to the previous history');
+ id('close-detail').click();
+ check(document.querySelectorAll('#active-filters .chip').length===1,'active filter is shown as a removable chip');document.querySelector('#active-filters .chip').click();check(id('order-filter').value===''&&rows().length===50,'removing a chip clears its filter');
  id('reset').click();await fill('state','lost');check(id('row-count').textContent.startsWith('123 of'),'outcome filter includes all losses');
  nav('timeline');await fill('kind','future_kind');check(rows().length===1,'unknown event kinds are filterable');
  id('reset').click();await fill('order-filter','synthetic-000');check(rows().length>=3,'order reference filter works');
  id('reset').click();await fill('gig-filter','shared-gig');check(rows().length>=3,'gig reference filter works');
  id('reset').click();await fill('driver-filter','synthetic-driver');check(rows().length===3&&rows().some(r=>r.textContent.includes('roster')),'driver reference filter includes events and captured roster');
+ id('reset').click();document.querySelector('#distribution .dist-bars button').click();check(id('day').value!==''&&rows().length>0&&rows().every(r=>r.cells[0].textContent.startsWith('Day '+(Number(id('day').value)+1)+' ')),'day distribution selects a world day');
  id('reset').click();await fill('day','1');check(rows().length>0,'world day filter works');
  await fill('from','23:00');await fill('to','01:00');check(rows().every(row=>{const t=row.cells[0].textContent.split(' ').at(-1);return t>='23:00'||t<='01:00';}),'overnight clock filter works');
  nav('gigs');rows()[0].querySelector('button').click();check(id('detail-body').textContent.includes('Gig ledger net'),'gig accounting drilldown works');check(id('detail-body').textContent.includes('All schedule changes'),'fee schedule history available');id('close-detail').click();
@@ -42,7 +48,9 @@
   nav('timeline');await fill('kind','future_kind');id('export-filtered').click();const exported=JSON.parse(await downloads.at(-1).blob.text());check(exported.length===1&&exported[0].event.payload.unknown==='future-marker','filtered export preserves unknown nested fields');
   id('export-model').click();const model=JSON.parse(await downloads.at(-1).blob.text());check(model.records.length===JSON.parse(id('report-data').textContent).records.length,'complete JSON export retains every raw record');
  }finally{URL.createObjectURL=create;HTMLAnchorElement.prototype.click=anchor;for(const url of blobs.keys())URL.revokeObjectURL(url);}
- nav('overview');check(document.querySelectorAll('.chart').length===2,'financial and score charts render');
+ nav('overview');check(document.querySelectorAll('.chart').length===3,'cumulative, daily and score charts render');
+ document.querySelector('.heat-row button:not(:disabled)').click();check(id('title').textContent==='Event timeline'&&id('kind').value==='price_request'&&id('from').value.endsWith(':00')&&rows().length>0&&rows().every(r=>r.textContent.includes('price request')),'request heatmap opens the matching timeline hour');
+ nav('overview');const theme=()=>document.documentElement.dataset.theme||'system',before=theme();id('theme-toggle').click();check(theme()!==before,'theme toggle changes color theme');id('theme-toggle').click();id('theme-toggle').click();check(theme()===before,'theme toggle cycles back');
  check(!performance.getEntriesByType('resource').some(e=>/^https?:/.test(e.name)),'offline report loads no network resources');
  check(!globalThis.__xss,'script injection never executes');
  return {passed:result.length,checks:result};
