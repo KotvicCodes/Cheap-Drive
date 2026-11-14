@@ -85,10 +85,10 @@ function sliceRecordText(r) {
 $('export-source').onclick = () => download('cheap-drive-original.jsonl', source(), 'application/octet-stream');
 $('export-model').onclick = () => download('cheap-drive-analysis.json', D);
 
-/* Theme: defaults to light unless the viewer picks one. Keeps 3-state cycle for tests. */
+/* Theme: follows the system unless the viewer picks one. Storage is optional. */
 const THEME_KEY = 'cheap-drive-report-theme', THEMES = ['system', 'light', 'dark'];
-let theme = 'light';
-try { theme = THEMES.includes(localStorage.getItem(THEME_KEY)) ? localStorage.getItem(THEME_KEY) : 'light'; } catch (_) { theme = 'light'; }
+let theme = 'system';
+try { theme = THEMES.includes(localStorage.getItem(THEME_KEY)) ? localStorage.getItem(THEME_KEY) : 'system'; } catch (_) { theme = 'system'; }
 function applyTheme(next) {
   theme = next;
   if (theme === 'system') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme = theme;
