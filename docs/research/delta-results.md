@@ -1,8 +1,10 @@
 # Delta investigation
 
-Development began on 14 November 2026. Gamma remains the supported qualified
-baseline. The new `delta:make_delta` factory exposes separate experiments;
-there is no selected or qualified Delta model configuration yet.
+Development began on 14 November 2026. The selected Delta is Gamma plus the
+note and rescue-window repairs ([models/delta.json](../../models/delta.json));
+see [the selection](#selection-before-the-evening-test-final-14-november-16401745-utc)
+at the end. The sections before it record the investigation in order, as it
+stood when each was written. Gamma remains available as the fixed baseline.
 
 ## Correctness experiments
 
@@ -252,16 +254,49 @@ which is within the week-to-week noise seen in every arm on that seed.
 
 Rescue windows with note fixes is the only candidate that held on both blocks.
 Including the two earlier rescue-only pilots (`delta-r1-s01` +€1,320,
-`gamma-v01` −€107), the 16 paired weeks average **+€405/week**: 10 positive,
-4 identical to Gamma, 2 negative (−€107 and −€186). On time moved by at most
-0.4 points down (five weeks) and 0.8 up; the worst week was 91.1% against
-Gamma's 91.4% on the same seed. The gain is concentrated: three weeks
-(+€2,750, +€1,320, +€1,054) carry 79% of it, as expected for a repair that only
-acts when an order has no postable window. Fourteen of these weeks were known
-seeds; the two blocks were not used to tune any parameter, since the repair
-has none.
+`gamma-v01` −€107), the 16 paired weeks average +€405/week: 10 positive,
+4 identical to Gamma, 2 negative (−€107 and −€186). On time fell by at most
+0.4 points (six weeks) and rose by up to 0.8; the worst week was 91.1% against
+Gamma's 91.4% on the same seed. Three weeks (+€2,750, +€1,320, +€1,054) carry
+79% of that gain, as expected for a repair that acts only when an order has no
+postable window. The repair has no tunable parameter, so neither block was
+used to fit it.
 
-[models/delta.json](../../models/delta.json) is therefore Gamma's settings with
-`delta_note_fixes=1` and `delta_rescue_windows=1`. The €500/week gate in the
-testing plan is not met; Delta is selected as a correctness repair with a
-positive measured mean, not as a qualified uplift.
+### Fresh confirmation
+
+Gamma and the selected Delta then played seven seeds that no earlier run had
+used, side by side from the same source:
+
+| Seed | Gamma | Delta | Difference | On time, Gamma → Delta |
+| --- | ---: | ---: | ---: | --- |
+| `delta-f1-s01` | €7,353 | €8,178 | +€825 | 97.0% → 96.6% |
+| `delta-f1-s02` | €11,919 | €13,469 | +€1,550 | 96.3% → 97.8% |
+| `delta-f1-s03` | €11,621 | €12,000 | +€379 | 98.4% → 98.0% |
+| `delta-f1-s04` | €14,103 | €14,358 | +€255 | 98.5% → 98.5% |
+| `delta-f1-s05` | €10,664 | €11,063 | +€399 | 97.2% → 97.2% |
+| `delta-f1-s06` | €15,845 | €16,631 | +€786 | 97.0% → 97.0% |
+| `delta-f1-s07` | €10,001 | €12,015 | +€2,014 | 94.9% → 93.7% |
+
+Delta was ahead in **7 of 7 weeks, +€887/week on average**, all ranked. On
+time fell in three weeks, by up to 1.2 points, and rose in one. Over all 23
+paired weeks the mean is **+€551/week** (17 positive, 4 identical, 2 negative),
+with a worst week of 91.1% on time. Margins above are rounded to whole euros.
+
+[models/delta.json](../../models/delta.json) is Gamma's settings with
+`delta_note_fixes=1` and `delta_rescue_windows=1`. Limits: seven fresh weeks
+is a small confirmation; the note fixes changed nothing on the one seed where
+they ran alone, so the gain is attributed to the rescue repair; and the
+private-window rescue defect inherited from Gamma remains open.
+
+### Final runner rehearsal
+
+`python final.py models/delta.json --rehearse delta-r1-s01` played a full
+level-8 week from the live event stream, with the clock moved in real time by a
+second connection (33 minutes of wall time). Result: **€16,056.86, 95.90% on
+time, 268 orders, ranked**; the same seed in ordinary practice gave Gamma
+€15,744.42 at 97.4%. Of 18,293 events one answer took over a second (2.0 s at
+a deadline warning), after which five quotes arrived too late and were
+rejected; six withdrawals or reprices were rejected because a driver had
+already booked the gig. This rehearsal ran with the note fixes only, before the
+rescue repair was selected. A mid-week restart rebuilds orders and gigs from
+the server but not the learned price level or pair state.
