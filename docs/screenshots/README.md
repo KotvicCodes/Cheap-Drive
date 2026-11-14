@@ -11,7 +11,23 @@ They were captured from a compact renderer copy that omits the redundant embedde
 
 ## Leaderboard visuals
 
-Current round 9 (Delta), level 8, Saturday 21:00 Helsinki,
+Current round 10 (Delta), level 8, Sunday 00:00 Helsinki,
+15 November 2026:
+
+- [round10-totals.svg](round10-totals.svg): top ten, our neighbours and House best; 2026-11-14 23:13:42 UTC, rank 31 of 45, €72,322.03, 96.27% on time.
+- [round10-runs.svg](round10-runs.svg): our five qualified Delta weeks versus leader Juhus, same snapshot; exact cents and zero-based bars.
+- [leaderboard-round10.png](leaderboard-round10.png): original public-page ranking heading, round label, selected level 8 and leaders; 2026-11-14 23:14:25 UTC.
+- [leaderboard-round10-team.png](leaderboard-round10-team.png): our ranked row and neighbours after all five weeks; 2026-11-14 23:14:11 UTC.
+
+Both PNGs are unaltered public-page captures at a 1280 × 1000 CSS-pixel viewport
+(2560 × 2000 image pixels),
+scrolled without changing data, hiding rows, cropping or annotation.
+The round was open until 01:00 UTC on 15 November; standings can change.
+The page rounds margins to whole euros and shares to one decimal place.
+[Exact results and provenance](../research/delta-board-round10.md) ·
+[Offline chart renderer](../../tests/make_round10_charts.py) (Matplotlib required).
+
+Historical round 9 (Delta), level 8, Saturday 21:00 Helsinki,
 14 November 2026:
 
 - [round9-totals.svg](round9-totals.svg): official-board totals; top ten, ranks 29–33 and House best, with Guardians of the Moonlight highlighted. Snapshot: 2026-11-14 21:34:23 UTC; rank 31 of 52 ranked teams, €75,763.55 and 96.72% on time.

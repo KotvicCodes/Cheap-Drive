@@ -35,43 +35,47 @@ weeks by €682/week (+€518/week over 27 paired weeks). The pricing experiment
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. **Delta completed
-all five level-8 runs in round 9 ("Saturday 21:00", 14 November 2026, Helsinki time).**
-At 2026-11-14 21:34:23 UTC, we are **#31 of 52 ranked teams**, with
-**€75,763.55 total gross margin** and **96.72% on time**
-on the official board. All five weeks qualified; the worst week was
-93.58% on time (90% required in every week).
-The round was still open until 22:00 UTC; positions can change.
-The runs used [models/delta.json](models/delta.json)'s settings: the dispatch fixes,
-extended pairing and a 42% win target, from code at
-[589daf7](https://github.com/KotvicCodes/Cheap-Drive/commit/589daf7ad8b17d6c2402bb45f7cab7856cd777b9).
+Our public team is **Guardians of the Moonlight**. **Delta completed all five
+level-8 runs in round 10 ("Sunday 00:00", 15 November 2026, Helsinki time).**
+At 2026-11-14 23:13:42 UTC, we are **#31 of 45 ranked teams**,
+with **€72,322.03 total gross margin** and **96.27% on time**.
+All five weeks qualified; the worst week was 95.11% on time
+(90% required in every week). The round remains open until 01:00 UTC
+on 15 November, so positions can change.
+The runs used [models/delta.json](models/delta.json) at code revision
+[cae1e58](https://github.com/KotvicCodes/Cheap-Drive/commit/cae1e58b8ce3234260328f78dcf2283cd2ebced7).
 
 | Delta run | Gross margin | On time | Orders won | Ranked |
 | --- | ---: | ---: | ---: | :---: |
-| 1 | €13,767.61 | 97.99% | 348 | Yes |
-| 2 | €16,382.65 | 93.58% | 374 | Yes |
-| 3 | €13,906.72 | 95.47% | 353 | Yes |
-| 4 | €18,057.50 | 98.40% | 374 | Yes |
-| 5 | €13,649.07 | 98.28% | 349 | Yes |
-| **Total** | **€75,763.55** | **96.72%** | **1798** | **5 / 5** |
+| 1 | €15,397.99 | 96.32% | 353 | Yes |
+| 2 | €13,064.94 | 95.11% | 368 | Yes |
+| 3 | €12,341.81 | 95.79% | 356 | Yes |
+| 4 | €17,046.58 | 96.34% | 355 | Yes |
+| 5 | €14,470.71 | 98.06% | 310 | Yes |
+| **Total** | **€72,322.03** | **96.27%** | **1742** | **5 / 5** |
 
-Leader **Juhus**: €105,424.26; tenth place:
-**pelaaja juhlii**, €84,856.64 (we are €9,093.09 behind).
-Organisers' **House best**: €66,135.59.
+Leader **Juhus**: €102,581.93; tenth place:
+**AppleJuice**, €80,862.35 (we are €8,540.32 behind).
+Organisers' **House best**: €60,811.68.
 House teams have no public rank and are excluded from the ranked-team count.
 
-![Round 9 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round9-totals.svg)
-![Delta's five round-9 margins versus the round leader](docs/screenshots/round9-runs.svg)
+![Round 10 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round10-totals.svg)
+![Delta's five round-10 margins versus the round leader](docs/screenshots/round10-runs.svg)
 
-*Charts generated from the official public leaderboard, retrieved 2026-11-14 21:34:23 UTC.
+*Charts generated from the official public leaderboard, retrieved 2026-11-14 23:13:42 UTC.
 Exact cents are retained; the public page rounds margins to whole euros.*
 
-![Public leaderboard: round 9, Saturday 21:00, level 8, leading teams](docs/screenshots/leaderboard-round9.png)
-![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Delta runs](docs/screenshots/leaderboard-round9-team.png)
+![Public leaderboard: round 10, Sunday 00:00, level 8, leading teams](docs/screenshots/leaderboard-round10.png)
+![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Delta runs](docs/screenshots/leaderboard-round10-team.png)
 
-*Real public-page screenshots captured on 14 November 2026 at 21:35:12 UTC
-(leaders) and 21:35:40 UTC (our row), after all five Delta runs,
-while the round was still open. [Run and snapshot details](docs/research/delta-board-round9.md).*
+*Real public-page screenshots captured at 2026-11-14 23:14:25 UTC (leaders) and
+2026-11-14 23:14:11 UTC (our row), after all five Delta runs, while the round was open.
+[Run and snapshot details](docs/research/delta-board-round10.md).*
+
+Previous round: **Delta**, round 9 ("Saturday 21:00"), finished
+**34th of 56 ranked teams**, €75,763.55,
+96.72% on time, all five qualified (closed-round data retrieved 2026-11-14 23:13:42 UTC).
+[Earlier round-9 snapshot and evidence](docs/research/delta-board-round9.md).
 
 Previous rounds: **Early Delta**, round 8 ("Saturday 18:00"),
 **37th of 58 ranked teams**, €55,639.62, 96.96% on time, all five weeks qualified
@@ -81,7 +85,7 @@ Previous rounds: **Early Delta**, round 8 ("Saturday 18:00"),
 **41st of 62 ranked teams**, €66,880.48, 96.75% on time,
 with all five weeks qualified (closed-round data retrieved 2026-11-14 17:53:55 UTC).
 [Earlier round-7 snapshot and evidence](docs/research/gamma-board-round7.md).
-The three rounds used different secret weeks, so their totals are not a paired
+These rounds used different secret weeks, so their totals are not a paired
 comparison of the models; the paired practice evidence is in
 [Delta results](docs/research/delta-results.md).
 
