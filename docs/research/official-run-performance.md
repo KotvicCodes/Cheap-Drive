@@ -221,3 +221,110 @@ For further practice acceleration, benchmark the same frozen model near the
 simulator host and compare complete action/event streams again. Preserve pair
 wakes, durable intents/results, SDK validation and official retries. Final
 clocks require their own integration and validation.
+
+## Delta dispatcher: identical decisions, less local work
+
+Measured on 14 November 2026 against unmodified `51a1c80`, with implementation
+`ddf4753`, Python 3.12.12 and the pinned SDK. Model JSON, pricing arithmetic,
+admission rules, wake lists, pair timers, action ordering and HTTP batching are
+unchanged. The retained changes are:
+
+- Reuse the open-order scan only within one quote, clearing it even on an
+  exception; traverse undelivered legs once. No state is cached across events.
+- Find a matching pair without allocating all live pairs, and reject ineligible
+  historical orders before looking up their gigs. Candidate order is unchanged.
+- Cache credential **key** classification (bounded to 1,024 keys). Values are
+  still sanitised every time; note text and credential values are not cached.
+- Group diagnostic journal writes at existing durable boundaries. Every input
+  event/batch, action intent and complete SDK return is still flushed and
+  fsynced before handling/sending/processing it. Context exit also flushes on
+  exceptions. Live sends still precede checkpoint and reporting work.
+
+Four saved weeks (`b5`/`delta-f1-s03`, `b6`/`delta-f1-s04`,
+`b8`/`delta-f1-s09`, and volume-tap `cap-4200`/`delta-f1-s03`) reproduced all
+6,349 actions in 7,827 batches, including their world minutes and advance
+parameters. All 22,190 JSONL lines after the external run headers were
+byte-identical; final recovery-state hashes also matched. No private trace or
+reveal is committed. `scripts/replay_dispatch.py` runs this check offline;
+`--profile` and `--journal` additionally measure CPU and durable gzip output.
+
+Five warmed repetitions per saved week, no network (seconds, medians):
+
+| Saved week | CPU / in-memory before | After | Durable gzip before | After |
+| --- | ---: | ---: | ---: | ---: |
+| b5 | 0.309 | 0.251 | 1.019 | 0.812 |
+| b6 | 0.364 | 0.290 | 1.070 | 0.886 |
+| b8 | 0.349 | 0.268 | 1.058 | 0.858 |
+| cap-4200 | 0.431 | 0.348 | 1.227 | 0.966 |
+
+These timings include replay copying and journal serialisation, not HTTP.
+Durable flushes fell from 6,048 to 4,189 on cap-4200. From quote entry to its
+durable HTTP intent, 5,170 offline samples had median 0.415 -> 0.255 ms and p95
+0.990 -> 0.608 ms, excluding transport. Disk maxima vary between repetitions;
+this does not establish a reduction in multi-second live stalls.
+
+The saved 12.23-second rehearsal's 373 API requests spent 61.17 seconds in
+transport and 61.30 seconds in total SDK calls. That aggregate difference
+includes validation, decoding and SDK waits; it cannot identify the cause of
+the individual stall. Copying the completed cap-4200 model for a checkpoint
+took a median 24.9 ms over ten samples (1.56 MB JSON). Checkpoint disk writing
+already runs in a worker, after sending. Copying mutable model state on that
+worker would race event handling, so recovery is unchanged. Broader wake
+coalescing and action regrouping were excluded: their equivalence with pair
+timers has not been established here.
+
+375 offline tests pass. New synthetic contracts freeze original practice and
+live action-batch hashes for both Delta JSON models, check minute/price drift,
+partial bookings and deliveries, cache cleanup, nested journal boundaries,
+persistence failures and redaction after cache eviction. One confirmed existing
+behavioural bug was deliberately left alone: `No pickups after 17:00` becomes
+`ready_at=1020` rather than a pickup closing limit in `parse_delta_note`.
+
+Private reproduction scripts, profiles and aggregate results are under
+`runs/dispatcher-performance/` in this worktree. The public replay command needs
+only an existing local trace; it never creates, advances or deletes a world.
+
+### Frozen practice comparison after 22:25 UTC
+
+Four level-8 ordinary practice worlds started after 22:25 UTC, two per frozen
+`git archive` snapshot, using `scripts/sweep.py`, `models/delta.json` and the
+unchanged fast-capture setting. A read-only capacity check found two other
+unfinished practice worlds; those were left alone. Our four worlds all ended
+naturally, without retries or deletions. No ranking or final world was touched.
+All four runs used the same external measurement wrapper and cProfile. Wall
+time includes setup/reveal; request counts include creation and those reads.
+
+| Seed | Before wall s | After wall s | Requests each | Margin cents each | On-time share each | Won each | Actions each |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| delta-f1-s03 | 220.180 | 223.794 | 2,098 | 1,437,653 | 0.96996996996997 | 333 | 1,706 |
+| delta-f1-s09 | 224.119 | 223.782 | 2,139 | 1,560,846 | 0.9857142857142858 | 350 | 1,742 |
+
+Every batch, action, submission minute, result, event and diagnostic matched;
+the **entire** 6,049-/6,134-record journals matched after removing world IDs.
+Action counts were respectively quote/post/withdraw/reprice =
+1,034/472/176/24 and 1,040/507/189/6 in both revisions. The paths already batch
+actions and read the map/initial roster once, with two snapshots and one final
+score/reveal. There were 1,908/1,942 advances and 183/190 action calls; none was
+removed or regrouped.
+
+| Time component, seconds | s03 before | s03 after | s09 before | s09 after |
+| --- | ---: | ---: | ---: | ---: |
+| Transport, including server wait | 210.407 | 215.834 | 214.463 | 215.544 |
+| SDK total, including transport | 211.101 | 216.520 | 215.155 | 216.261 |
+| Outside SDK, including profiling and journal I/O | 9.079 | 7.274 | 8.964 | 7.520 |
+| SDK bucket wait requested | 0 | 0 | 0 | 0 |
+| HTTP 429 responses | 0 | 0 | 0 | 0 |
+
+Transport was 95.6–96.4% of wall time. Work outside the API fell by 1.44–1.81
+seconds, but the mixed wall results do **not** establish a whole-week speedup.
+The earlier 8–10-minute contention case was not reproduced with eleven other
+worlds, and this was not a paced live-final rehearsal.
+
+For the s03 profile, admission scans took 0.937 -> 0.488 s, pair eligibility
+0.573 -> 0.380 s, sanitising 0.961 -> 0.758 s, and fsync 2.567 -> 1.825 s
+(6,049 -> 4,190 calls, including the run header). These are nested profile
+measurements, not an additive CPU budget. Note parsing took 0.143 -> 0.136 s,
+window search 0.129 -> 0.128 s and pair planning 0.317 -> 0.323 s; none was
+changed. SSL reads alone occupied 208.48/213.89 s on s03. Removing validation,
+durable SDK boundaries, changing wakes or racing a model copy against handling
+was not justified by these measurements.
