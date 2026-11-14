@@ -7,7 +7,7 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-[Presentation: from Alpha to Gamma](presentations/README.md): eight slides with source notes and compact evidence.
+[Presentation: from Alpha to Gamma](presentations/cheap-drive-alpha-to-gamma.html).
 
 > **Final is close — as of 14 November 2026, 15:20 Helsinki (UTC+2).**
 > Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, lasts about 34 minutes.
