@@ -4,10 +4,11 @@ from copy import deepcopy
 import io
 import unittest
 
-from delta import make_delta, rescue_window
+from delta import make_delta, rescue_window, wide_visit_window
 from dispatch import Journal, play_model
+from gamma_notes import _daily_window
 from notes import NoteFacts
-from spread.starter import DAY, Retry
+from spread.starter import DAY, Retry, stops_for
 from tests.test_delta import HOURS
 from tests.test_gamma_pairs import PairWorld
 from tests.test_notes import order_for, request
@@ -149,6 +150,108 @@ class DeltaPrivateDeliveryTests(SwitchContract, unittest.TestCase):
                          (7 * DAY + 660, 7 * DAY + 900))
         self.assertIsNone(rescue_window(place, 'delivery', facts, 4 * DAY + 1000,
                                        7 * DAY + 659, private_delivery=True))
+
+
+class DeltaWideWindowTests(SwitchContract, unittest.TestCase):
+    switch = 'delta_wide_windows'
+
+    def test_next_day_spans_all_stated_open_days_like_the_starter(self):
+        outputs = []
+        for enabled in (0, 1):
+            desk, order = desk_and_order(deadline=DAY + 1080, hours=HOURS,
+                                        delta_wide_windows=enabled, delta_rescue_windows=1)
+            for place in ('pickup', 'delivery'):
+                order['legs'][0][place]['window']['to'] = order['deadline']
+            desk.post(order, [0])
+            outputs.append(desk.outbox[0]['stops'])
+        self.assertEqual(outputs[0][0]['window'], {'from': 600, 'to': 1010})
+        self.assertEqual(outputs[1][0]['window'], {'from': 600, 'to': DAY + 1010})
+        self.assertEqual(outputs[1][1]['window'], {'from': 670, 'to': DAY + 1080})
+        self.assertTrue(all('window' not in stop for stop in stops_for(order, [0], None, Retry())))
+
+    def test_weekends_bridge_only_when_closed_in_the_stated_hours(self):
+        place = dict(privateAddress=False, hours=deepcopy(HOURS),
+                     window={'from': 0, 'to': 9 * DAY})
+        facts = NoteFacts(pickup_weekdays=(0, 1, 2, 3, 4))
+        self.assertEqual(wide_visit_window(place, 'pickup', facts, 4 * DAY + 600, 7 * DAY + 1080),
+                         (4 * DAY + 600, 7 * DAY + 1080))
+        place['hours']['saturday'] = {'opens': 600, 'closes': 840}
+        self.assertEqual(wide_visit_window(place, 'pickup', facts, 4 * DAY + 600, 7 * DAY + 1080),
+                         (4 * DAY + 600, 4 * DAY + 1080))
+        self.assertEqual(wide_visit_window(place, 'pickup', NoteFacts(), 4 * DAY + 600, 5 * DAY + 1000),
+                         (4 * DAY + 600, 5 * DAY + 840))
+
+    def test_recurring_note_hours_cannot_be_bypassed_inside_a_multi_day_window(self):
+        place = dict(privateAddress=False, hours=deepcopy(HOURS),
+                     window={'from': 0, 'to': 9 * DAY})
+        cases = (NoteFacts(pickup_closes=960), NoteFacts(pickup_opens=660),
+                 NoteFacts(pickup_weekdays=(0, 2)), NoteFacts(pickup_closes=1080),
+                 NoteFacts(pickup_opens=500))
+        for facts in cases:
+            with self.subTest(facts=facts):
+                window = wide_visit_window(place, 'pickup', facts, 600, 3 * DAY + 1080)
+                for minute in range(window[0], window[1] + 1):
+                    stated = _daily_window(place, 'pickup', NoteFacts(), minute // DAY)
+                    if stated is not None and stated[0] <= minute <= stated[1]:
+                        allowed = _daily_window(place, 'pickup', facts, minute // DAY)
+                        self.assertIsNotNone(allowed)
+                        self.assertTrue(allowed[0] <= minute <= allowed[1])
+        self.assertEqual(wide_visit_window(place, 'pickup', cases[0], 600, 3 * DAY + 1080), (600, 960))
+        self.assertEqual(wide_visit_window(place, 'pickup', cases[1], 600, 3 * DAY + 1080), (660, 1080))
+
+    def test_absolute_readiness_release_and_note_deadlines_are_strict(self):
+        desk, order = desk_and_order(delta_wide_windows=1, hours=HOURS)
+        facts = NoteFacts(ready_at=DAY + 600, released_at=DAY + 660,
+                          delivery_ready_at=DAY + 780, pickup_deadline=DAY + 900,
+                          deadline=DAY + 960, plates=True)
+        stops = desk._post_windows(order, [0], facts, Retry(DAY + 700))
+        self.assertEqual(stops[0]['window'], {'from': DAY + 700, 'to': DAY + 890})
+        self.assertEqual(stops[1]['window'], {'from': DAY + 780, 'to': DAY + 960})
+        self.assertTrue(stops[0]['withPlates'] and stops[0]['withCharging'])
+
+    def test_private_slots_and_original_order_deadline_are_not_widened(self):
+        for private_rescue in (0, 1):
+            desk, order = desk_and_order(deadline=DAY + 900, delta_wide_windows=1,
+                                        delta_private_delivery_rescue=private_rescue,
+                                        delta_rescue_windows=1, delta_ev_rule=1, delta_note_fixes=1)
+            leg = order['legs'][0]
+            leg['pickup'].update(privateAddress=True, window={'from': DAY + 600, 'to': DAY + 660})
+            leg['delivery'].update(privateAddress=True, window={'from': DAY + 810, 'to': DAY + 870})
+            original = deepcopy(order)
+            desk.post(order, [0])
+            pickup, delivery = desk.outbox[0]['stops']
+            self.assertEqual(pickup['window'], {'from': DAY + 600, 'to': DAY + 660})
+            self.assertEqual(delivery['window'], {'from': DAY + 810, 'to': DAY + 870})
+            self.assertEqual(order, original)
+            desk.now = DAY + 661
+            desk.outbox = []
+            desk.post(order, [0])
+            self.assertEqual(desk.outbox, [])
+
+    def test_latest_pickup_ends_in_open_hours_and_keeps_travel_and_charge_time(self):
+        desk, order = desk_and_order(delta_wide_windows=1, hours=HOURS, deadline=DAY + 600)
+        facts = desk.note_facts(desk.requests[order['id']])
+        stops = desk._post_windows(order, [0], facts, Retry())
+        self.assertEqual(stops[0]['window']['to'], 1080)
+        self.assertEqual(stops[1]['window']['to'], DAY + 600)
+
+    def test_wider_single_windows_restore_feasible_pairs(self):
+        results = []
+        for enabled in (0, 1):
+            desk, first = desk_and_order(now=1000, deadline=DAY + 1080, hours=HOURS,
+                                        pairs=1, delta_wide_windows=enabled, delta_rescue_windows=1)
+            first['legs'][0]['car'].update(electric=False, chargePercent=None)
+            second = deepcopy(first)
+            second['id'] = 'second'
+            second['legs'][0]['pickup']['placeId'] = 'b'
+            second['legs'][0]['delivery']['placeId'] = 'c'
+            second['legs'][0]['pickup']['window']['from'] = DAY + 600
+            req = deepcopy(desk.requests[first['id']])
+            req.update(id='second', legs=deepcopy(second['legs']))
+            desk.requests['second'] = req
+            results.append(desk._plan(first, second))
+        self.assertIsNone(results[0][0])
+        self.assertIsNotNone(results[1][0])
 
 
 if __name__ == '__main__':
