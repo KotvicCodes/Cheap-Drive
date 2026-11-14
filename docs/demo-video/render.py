@@ -187,6 +187,15 @@ MAP_NODES = [(120, 590), (280, 500), (410, 610), (530, 415), (710, 460), (810, 2
 MAP_EDGES = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 1), (7, 3), (4, 9), (9, 10), (10, 11), (11, 5), (11, 4), (2, 9), (0, 2)]
 
 
+MAP_TRIPS = [
+    ([0, 1, 7, 6, 5, 11, 10], 0.14, 0.24, INK, True),
+    ([10, 9, 4, 3, 7, 8], 0.28, 0.27, ORANGE, True),
+    ([5, 4, 3, 2, 0], 0.42, 0.22, INK, False),
+    ([8, 1, 2, 9, 10, 11], 0.19, 0.26, ORANGE, False),
+    ([6, 7, 3, 4, 11], 0.55, 0.25, INK, False),
+]
+
+
 def network(im, t, box=(820, 100, 1840, 980), active=True, bg=CARD, border=GOLD_LINE):
     x, y, x2, y2 = box
     rect(im, box, bg, outline=border, r=20, width=2)
@@ -200,28 +209,25 @@ def network(im, t, box=(820, 100, 1840, 980), active=True, bg=CARD, border=GOLD_
         line(im, [pts[a], pts[b]], '#FFC266', 2)
     for i, (a, b) in enumerate(MAP_EDGES):
         if i % 2 == 0:
-            px, py = route_point([pts[a], pts[b]], (t * .28 + i * .13) % 1)
+            px, py = route_point([pts[a], pts[b]], (t * .25 + i * .17) % 1)
             circle(im, px, py, 4, MANGO)
-    route_main = [pts[i] for i in [0, 1, 7, 6, 5, 11, 10]]
-    route_alt = [pts[i] for i in [8, 1, 2, 3, 4, 9, 10]]
-    path_partial(im, route_alt, ease(t / 1.4), MARIGOLD, 4)
-    path_partial(im, route_main, ease(t / 1.2), ORANGE, 6, glow='#FFE066')
     for i, p in enumerate(pts):
-        is_hub = i in [0, 5, 10, 3]
+        is_hub = i in [0, 5, 10, 3, 8]
         circle(im, *p, 7 if is_hub else 5, CARD, ORANGE if is_hub else MANGO, 3 if is_hub else 2)
-    for i in [0, 5, 10]:
+    for i in [0, 5, 10, 3]:
         p = pts[i]
         circle(im, *p, 13 + 9 * ((t * .85 + i * .3) % 1), None, MARIGOLD, 2)
     if active:
-        for i in range(4):
-            r_path = route_main if i < 3 else route_alt
-            p = (t * .22 + i * .27) % 1
-            if p > ease(t / 1.2) or p < .025 or p > .975:
-                continue
-            q = route_point(r_path, p)
-            ahead = route_point(r_path, min(p + .002, 1))
-            heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
-            car(im, *q, color=INK if i % 2 == 0 else ORANGE, scale=.88, angle=heading)
+        for t_idx, (nodes, p0, spd, c_col, is_prim) in enumerate(MAP_TRIPS):
+            r_path = [pts[k] for k in nodes]
+            p = (p0 + t * spd) % 1.0
+            tail = max(0.0, p - 0.36)
+            path_segment(im, r_path, tail, p, ORANGE if is_prim else MARIGOLD, 5 if is_prim else 4, glow='#FFE066' if is_prim else None)
+            if 0.03 < p < 0.97:
+                q = route_point(r_path, p)
+                ahead = route_point(r_path, min(p + .006, 1.0))
+                heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
+                car(im, *q, color=c_col, scale=.86, angle=heading)
     return pts
 
 
@@ -295,12 +301,42 @@ FINLAND_ROADS = [
     ('kittila', 'kilpisjarvi'), ('kemi', 'kittila'),
 ]
 
-FINLAND_CORRIDORS = [
-    ['helsinki', 'hyvinkaa', 'hameenlinna', 'tampere', 'jyvaskyla', 'oulu', 'kemi', 'rovaniemi', 'sodankyla', 'ivalo'],
-    ['turku', 'rauma', 'pori', 'vaasa', 'kokkola', 'ylivieska', 'oulu'],
-    ['helsinki', 'lahti', 'kouvola', 'mikkeli', 'kuopio', 'kajaani', 'oulu', 'rovaniemi', 'kittila', 'kilpisjarvi'],
-    ['helsinki', 'porvoo', 'kotka', 'kouvola', 'lappeenranta', 'joensuu', 'kuopio'],
+# Multi-directional dispatch routes (N->S, W->E, E->W, S->N, NW->SE) across Finland
+FINLAND_TRIPS = [
+    # (waypoints, start_offset, speed, color, is_primary)
+    (['ivalo', 'sodankyla', 'rovaniemi', 'kemi', 'oulu'], 0.05, 0.22, ORANGE, True),
+    (['kilpisjarvi', 'kittila', 'rovaniemi', 'sodankyla', 'ivalo'], 0.16, 0.25, MARIGOLD, False),
+    (['vaasa', 'seinajoki', 'jyvaskyla', 'kuopio', 'joensuu'], 0.24, 0.27, MARIGOLD, True),
+    (['joensuu', 'savonlinna', 'mikkeli', 'lahti', 'hameenlinna', 'turku'], 0.14, 0.24, ORANGE, True),
+    (['helsinki', 'hyvinkaa', 'hameenlinna', 'tampere', 'pori', 'vaasa'], 0.30, 0.26, ORANGE, True),
+    (['oulu', 'kajaani', 'kuopio', 'mikkeli', 'kouvola', 'kotka'], 0.18, 0.23, MARIGOLD, False),
+    (['turku', 'salo', 'espoo', 'helsinki', 'porvoo', 'lappeenranta'], 0.22, 0.28, ORANGE, False),
+    (['kokkola', 'ylivieska', 'oulu', 'rovaniemi', 'kittila'], 0.35, 0.21, MARIGOLD, True),
 ]
+
+
+def path_segment(im, points, p0, p1, color=ORANGE, width=5, glow=None):
+    """Draw a sub-segment [p0, p1] of a polyline for live directional trails."""
+    p0, p1 = clamp(p0), clamp(p1)
+    if p1 <= p0 or len(points) < 2:
+        return
+    ds = [math.dist(points[i], points[i + 1]) for i in range(len(points) - 1)]
+    total = sum(ds)
+    if total <= 0:
+        return
+    d0, d1 = total * p0, total * p1
+    pts = [route_point(points, p0)]
+    acc = 0.0
+    for i, d in enumerate(ds):
+        nxt = acc + d
+        if d0 < nxt < d1:
+            pts.append(points[i + 1])
+        acc = nxt
+    pts.append(route_point(points, p1))
+    if len(pts) > 1:
+        if glow:
+            line(im, pts, glow, width + 6)
+        line(im, pts, color, width)
 
 
 def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, border=GOLD_LINE):
@@ -346,22 +382,6 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
         if in_box(pu) and in_box(pv):
             line(im, [pu, pv], '#FFC266', 2)
 
-    # Animated highway corridors spanning Finland
-    corridors = FINLAND_CORRIDORS[:2] if zoom_south else FINLAND_CORRIDORS
-    for c_idx, corr in enumerate(corridors):
-        pts = [proj(*FINLAND_PLACES[pid][:2]) for pid in corr if in_box(proj(*FINLAND_PLACES[pid][:2]))]
-        if len(pts) > 1:
-            is_primary = c_idx == 0
-            path_partial(im, pts, ease((t + 0.3 * c_idx) / 1.4), ORANGE if is_primary else MARIGOLD, 6 if is_primary else 4, glow='#FFE066' if is_primary else None)
-            # Fleet cars travelling along each Finnish corridor
-            for car_k in range(2 if is_primary else 1):
-                p = (t * (0.20 + 0.03 * c_idx) + car_k * 0.48 + c_idx * 0.21) % 1.0
-                if 0.03 < p < 0.97 and p <= ease((t + 0.3 * c_idx) / 1.4):
-                    q = route_point(pts, p)
-                    ahead = route_point(pts, min(p + 0.005, 1.0))
-                    heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
-                    car(im, *q, color=INK if (c_idx + car_k) % 2 == 0 else ORANGE, scale=0.82, angle=heading)
-
     # Plot all 30 simulator towns + Lapland hubs
     for pid, (lat, lon, name, is_major) in FINLAND_PLACES.items():
         pt = proj(lat, lon)
@@ -373,6 +393,20 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
             lx_off = -12 if pid in ('vaasa', 'turku') else 12
             anc = 'rm' if pid in ('vaasa', 'turku') else 'lm'
             txt(im, name, pt[0] + lx_off, pt[1], 17, INK, weight=700, anchor=anc)
+
+    # Multi-directional trips with trailing route wakes and varied speeds/directions
+    for c_idx, (corr, p0, spd, col, is_prim) in enumerate(FINLAND_TRIPS):
+        pts = [proj(*FINLAND_PLACES[pid][:2]) for pid in corr if in_box(proj(*FINLAND_PLACES[pid][:2]))]
+        if len(pts) < 2:
+            continue
+        p = (p0 + t * spd) % 1.0
+        tail = max(0.0, p - 0.34)
+        path_segment(im, pts, tail, p, ORANGE if is_prim else MANGO, 5 if is_prim else 4, glow='#FFE066' if is_prim else None)
+        if 0.03 < p < 0.97:
+            q = route_point(pts, p)
+            ahead = route_point(pts, min(p + 0.008, 1.0))
+            heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
+            car(im, *q, color=INK if c_idx % 2 == 0 else ORANGE, scale=0.82, angle=heading)
 
 
 def hero(t):
