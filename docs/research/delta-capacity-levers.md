@@ -54,6 +54,17 @@ Even recovering every slack decline at the current 29% competitive win rate
 would add only about 23 wins/week. The gap to 400–500 weekly wins cannot be
 explained by this admission threshold alone.
 
+An additional offline check of the actual note-aware slack calculation finds
+only 52 of those 855 slack declines have no physically feasible option. Of the
+remainder, 691 have at least four hours of slack but only 126 have six hours.
+Thus the eight-hour rule does reject physically feasible work, particularly
+four-to-six-hour windows. Physical feasibility is not evidence that a compatible
+driver would book; at the current competitive win rate a four-hour threshold
+would recover roughly 18 wins/week, a six-hour threshold roughly three. These
+are headroom estimates with fixed observed requests, not live predictions, and
+do not justify a blanket admission relaxation before delivery capacity improves.
+The per-week counts are emitted as `admissionSlack` by the pairing probe.
+
 ## Booking time and money
 
 Booking delay is measured from each accepted gig post to its first booking.
