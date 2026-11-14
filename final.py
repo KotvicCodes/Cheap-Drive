@@ -162,19 +162,20 @@ def play_live(world, level, journal, factory, *, clock, stats=None, reads=None, 
         for event in world.stream(after=last_seq, idle=1.0):
             started = time.perf_counter()
             day = desk.now // DAY
-            if event is None:
-                desk.now = max(desk.now, reads.latest)
-            else:
-                if event["seq"] <= last_seq:
-                    continue
-                last_seq = event["seq"]
-                journal.record("event", event=event)
-                desk.now = max(desk.now, event["at"])
+            with journal.batch():
+                if event is None:
+                    desk.now = max(desk.now, reads.latest)
+                else:
+                    if event["seq"] <= last_seq:
+                        continue
+                    last_seq = event["seq"]
+                    journal.record("event", event=event)
+                    desk.now = max(desk.now, event["at"])
+                    live.now = desk.now
+                    desk.handle(event)
+                    stats["events"] += 1
                 live.now = desk.now
-                desk.handle(event)
-                stats["events"] += 1
-            live.now = desk.now
-            desk.send()  # also runs pair timers, at the latest observed minute
+                desk.send()  # also runs pair timers, at the latest observed minute
             if checkpoint and hasattr(desk, "observe_history") and time.monotonic() - checkpoint_at >= 5:
                 checkpoint.save(desk, last_seq)
                 checkpoint_at = time.monotonic()
