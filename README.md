@@ -15,6 +15,11 @@ A Python dispatcher for the Spread challenge, using the official client.
 > **Missing: Alpha/Beta/Gamma dispatch has not been validated on final clocks; there is no final-mode runner yet.**
 > [Schedule details](AI%20overview.md#event-deadlines-and-submission).
 
+**Submission preparation:** all form copy, demo/source/video links and presentation
+materials must be ready before the final submission deadline above. Use the
+[Junction submission checklist](docs/submission-checklist.md) to prepare the form
+and confirm **Submit Final** is completed in time.
+
 ## Standings
 
 Our public team is **Guardians of the Moonlight**. **Gamma completed all five
