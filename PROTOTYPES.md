@@ -191,7 +191,9 @@ plays ranking runs. Results, the rejected variants and the limits are in
 ## Gamma
 
 The selected [models/gamma.json](models/gamma.json) uses
-`gamma_notes:make_gamma_notes_pairs`. It combines guarded long routes,
+`models.gamma_notes:make_gamma_notes_pairs`. Its implementation lives in
+[models/gamma_notes.py](models/gamma_notes.py), alongside the other model code
+and JSON configs. It combines guarded long routes,
 note-aware dispatch, short/premium segment controls and corrected two-car pairs.
 
 ### Admission and fees
