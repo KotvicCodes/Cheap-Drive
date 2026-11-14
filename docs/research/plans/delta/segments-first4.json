@@ -1,0 +1,45 @@
+{
+  "factory": "gamma_notes:make_gamma_notes_pairs",
+  "level": 8,
+  "seeds": [
+    "gamma-v01",
+    "gamma-v02",
+    "gamma-v03",
+    "gamma-v04"
+  ],
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 3000,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 600
+  },
+  "variants": {
+    "gamma": {},
+    "no-segments": {
+      "short_bps": 10000,
+      "short_opening_fee_bps": 0,
+      "premium_opening_fee_bps": 0,
+      "premium_min_slack_minutes": 0
+    },
+    "short-only": {
+      "premium_opening_fee_bps": 0,
+      "premium_min_slack_minutes": 0
+    },
+    "premium-only": {
+      "short_bps": 10000,
+      "short_opening_fee_bps": 0
+    },
+    "pair-opening-75": {
+      "pair_fee_bps": 7500,
+      "pair_rescue_fee_bps": 8000
+    }
+  },
+  "fast": true
+}
