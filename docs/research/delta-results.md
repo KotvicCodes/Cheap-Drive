@@ -91,8 +91,53 @@ There were exactly two passing arms, so neither needed discretionary ranking.
 Their gains remain exploratory and below the final €500/week requirement.
 No settings were promoted and Gamma remains supported.
 
-A2 is running Gamma, no-segments and premium-only on `gamma-v05..v08`, with
-unchanged baseline source and settings and a maximum five workers. Its pruned
-plan was hashed and selection recorded before launch. Modest intake B follows
-A review; the newly added [quote/fee leads](delta-quote-fee-leads.md) remain queued
-after A/B, with independent learner/lane screens before a combination.
+A2 completed Gamma, no-segments and premium-only on `gamma-v05..v08`, with
+unchanged baseline source and settings. Its pruned plan was hashed and selection
+recorded before launch. All 12 worlds completed without failures or pending
+jobs; scores, ledgers and service counts reconcile. The four-seed A2 subset
+had pooled long lateness above 5% for Gamma (3/58), no-segments (4/58) and
+premium-only (4/60); retain this warning even though eight-seed pools pass.
+
+## Eight-seed segment outcome and current tests
+
+The complete exposed screening block gives the following paired results;
+[sanitized aggregates and gates](plans/delta/segments-results.json) retain all
+weekly margin deltas and source provenance.
+
+| Arm | Mean margin vs Gamma/week | Positive weeks | Worst on time | Total undelivered | Long late/won |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Gamma | €0 | — | 94.574% | 17 | 6/144 |
+| No segments | +€318.02 | 7/8 | 95.000% | 15 | 6/148 |
+| Premium only | +€408.14 | 7/8 | 94.672% | 16 | 7/154 |
+
+Both simplifications improved mean margin and mean on time, with fewer total
+undelivered orders. Neither reaches the declared €500/week gain, so neither
+advances as a selected Delta. The evidence points toward reconsidering short
+controls rather than higher pair openings; it does not isolate discount versus
+short opening-fee effects. Keep those controls independent of learner/lane tests.
+
+B modest intake completed 14 worlds before its scheduling guard stopped all
+three arms; remaining seeds were not launched. Preliminary completed results
+include a strong isolated 31% week, but not a robust gain. Gamma and both intake
+arms fell below the 93% scheduling guard on `delta-r1-s03` (all still ranked),
+so future scheduling stopped for those arms and already owned work drained.
+Gamma's failure on that same seed means this does not identify extra intake as
+the cause. These outcomes also warn against assuming old Gamma confirmation
+safety generalizes to a new block. Do not select or extend intake from the early
+profit spike.
+
+At the user's request to occupy all eight practice slots, execution now
+counts practice/ranking worlds separately from finals, as the official API
+specifies, leaves no deliberate spare, and overlaps independent `trust=50` and
+`fee_shape=review` screens with B. Frozen Gamma controls on the same seeds are
+reused only with matching source/settings provenance. Existing B is not
+interrupted; a supplemental controller imports only its never-created jobs
+after it drains, honors blocked arms, and never replays owned worlds. This
+changes scheduling, not economic/service gates. No preexisting, leaderboard or
+final world is modified. Learner and lane arms remain isolated; their code and
+release prerequisites still apply.
+
+The [Gemini note prototype](gemini-notes.md) adds an offline extraction contract,
+validated cached-response adapter and three-arm semantic benchmark. No inference,
+latency, note-accuracy gain or margin gain has been measured; dispatch never
+imports it. The active simulator tests continue independently of this research.

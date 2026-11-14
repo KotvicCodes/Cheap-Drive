@@ -5,9 +5,10 @@ additional intake. Gamma's paired improvement is established; the proposed
 35–42% targets, €650–700 immediate rescue gain and top-ten projections are not.
 Keep supported Gamma fixed. This document defines the staged research gates;
 [investigation results](delta-results.md) track execution and experimental
-Delta code. No model has been promoted. A1 completed its 20 worlds and A2 is
-running no-segments and premium-only against Gamma on the remaining four
-exposed screening seeds. Two additional diagnostic worlds on exposed
+Delta code. No model has been promoted. A1 and A2 completed; eight-seed
+no-segments and premium-only gains remain
+below the final margin threshold. B intake drained after the service guard;
+independent trust/review screening is running. Two additional diagnostic worlds on exposed
 `gamma-v01` checked neutral-factory parity and rescue.
 These add two completed worlds to the program budget below, without changing
 its selection or confirmation gates.
@@ -118,7 +119,8 @@ This code and its run budget are **not** part of the executable staged plans.
 
 ## Quote and fee hypotheses after A/B
 
-B1–B5 are newly queued research stages, in that order after A/B; conditional
+B1–B5 retain this research priority after A/B; independent existing-settings
+B5 was released early under the user's later all-slots instruction. Conditional
 B6 follows B5, then B7 before C. They do not interrupt A1 or change any A/B arm, source,
 seed or gate. Every stage uses frozen Gamma on `delta-r1-s01..s08`, with a
 same-stage control and unchanged global intake target, segments, cap and repairs;
@@ -127,7 +129,7 @@ learner and lane effects separately before any combination. Their full specs and
 release prerequisites are in [the non-executable stage manifest](plans/delta/quote-fee-stages.json).
 Do not feed that manifest to `sweep.py`: B1–B4/B6/B7 need Delta-only code and a
 validated executable plan before release. Existing B5 settings need no strategy
-implementation, but remain ordered after B4.
+implementation and now run independently during B.
 
 [The saved-week audit](delta-quote-fee-leads.md) supports the mechanisms, not a
 measured gain. Completed-trace selection changes the supplied counts: full menus
@@ -215,6 +217,18 @@ an unsafe arm's future scheduling and preserve/drain owned work. No historical
 confirmation seed becomes a Delta holdout, and none of these observations is a
 measured improvement or qualification.
 
+## Gemini note-extraction research
+
+[The separate Gemini prototype](gemini-notes.md) defines an offline prompt,
+strict response contract, cached-response validator and three-arm semantic
+benchmark (Gamma parser, deterministic Delta fixes, selective assisted facts).
+It is not imported by dispatch and adds no provider dependency or live call.
+Offline fixtures and independent adjudication come first, then measured shadow
+latency/cost with unchanged actions, then a separately frozen practice plan if
+justified. Existing main-plan promotion gates remain authoritative. No paid
+inference, measured parsing gain, latency claim or extra simulator budget is
+included here. Keep this research supplied independently of practice slots.
+
 ## Repair prerequisites
 
 Synthetic boundary inspection reproduces the rescue defect: on Tuesday at
@@ -284,9 +298,9 @@ Predeclare these gates; do not loosen them after observing results:
 
 The three original executable JSON plans under `plans/delta/` use the existing
 `scripts/sweep.py`
-`factory/level/seeds/base/variants/fast` schema. A1 is complete; A2 uses a
-pruned, hashed copy with the two passing arms and Gamma. Later stages have not
-been released. Neutral/rescue diagnostics use separate copied plans.
+`factory/level/seeds/base/variants/fast` schema. A1/A2 are complete. B and the
+existing-settings B5 screens have been released; other quote/fee arms remain
+staged. Neutral/rescue diagnostics use separate copied plans.
 The integration checkout retains the private staged queue and exact commands
 under ignored `runs/delta-research/queue.json` and `commands.txt`. These local
 artifacts are not part of Git; use the tracked plans and this document when
@@ -294,9 +308,15 @@ preparing another checkout.
 C's bookkeeping arm and D–F still need implementation or selection prerequisites.
 The note/rescue switches are experimental and are not qualified settings.
 
-The initial plan used one or two workers. With explicit authorization to keep
-available practice slots supplied, execution uses up to five workers, checks
-capacity before each new world and leaves a spare slot for other controllers.
+The initial plan used one or two workers, then five with a spare. The user
+subsequently authorized all eight practice slots and overlapping independent
+concrete experiments. B5 was therefore released during B despite its original
+priority position after B4; this scheduling override leaves every arm, setting,
+seed and gate unchanged. Reuse B Gamma controls only with exact provenance.
+The official API caps unfinished **practice** worlds at eight, including ranking
+runs; finals do not consume those slots. The supplemental runner checks that
+practice/ranking count before creation and leaves no deliberate spare. Existing
+controllers drain naturally; owned worlds are never restarted for extra speed.
 Never touch preexisting practice worlds, leaderboard/ranking worlds or
 final worlds. Only new ordinary practice worlds belong to this queue. The
 sweep creates with `board=False` and cleans up only its own failed attempts,
@@ -330,5 +350,6 @@ also validated all 13 settings arms through the installed SDK-backed factory's
 settings splitter. Saved score/ledger/segment reconciliations passed. Those
 initial checks did not run simulator weeks. Live A1 and pilot execution
 is recorded separately in the investigation results. The new B1–B7 manifest is
-a staged specification, not a validated executable sweep. No new quote/fee arm
-or final-clock validation has run; no Delta is qualified.
+a staged specification, not a validated executable sweep. B5 uses validated existing settings; new B1–B4/B6/B7 hooks remain gated.
+The separate Gemini offline prototype is not a live arm. No final-clock
+validation has run; no Delta is qualified.

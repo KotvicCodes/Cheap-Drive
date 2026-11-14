@@ -1,0 +1,434 @@
+{
+  "status": "Exploratory exposed screening only; no Delta selected; unchanged gates; B independent intake and trust/review controls now running",
+  "baseline_commit": "0eb4e3efc7b49c17a29aa05e9249e7ab45db710d",
+  "blocks": [
+    {
+      "stage": "A2",
+      "seeds": [
+        "gamma-v05",
+        "gamma-v06",
+        "gamma-v07",
+        "gamma-v08"
+      ],
+      "completed_worlds": 12,
+      "world_attempts": 12,
+      "failed_world_attempts": 0,
+      "source_provenance": {
+        "segments-smoke": {
+          "plan_sha256": "b1bcc35dcdef84033f9a17f44eb4da1a4d6692977217076a569fe62335b4170c",
+          "source_manifest_sha256": "2780f23e61805b1fbcfd32dbd0bef6eaa33fcc39fe3cd2d5be23d3f7f14c2a0e",
+          "controller_sha256": "2fbeb8d674a739e7065d2f15fc7244319d6cc26f423ed4ee3355fdd4ab955718",
+          "results_index_sha256": null
+        },
+        "segments-smoke-retry": {
+          "plan_sha256": "3016504573435822e76aaf8de374f341b8457be7aa69e93d7f55c0942302657e",
+          "source_manifest_sha256": "05156aa1e6962a112f7ae5a308d4c3ffb942fb840499d09b80b0c7b0adff19f7",
+          "controller_sha256": "2fbeb8d674a739e7065d2f15fc7244319d6cc26f423ed4ee3355fdd4ab955718",
+          "results_index_sha256": "b67e42dfd1726a97226008a260450357f43df1d084263be798328fb0891679ff"
+        },
+        "segments-remaining3": {
+          "plan_sha256": "f02afc299caca66070dd69962ec1545fe151d86fae2fc08f414ce05c2c2dd69f",
+          "source_manifest_sha256": "c9e9df318ca164de3b5b074f684f586eab02061e7328c7de4de99ac1c3f68976",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": "ed817d6a1955d51eddcd08929aae638b1006cdcbe7e05a3def635490d562a9e2"
+        },
+        "segments-v04-retry": {
+          "plan_sha256": "ec043a1dd5ce17d9eb64ef4e40bf5200b6099fec031ffaaddd8d0128b2014f7a",
+          "source_manifest_sha256": "9ead8e23aa0125e8cb083fb15fdfb8b2e13cdfedae6d92426da0daf0bcf9b216",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": null
+        },
+        "segments-v04-retry2": {
+          "plan_sha256": "ec043a1dd5ce17d9eb64ef4e40bf5200b6099fec031ffaaddd8d0128b2014f7a",
+          "source_manifest_sha256": "414b425743259ff16fe3e88f05a0b1bd2b043b0611de52f6c088e4f50bdea3cb",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": "90d6f315f41c927becb294299304149ca7eaa8f39dd00ad30f13331d90fc7e0b"
+        },
+        "segments-a2-selected": {
+          "plan_sha256": "56db10eabb44133707390231bd2b7e71c3aeabf457f2b86d3361eec74e33e5e7",
+          "source_manifest_sha256": "c3f7db8abd170f52f4b753b5f516b1d72799fba6efb463793c2d09e3b5196c63",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": "9229932e69e0f10dcf4c2520a2bc9df7e9c98d6033512a185e2956d311a6c357"
+        }
+      },
+      "arms": [
+        {
+          "label": "gamma",
+          "completed": 4,
+          "per_seed_margin_delta_cents": {
+            "gamma-v05": 0,
+            "gamma-v06": 0,
+            "gamma-v07": 0,
+            "gamma-v08": 0
+          },
+          "mean_margin_delta_cents": 0,
+          "median_margin_delta_cents": 0.0,
+          "worst_margin_delta_cents": 0,
+          "positive_paired_weeks": 0,
+          "ranked_weeks": 4,
+          "worst_on_time_share": 0.972972972972973,
+          "mean_on_time_share": 0.9774372387212767,
+          "mean_on_time_delta_pp": 0.0,
+          "totals": {
+            "won": 1065,
+            "delivered": 1063,
+            "late_including_undelivered": 24,
+            "delivered_late": 22,
+            "undelivered": 2
+          },
+          "gamma_undelivered_count": 2,
+          "pooled_undelivered_share": 0.0018779342723004694,
+          "gamma_pooled_undelivered_share": 0.0018779342723004694,
+          "long_won": 58,
+          "long_late_including_undelivered": 3,
+          "pooled_long_lateness_share": 0.05172413793103448,
+          "failed_visit_events": 8,
+          "unique_failed_orders_sum_per_world": 6,
+          "gates": {
+            "all_planned_weeks_completed": true,
+            "all_ranked": true,
+            "worst_on_time_ge_93pct": true,
+            "pooled_long_lateness_le_5pct": false,
+            "mean_on_time_within_0_5pp_of_gamma": true,
+            "pooled_undelivered_share_no_higher_than_gamma": true,
+            "no_increased_undelivered_count": true,
+            "no_detected_integrity_issues": true,
+            "no_unexplained_undelivered_without_penalty": true,
+            "mean_margin_gain_ge_500eur": false,
+            "positive_paired_weeks_ge_6_of_8": false,
+            "eight_completed_paired_weeks": false
+          },
+          "pre_E_gates_all_pass": false,
+          "advances": false
+        },
+        {
+          "label": "no-segments",
+          "completed": 4,
+          "per_seed_margin_delta_cents": {
+            "gamma-v05": 30158,
+            "gamma-v06": 5118,
+            "gamma-v07": 65021,
+            "gamma-v08": 86605
+          },
+          "mean_margin_delta_cents": 46725.5,
+          "median_margin_delta_cents": 47589.5,
+          "worst_margin_delta_cents": 5118,
+          "positive_paired_weeks": 4,
+          "ranked_weeks": 4,
+          "worst_on_time_share": 0.973384030418251,
+          "mean_on_time_share": 0.9801791030855951,
+          "mean_on_time_delta_pp": 0.2741864364318336,
+          "totals": {
+            "won": 1062,
+            "delivered": 1060,
+            "late_including_undelivered": 21,
+            "delivered_late": 19,
+            "undelivered": 2
+          },
+          "gamma_undelivered_count": 2,
+          "pooled_undelivered_share": 0.0018832391713747645,
+          "gamma_pooled_undelivered_share": 0.0018779342723004694,
+          "long_won": 58,
+          "long_late_including_undelivered": 4,
+          "pooled_long_lateness_share": 0.06896551724137931,
+          "failed_visit_events": 4,
+          "unique_failed_orders_sum_per_world": 4,
+          "gates": {
+            "all_planned_weeks_completed": true,
+            "all_ranked": true,
+            "worst_on_time_ge_93pct": true,
+            "pooled_long_lateness_le_5pct": false,
+            "mean_on_time_within_0_5pp_of_gamma": true,
+            "pooled_undelivered_share_no_higher_than_gamma": false,
+            "no_increased_undelivered_count": true,
+            "no_detected_integrity_issues": true,
+            "no_unexplained_undelivered_without_penalty": true,
+            "mean_margin_gain_ge_500eur": false,
+            "positive_paired_weeks_ge_6_of_8": false,
+            "eight_completed_paired_weeks": false
+          },
+          "pre_E_gates_all_pass": false,
+          "advances": false
+        },
+        {
+          "label": "premium-only",
+          "completed": 4,
+          "per_seed_margin_delta_cents": {
+            "gamma-v05": 34836,
+            "gamma-v06": 8428,
+            "gamma-v07": 105819,
+            "gamma-v08": 83680
+          },
+          "mean_margin_delta_cents": 58190.75,
+          "median_margin_delta_cents": 59258.0,
+          "worst_margin_delta_cents": 8428,
+          "positive_paired_weeks": 4,
+          "ranked_weeks": 4,
+          "worst_on_time_share": 0.9772727272727273,
+          "mean_on_time_share": 0.9830273523144724,
+          "mean_on_time_delta_pp": 0.5590113593195611,
+          "totals": {
+            "won": 1064,
+            "delivered": 1062,
+            "late_including_undelivered": 18,
+            "delivered_late": 16,
+            "undelivered": 2
+          },
+          "gamma_undelivered_count": 2,
+          "pooled_undelivered_share": 0.0018796992481203006,
+          "gamma_pooled_undelivered_share": 0.0018779342723004694,
+          "long_won": 60,
+          "long_late_including_undelivered": 4,
+          "pooled_long_lateness_share": 0.06666666666666667,
+          "failed_visit_events": 7,
+          "unique_failed_orders_sum_per_world": 4,
+          "gates": {
+            "all_planned_weeks_completed": true,
+            "all_ranked": true,
+            "worst_on_time_ge_93pct": true,
+            "pooled_long_lateness_le_5pct": false,
+            "mean_on_time_within_0_5pp_of_gamma": true,
+            "pooled_undelivered_share_no_higher_than_gamma": false,
+            "no_increased_undelivered_count": true,
+            "no_detected_integrity_issues": true,
+            "no_unexplained_undelivered_without_penalty": true,
+            "mean_margin_gain_ge_500eur": true,
+            "positive_paired_weeks_ge_6_of_8": false,
+            "eight_completed_paired_weeks": false
+          },
+          "pre_E_gates_all_pass": false,
+          "advances": false
+        }
+      ],
+      "limitations": [
+        "Exploratory exposed screening only; no development or confirmation release.",
+        "Integrity checks cover captured event continuity, unique action batches, matched responses, successful post IDs, owned-world exclusion, terminal orders and exact ledger/service reconciliation; no formal proof of all strategy invariants.",
+        "Segment direct costs retain cancelled-order and gig-only costs as separate residuals; those residuals reconcile to full score and are not arbitrarily assigned.",
+        "Booking latency, backlog durations, target durations and feasible pair opportunities are not recomputed here; no causal or capacity claim follows.",
+        "The earliest two A1 outputs lack saved controller.py copies; their recorded controller hashes are retained but cannot be recomputed. Initial smoke has no runs.jsonl; exact per-job result rows, trace headers, snapshots and source hashes identify its completed attempts."
+      ]
+    },
+    {
+      "stage": "A1+A2",
+      "seeds": [
+        "gamma-v01",
+        "gamma-v02",
+        "gamma-v03",
+        "gamma-v04",
+        "gamma-v05",
+        "gamma-v06",
+        "gamma-v07",
+        "gamma-v08"
+      ],
+      "completed_worlds": 24,
+      "world_attempts": 28,
+      "failed_world_attempts": 4,
+      "source_provenance": {
+        "segments-smoke": {
+          "plan_sha256": "b1bcc35dcdef84033f9a17f44eb4da1a4d6692977217076a569fe62335b4170c",
+          "source_manifest_sha256": "2780f23e61805b1fbcfd32dbd0bef6eaa33fcc39fe3cd2d5be23d3f7f14c2a0e",
+          "controller_sha256": "2fbeb8d674a739e7065d2f15fc7244319d6cc26f423ed4ee3355fdd4ab955718",
+          "results_index_sha256": null
+        },
+        "segments-smoke-retry": {
+          "plan_sha256": "3016504573435822e76aaf8de374f341b8457be7aa69e93d7f55c0942302657e",
+          "source_manifest_sha256": "05156aa1e6962a112f7ae5a308d4c3ffb942fb840499d09b80b0c7b0adff19f7",
+          "controller_sha256": "2fbeb8d674a739e7065d2f15fc7244319d6cc26f423ed4ee3355fdd4ab955718",
+          "results_index_sha256": "b67e42dfd1726a97226008a260450357f43df1d084263be798328fb0891679ff"
+        },
+        "segments-remaining3": {
+          "plan_sha256": "f02afc299caca66070dd69962ec1545fe151d86fae2fc08f414ce05c2c2dd69f",
+          "source_manifest_sha256": "c9e9df318ca164de3b5b074f684f586eab02061e7328c7de4de99ac1c3f68976",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": "ed817d6a1955d51eddcd08929aae638b1006cdcbe7e05a3def635490d562a9e2"
+        },
+        "segments-v04-retry": {
+          "plan_sha256": "ec043a1dd5ce17d9eb64ef4e40bf5200b6099fec031ffaaddd8d0128b2014f7a",
+          "source_manifest_sha256": "9ead8e23aa0125e8cb083fb15fdfb8b2e13cdfedae6d92426da0daf0bcf9b216",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": null
+        },
+        "segments-v04-retry2": {
+          "plan_sha256": "ec043a1dd5ce17d9eb64ef4e40bf5200b6099fec031ffaaddd8d0128b2014f7a",
+          "source_manifest_sha256": "414b425743259ff16fe3e88f05a0b1bd2b043b0611de52f6c088e4f50bdea3cb",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": "90d6f315f41c927becb294299304149ca7eaa8f39dd00ad30f13331d90fc7e0b"
+        },
+        "segments-a2-selected": {
+          "plan_sha256": "56db10eabb44133707390231bd2b7e71c3aeabf457f2b86d3361eec74e33e5e7",
+          "source_manifest_sha256": "c3f7db8abd170f52f4b753b5f516b1d72799fba6efb463793c2d09e3b5196c63",
+          "controller_sha256": "1d1d5f6201328c708ea7ac9af6d11e5f59bae60ec9162389accf26748e9480b4",
+          "results_index_sha256": "9229932e69e0f10dcf4c2520a2bc9df7e9c98d6033512a185e2956d311a6c357"
+        }
+      },
+      "arms": [
+        {
+          "label": "gamma",
+          "completed": 8,
+          "per_seed_margin_delta_cents": {
+            "gamma-v01": 0,
+            "gamma-v02": 0,
+            "gamma-v03": 0,
+            "gamma-v04": 0,
+            "gamma-v05": 0,
+            "gamma-v06": 0,
+            "gamma-v07": 0,
+            "gamma-v08": 0
+          },
+          "mean_margin_delta_cents": 0,
+          "median_margin_delta_cents": 0.0,
+          "worst_margin_delta_cents": 0,
+          "positive_paired_weeks": 0,
+          "ranked_weeks": 8,
+          "worst_on_time_share": 0.9457364341085271,
+          "mean_on_time_share": 0.9754396597351768,
+          "mean_on_time_delta_pp": 0.0,
+          "totals": {
+            "won": 2080,
+            "delivered": 2063,
+            "late_including_undelivered": 51,
+            "delivered_late": 34,
+            "undelivered": 17
+          },
+          "gamma_undelivered_count": 17,
+          "pooled_undelivered_share": 0.008173076923076924,
+          "gamma_pooled_undelivered_share": 0.008173076923076924,
+          "long_won": 144,
+          "long_late_including_undelivered": 6,
+          "pooled_long_lateness_share": 0.041666666666666664,
+          "failed_visit_events": 9,
+          "unique_failed_orders_sum_per_world": 7,
+          "gates": {
+            "all_planned_weeks_completed": true,
+            "all_ranked": true,
+            "worst_on_time_ge_93pct": true,
+            "pooled_long_lateness_le_5pct": true,
+            "mean_on_time_within_0_5pp_of_gamma": true,
+            "pooled_undelivered_share_no_higher_than_gamma": true,
+            "no_increased_undelivered_count": true,
+            "no_detected_integrity_issues": true,
+            "no_unexplained_undelivered_without_penalty": true,
+            "mean_margin_gain_ge_500eur": false,
+            "positive_paired_weeks_ge_6_of_8": false,
+            "eight_completed_paired_weeks": true
+          },
+          "pre_E_gates_all_pass": false,
+          "advances": false
+        },
+        {
+          "label": "no-segments",
+          "completed": 8,
+          "per_seed_margin_delta_cents": {
+            "gamma-v01": -58799,
+            "gamma-v02": 96703,
+            "gamma-v03": 16036,
+            "gamma-v04": 13572,
+            "gamma-v05": 30158,
+            "gamma-v06": 5118,
+            "gamma-v07": 65021,
+            "gamma-v08": 86605
+          },
+          "mean_margin_delta_cents": 31801.75,
+          "median_margin_delta_cents": 23097.0,
+          "worst_margin_delta_cents": -58799,
+          "positive_paired_weeks": 7,
+          "ranked_weeks": 8,
+          "worst_on_time_share": 0.95,
+          "mean_on_time_share": 0.9757540758266422,
+          "mean_on_time_delta_pp": 0.03144160914654304,
+          "totals": {
+            "won": 2072,
+            "delivered": 2057,
+            "late_including_undelivered": 50,
+            "delivered_late": 35,
+            "undelivered": 15
+          },
+          "gamma_undelivered_count": 17,
+          "pooled_undelivered_share": 0.00723938223938224,
+          "gamma_pooled_undelivered_share": 0.008173076923076924,
+          "long_won": 148,
+          "long_late_including_undelivered": 6,
+          "pooled_long_lateness_share": 0.04054054054054054,
+          "failed_visit_events": 4,
+          "unique_failed_orders_sum_per_world": 4,
+          "gates": {
+            "all_planned_weeks_completed": true,
+            "all_ranked": true,
+            "worst_on_time_ge_93pct": true,
+            "pooled_long_lateness_le_5pct": true,
+            "mean_on_time_within_0_5pp_of_gamma": true,
+            "pooled_undelivered_share_no_higher_than_gamma": true,
+            "no_increased_undelivered_count": true,
+            "no_detected_integrity_issues": true,
+            "no_unexplained_undelivered_without_penalty": true,
+            "mean_margin_gain_ge_500eur": false,
+            "positive_paired_weeks_ge_6_of_8": true,
+            "eight_completed_paired_weeks": true
+          },
+          "pre_E_gates_all_pass": false,
+          "advances": false
+        },
+        {
+          "label": "premium-only",
+          "completed": 8,
+          "per_seed_margin_delta_cents": {
+            "gamma-v01": -49734,
+            "gamma-v02": 27973,
+            "gamma-v03": 31687,
+            "gamma-v04": 83823,
+            "gamma-v05": 34836,
+            "gamma-v06": 8428,
+            "gamma-v07": 105819,
+            "gamma-v08": 83680
+          },
+          "mean_margin_delta_cents": 40814,
+          "median_margin_delta_cents": 33261.5,
+          "worst_margin_delta_cents": -49734,
+          "positive_paired_weeks": 7,
+          "ranked_weeks": 8,
+          "worst_on_time_share": 0.9467213114754098,
+          "mean_on_time_share": 0.9766691554651028,
+          "mean_on_time_delta_pp": 0.12294957299260334,
+          "totals": {
+            "won": 2076,
+            "delivered": 2060,
+            "late_including_undelivered": 48,
+            "delivered_late": 32,
+            "undelivered": 16
+          },
+          "gamma_undelivered_count": 17,
+          "pooled_undelivered_share": 0.007707129094412331,
+          "gamma_pooled_undelivered_share": 0.008173076923076924,
+          "long_won": 154,
+          "long_late_including_undelivered": 7,
+          "pooled_long_lateness_share": 0.045454545454545456,
+          "failed_visit_events": 7,
+          "unique_failed_orders_sum_per_world": 4,
+          "gates": {
+            "all_planned_weeks_completed": true,
+            "all_ranked": true,
+            "worst_on_time_ge_93pct": true,
+            "pooled_long_lateness_le_5pct": true,
+            "mean_on_time_within_0_5pp_of_gamma": true,
+            "pooled_undelivered_share_no_higher_than_gamma": true,
+            "no_increased_undelivered_count": true,
+            "no_detected_integrity_issues": true,
+            "no_unexplained_undelivered_without_penalty": true,
+            "mean_margin_gain_ge_500eur": false,
+            "positive_paired_weeks_ge_6_of_8": true,
+            "eight_completed_paired_weeks": true
+          },
+          "pre_E_gates_all_pass": false,
+          "advances": false
+        }
+      ],
+      "limitations": [
+        "Exploratory exposed screening only; no development or confirmation release.",
+        "Integrity checks cover captured event continuity, unique action batches, matched responses, successful post IDs, owned-world exclusion, terminal orders and exact ledger/service reconciliation; no formal proof of all strategy invariants.",
+        "Segment direct costs retain cancelled-order and gig-only costs as separate residuals; those residuals reconcile to full score and are not arbitrarily assigned.",
+        "Booking latency, backlog durations, target durations and feasible pair opportunities are not recomputed here; no causal or capacity claim follows.",
+        "The earliest two A1 outputs lack saved controller.py copies; their recorded controller hashes are retained but cannot be recomputed. Initial smoke has no runs.jsonl; exact per-job result rows, trace headers, snapshots and source hashes identify its completed attempts."
+      ]
+    }
+  ]
+}
