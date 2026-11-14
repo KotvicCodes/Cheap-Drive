@@ -11,7 +11,29 @@ They were captured from a compact renderer copy that omits the redundant embedde
 
 ## Leaderboard visuals
 
-Current round 8 (Delta), level 8, Saturday 18:00 Helsinki, 14 November 2026:
+Current round 9 (the Epsilon candidate), level 8, Saturday 21:00 Helsinki,
+14 November 2026:
+
+- [round9-totals.svg](round9-totals.svg): official-board totals; top ten, ranks 29–33 and House best, with Guardians of the Moonlight highlighted. Snapshot: 2026-11-14 21:34:23 UTC; rank 31 of 52 ranked teams, €75,763.55 and 96.72% on time.
+- [round9-runs.svg](round9-runs.svg): our five qualified Epsilon candidate runs versus leader Juhus, from the same snapshot. Exact cents; bars start at zero.
+- [leaderboard-round9.png](leaderboard-round9.png): real public-page screenshot of the ranking-round heading, round label, selected level 8 and leading teams, captured 2026-11-14 21:35:12 UTC.
+- [leaderboard-round9-team.png](leaderboard-round9-team.png): real public-page screenshot of our rank-31 row and neighbours, captured 2026-11-14 21:35:40 UTC.
+
+Both screenshots are unaltered captures at a 1280 × 1000 CSS-pixel viewport
+(2560 × 2000 image pixels), scrolled without changing data, hiding rows,
+cropping or annotation. The fifth run is present and ranked. The public page
+rounds margins to whole euros and on-time shares to one decimal place; the
+charts retain exact cents. **The round was still open until 22:00 UTC** at
+retrieval and at both captures, so positions can change and the page can update
+between captures.
+
+[Exact Epsilon candidate results and snapshot details](../research/epsilon-board-round9.md).
+[Offline chart renderer with frozen public data](../../tests/make_round9_charts.py)
+(`python tests/make_round9_charts.py`, requires Matplotlib).
+Rounds 9, 8 and 7 used different secret weeks, so their totals are not a paired
+comparison of the models; see the [paired practice evidence](../research/delta-results.md).
+
+Historical round 8 (Delta), level 8, Saturday 18:00 Helsinki, 14 November 2026:
 
 - [round8-totals.svg](round8-totals.svg): official-board totals; top ten, ranks 35–39 and House best, with Guardians of the Moonlight highlighted. Snapshot: 2026-11-14 17:53:55 UTC; rank 37 of 58 ranked teams.
 - [round8-runs.svg](round8-runs.svg): our five qualified Delta runs versus leader Juhus, from the same snapshot. Exact cents; bars start at zero.
@@ -20,8 +42,8 @@ Current round 8 (Delta), level 8, Saturday 18:00 Helsinki, 14 November 2026:
 
 The screenshots show the original page, scrolled without changing its data or
 hiding rows. The fifth run is present and ranked. The public page rounds margins
-to whole euros; the charts retain exact cents. The current-round positions can
-change, and the page can update between captures.
+to whole euros; the charts retain exact cents. These preserve the earlier
+open-round snapshot at 37 of 58, not a final round position.
 
 [Exact Delta results and snapshot details](../research/delta-board-round8.md).
 Different rounds use different secret weeks, so their totals are not a paired
