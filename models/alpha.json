@@ -1,0 +1,15 @@
+{
+  "name": "Alpha",
+  "factory": "alpha:make_alpha",
+  "settings": {
+    "distance_cents_per_km": 53,
+    "pickup_cents_per_km": 59,
+    "scarcity_cents": 14750,
+    "initial_margin_bps": 1400,
+    "min_margin_bps": 100,
+    "max_margin_bps": 3750,
+    "feedback_step_bps": 700,
+    "min_margin_cents": 500,
+    "nearby_km": 60
+  }
+}
