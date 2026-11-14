@@ -186,3 +186,52 @@ does not teach the markup.
 time, and keeps every trace and reveal under ignored `runs/`. `scripts/board.py`
 plays ranking runs. Results, the rejected variants and the limits are in
 [docs/research/beta-results.md](docs/research/beta-results.md).
+
+## Gamma
+
+The selected [models/gamma.json](models/gamma.json) uses
+`gamma_notes:make_gamma_notes_pairs`. It combines guarded long routes,
+note-aware dispatch, short/premium segment controls and corrected two-car pairs.
+
+### Admission and fees
+
+The global win target remains 30%. Routes above 500 km and up to 700 km require
+`next_day` or `within_3_days`, at least 24 hours of true pickup slack, and fewer
+than three long orders waiting for drivers. Long singles open at 1.0 × reference
+fees. Other normal singles open at 0.8 ×, with a 1.10 floor below 45 km and a
+1.05 floor for premium cars. Routes below 45 km receive an 8% quote discount;
+premium options require at least ten hours of slack. Floors combine by maximum.
+
+The note-aware factory uses arrival-anchored readiness, release times, promises
+and independent pickup/delivery hours when quoting and posting. Expired windows
+roll to a valid business day instead of deleting closing hours. Fee ramps use
+the last feasible pickup. Plate, charging and manual-licence requirements survive
+reposting and pair planning. The bounded parser still misses some notes.
+
+Pairs combine two eligible single-leg orders. Fresh pairs open at 0.72 × summed
+reference fees; waiting-car rescue pairs open at 0.78 × with a new 60-minute flat
+period. Their fee clock starts at pair creation, while fallback singles retain
+their original age. Pair planning rejects more than 60 minutes of idle wait
+at the second pickup; 60 minutes is accepted. Transfer distance, total drive,
+service needs, audiences and visit windows retain their feasibility checks.
+
+### Optional experiments
+
+Brake, roster scaling, town caps, tables, trust-building, capacity controls and
+stale-gig fee review remain disabled in the selected model. Neutral defaults
+preserve historical core behavior: `gamma:make_gamma` with no long corridor
+reproduces Beta. That core parity does not apply to the selected note/pair factory.
+The corrected brake arm and the proposed supply policies did not justify promotion.
+
+### Evaluation
+
+The selected model ranked all eight screening weeks and all three known weak
+weeks, then passed a separate frozen eight-seed confirmation: **8/8 ranked,
+8/8 positive, +€2,030.845/week**, with 96.947% worst on time. Long-route lateness
+was 1/148 (0.68%). A repeat using final code reproduced score, ledger, events,
+visit failures and rejections exactly. See [recovery results](docs/research/gamma-recovery-results.md)
+for every paired week and the limits; the failed original guarded-700 candidate
+is documented in [historical Gamma results](docs/research/gamma-results.md).
+
+These are ordinary-practice results. Final clocks still require their own runner
+and validation. Further experiments are reserved for [Delta](docs/research/delta-handoff.md).
