@@ -193,7 +193,12 @@ production budgets. Freeze selection rules and numeric gates before each stage.
    and positive paired mean in-game margin; select nothing from a fresh
    confirmation block. In-game gross margin and external API expenditure are
    separate ledgers; report both and their economic combination explicitly.
-   Neither an offline score nor a practice replay establishes final-clock safety.
+   These proposed positive-mean/qualification checks are diagnostic only. Any
+   Delta promotion must still meet the unchanged main plan gates, including
+   worst on time ≥93%, mean gain ≥€500/week, ≥6/8 positive weeks, long lateness
+   ≤5%, service comparison and undelivered-share limits. No weaker Gemini-only
+   promotion gate is introduced. Neither an offline score nor a practice replay
+   establishes final-clock safety.
 
 ## Proposed final-clock envelope, not implemented here
 

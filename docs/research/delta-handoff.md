@@ -14,8 +14,10 @@ Alpha, Beta and Gamma remain supported baselines. See the
 
 The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
 the volume, rescue and pairing hypotheses and provides executable settings-only
-screening plans. A1 is complete; no-segments and premium-only advanced to the
-running A2 screen. Later stages remain gated by their predeclared criteria.
+screening plans. A1/A2 are complete; the two segment simplifications improved
+mean margin but missed the final economic gate. B intake and independent
+trust/review controls now run under the user's all-eight-slots instruction.
+Other stages retain their implementation and decision gates.
 New [quote/fee hypotheses](delta-quote-fee-leads.md) are staged after A/B; their
 completed-trace audit corrects incomplete retry selection and flags omitted
 gig-only costs before any net segment margin claims.
