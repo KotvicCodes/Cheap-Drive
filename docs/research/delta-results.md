@@ -264,27 +264,36 @@ used to fit it.
 
 ### Fresh confirmation
 
-Gamma and the selected Delta then played seven seeds that no earlier run had
-used, side by side from the same source:
+Gamma and the selected Delta then played eleven seeds that no earlier run had
+used, side by side from the same source (three batches; the selection was
+made after the first seven):
 
 | Seed | Gamma | Delta | Difference | On time, Gamma → Delta |
 | --- | ---: | ---: | ---: | --- |
-| `delta-f1-s01` | €7,353 | €8,178 | +€825 | 97.0% → 96.6% |
-| `delta-f1-s02` | €11,919 | €13,469 | +€1,550 | 96.3% → 97.8% |
-| `delta-f1-s03` | €11,621 | €12,000 | +€379 | 98.4% → 98.0% |
-| `delta-f1-s04` | €14,103 | €14,358 | +€255 | 98.5% → 98.5% |
-| `delta-f1-s05` | €10,664 | €11,063 | +€399 | 97.2% → 97.2% |
-| `delta-f1-s06` | €15,845 | €16,631 | +€786 | 97.0% → 97.0% |
-| `delta-f1-s07` | €10,001 | €12,015 | +€2,014 | 94.9% → 93.7% |
+| `delta-f1-s01` | €7,353.40 | €8,178.10 | +€824.70 | 97.0% → 96.6% |
+| `delta-f1-s02` | €11,918.61 | €13,468.72 | +€1,550.11 | 96.3% → 97.8% |
+| `delta-f1-s03` | €11,620.83 | €12,000.00 | +€379.17 | 98.4% → 98.0% |
+| `delta-f1-s04` | €14,102.64 | €14,357.99 | +€255.35 | 98.5% → 98.5% |
+| `delta-f1-s05` | €10,663.96 | €11,063.43 | +€399.47 | 97.2% → 97.2% |
+| `delta-f1-s06` | €15,844.85 | €16,630.83 | +€785.98 | 97.0% → 97.0% |
+| `delta-f1-s07` | €10,001.28 | €12,015.18 | +€2,013.90 | 94.9% → 93.7% |
+| `delta-f1-s08` | €10,566.66 | €10,586.94 | +€20.28 | 97.2% → 97.2% |
+| `delta-f1-s09` | €12,836.87 | €13,601.21 | +€764.34 | 97.4% → 98.5% |
+| `delta-f1-s10` | €13,810.94 | €13,962.56 | +€151.62 | 98.6% → 97.8% |
+| `delta-f1-s11` | €9,770.47 | €10,128.71 | +€358.24 | 97.1% → 97.1% |
 
-Delta was ahead in **7 of 7 weeks, +€887/week on average**, all ranked. On
-time fell in three weeks, by up to 1.2 points, and rose in one. Over all 23
-paired weeks the mean is **+€551/week** (17 positive, 4 identical, 2 negative),
-with a worst week of 91.1% on time. Margins above are rounded to whole euros.
+Delta was ahead in **11 of 11 weeks, +€682/week on average**, all ranked. On
+time fell in four weeks, by up to 1.2 points, and rose in two; its lowest fresh
+week was 93.7%. Over all 27 paired weeks the mean is **+€518/week** (21
+positive, 4 identical, 2 negative), with a worst week of 91.1% on time.
+
+The conditional same-day/next-day spread (`delta_option_spread="dual_10400_9800"`,
+B4) had its first live screen on `delta-r1-s01..s08`: −€307/week against Gamma,
+2 of 8 weeks positive, and 90.0% on time in the hardest week. Rejected.
 
 [models/delta.json](../../models/delta.json) is Gamma's settings with
-`delta_note_fixes=1` and `delta_rescue_windows=1`. Limits: seven fresh weeks
-is a small confirmation; the note fixes changed nothing on the one seed where
+`delta_note_fixes=1` and `delta_rescue_windows=1`. Limits: eleven fresh weeks
+is still a small confirmation; the note fixes changed nothing on the one seed where
 they ran alone, so the gain is attributed to the rescue repair; and the
 private-window rescue defect inherited from Gamma remains open.
 
@@ -300,3 +309,20 @@ rejected; six withdrawals or reprices were rejected because a driver had
 already booked the gig. This rehearsal ran with the note fixes only, before the
 rescue repair was selected. A mid-week restart rebuilds orders and gigs from
 the server but not the learned price level or pair state.
+
+An independent read-only review of `final.py` with this model found a clean
+start compatible, including a test final that begins on Thursday (minute 4320),
+and found no per-step logic that practice runs and the live loop omits. It
+found the restart path unsafe, each point reproduced offline:
+
+- a request that is still open at rejoin is never quoted, because the starter's
+  `rejoin` records it before Gamma's duplicate guard sees it;
+- restored pair gigs have no pair state, so they get no split timer and a
+  cancelled member can strand the other order;
+- learned markup, dealer trust and first-posted times are not rebuilt, and a
+  deadline warning that arrived during the outage does not reprice open gigs;
+- clock and daily-score reads run on the event path, where a slow HTTP answer
+  can outlast a quote window.
+
+Until those are fixed, start the runner once before the clock begins and do not
+restart it during a final unless it has actually stopped.
