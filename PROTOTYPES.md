@@ -113,3 +113,6 @@ margin. A candidate's loss is the mean over seeds plus half the standard
 deviation. Candidates clearly worse than the median after two seeds stopped
 early. Selection on fixed seeds can overfit; separate holdout seeds are the
 check, and small differences between top candidates are noise.
+
+Measured results and the reasons Alpha trails the leading teams are in
+[docs/research/alpha-results.md](docs/research/alpha-results.md).
