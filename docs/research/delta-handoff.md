@@ -82,3 +82,17 @@ manifests and private traces; do not publish raw notes, reveals or credentials.
 
 Practice qualification does not validate a final-clock dispatcher. The current
 repository still needs that integration before a model can run in the final.
+
+## Parked: Gemini for dealer notes
+
+The user's standing idea (raised twice on 14 November): a fast Gemini call,
+given rich context about the game's note conventions, might read dealer notes
+better than the rule-based parser. It is parked, not rejected. An offline
+extraction contract, a cached-response adapter and a three-arm benchmark
+already exist in [gemini-notes.md](gemini-notes.md), `gemini_notes.py` and
+`scripts/benchmark_gemini_notes.py`; dispatch never imports them and no
+inference has been run. To take it up: label a held-out set of real notes,
+run the benchmark with live inference, and compare accuracy, cost and answer
+time against `notes.py` before letting it influence any action. A quote has a
+few real seconds in the final, so the call must fall back to the parser on
+timeout.
