@@ -1,22 +1,23 @@
-# The Epsilon candidate: round 9 leaderboard runs
+# Delta: round 9 leaderboard runs
 
 All five official level-8 ranking runs are present and ranked on the public
 leaderboard in round **9, Saturday 21:00 Helsinki** (14 November 2026).
 The public endpoint confirms the round opened at `2026-11-14T19:00:17.085Z`.
 Team: **Guardians of the Moonlight** (`guardians-of-the-moonlight`).
 
-The Epsilon candidate is Delta plus the three dispatch fixes, including
-`delta_wide_windows` and `delta_private_delivery_rescue`, wider pairing
-(`delta_pairing="extended"`) and a 42% win target (`win_target_bps=4200`).
-Its code is on `origin/t3/epsilon-volume` at
+The runs used the settings now in `models/delta.json`: Early Delta plus the
+dispatch fixes `delta_wide_windows` and `delta_private_delivery_rescue`, wider
+pairing (`delta_pairing="extended"`) and a 42% win target
+(`win_target_bps=4200`), from code at
 [`589daf7ad8b17d6c2402bb45f7cab7856cd777b9`](https://github.com/KotvicCodes/Cheap-Drive/commit/589daf7ad8b17d6c2402bb45f7cab7856cd777b9).
-It is not yet a committed model file. The public feed verifies results and
+At the time of the runs it was called "the Epsilon candidate" and had no
+committed model file; it was then named Delta. The public feed verifies results and
 qualification, not which code or settings produced them; candidate provenance
 comes from the ranking-run handoff.
 
 ## Completed runs
 
-| Epsilon candidate run | Gross margin | On time | Orders won | Ranked |
+| Delta run | Gross margin | On time | Orders won | Ranked |
 | --- | ---: | ---: | ---: | :---: |
 | 1 | €13,767.61 | 97.99% | 348 | Yes |
 | 2 | €16,382.65 | 93.58% | 374 | Yes |
@@ -68,7 +69,7 @@ House teams have no public rank and are excluded from the ranked-team count.
 
 The run chart compares the same numbered secret weeks within round 9:
 
-| Run | The Epsilon candidate | Juhus |
+| Run | Delta | Juhus |
 | --- | ---: | ---: |
 | 1 | €13,767.61 | €19,096.44 |
 | 2 | €16,382.65 | €23,791.88 |
@@ -85,10 +86,10 @@ decimal place; our row displays €75,764 and 96.7%.
 
 ## Previous rounds
 
-The README retains the dated Delta round-8 snapshot: **37th of 58**,
+The README retains the dated Early Delta round-8 snapshot: **37th of 58**,
 **€55,639.62**, **96.96% on time**, retrieved **2026-11-14 17:53:55 UTC**.
 That was an open-round snapshot, not its final position. For completeness,
-the round-9 response's previous-round data now records Delta's closed round 8
+the round-9 response's previous-round data now records Early Delta's closed round 8
 as **44th of 67 ranked teams**, with the same total and on-time share.
 [Original round-8 snapshot and evidence](delta-board-round8.md).
 
