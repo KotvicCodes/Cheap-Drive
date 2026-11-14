@@ -124,23 +124,24 @@ applyTheme(theme);
 const check = (tone = '') => add(N('span', null, 'check ' + tone), icon(tone ? ['M8 4.2v4.6', 'M8 11.6v.2'] : ['M4.4 8.3l2.4 2.4 4.8-5']));
 
 function getNavItems() {
+  const isDemo = Boolean($('report-runs'));
   return [
-    ['overview', 'Overview', null],
-    ['orders', 'Requests & orders', D.orders.length],
-    ['gigs', 'Gigs & stops', D.gigs.length],
-    ['drivers', 'Drivers', D.drivers.length],
-    ['timeline', 'Event timeline', D.timeline.length],
-    ['incidents', 'Incidents', incidentRows.length],
-    ['ledger', 'Financial ledger', D.ledger.length],
-    ['source', 'Source & integrity', D.source.lines],
-    ['captures', 'Captured context', null]
+    ['overview', 'Overview', null, false],
+    ['orders', isDemo ? 'Orders' : 'Requests & orders', D.orders.length, false],
+    ['gigs', isDemo ? 'Gigs' : 'Gigs & stops', D.gigs.length, false],
+    ['drivers', 'Drivers', D.drivers.length, false],
+    ['captures', isDemo ? 'Map' : 'Captured context', null, false],
+    ['timeline', 'Event timeline', D.timeline.length, isDemo],
+    ['incidents', 'Incidents', incidentRows.length, isDemo],
+    ['ledger', 'Financial ledger', D.ledger.length, isDemo],
+    ['source', 'Source & integrity', D.source.lines, isDemo]
   ];
 }
 
 function renderNav() {
   const navEl = $('nav'); clear(navEl);
-  for (const [id, label, count] of getNavItems()) {
-    const b = button('', () => navigate(id)); b.dataset.tab = id;
+  for (const [id, label, count, hide] of getNavItems()) {
+    const b = button('', () => navigate(id)); b.dataset.tab = id; b.hidden = Boolean(hide);
     if (id === active) { b.classList.add('active'); b.setAttribute('aria-current', 'page'); }
     add(b, N('span', label), count === null ? null : N('span', num(count), 'count'));
     navEl.append(b);
@@ -159,8 +160,7 @@ function loadModel(nextD, labelOverride) {
   $('version').textContent = '';
   $('run-label').textContent = '';
   const modeLabel = labelOverride || (D.run.mode === 'demo' ? 'Synthetic demo' : D.run.mode === 'practice' ? 'Practice' : 'Level ' + (D.run.level ?? 8));
-  $('mode').textContent = modeLabel;
-  $('mode').className = 'badge lg ' + (D.run.mode === 'demo' ? 'warn' : 'good');
+  $('mode').hidden = true;
   const card = $('run-card'); clear(card);
   for (const [k, v] of [['Level', D.run.level ?? '8'], ['Margin', fmt(recorded.marginCents)], ['On time', pct(recorded.onTimeShare)]]) {
     add(card, add(N('div', null, 'row'), N('span', k), N('b', v)));
@@ -399,11 +399,13 @@ function overview() {
   const dayRows = [];
   if (perDay.size) { const ks = [...perDay.keys()]; for (let d = Math.min(...ks); d <= Math.max(...ks); d++) dayRows.push(perDay.get(d) || {d, rev: 0, other: 0, net: 0, count: 0}); }
 
+  const isDemo = Boolean($('report-runs'));
   const row1 = N('div', null, 'grid');
-  const finance = section('Cumulative ledger', null, 'span-8');
+  const finance = section('Cumulative ledger', null, isDemo ? 'span-12' : 'span-8');
   const series = [{label: 'Revenue', points: revPts, color: color('s-rev')}, {label: 'Costs & fees', points: costPts, color: color('s-cost')}, {label: 'Margin', points: netPts, color: color('s-net')}];
-  add(finance, lineChart({title: 'Cumulative ledger', series, height: 270}), legend(series.map(x => [x.label, x.color])));
+  add(finance, lineChart({title: 'Cumulative ledger', series, height: 260}), legend(series.map(x => [x.label, x.color])));
   const flow = section('Requests', null, 'span-4');
+  flow.hidden = isDemo;
   const won = D.stats.order_won || 0, lost = D.stats.order_lost || 0, open = Math.max(0, requests - won - lost);
   add(flow, add(N('div', null, 'funnel-head'), N('strong', requests ? pct(won / requests) : 'Unavailable'), N('span', 'won')));
   const seg = N('div', null, 'segbar'); seg.setAttribute('aria-hidden', 'true');
@@ -418,9 +420,9 @@ function overview() {
   add(row1, finance, flow); root.append(row1);
 
   const row2 = N('div', null, 'grid');
-  const daily = section('Daily flow', null, 'span-7');
+  const daily = section('Daily flow', null, 'span-6');
   add(daily, dailyChart(dayRows), legend([['Revenue', color('s-rev'), 'sq'], ['Costs & fees', color('s-cost'), 'sq'], ['Net', color('s-net')]]));
-  const scores = section('Score', null, 'span-5');
+  const scores = section('Score', null, 'span-6');
   const rawScorePoints = D.scores.filter(x => Number.isInteger(x.at) && Number.isFinite(x.score.marginCents)).map(x => [x.at, x.score.marginCents]);
   const scorePoints = rawScorePoints.length === 1 ? [[0, 0], ...rawScorePoints] : rawScorePoints;
   const scoreSeries = rawScorePoints.length === 1 && netPts.length > 1
@@ -430,16 +432,18 @@ function overview() {
   add(row2, daily, scores); root.append(row2);
 
   const row3 = N('div', null, 'grid');
+  row3.hidden = isDemo;
   const heat = section('Arrivals', null, 'span-12');
   heat.append(heatmap());
   row3.append(heat); root.append(row3);
 
   const row4 = N('div', null, 'grid');
-  const accounting = section('Breakdown', null, 'span-4 flex-3');
+  const accounting = section('Breakdown', null, isDemo ? 'span-6' : 'span-4 flex-3');
   bars(accounting, Object.entries(R.totals).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])).map(([label, value]) => ({label: human(label), value, color: label === 'revenue' ? color('s-rev') : value < 0 ? color('s-cost') : color('s-net')})), {money: true});
-  const health = section('Exceptions', null, 'span-4 flex-3');
+  const health = section('Exceptions', null, isDemo ? 'span-6' : 'span-4 flex-3');
   bars(health, ['deadline_close', 'gig_dropped', 'no_show', 'driver_late', 'visit_failed', 'gig_expired'].map(k => ({label: human(k), value: D.stats[k] || 0, color: color('brand')})).sort((a, b) => b.value - a.value));
   const checkPanel = section('Reconciliation', null, 'span-4 flex-3');
+  checkPanel.hidden = isDemo;
   checkPanel.querySelector('.panel-header').append(badge(R.status, R.status === 'matches' ? 'good' : 'warn'));
   const table = N('table', null, 'mini-table'), head = N('tr');
   add(head, N('th', 'Metric'), N('th', 'Recorded'), N('th', 'Ledger'), N('th', 'Diff')); table.append(head);
