@@ -1,7 +1,7 @@
 """Gamma's pricing and admission controls; defaults reproduce Beta."""
 from __future__ import annotations
 
-from collections import deque
+from collections import Counter, deque
 from dataclasses import dataclass
 from fractions import Fraction
 
@@ -87,6 +87,27 @@ class GammaSettings:
     brake_min_slack_minutes: int = 720
     brake_blocks_long: int = 1
     brake_max_km: int = 0
+    # Trial policy, disabled by default. Scaling changes the normal win target
+    # and only TIGHTENS an explicitly enabled long_max_km > max_km corridor.
+    # With capacity_valve, the smaller of its target and supply's target wins.
+    supply_scale: int = 0
+    supply_low_roster: int = 710
+    supply_high_roster: int = 810
+    supply_low_target_bps: int = 2900
+    supply_mid_target_bps: int = 3500
+    supply_high_target_bps: int = 3800
+    supply_low_long_max_km: int = 550
+    supply_mid_long_max_km: int = 700
+    supply_high_long_max_km: int = 700
+    town_caps: int = 0
+    # Won-only caps permit a whole undecided batch. Opt in to reservations to
+    # count competitive quotes too, on their respondBy day, until an outcome.
+    town_reserve_pending: int = 0
+    town_cap_min: int = 2
+    town_pickup_weight_pct: int = 25
+    town_delivery_weight_pct: int = 5
+    town_starved_near30: int = 4
+    town_starved_opening_fee_bps: int = 0
 
     def __post_init__(self):
         if self.long_max_km is None:
@@ -101,11 +122,13 @@ class GammaSettings:
             elif type(value) is not int or value < 0:
                 raise ValueError(f"{name} must be a nonnegative integer")
         for name in ("trade_ins", "dealer_table", "place_table", "trust_guard", "capacity_valve",
-                     "brake", "brake_drop_same_day", "brake_blocks_long"):
+                     "brake", "brake_drop_same_day", "brake_blocks_long", "supply_scale",
+                     "town_caps", "town_reserve_pending"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
         for name in ("win_target_bps", "win_target_low_bps", "win_target_mid_bps", "win_target_high_bps",
-                     "brake_caution_target_bps", "brake_target_bps"):
+                     "brake_caution_target_bps", "brake_target_bps", "supply_low_target_bps",
+                     "supply_mid_target_bps", "supply_high_target_bps"):
             if not 0 < getattr(self, name) < 10000:
                 raise ValueError(f"{name} must be between 1 and 9999")
         for name, maximum in (("table_strength", 100), ("learn_bps", 10000),
@@ -124,7 +147,7 @@ class GammaSettings:
             raise ValueError("opening_fee_bps must be positive and <= fee_cap_bps; fee_steps must be >= 1")
         if not 0 < self.long_opening_fee_bps <= self.fee_cap_bps:
             raise ValueError("long_opening_fee_bps must be positive and <= fee_cap_bps")
-        for name in ("short_opening_fee_bps", "premium_opening_fee_bps"):
+        for name in ("short_opening_fee_bps", "premium_opening_fee_bps", "town_starved_opening_fee_bps"):
             if getattr(self, name) > self.fee_cap_bps:
                 raise ValueError(f"{name} must be <= fee_cap_bps; use 0 for no override")
         for name in ("long_markup_bps", "same_day_bps", "next_day_bps", "within_3_days_bps", "short_bps"):
@@ -132,6 +155,8 @@ class GammaSettings:
                 raise ValueError(f"{name} must be positive")
         if self.open_low > self.open_high:
             raise ValueError("open_low must be <= open_high")
+        if self.supply_low_roster > self.supply_high_roster:
+            raise ValueError("supply_low_roster must be <= supply_high_roster")
         if not self.win_target_low_bps <= self.win_target_mid_bps <= self.win_target_high_bps:
             raise ValueError("capacity win targets must be in low, mid, high order")
         kinds = self.long_options.split(",")
@@ -161,6 +186,10 @@ class GammaDesk(BetaDesk):
         self.brake_late: set[str] = set()
         self.brake_warnings: deque[int] = deque()
         self.brake_drops: deque[int] = deque()
+        self.capture_supply(world)
+        self.town_wins: dict[int, Counter] = {}
+        self.town_won_ids: set[str] = set()
+        self.town_pending: dict[str, tuple[int, str]] = {}
         table_places = set(DELIVERY_FACTORS) | {place for lane in LANE_FACTORS for place in lane}
         unknown = table_places - PLACE_IDS
         if settings.place_table:
@@ -169,6 +198,101 @@ class GammaDesk(BetaDesk):
             unknown |= table_places - map_places
         if unknown:
             raise ValueError(f"unknown table place ids: {', '.join(sorted(unknown))}")
+
+    # ---- initial public supply (never fetch or mutate the capture cache) ----
+
+    def capture_supply(self, world):
+        """Freeze driver identities/homes and directed home-to-town road km.
+
+        DriverProfile.homePlaceId is public home supply, not current position,
+        availability or licence eligibility. None means unknown; [] means zero.
+        A missing home/road makes that town unknown, rather than falsely scarce.
+        Exact duplicate driver IDs count once; conflicting homes are unknown.
+        """
+        roster = getattr(world, "initial_roster", None)
+        self.supply_roster_size = None
+        self.near30: dict[str, int | None] = {}
+        if roster is None:
+            return
+        homes = {}
+        for driver in roster:
+            identity, home = driver.get("id"), driver.get("homePlaceId")
+            if not isinstance(identity, str) or not identity:
+                return
+            homes[identity] = home if identity not in homes or homes[identity] == home else None
+        self.supply_roster_size = len(homes)
+        places = {place for lane in self.roads for place in lane}
+        captured_map = getattr(world, "initial_map", None)
+        if captured_map is not None:
+            places.update(place["id"] for place in captured_map.get("places", []))
+        for place in places:
+            count = 0
+            for home in homes.values():
+                if not isinstance(home, str) or home not in places:
+                    count = None
+                    break
+                if home == place:  # no self-road is required
+                    count += 1
+                    continue
+                road = self.roads.get((home, place))
+                if road is None or not isinstance(road.get("km"), (int, float)) or not road["km"] >= 0:
+                    count = None
+                    break
+                count += road["km"] <= 30
+            self.near30[place] = count
+
+    def supply_band(self):
+        if not self.settings.supply_scale or self.supply_roster_size is None:
+            return None
+        if self.supply_roster_size < self.settings.supply_low_roster:
+            return "low"
+        return "mid" if self.supply_roster_size < self.settings.supply_high_roster else "high"
+
+    def effective_long_max_km(self):
+        s, band = self.settings, self.supply_band()
+        return min(s.long_max_km, getattr(s, "supply_" + band + "_long_max_km")) if band else s.long_max_km
+
+    def town_cap_for(self, request):
+        """Trade-ins use first pickup and last delivery, one intake per order.
+
+        This estimates a route's endpoints, not capacity at intermediate stops.
+        Unknown endpoint supply disables admission for this request.
+        """
+        s = self.settings
+        pickup = self.near30.get(request["legs"][0]["pickup"]["placeId"])
+        delivery = self.near30.get(request["legs"][-1]["delivery"]["placeId"])
+        if pickup is None or delivery is None:
+            return None
+        return max(s.town_cap_min, (s.town_pickup_weight_pct * pickup + s.town_delivery_weight_pct * delivery) // 100)
+
+    def town_at_cap(self, request):
+        if not self.settings.town_caps:
+            return False
+        cap = self.town_cap_for(request)
+        if cap is None:
+            return False
+        day, pickup = request["respondBy"] // DAY, request["legs"][0]["pickup"]["placeId"]
+        count = self.town_wins.get(day, {}).get(pickup, 0)
+        if self.settings.town_reserve_pending:
+            count += sum(value == (day, pickup) for value in self.town_pending.values())
+        return count >= cap
+
+    def observe_town_outcome(self, event):
+        if not self.settings.town_caps:
+            return
+        kind = event["kind"]
+        if kind == "order_won":
+            order = event["order"]
+            identity = order["id"]
+            self.town_pending.pop(identity, None)
+            if identity not in self.town_won_ids:
+                self.town_won_ids.add(identity)
+                pickup = order["legs"][0]["pickup"]["placeId"]
+                self.town_wins.setdefault(event["at"] // DAY, Counter())[pickup] += 1
+        elif kind in ("order_lost", "order_cancelled"):
+            self.town_pending.pop(event["requestId"] if kind == "order_lost" else event["orderId"], None)
+        # Cancellation releases undecided quotes but does not erase a win:
+        # the cap measures cumulative daily intake, not current open work.
 
     # ---- on-time brake ----
 
@@ -256,7 +380,7 @@ class GammaDesk(BetaDesk):
                    for leg in request["legs"])
 
     def is_long_route(self, km):
-        return bool(self.settings.max_km and self.settings.max_km < km <= self.settings.long_max_km)
+        return bool(self.settings.max_km and self.settings.max_km < km <= self.effective_long_max_km())
 
     def is_premium(self, request):
         return any(leg["car"]["premium"] for leg in request["legs"])
@@ -268,7 +392,7 @@ class GammaDesk(BetaDesk):
                 and any(self.leg_gigs.get(identity, {}).get(leg) not in self.booked for leg in undelivered(order))}
 
     def long_orders_without_driver(self):
-        if not self.settings.max_km or self.settings.long_max_km <= self.settings.max_km:
+        if not self.settings.max_km or self.effective_long_max_km() <= self.settings.max_km:
             return set()
         return {identity for identity in self.orders_without_driver()
                 if self.is_long_route(self.route_km(self.requests[identity]))}
@@ -339,12 +463,16 @@ class GammaDesk(BetaDesk):
             return s.brake_target_bps
         if self.brake_mode == "caution":
             return s.brake_caution_target_bps
+        band = self.supply_band()
+        target = getattr(s, "supply_" + band + "_target_bps") if band else s.win_target_bps
         if not s.capacity_valve:
-            return s.win_target_bps
+            return target
         count = len(self.orders_without_driver())
         if count <= s.open_low:
-            return s.win_target_high_bps
-        return s.win_target_mid_bps if count <= s.open_high else s.win_target_low_bps
+            capacity_target = s.win_target_high_bps
+        else:
+            capacity_target = s.win_target_mid_bps if count <= s.open_high else s.win_target_low_bps
+        return min(target, capacity_target) if band else capacity_target
 
     def table_factors(self, request):
         s = self.settings
@@ -385,6 +513,8 @@ class GammaDesk(BetaDesk):
         km = self.route_km(request)
         trust = self.trust.get(request["dealerId"], 0)
         options, reason = self.eligible_options(request, km, trust)
+        if options and self.town_at_cap(request):
+            options, reason = [], "town supply capacity"
         if options:
             tracker = self.tracker_for(request, km)
             markup = self.tracker_markup(tracker)
@@ -395,6 +525,9 @@ class GammaDesk(BetaDesk):
             prices = {o["kind"]: self.price_option(o, markup, trust, table, factors[o["kind"]]) for o in options}
             self.pending.add(request["id"])
             self.quote_trackers[request["id"]] = tracker
+            if self.settings.town_caps and self.settings.town_reserve_pending and self.town_cap_for(request) is not None:
+                self.town_pending[request["id"]] = (request["respondBy"] // DAY,
+                                                    request["legs"][0]["pickup"]["placeId"])
             guard = bool(self.settings.trust_guard and request["dealerId"] in self.big_dealers and trust >= 10)
             self.journal.record("beta_quote", at=self.now, requestId=request["id"], dealerId=request["dealerId"],
                                 trust=trust, markupBps=int(markup), routeKm=km, prices=prices,
@@ -433,12 +566,15 @@ class GammaDesk(BetaDesk):
 
     def opening_fee_for(self, order):
         s = self.settings
-        km = self.route_km(self.requests[order["id"]])
+        request = self.requests[order["id"]]
+        km = self.route_km(request)
+        nearby = self.near30.get(request["legs"][0]["pickup"]["placeId"])
         # Segment floors combine by maximum, including configurable overlaps.
         return max(s.opening_fee_bps,
                    s.long_opening_fee_bps if self.is_long_route(km) else 0,
                    s.short_opening_fee_bps if km < s.short_fee_km else 0,
-                   s.premium_opening_fee_bps if self.is_premium(order) else 0)
+                   s.premium_opening_fee_bps if self.is_premium(order) else 0,
+                   s.town_starved_opening_fee_bps if nearby is not None and nearby <= s.town_starved_near30 else 0)
 
     def fees_for(self, order, cars):
         fee = self.requests[order["id"]]["referenceFeeCents"] * cars / len(order["legs"])
@@ -452,6 +588,7 @@ class GammaDesk(BetaDesk):
 
     def handle(self, event):
         kind = event["kind"]
+        self.observe_town_outcome(event)
         if kind in ("order_won", "order_cancelled", "order_changed", "delivered", "deadline_close",
                     "gig_dropped", "no_show", "ledger"):
             self.observe_brake(event["at"])
@@ -477,6 +614,7 @@ class GammaDesk(BetaDesk):
         for action, result in zip(actions, results):
             if action["type"] == "quote" and not result["ok"]:
                 self.quote_trackers.pop(action["requestId"], None)
+                self.town_pending.pop(action["requestId"], None)
 
 
 # Offers can compose as class GammaDesk(OffersMixin, GammaCoreDesk).
