@@ -104,3 +104,23 @@ world boundaries while current weeks finish; removing it resumes the queue.
 The pre-existing suspended processes were started before that flag existed
 and will be resumed only after the final ends. Re-running their original
 `sweep.py` commands reuses completed weekly scores.
+
+
+## Read-only trace findings received at 23:26 UTC
+
+`epsilon-patterns.md` confirms 19 current-Delta weeks at €13,760.21/week,
+95.67% mean on time and 91.12% worst. Weekly driver fees (€23,686.96) and
+late refunds (€563.72) match the retained `runs.jsonl` ledgers. Booked pairs
+paid €28,282 less than their typical scheduled fees in total, €1,489/week;
+this is a measured pooling benefit, not a counterfactual margin forecast.
+The helper did not measure the remaining above-opening spend on reposts,
+so fee escalation work remains deferred until that specific quantity is known.
+
+Premium orders have 53/330 late deliveries (16.1%) and low allocated margin
+(€17.71/order, with joint-gig fees allocated approximately). Prepared a
+**service-only** screen at premium slack 1440/2880 minutes, using the existing
+admission setting and its unit coverage; no segment pricing changes. All four
+screen seeds include s07 and f2-s04. This is a queued hypothesis, not a selected
+repair. The helper's lane/segment price recommendations are excluded under
+the manager's instructions. No fresh worlds were created during the live-final
+pause.
