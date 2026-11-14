@@ -194,10 +194,25 @@ class AlphaTests(unittest.TestCase):
         self.desk.candidates = lambda request, option: []
         self.desk.reservations['third'] = 'driver-9'
         self.desk.requests['third'] = sample_request()
+        self.desk.quoted_options['third'] = {'same_day'}
         self.desk.gig_drivers.clear()
         self.desk.handle({'seq': 4, 'at': 561, 'kind': 'gig_booked', 'gigId': gig_id,
                           'driverId': 'driver-9', 'feeCents': 12000})
         self.assertNotIn('third', self.desk.reservations)
+
+    def test_reestimate_ignores_unquoted_options_and_keeps_feasible_ones(self):
+        options = sample_request()['options'] + [{'kind': 'next_day', 'deadline': 2640, 'listPriceCents': 30000}]
+        self.quote('two-options', options=options)
+        self.desk.quoted_options['two-options'] = {'next_day'}
+        self.desk.reservations['two-options'] = 'driver-0'
+        lists = {'same_day': [(1, 'driver-1')], 'next_day': [(5, 'driver-2')]}
+        self.desk.candidates = lambda request, option: lists[option['kind']]
+        self.desk.reserve_again('two-options')
+        self.assertEqual(self.desk.reservations['two-options'], 'driver-2')
+        self.desk.quoted_options['two-options'] = {'same_day', 'next_day'}
+        lists['same_day'] = []
+        self.desk.reserve_again('two-options')
+        self.assertEqual(self.desk.reservations['two-options'], 'driver-2')
 
     def test_booking_of_unreserved_order_releases_the_driver_it_used(self):
         declined = self.quote('declined')

@@ -82,6 +82,7 @@ class AlphaDesk(JournalDesk):
         self.dealer_margins: dict[str, int] = {}
         self.pending_quotes: dict[str, str] = {}
         self.reservations: dict[str, str] = {}
+        self.quoted_options: dict[str, set[str]] = {}
         self.gig_drivers: dict[str, str] = {}
         self.positions: dict[str, tuple[str, int]] = {}
         # play_model wraps the SDK world in CapturedWorld, which already journals
@@ -167,6 +168,7 @@ class AlphaDesk(JournalDesk):
                                     estimatedCostCents=cost, marginBps=margin, priceCents=price)
         if prices:
             self.reservations[request["id"]] = self.reservation_for(options)
+            self.quoted_options[request["id"]] = set(prices)
             self.pending_quotes[request["id"]] = request["dealerId"]
         else:
             # Losing a quote avoids the goodwill cost of silence. It is not
@@ -191,12 +193,19 @@ class AlphaDesk(JournalDesk):
         return min(options, key=len)[0][1]
 
     def reserve_again(self, order_id):
-        """Replace a reservation with a free driver feasible for every quoted option, if any."""
+        """Replace a reservation with a free driver for the options this quote priced.
+
+        An option that no free driver can perform any more cannot be protected by
+        any reservation. Hold the best driver for the options that remain
+        feasible so that other quotes do not count that capacity as well.
+        """
         del self.reservations[order_id]
         request = self.requests.get(order_id)
         if request is None:
             return
-        options = [found for option in request["options"] if (found := self.candidates(request, option))]
+        quoted = self.quoted_options.get(order_id, set())
+        options = [found for option in request["options"] if option["kind"] in quoted
+                   if (found := self.candidates(request, option))]
         if options:
             self.reservations[order_id] = self.reservation_for(options)
 
