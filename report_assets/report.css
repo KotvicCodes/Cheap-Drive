@@ -258,9 +258,10 @@ main { margin-left: var(--side); padding: 22px 30px 32px; max-width: calc(var(--
   display: inline-grid; place-items: center;
   font-family: var(--sans); font-size: 13px; font-weight: 700; line-height: 1;
 }
+.greek.alpha { background: var(--surface-3); color: var(--ink); border: 1.5px solid var(--line-strong); }
+.greek.beta { background: #FFD000; color: #141413; }
 .greek.gamma { background: #FF6200; color: #141413; }
 .greek.delta { background: #FFB700; color: #141413; }
-.greek.beta { background: #FFD000; color: #141413; }
 .run-title {
   font-size: 12px; font-weight: 700; color: var(--ink-2);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;

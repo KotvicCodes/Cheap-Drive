@@ -816,17 +816,18 @@ function navigate(id, preset) {
 const runsScript = $('report-runs');
 if (runsScript) {
   const RUNS = JSON.parse(runsScript.textContent);
-  for (const r of RUNS) if (!r.model) r.model = D;
-  if (RUNS[0]) loadModel(RUNS[0].model, RUNS[0].title);
+  const defaultRun = RUNS.find(r => r.default) || RUNS.at(-1) || RUNS[0];
+  for (const r of RUNS) if (!r.model && r.id === defaultRun?.id) r.model = D;
+  if (defaultRun) loadModel(defaultRun.model, defaultRun.title);
   const TOUR = [
-    {num: '1', label: 'Paired gig g124', run: 'r7-gamma-5', tab: 'gigs', entity: ['gig', 'g124']},
-    {num: '2', label: 'Finnish note R00013', run: 'r7-gamma-5', tab: 'orders', entity: ['order', 'R00013']},
-    {num: '3', label: 'Delta rescue R00207', run: 'v04-delta', tab: 'orders', entity: ['order', 'R00207']},
-    {num: '4', label: 'Gamma miss R00207', run: 'v04-gamma', tab: 'orders', entity: ['order', 'R00207']},
-    {num: '5', label: 'Finland map', run: 'full-gamma-l8', tab: 'captures', entity: null},
-    {num: '6', label: 'Reveal R00001', run: 'full-gamma-l8', tab: 'orders', entity: ['order', 'R00001']}
+    {num: '1', label: 'Paired gig g124', run: 'gamma-late', tab: 'gigs', entity: ['gig', 'g124']},
+    {num: '2', label: 'Finnish note R00013', run: 'gamma-late', tab: 'orders', entity: ['order', 'R00013']},
+    {num: '3', label: 'Delta rescue R00739', run: 'delta', tab: 'orders', entity: ['order', 'R00739']},
+    {num: '4', label: 'Gamma miss R00207', run: 'gamma-early', tab: 'orders', entity: ['order', 'R00207']},
+    {num: '5', label: 'Finland map', run: 'beta-early', tab: 'captures', entity: null},
+    {num: '6', label: 'Reveal R00001', run: 'beta-early', tab: 'orders', entity: ['order', 'R00001']}
   ];
-  let currentRunId = RUNS[0]?.id || '';
+  let currentRunId = defaultRun?.id || '';
   let activeTourIdx = -1;
   const demoBar = $('demo-bar');
   demoBar.hidden = false;

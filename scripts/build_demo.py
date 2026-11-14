@@ -13,73 +13,79 @@ sys.path.insert(0, str(ROOT))
 from week_report import analyze, render
 
 WORKTREES = Path('/home/agent/.t3/worktrees/Cheap-Drive')
+MAIN_RUNS = Path('/Users/kotvic/Desktop/GitHub/Cheap-Drive/runs')
 
 RUN_SPECS = [
     {
-        'id': 'r7-gamma-5',
-        'badge': 'γ',
-        'tone': 'gamma',
-        'title': 'Round 7 #5',
-        'margin': '€16,139',
-        'meta': '98.2% · 275 won',
-        'trace': WORKTREES / 't3-94dc0dd7-f7cb1a8ad1e3f596/runs/board/20261114T145051Z-level8-wf9f88cfd3ce1a2c5ea44.jsonl.gz',
-        'reveal': None,
+        'id': 'alpha',
+        'badge': 'α',
+        'tone': 'alpha',
+        'title': 'Alpha',
+        'margin': '€5,488',
+        'meta': '98.1% · 154 won',
+        'trace': MAIN_RUNS / 'archives/alpha-2026-11-14/alpha-tune/traces/t0007-alpha-night-05.jsonl.gz',
+        'reveal': MAIN_RUNS / 'archives/alpha-2026-11-14/alpha-tune/reveals/t0007-alpha-night-05.reveal.json.gz',
+        'map': MAIN_RUNS / 'archives/alpha-2026-11-14/alpha-research/map.json',
     },
     {
-        'id': 'r8-delta-2',
-        'badge': 'δ',
-        'tone': 'delta',
-        'title': 'Round 8 #2',
-        'margin': '€14,660',
-        'meta': '98.1% · 259 won',
-        'trace': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/board/20261114T173724Z-level8-w7f66a81d61d8f9832d60.jsonl.gz',
-        'reveal': None,
-    },
-    {
-        'id': 'v04-delta',
-        'badge': 'δ',
-        'tone': 'delta',
-        'title': 'gamma-v04 · Delta',
-        'margin': '€11,218',
-        'meta': '94.2% · 258 won',
-        'trace': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/delta-final/b4/traces/rescue-notes--gamma-v04.jsonl.gz',
-        'reveal': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/delta-final/b4/reveals/rescue-notes--gamma-v04.reveal.json.gz',
-    },
-    {
-        'id': 'v04-gamma',
-        'badge': 'γ',
-        'tone': 'gamma',
-        'title': 'gamma-v04 · Gamma',
-        'margin': '€10,165',
-        'meta': '94.6% · 258 won',
-        'trace': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/screen-notes/weeks/notes-pairs-segments--gamma-v04/traces/notes-pairs-segments--gamma-v04.jsonl.gz',
-        'reveal': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/screen-notes/weeks/notes-pairs-segments--gamma-v04/reveals/notes-pairs-segments--gamma-v04.reveal.json.gz',
-    },
-    {
-        'id': 'v04-beta',
+        'id': 'beta-early',
         'badge': 'β',
         'tone': 'beta',
-        'title': 'gamma-v04 · Beta',
+        'title': 'Beta Early',
+        'margin': '€7,635',
+        'meta': '97.6% · 210 won',
+        'trace': WORKTREES / 't3-437fb841-d1220585f744b28e/runs/speed-baseline/gamma-speed-01-full.jsonl',
+        'reveal': None,
+    },
+    {
+        'id': 'beta-late',
+        'badge': 'β',
+        'tone': 'beta',
+        'title': 'Beta Late',
         'margin': '€8,529',
         'meta': '94.7% · 246 won',
         'trace': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/beta-validation/traces/beta--gamma-v04.jsonl.gz',
         'reveal': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/beta-validation/reveals/beta--gamma-v04.reveal.json.gz',
     },
     {
-        'id': 'full-gamma-l8',
+        'id': 'gamma-early',
         'badge': 'γ',
         'tone': 'gamma',
-        'title': 'Full Capture',
-        'margin': '€7,635',
-        'meta': '97.6% · Map + Reveal',
-        'trace': WORKTREES / 't3-437fb841-d1220585f744b28e/runs/speed-baseline/gamma-speed-01-full.jsonl',
+        'title': 'Gamma Early',
+        'margin': '€10,165',
+        'meta': '94.6% · 258 won',
+        'trace': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/screen-notes/weeks/notes-pairs-segments--gamma-v04/traces/notes-pairs-segments--gamma-v04.jsonl.gz',
+        'reveal': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/screen-notes/weeks/notes-pairs-segments--gamma-v04/reveals/notes-pairs-segments--gamma-v04.reveal.json.gz',
+    },
+    {
+        'id': 'gamma-late',
+        'badge': 'γ',
+        'tone': 'gamma',
+        'title': 'Gamma Late',
+        'margin': '€16,139',
+        'meta': '98.2% · 275 won',
+        'trace': WORKTREES / 't3-94dc0dd7-f7cb1a8ad1e3f596/runs/board/20261114T145051Z-level8-wf9f88cfd3ce1a2c5ea44.jsonl.gz',
         'reveal': None,
+        'default': True,
+    },
+    {
+        'id': 'delta',
+        'badge': 'δ',
+        'tone': 'delta',
+        'title': 'Delta',
+        'margin': '€16,631',
+        'meta': '97.0% · 271 won',
+        'trace': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/delta-final/b6/traces/rescue-notes--delta-f1-s06.jsonl.gz',
+        'reveal': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/delta-final/b6/reveals/rescue-notes--delta-f1-s06.reveal.json.gz',
     },
 ]
 
 
-def load_raw(trace_path: Path, reveal_path: Path | None) -> bytes:
+def load_raw(trace_path: Path, reveal_path: Path | None, map_path: Path | None = None) -> bytes:
     raw = gzip.open(trace_path, 'rb').read() if trace_path.suffix == '.gz' else trace_path.read_bytes()
+    if map_path is not None and map_path.exists():
+        map_obj = json.loads(map_path.read_text())
+        raw += (json.dumps({'type': 'map', 'at': 0, 'map': map_obj}, separators=(',', ':')) + '\n').encode('utf-8')
     if reveal_path is not None and reveal_path.exists():
         rev_obj = json.loads(gzip.open(reveal_path, 'rb').read())
         raw += (json.dumps({'type': 'reveal', 'at': 10080, 'reveal': rev_obj}, separators=(',', ':')) + '\n').encode('utf-8')
@@ -138,10 +144,12 @@ def compact_model(m: dict) -> dict:
 def main():
     runs_payload = []
     first_model = None
+    default_idx = next((i for i, s in enumerate(RUN_SPECS) if s.get('default')), len(RUN_SPECS) - 1)
     for idx, spec in enumerate(RUN_SPECS):
-        raw = load_raw(spec['trace'], spec['reveal'])
+        raw = load_raw(spec['trace'], spec.get('reveal'), spec.get('map'))
         model = compact_model(analyze(raw))
-        if idx == 0:
+        is_default = idx == default_idx
+        if is_default:
             first_model = model
         runs_payload.append({
             'id': spec['id'],
@@ -150,7 +158,8 @@ def main():
             'title': spec['title'],
             'margin': spec['margin'],
             'meta': spec['meta'],
-            'model': None if idx == 0 else model,
+            'default': is_default,
+            'model': None if is_default else model,
         })
         print(f"Loaded {spec['id']} ({spec['title']}): {spec['margin']} · {len(model['orders'])} orders · {len(model['gigs'])} gigs")
 
