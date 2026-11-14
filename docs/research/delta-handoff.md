@@ -11,6 +11,10 @@ factory or model configuration, change Gamma's selected settings, or establish
 new qualification results. Alpha, Beta and Gamma remain supported baselines.
 The experiments below remain proposals for strategy discussion before coding.
 
+The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
+the volume, rescue and pairing hypotheses and provides executable settings-only
+screening plans. Its queue is staged; no Delta experiments have been launched.
+
 Challenge rules and final integration requirements are consolidated in
 [challenge constraints](../challenge.md); setup, run limits, event dates and
 reporting commands are in the [operational reference](../reference.md).
