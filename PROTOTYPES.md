@@ -244,7 +244,7 @@ screened pricing, intake, learner and lane experiments against frozen Gamma.
 None of those held on fresh weeks. The selected [models/delta.json](models/delta.json)
 is Gamma's settings plus two repairs in `delta:make_delta`: bounded note
 corrections and rescue-window handling for orders Gamma could not repost. On
-seven unseen practice weeks it beat Gamma 7/7 by €887/week on average; over 23
-paired weeks +€551/week, every week ranked. `final.py` plays it on the live
+eleven unseen practice weeks it beat Gamma 11/11 by €682/week on average; over 27
+paired weeks +€518/week, every week ranked. `final.py` plays it on the live
 final clock. See the [investigation results](docs/research/delta-results.md) and
 [testing plan](docs/research/delta-testing-plan.md).
