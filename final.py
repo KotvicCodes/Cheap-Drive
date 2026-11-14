@@ -16,7 +16,8 @@ world and moves its clock in
 real time from a second connection, so the stream, live clock, pair timers,
 rate limits and latency are exercised against the official server. Practice
 worlds pause between advances; a rehearsal therefore only approximates the
-final's pace (--minutes-per-second).
+final's pace (--minutes-per-second). Its one-minute ticks slow under API stalls
+rather than catching up in jumps that can expire requests before delivery.
 
 Traces, world-specific checkpoints and rehearsal manifests go to runs/final/
 (git-ignored). Keep this directory when restarting in a new process.
@@ -30,6 +31,7 @@ import gzip
 import hashlib
 import json
 import logging
+import math
 import os
 import queue
 from pathlib import Path
@@ -241,10 +243,17 @@ def wait_for_final(client):
 
 
 class Pacer(threading.Thread):
-    """Moves a practice world's clock in real time from its own connection (rehearsal only)."""
+    """Tick a practice clock without converting HTTP stalls into time jumps.
+
+    The real final advances incrementally. A practice advance is atomic: no
+    action can answer a request born and expired inside that advance. Never
+    repay a slow HTTP call by advancing across the accumulated wall-clock debt.
+    """
 
     def __init__(self, world, minutes_per_second, step=1):
         super().__init__(daemon=True)
+        if not math.isfinite(minutes_per_second) or minutes_per_second <= 0 or step != 1:
+            raise ValueError("a rehearsal requires a positive pace and one-minute ticks")
         self.world, self.rate, self.step = world, minutes_per_second, step
         self.snapshot = world.snapshot()
         self.now, self.ends_at = self.snapshot["now"], self.snapshot["endsAt"]
@@ -252,13 +261,11 @@ class Pacer(threading.Thread):
 
     def run(self):
         try:
-            started, start_minute = time.monotonic(), self.now
+            due = time.monotonic() + 1 / self.rate
             while self.now < self.ends_at:
-                target = min(self.ends_at, start_minute + int((time.monotonic() - started) * self.rate))
-                if target > self.now:
-                    self.now = self.world.advance(to=target)["now"]
-                else:
-                    time.sleep(self.step / self.rate / 2)
+                time.sleep(max(0, due - time.monotonic()))
+                self.now = self.world.advance(to=min(self.ends_at, self.now + 1))["now"]
+                due = max(due + 1 / self.rate, time.monotonic())
         except BaseException as error:  # surface in the main thread's summary
             self.error = error
 
@@ -301,9 +308,11 @@ def main(argv=None):
     parser.add_argument("model", type=Path, help="model JSON, e.g. models/gamma.json")
     parser.add_argument("--rehearse", metavar="SEED", help="play a paced level-8 practice world instead of the final")
     parser.add_argument("--minutes-per-second", type=float, default=5.0,
-                        help="rehearsal pace in world minutes per real second (final averages ~5)")
+                        help="target rehearsal pace in world minutes per real second (final averages ~5)")
     parser.add_argument("--quiet", action="store_true", help="send per-event desk logs to the trace only")
     args = parser.parse_args(argv)
+    if not math.isfinite(args.minutes_per_second) or args.minutes_per_second <= 0:
+        parser.error("--minutes-per-second must be positive and finite")
     model = load_model(args.model)  # validate before touching the server
     logging.basicConfig(level=logging.WARNING if args.quiet else logging.INFO, format="%(message)s", stream=sys.stderr)
     if not os.environ.get("SPREAD_KEY"):
