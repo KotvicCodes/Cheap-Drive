@@ -1114,6 +1114,10 @@ function mapView(map) {
       if (box2[2] < width && !placed.some(q => !(box2[2] < q[0] || box2[0] > q[2] || box2[3] < q[1] || box2[1] > q[3]))) { placed.push(box2); labels.append(svgText({x: lx, y: ly}, label)); }
     }
     s.append(labels); b.append(s);
+    requestAnimationFrame(() => {
+      if (innerWidth > 1100 && left.offsetHeight > 0) right.style.height = left.offsetHeight + 'px';
+      else right.style.height = '';
+    });
     renderFrame();
   });
   toggle.onchange = () => { if (roadsGroup) roadsGroup.style.display = toggle.checked ? '' : 'none'; };
