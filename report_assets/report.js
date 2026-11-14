@@ -7,8 +7,10 @@ const add = (parent, ...children) => { for (const child of children.flat()) if (
 const clear = e => e.replaceChildren();
 const arr = value => Array.isArray(value) ? value : [];
 const EUR = new Intl.NumberFormat('en-IE', {style: 'currency', currency: 'EUR'});
+const EUR_WHOLE = new Intl.NumberFormat('en-IE', {style: 'currency', currency: 'EUR', maximumFractionDigits: 0});
 const EUR_COMPACT = new Intl.NumberFormat('en-IE', {style: 'currency', currency: 'EUR', notation: 'compact', maximumFractionDigits: 1});
 const fmt = n => Number.isFinite(n) ? EUR.format(n / 100) : 'Unavailable';
+const fmtWhole = n => Number.isFinite(n) ? EUR_WHOLE.format(Math.round(n / 100)) : 'Unavailable';
 const compact = n => Number.isFinite(n) ? EUR_COMPACT.format(n / 100) : 'Unavailable';
 const num = n => new Intl.NumberFormat('en-IE').format(n || 0);
 const pct = n => Number.isFinite(n) ? (n * 100).toFixed(1) + '%' : 'Unavailable';
@@ -61,7 +63,7 @@ const whenCell = at => {
   const d = Math.floor(at / 1440);
   return add(N('span', null, 'when'), N('span', dayName(d), 'day'), ' ', N('span', clockOf(at), 'clock'));
 };
-const moneyCell = (cents, signed = false) => N('span', fmt(cents), cents < 0 ? 'negative' : signed && cents > 0 ? 'positive' : '');
+const moneyCell = (cents, signed = false, whole = false) => N('span', whole ? fmtWhole(cents) : fmt(cents), cents < 0 ? 'negative' : signed && cents > 0 ? 'positive' : '');
 let recorded = {}, R = {}, lookup = {}, incidentRows = [], sourceBytes = null;
 let active = 'overview', filtered = [], page = 0, size = 50, sortKey = '', direction = 1, debounce;
 let currentRows = [], columns = [], firstTimes = new Map();
@@ -346,10 +348,10 @@ function bars(parent, entries, {money = false} = {}) {
   for (const item of entries) {
     const track = N('div', null, 'bar-track'), fill = N('div', null, 'bar-fill');
     fill.style.width = (Math.abs(item.value) / max * 100) + '%'; fill.style.background = item.color; track.append(fill);
-    const value = money ? moneyCell(item.value) : N('span', num(item.value));
+    const value = money ? moneyCell(item.value, false, true) : N('span', num(item.value));
     value.classList.add('bar-value');
     const row = add(N('div', null, 'bar-row' + (item.value === 0 ? ' zero' : '')), N('span', item.label), track, value);
-    row.title = `${item.label}: ${money ? fmt(item.value) : num(item.value)}`;
+    row.title = `${item.label}: ${money ? fmtWhole(item.value) : num(item.value)}`;
     list.append(row);
   }
   parent.append(list);
@@ -389,8 +391,8 @@ function overview() {
   const root = $('overview'); clear(root);
   const metrics = N('div', null, 'metrics');
   add(metrics,
-    metric('Margin', fmt(recorded.marginCents), R.status === 'matches' ? '' : human(R.status), 'accent'),
-    metric('Revenue', fmt(recorded.revenueCents), R.status === 'matches' ? '' : fmt(R.ledgerRevenueCents)),
+    metric('Margin', fmtWhole(recorded.marginCents), R.status === 'matches' ? '' : human(R.status), 'accent'),
+    metric('Revenue', fmtWhole(recorded.revenueCents), R.status === 'matches' ? '' : fmtWhole(R.ledgerRevenueCents)),
     metric('On time', pct(recorded.onTimeShare), recorded.ranked === true ? 'Ranked' : recorded.ranked === false ? 'Unranked' : ''),
     metric('Orders won', recorded.wonOrders === undefined ? 'Unavailable' : num(recorded.wonOrders), num(D.gigs.length) + ' gigs'));
   root.append(metrics);
@@ -989,7 +991,7 @@ function mapView(map) {
       if (Number.isInteger(l.at) && l.at <= simMin) liveNet += l.cents;
       else break;
     }
-    statMargin.textContent = fmt(liveNet);
+    statMargin.textContent = fmtWhole(liveNet);
 
     if (replayGroup && projectPt) {
       clear(replayGroup);
