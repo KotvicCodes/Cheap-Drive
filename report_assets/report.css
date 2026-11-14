@@ -586,15 +586,65 @@ summary { cursor: pointer; }
 .capture-grid { display: none !important; }
 .capture-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--line); padding: 8px 0; font-size: 12.5px; }
 .capture-row button { font-size: 11.5px; }
-.map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start; }
+.map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 276px; gap: 18px; align-items: start; }
 .map-svg { display: block; width: 100%; height: auto; background: var(--surface-2); border-radius: var(--radius-sm); border: 1.5px solid var(--line-strong); }
-.map-svg text { fill: var(--ink); font-size: 11px; font-weight: 700; font-family: var(--sans); paint-order: stroke; stroke: var(--surface-2); stroke-width: 3px; stroke-linejoin: round; }
-.map-svg line { stroke: var(--line-strong); stroke-width: 1.4; opacity: .65; }
+.map-svg text { fill: var(--ink); font-size: 11px; font-weight: 700; font-family: var(--sans); paint-order: stroke; stroke: var(--surface-2); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.map-svg line { stroke: var(--line-strong); stroke-width: 1.6; opacity: .55; }
 .map-svg circle { fill: var(--brand); stroke: var(--surface); stroke-width: 2; fill-opacity: .9; }
-.map-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--muted); flex-wrap: wrap; }
-.map-tools label { display: inline-flex; gap: 6px; align-items: center; }
-.map-tools input { height: auto; }
-.place-list { max-height: 420px; overflow: auto; font-size: 12.5px; }
+.finland-border { fill: var(--surface-3); fill-opacity: .22; stroke: var(--line-strong); stroke-width: 1.5; stroke-linejoin: round; }
+.pulse-ring { fill: none; stroke: var(--brand-2); stroke-width: 2; pointer-events: none; }
+.route-glow { fill: none; stroke: var(--brand); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; opacity: .26; pointer-events: none; }
+.route-glow.paired { stroke: var(--sunburst); opacity: .34; }
+.route-trail { fill: none; stroke: var(--brand); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.route-trail.paired { stroke: var(--sunburst); }
+.car-sprite { cursor: pointer; }
+.car-body { fill: var(--brand); stroke: #141413; stroke-width: 1.4; }
+.car-sprite.paired .car-body { fill: var(--sunburst); stroke: #141413; }
+.car-glass { fill: #141413; opacity: .82; }
+.replay-bar {
+  display: grid; gap: 10px; margin-bottom: 12px; padding: 11px 13px;
+  background: var(--surface-2); border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+}
+.replay-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.replay-play {
+  background: var(--brand); color: #141413; border-color: var(--brand);
+  font-weight: 700; min-width: 86px; justify-content: center;
+}
+.replay-play:hover { background: var(--brand-2); border-color: var(--brand-2); color: #141413; }
+.replay-slider {
+  flex: 1; min-width: 140px; height: 8px; padding: 0; border: 0;
+  accent-color: var(--brand); background: var(--surface-3); border-radius: 999px; cursor: pointer;
+}
+.speed-pills { display: inline-flex; gap: 4px; }
+.speed-pill { padding: 4px 8px; font-family: var(--mono); font-size: 11px; border-radius: 999px; }
+.speed-pill.active { background: var(--brand); color: #141413; border-color: var(--brand); font-weight: 700; }
+.road-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.road-toggle input { width: 15px; height: 15px; padding: 0; accent-color: var(--brand); }
+.replay-stats {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+  padding-top: 8px; border-top: 1px solid var(--line);
+}
+.replay-stat span { display: block; font-size: 10.5px; font-weight: 600; color: var(--muted); }
+.replay-stat b { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.active-cars-list { display: grid; gap: 6px; margin-bottom: 14px; max-height: 280px; overflow: auto; }
+.active-car-item {
+  width: 100%; display: grid; gap: 4px; text-align: left; padding: 8px 10px;
+  background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 9px;
+}
+.active-car-item:hover { border-color: var(--brand); }
+.ac-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; width: 100%; }
+.ac-top strong { font-size: 12.5px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ac-tag {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 1px 6px;
+  border-radius: 999px; background: var(--surface); color: var(--muted); border: 1px solid var(--line-strong);
+}
+.ac-tag.paired { background: var(--sunburst); color: #141413; border-color: var(--sunburst); }
+.ac-route { display: flex; justify-content: space-between; gap: 6px; font-size: 11.5px; color: var(--ink-2); width: 100%; }
+.ac-bar { width: 100%; height: 4px; background: var(--surface); border-radius: 999px; overflow: hidden; }
+.ac-fill { height: 100%; background: var(--brand); border-radius: 999px; }
+.ac-fill.paired { background: var(--sunburst); }
+.map-side h3:first-child { margin-top: 0; }
+.place-list { max-height: 290px; overflow: auto; font-size: 12.5px; }
 .place-list .r { display: grid; grid-template-columns: minmax(0, 1fr) 46px 46px; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 .place-list .r span:not(:first-child) { text-align: right; font-family: var(--mono); font-size: 12px; }
 .place-list .h { color: var(--muted); font-size: 11.5px; border-top: 0; font-weight: 700; }
