@@ -12,7 +12,7 @@ A Python dispatcher for the Spread challenge, using the official client.
 > Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
 > Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
 > Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
-> **Missing: Alpha/Beta/Gamma dispatch has not been validated on final clocks; there is no final-mode runner yet.**
+> **Final mode:** `python final.py models/gamma.json` waits for the (test) final and plays it from the live stream; rerun the same command to rejoin after a crash. `--rehearse SEED` plays a paced practice world first.
 > [Schedule details](AI%20overview.md#event-deadlines-and-submission).
 
 ## Standings
