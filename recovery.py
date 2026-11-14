@@ -64,7 +64,7 @@ def restore_state(desk, state):
     if hasattr(desk, "delta_b1_counts"):
         desk.delta_b1_counts = {k: Counter(v) for k, v in desk.delta_b1_counts.items()}
     if hasattr(desk, "_pairs"):
-        from gamma_pairs import _Pair
+        from models.gamma_pairs import _Pair
         desk._pairs = {k: _Pair(**{**v, "orders": tuple(v["orders"])})
                        for k, v in state.get("_pairs", {}).items()}
         desk._pending_pairs.clear()
@@ -325,7 +325,7 @@ def replay_history(desk, snapshot, history, *, after=-1):
 def _restore_pairs(desk, snapshot):
     if not hasattr(desk, "_pairs") or not desk.driver_settings.pairs:
         return []
-    from gamma_pairs import _Pair
+    from models.gamma_pairs import _Pair
     uncertain = []
     active_ids = {g["id"] for g in snapshot["gigs"] if g["status"] in ("open", "booked", "working")}
     for pair in desk._pairs.values():

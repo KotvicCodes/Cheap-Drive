@@ -7,12 +7,12 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
-from delta import make_delta
-from delta_b1 import B1_MODES
-from delta_lanes import HUBS, LANE_MODES, REMOTE_DESTINATIONS
+from models.delta import make_delta
+from models.delta_b1 import B1_MODES
+from models.delta_lanes import HUBS, LANE_MODES, REMOTE_DESTINATIONS
 from dispatch import Journal
-from gamma import PLACE_IDS
-from gamma_notes import make_gamma_notes_pairs
+from models.gamma import PLACE_IDS
+from models.gamma_notes import make_gamma_notes_pairs
 from spread.starter import DAY, Retry
 from tests.test_gamma import request
 from tests.test_gamma_pairs import PairWorld

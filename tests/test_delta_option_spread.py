@@ -10,11 +10,11 @@ import unittest
 from unittest.mock import patch
 
 from compare import load_model
-from delta import make_delta
-from delta_b1 import B1_MODES
-from delta_lanes import LANE_MODES
+from models.delta import make_delta
+from models.delta_b1 import B1_MODES
+from models.delta_lanes import LANE_MODES
 from dispatch import Journal, play_model
-from gamma_notes import make_gamma_notes_pairs
+from models.gamma_notes import make_gamma_notes_pairs
 from tests.test_delta_lanes import BASELINE, LaneWorld
 from tests.test_gamma import request
 from tests.test_notes import order_for

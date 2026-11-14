@@ -4,10 +4,10 @@ from copy import deepcopy
 import io
 import unittest
 
-from delta import make_delta, rescue_window, wide_visit_window
+from models.delta import make_delta, rescue_window, wide_visit_window
 from dispatch import Journal, play_model
-from gamma_notes import _daily_window
-from notes import NoteFacts
+from models.gamma_notes import _daily_window
+from models.notes import NoteFacts
 from spread.starter import DAY, Retry, stops_for
 from tests.test_delta import HOURS
 from tests.test_gamma_pairs import PairWorld

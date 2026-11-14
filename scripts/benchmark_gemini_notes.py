@@ -12,12 +12,12 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from gemini_notes import (
+from models.gemini_notes import (
     CALENDARS, FACT_NAMES, LOWER, PROMPT, UPPER,
     InvalidExtraction, cache_key, gemini_response_text,
     response_schema, select_cached, strict_json, validate_response,
 )
-from notes import parse_note
+from models.notes import parse_note
 
 
 TOKEN_FIELDS = ('promptTokenCount', 'candidatesTokenCount', 'totalTokenCount',
@@ -94,7 +94,7 @@ def validate_fixture(row):
 
 def benchmark(fixtures, caches, model, *, enabled=False, split='development'):
     # Lazy import: printing the contract and validating responses need only stdlib.
-    from delta import parse_delta_note
+    from models.delta import parse_delta_note
 
     cache = {}
     for row in caches:

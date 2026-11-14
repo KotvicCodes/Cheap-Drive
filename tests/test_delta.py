@@ -8,11 +8,11 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
-from delta import make_delta, parse_delta_note, rescue_window
-from delta_b1 import B1_MODES, SKIPPED_TRACKER
+from models.delta import make_delta, parse_delta_note, rescue_window
+from models.delta_b1 import B1_MODES, SKIPPED_TRACKER
 from dispatch import Journal, play_model
-from gamma_notes import make_gamma_notes_pairs, visit_window
-from notes import NoteFacts, parse_note
+from models.gamma_notes import make_gamma_notes_pairs, visit_window
+from models.notes import NoteFacts, parse_note
 from spread.starter import DAY, Retry
 from tests.test_gamma_pairs import PairWorld, pair_order
 from tests.test_notes import order_for, request

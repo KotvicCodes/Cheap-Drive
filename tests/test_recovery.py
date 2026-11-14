@@ -8,8 +8,8 @@ import tempfile
 import unittest
 
 from capture import Journal
-from delta import make_delta
-from gamma import make_gamma
+from models.delta import make_delta
+from models.gamma import make_gamma
 from recovery import CheckpointStore, model_state, replay_history
 from spread.starter import steep
 from tests.test_gamma import GammaWorld, request as gamma_request
