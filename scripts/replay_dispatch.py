@@ -12,7 +12,6 @@ from collections import deque
 from copy import deepcopy
 import cProfile
 import gzip
-import importlib
 import io
 import json
 from pathlib import Path
@@ -80,8 +79,8 @@ class ReplayWorld:
 
 def replay(rows, output=None):
     run = next(r for r in rows if r['type'] == 'run')
-    module, name = run['factory'].split(':')
-    factory = getattr(importlib.import_module(module), name)
+    from models import resolve_factory  # accepts legacy names such as delta:make_delta
+    factory = resolve_factory(run['factory'])
     journal = ReplayJournal(rows, output if output is not None else io.StringIO())
     world = ReplayWorld(rows)
     started = time.perf_counter()
