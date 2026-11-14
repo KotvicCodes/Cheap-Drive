@@ -399,14 +399,19 @@ def analyze(source: bytes):
             'stats': dict(stats)}
 
 
-def render(model):
+def render(model, runs=None):
     template = (ROOT / 'report_assets/report.html').read_text()
     data = json.dumps(model, ensure_ascii=True, separators=(',', ':'), allow_nan=False).replace('&', '\\u0026').replace('<', '\\u003c').replace('>', '\\u003e')
+    runs_tag = ''
+    if runs is not None:
+        runs_json = json.dumps(runs, ensure_ascii=True, separators=(',', ':'), allow_nan=False).replace('&', '\\u0026').replace('<', '\\u003c').replace('>', '\\u003e')
+        runs_tag = f'<script id="report-runs" type="application/json">{runs_json}</script>\n'
     brand = (ROOT / 'assets/cheap-drive.svg').read_text()
     for id_ in re.findall(r'id="([^"]+)"', brand):
         brand = brand.replace('id="' + id_ + '"', 'id="brand-' + id_ + '"').replace('url(#' + id_ + ')', 'url(#brand-' + id_ + ')')
     brand = re.sub(r'aria-labelledby="([^"]+)"', lambda m: 'aria-labelledby="' + ' '.join('brand-' + x for x in m[1].split()) + '"', brand)
-    return template.replace('/* REPORT_CSS */', (ROOT / 'report_assets/report.css').read_text()).replace('<!-- BRAND -->', brand).replace('/* REPORT_JS */', (ROOT / 'report_assets/report.js').read_text()).replace('REPORT_DATA', data)
+    html = template.replace('/* REPORT_CSS */', (ROOT / 'report_assets/report.css').read_text()).replace('<!-- BRAND -->', brand).replace('/* REPORT_JS */', (ROOT / 'report_assets/report.js').read_text()).replace('REPORT_DATA', data)
+    return html.replace('<script id="report-data"', runs_tag + '<script id="report-data"') if runs_tag else html
 
 
 def generate(source: Path, destination: Path):

@@ -5,7 +5,7 @@
 # Cheap-Drive
 
 A Python dispatcher for the Spread challenge, using the official client.
-[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
+[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard) · [Live analytics demo](https://kotviccodes.github.io/Cheap-Drive/)
 
 Model code lives in the [models package](models/), alongside its JSON configs
 (for example [models/delta.py](models/delta.py)). Runners and tools stay at the
@@ -221,6 +221,9 @@ python scripts/board.py models/gamma.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
+
+# Multi-run interactive analytics demo bundle.
+python scripts/build_demo.py
 ```
 
 `compare.py run`: `--workers` defaults to 1 (1–8), capped at
