@@ -62,6 +62,39 @@ and missing plates (16).
    of nearby drivers is therefore noisy, and reservations are internal
    guesses.
 
+## Deeper trace analysis
+
+From the full traces and end-of-week reveals of trial 137 (six seeds) and
+the search as a whole. The reveals do not include competitor prices, driver
+costs, or the timing of the outage and price war. Price comparisons below
+therefore use the list price as a proxy, not the competitor's price.
+
+- **Distance kills conversion.** Alpha wins 63.8% of requests under 100 km,
+  23.6% at 100–199 km, 14.2% at 200–299 km and 5.3% at 300–399 km.
+- **Price position.** Conversion is 87% at 1.1× the list price, 73% at 1.3×,
+  57% at 1.4×, 29% at 1.6× and below 7% at 1.9–2.0×. About 76% of quotes are
+  above 1.5× list and 33% above 2×.
+- **Low estimated supply means almost no wins.** With fewer than five
+  candidate drivers, Alpha won 0.3% of requests (2 of 667); with 20 or more,
+  37%. The scarcity surcharge is steepest exactly there.
+- **Winning more without capacity backfires.** Trial 10 won 64 more orders a
+  week than trial 137, but averaged 81.4% on time and lost money. Its extra
+  revenue went to driver fees and late refunds. Volume needs admission
+  control tied to deliverable capacity.
+- **Trust is modelled wrongly.** At level 8 each dealer accepts 1% more per
+  on-time delivery, up to 25%, and a late order halves that count. Alpha's
+  margin step instead reacts to quote wins and losses, regardless of whether
+  the delivery was on time.
+- **Deadline warnings are an early signal.** They preceded 76% of late
+  orders, although only 37% of warned orders ended late.
+- **Booking delay has a long tail.** The median gig books 6 minutes after
+  posting, but the 90th percentile waits 13 hours. Driver fees average 1.17×
+  the reference fee, with the 90th percentile at 1.5×, driven by the
+  starter's escalation ladder.
+- **Long routes are risky to deliver as well as to win.** About 22% of won
+  300–399 km routes were late, against about 5% under 100 km; the long-route
+  samples are small.
+
 ## What the tuning showed
 
 - Six tuning seeds and 629 weeks in total. 41 of 82 fully evaluated
@@ -76,6 +109,8 @@ and missing plates (16).
 
 ## Directions for Beta
 
+- Admission control: cap expected wins by deliverable capacity, and target
+  95% on time in every week.
 - Price each option separately, anchored to its list price, and learn the
   competitor's level per lane and option instead of building up from a cost
   floor.
@@ -85,7 +120,6 @@ and missing plates (16).
   earlier for urgent or scarce gigs to cut drops and expiries.
 - Detect plate and readiness requirements before posting, to remove most
   failed visits.
-- Keep the delivery buffer at 93% or more in every week, not only on average.
+- Track level-8 dealer trust from on-time and late deliveries, not from quote
+  wins and losses.
 
-A deeper analysis of the traces and end-of-week reveals is in progress and
-may refine these numbers.
