@@ -8,9 +8,10 @@ A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
 **Delta** ([models/delta.json](models/delta.json)) is Gamma plus two repairs: bounded
-note corrections and a rescue-window fix for orders Gamma could not repost. Over 16
-paired practice weeks it averaged **+€405/week** against Gamma with every week ranked;
-the other Delta experiments (segments, lanes, intake, learner) did not hold on fresh
+note corrections and a rescue-window fix for orders Gamma could not repost. On seven
+unseen practice weeks it beat Gamma **7/7, by €887/week**; over all 23 paired weeks
+**+€551/week**, every week ranked. The other Delta experiments (segments, lanes, intake,
+learner) did not hold on fresh
 weeks. [Delta results](docs/research/delta-results.md) ·
 [testing plan](docs/research/delta-testing-plan.md).
 

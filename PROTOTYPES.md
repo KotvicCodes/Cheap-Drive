@@ -239,10 +239,12 @@ and validation. Further experiments are reserved for [Delta](docs/research/delta
 
 ## Delta
 
-Delta started with repository cleanup and documentation consolidation. Gamma
-remains the selected qualified practice baseline; Alpha and Beta remain supported
-comparisons. The experimental `delta:make_delta` factory isolates bounded note
-corrections and rescue-window handling behind independent switches. Neither is
-selected by default, and no Delta model has qualified yet. See the
-[investigation results](docs/research/delta-results.md) and
-[testing plan](docs/research/delta-testing-plan.md) for evidence and next steps.
+Delta started with repository cleanup and documentation consolidation, then
+screened pricing, intake, learner and lane experiments against frozen Gamma.
+None of those held on fresh weeks. The selected [models/delta.json](models/delta.json)
+is Gamma's settings plus two repairs in `delta:make_delta`: bounded note
+corrections and rescue-window handling for orders Gamma could not repost. On
+seven unseen practice weeks it beat Gamma 7/7 by €887/week on average; over 23
+paired weeks +€551/week, every week ranked. `final.py` plays it on the live
+final clock. See the [investigation results](docs/research/delta-results.md) and
+[testing plan](docs/research/delta-testing-plan.md).
