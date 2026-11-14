@@ -16,8 +16,12 @@ The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
 the volume, rescue and pairing hypotheses and provides executable settings-only
 screening plans. A1/A2 are complete; the two segment simplifications improved
 mean margin but missed the final economic gate. B intake and independent
-trust/review controls now run under the user's all-eight-slots instruction.
-Other stages retain their implementation and decision gates.
+trust/review and learner screens stopped on their service guards. The lane and
+independent note/rescue pilots completed; two lane trajectories exposed an
+inherited private-window rescue defect. B4 conditional pricing is implemented
+and reviewed offline, with 301 combined tests passing, but has not run live.
+At the user's stopping point all owned worlds have completed, controllers have
+exited, and further launches are held. Other stages retain their gates.
 New [quote/fee hypotheses](delta-quote-fee-leads.md) are staged after A/B; their
 completed-trace audit corrects incomplete retry selection and flags omitted
 gig-only costs before any net segment margin claims.

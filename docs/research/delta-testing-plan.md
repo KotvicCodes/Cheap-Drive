@@ -10,7 +10,9 @@ no-segments and premium-only gains remain
 below the final margin threshold. B intake drained after the service guard;
 independent trust/review screening has drained. The reviewed B1 learner
 pilot passed, then the larger learner screen stopped on its service guard.
-B2 lanes and independent note/rescue pilots are now running. Two additional diagnostic worlds on exposed
+B2 lanes and independent note/rescue pilots completed; all follow-up launches
+are held at the user's stopping point. B4 conditional pricing is prepared
+offline, with no live release. Two additional diagnostic worlds on exposed
 `gamma-v01` checked neutral-factory parity and rescue.
 These add two completed worlds to the program budget below, without changing
 its selection or confirmation gates.
@@ -362,7 +364,10 @@ settings splitter. Saved score/ledger/segment reconciliations passed. Those
 initial checks did not run simulator weeks. Live A1 and pilot execution
 is recorded separately in the investigation results. The new B1–B7 manifest is
 a staged specification, not a validated executable sweep. B5 uses validated existing settings; B1 passed its implementation/pilot review.
-B2 code/settings pass offline checks and its live pilot is running.
-New B3/B4/B6/B7 hooks remain gated.
+B2 code/settings pass offline checks and its live pilot completed with two
+private-window integrity objections; remaining seeds were not released.
+B4 is implemented and reviewed offline, with 301 combined tests passing, but
+its executable live snapshot and release remain gated. New B3/B6/B7 hooks
+remain gated. All further launches are held at the user's stopping instruction.
 The separate Gemini offline prototype is not a live arm. No final-clock
 validation has run; no Delta is qualified.
