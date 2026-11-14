@@ -6,11 +6,11 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
-from beta import BetaDesk, BetaSettings
+from models.beta import BetaDesk, BetaSettings
 from compare import load_model
 from demo import sample_request
 from dispatch import Journal, JournalDesk, handle_batch, play_model
-from gamma import (BIG_DEALERS, DEALER_FACTORS, DELIVERY_FACTORS, LANE_FACTORS, PLACE_IDS,
+from models.gamma import (BIG_DEALERS, DEALER_FACTORS, DELIVERY_FACTORS, LANE_FACTORS, PLACE_IDS,
                    GammaCoreDesk, GammaDesk, GammaSettings, make_gamma)
 from spread.starter import DAY
 from tests.test_alpha import MarketWorld

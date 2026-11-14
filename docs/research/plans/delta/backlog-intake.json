@@ -1,0 +1,47 @@
+{
+  "factory": "gamma_notes:make_gamma_notes_pairs",
+  "level": 8,
+  "seeds": [
+    "delta-r1-s01",
+    "delta-r1-s02",
+    "delta-r1-s03",
+    "delta-r1-s04",
+    "delta-r1-s05",
+    "delta-r1-s06",
+    "delta-r1-s07",
+    "delta-r1-s08"
+  ],
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 3000,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 600
+  },
+  "variants": {
+    "gamma": {},
+    "low-backlog-31": {
+      "capacity_valve": 1,
+      "open_low": 3,
+      "open_high": 6,
+      "win_target_low_bps": 3000,
+      "win_target_mid_bps": 3000,
+      "win_target_high_bps": 3100
+    },
+    "low-backlog-32": {
+      "capacity_valve": 1,
+      "open_low": 3,
+      "open_high": 6,
+      "win_target_low_bps": 3000,
+      "win_target_mid_bps": 3000,
+      "win_target_high_bps": 3200
+    }
+  },
+  "fast": true
+}
