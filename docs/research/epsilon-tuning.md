@@ -124,3 +124,13 @@ screen seeds include s07 and f2-s04. This is a queued hypothesis, not a selected
 repair. The helper's lane/segment price recommendations are excluded under
 the manager's instructions. No fresh worlds were created during the live-final
 pause.
+
+The lower-trust idea scout arrived at 23:30 UTC. One finding was independently
+verified against both code and the unauthenticated public map: all 30 self
+roads have 12 km / 25 minutes, while pair planning returns 0 / 0 for identical
+place IDs. Added opt-in `delta_pair_self_roads=1`, default 0, to use real map
+self roads where present. Synthetic maps without self roads retain the old
+fallback. Four tests cover drive accounting, rejection above 720 minutes,
+missing fixture roads and strict validation. This is a separate hypothesis;
+its service/margin effect remains unmeasured. The scout's “strictly positive”
+causal claims are not accepted without paired practice confirmation.

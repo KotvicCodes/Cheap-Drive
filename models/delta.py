@@ -226,6 +226,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_english_pickup_close=0,
                delta_b1="off", delta_lanes="off", delta_option_spread="off",
                delta_pairing="off", delta_pair_same_audience=0, delta_pair_quote_bps=0,
+               delta_pair_self_roads=0,
                delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
                delta_service_hard_orders=6, delta_service_target_bps=3000,
@@ -234,6 +235,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pairing must be off, regional or extended')
     if type(delta_pair_same_audience) is not int or delta_pair_same_audience not in (0, 1):
         raise ValueError('delta_pair_same_audience must be 0 or 1')
+    if type(delta_pair_self_roads) is not int or delta_pair_self_roads not in (0, 1):
+        raise ValueError('delta_pair_self_roads must be 0 or 1')
     class DeltaDesk(DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
@@ -248,6 +251,11 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                 if audiences[0] != audiences[1]:
                     return None, 'audience_mismatch'
             return super()._plan(first, second)
+
+        def _road(self, start, end):
+            if delta_pair_self_roads and start == end and (start, end) in self.roads:
+                return self.roads[start, end]
+            return super()._road(start, end)
 
         def repost(self, gig_id):
             action = self.posts.get(gig_id)
