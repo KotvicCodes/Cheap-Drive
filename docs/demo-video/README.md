@@ -4,6 +4,9 @@ A fast-paced 60-second motion film for the Bahn/Spread challenge at Junction 202
 
 The soundtrack is an original, deterministic 128 BPM instrumental synthesized by the renderer. There is no spoken narration. Main messages are on screen; an optional text track is supplied beside the video.
 
+- **Watch live on GitHub Pages**: https://kotviccodes.github.io/Cheap-Drive/video/
+- **Direct MP4 stream / download**: https://kotviccodes.github.io/Cheap-Drive/video/cheap-drive-demo.mp4
+
 ![Poster frame](assets/poster.png)
 
 ![12-frame review contact sheet](assets/contact-sheet.jpg)
