@@ -1,0 +1,177 @@
+{
+  "status": "one-seed pilot, no selection or confirmation",
+  "baseline_commit": "0eb4e3efc7b49c17a29aa05e9249e7ab45db710d",
+  "delta_source_sha256": "44524b477521e3ab94bcaec33b36c9adc04bc0b9d20bdf0232bc962bb3eab9ba",
+  "rows": [
+    {
+      "arm": "delta-neutral",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1806672,
+        "revenueCents": 3816941,
+        "marginShare": 0.473329820922042,
+        "wonOrders": 265,
+        "onTimeShare": 0.9924528301886792,
+        "undeliveredShare": 0.0037735849056603774,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3816941,
+        "driver_fee": -1991992,
+        "release_fee": -4595,
+        "late_refund": -2210,
+        "waiting": -3000,
+        "undelivered_penalty": -8472
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    },
+    {
+      "arm": "gamma",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1806672,
+        "revenueCents": 3816941,
+        "marginShare": 0.473329820922042,
+        "wonOrders": 265,
+        "onTimeShare": 0.9924528301886792,
+        "undeliveredShare": 0.0037735849056603774,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3816941,
+        "driver_fee": -1991992,
+        "release_fee": -4595,
+        "late_refund": -2210,
+        "waiting": -3000,
+        "undelivered_penalty": -8472
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    },
+    {
+      "arm": "no-segments",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1747873,
+        "revenueCents": 3854397,
+        "marginShare": 0.45347508313232915,
+        "wonOrders": 263,
+        "onTimeShare": 0.9923954372623575,
+        "undeliveredShare": 0.0038022813688212928,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3854397,
+        "driver_fee": -2038986,
+        "release_fee": -4874,
+        "late_refund": -2206,
+        "undelivered_penalty": -60458
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    },
+    {
+      "arm": "pair-opening-75",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1799129,
+        "revenueCents": 3817109,
+        "marginShare": 0.4713328856996224,
+        "wonOrders": 265,
+        "onTimeShare": 0.9924528301886792,
+        "undeliveredShare": 0.0037735849056603774,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3817109,
+        "driver_fee": -1999703,
+        "release_fee": -4595,
+        "late_refund": -2210,
+        "waiting": -3000,
+        "undelivered_penalty": -8472
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    },
+    {
+      "arm": "premium-only",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1756938,
+        "revenueCents": 3962419,
+        "marginShare": 0.44340035720604004,
+        "wonOrders": 267,
+        "onTimeShare": 0.9812734082397003,
+        "undeliveredShare": 0.011235955056179775,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3962419,
+        "driver_fee": -2097912,
+        "release_fee": -4595,
+        "late_refund": -6966,
+        "undelivered_penalty": -96008
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    },
+    {
+      "arm": "rescue-only",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1796015,
+        "revenueCents": 3820831,
+        "marginShare": 0.4700587385309635,
+        "wonOrders": 265,
+        "onTimeShare": 0.9886792452830189,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3820831,
+        "driver_fee": -2006289,
+        "release_fee": -4595,
+        "late_refund": -10932,
+        "waiting": -3000
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    },
+    {
+      "arm": "short-only",
+      "seed": "gamma-v01",
+      "score": {
+        "marginCents": 1766443,
+        "revenueCents": 3776676,
+        "marginShare": 0.467724263346922,
+        "wonOrders": 264,
+        "onTimeShare": 0.9924242424242424,
+        "undeliveredShare": 0.007575757575757576,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 3776676,
+        "driver_fee": -1970507,
+        "release_fee": -5632,
+        "undelivered_penalty": -34094
+      },
+      "rejected_actions": 0,
+      "failed_visits": 0
+    }
+  ],
+  "neutral_parity": {
+    "seed": "gamma-v01",
+    "exact": true,
+    "actions": 1521,
+    "events": 16658,
+    "sha256": {
+      "actions": "31dcf1002f6dfbebf743be976dd1e8f3b1b6e7b9b888a823828444d5675557ef",
+      "events": "bbf373a3bfdc7103ac7ab2d7faa38d0e39981fb243ea672713467b16ff9d42ae",
+      "returns": "2e893fea181774de9d96a15a8fce905fd38dba9139c1211dc97f89f700f18ff0",
+      "score": "0fbe762bb91541f2099587ef4f44b052fe43d815155a3bd6cef23f5354e5e4d9",
+      "snapshot": "e59f3da425710ea36d38c41b1461f9f07b5a498bddd57dd9883c9fdb8391f537"
+    }
+  },
+  "infra_attempts_discarded": 3
+}

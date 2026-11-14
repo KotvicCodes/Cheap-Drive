@@ -6,14 +6,16 @@ Delta's fixed baseline. Do not revise Gamma using confirmation outcomes.
 
 ## Development status
 
-Repository cleanup is the first Delta groundwork. It does not introduce a Delta
-factory or model configuration, change Gamma's selected settings, or establish
-new qualification results. Alpha, Beta and Gamma remain supported baselines.
-The experiments below remain proposals for strategy discussion before coding.
+Repository cleanup established Delta's groundwork. The experimental
+`delta:make_delta` factory now isolates note and rescue corrections; Gamma's
+settings and supported behavior remain fixed. No Delta model is qualified.
+Alpha, Beta and Gamma remain supported baselines. See the
+[investigation results](delta-results.md) for the current evidence.
 
 The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
 the volume, rescue and pairing hypotheses and provides executable settings-only
-screening plans. Its queue is staged; no Delta experiments have been launched.
+screening plans. A1 segment screening and initial correctness diagnostics have
+started; later queue stages remain gated by their predeclared criteria.
 
 Challenge rules and final integration requirements are consolidated in
 [challenge constraints](../challenge.md); setup, run limits, event dates and

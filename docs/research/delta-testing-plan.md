@@ -3,8 +3,12 @@
 **Verdict:** investigate pairability and live backlog as signals for profitable
 additional intake. Gamma's paired improvement is established; the proposed
 35–42% targets, €650–700 immediate rescue gain and top-ten projections are not.
-Keep supported Gamma fixed. This document stages research only: no strategy
-implementation, model promotion, live runs or world changes.
+Keep supported Gamma fixed. This document defines the staged research gates;
+[investigation results](delta-results.md) track execution and experimental
+Delta code. No model has been promoted. A1 is running, with two additional
+diagnostic worlds on exposed `gamma-v01` for neutral-factory parity and rescue.
+These add two completed worlds to the program budget below, without changing
+its selection or confirmation gates.
 
 ## Evidence and objections
 
@@ -169,15 +173,19 @@ Predeclare these gates; do not loosen them after observing results:
 ## Local queue and execution limits
 
 The three JSON plans under `plans/delta/` use the existing `scripts/sweep.py`
-`factory/level/seeds/base/variants/fast` schema. No run commands have been executed.
+`factory/level/seeds/base/variants/fast` schema. A1 has started; other full stages
+have not been released. Neutral/rescue diagnostics use separate copied plans.
 The integration checkout retains the private staged queue and exact commands
 under ignored `runs/delta-research/queue.json` and `commands.txt`. These local
 artifacts are not part of Git; use the tracked plans and this document when
 preparing another checkout.
-C–F have no runnable candidate plans until their prerequisites are met.
+C's bookkeeping arm and D–F still need implementation or selection prerequisites.
+The note/rescue switches are experimental and are not qualified settings.
 
-Default to one worker, at most two after coordination with speed work and the
-owner. Never touch preexisting practice worlds, leaderboard/ranking worlds or
+The initial plan used one or two workers. With explicit authorization to keep
+available practice slots supplied, execution uses up to five workers, checks
+capacity before each new world and leaves a spare slot for other controllers.
+Never touch preexisting practice worlds, leaderboard/ranking worlds or
 final worlds. Only new ordinary practice worlds belong to this queue. The
 sweep creates with `board=False` and cleans up only its own failed attempts,
 but it does **not** discover free slots, lock outputs, validate code hashes on
