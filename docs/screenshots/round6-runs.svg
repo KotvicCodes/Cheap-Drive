@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="460" viewBox="0 0 1000 460" role="img" aria-labelledby="title desc">
+<title id="title">Round 6: our five runs versus the leader</title>
+<desc id="desc">Paired run margins: Guardians of the Moonlight versus Juhus. Both teams ranked on all five runs. All bars start at zero. Public keyless leaderboard data, retrieved 2026-11-14 13:20:20 UTC.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="24" y="32" font-size="23" fill="#172b40" text-anchor="start" font-weight="bold">Round 6: our five runs versus the leader</text>
+<text x="24" y="58" font-size="15" fill="#172b40" text-anchor="start" font-weight="normal">Level 8 · Saturday 12:00 · 14 November 2026 · generated chart</text>
+<rect x="24" y="73" width="15" height="15" fill="#1461b8"/>
+<text x="45" y="86" font-size="15" fill="#172b40" text-anchor="start" font-weight="normal">Guardians of the Moonlight (45th)</text>
+<rect x="410" y="73" width="15" height="15" fill="#62758a"/>
+<text x="431" y="86" font-size="15" fill="#172b40" text-anchor="start" font-weight="normal">Juhus (1st)</text>
+<path d="M110.0 107V405" stroke="#d9e1e8"/>
+<text x="110.0" y="430" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">€0</text>
+<path d="M248.1818181818182 107V405" stroke="#d9e1e8"/>
+<text x="248.1818181818182" y="430" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">€5,000</text>
+<path d="M386.3636363636364 107V405" stroke="#d9e1e8"/>
+<text x="386.3636363636364" y="430" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">€10,000</text>
+<path d="M524.5454545454545 107V405" stroke="#d9e1e8"/>
+<text x="524.5454545454545" y="430" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">€15,000</text>
+<path d="M662.7272727272727 107V405" stroke="#d9e1e8"/>
+<text x="662.7272727272727" y="430" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">€20,000</text>
+<path d="M800.9090909090909 107V405" stroke="#d9e1e8"/>
+<text x="800.9090909090909" y="430" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">€25,000</text>
+<text x="24" y="137" font-size="16" fill="#172b40" text-anchor="start" font-weight="normal">Run 1</text>
+<rect x="110" y="113" width="339.175" height="20" rx="2" fill="#1461b8"/>
+<text x="456.17473454545456" y="128" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€12,272.77</text>
+<rect x="110" y="137" width="606.315" height="20" rx="2" fill="#62758a"/>
+<text x="723.3147345454546" y="152" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€21,939.02</text>
+<text x="24" y="196" font-size="16" fill="#172b40" text-anchor="start" font-weight="normal">Run 2</text>
+<rect x="110" y="172" width="373.106" height="20" rx="2" fill="#1461b8"/>
+<text x="490.10583272727274" y="187" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€13,500.54</text>
+<rect x="110" y="196" width="691.861" height="20" rx="2" fill="#62758a"/>
+<text x="808.860610909091" y="211" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€25,034.43</text>
+<text x="24" y="255" font-size="16" fill="#172b40" text-anchor="start" font-weight="normal">Run 3</text>
+<rect x="110" y="231" width="254.014" height="20" rx="2" fill="#1461b8"/>
+<text x="371.0141090909091" y="246" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€9,191.30</text>
+<rect x="110" y="255" width="484.316" height="20" rx="2" fill="#62758a"/>
+<text x="601.3156654545455" y="270" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€17,524.58</text>
+<text x="24" y="314" font-size="16" fill="#172b40" text-anchor="start" font-weight="normal">Run 4</text>
+<rect x="110" y="290" width="348.103" height="20" rx="2" fill="#1461b8"/>
+<text x="465.1026618181818" y="305" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€12,595.82</text>
+<rect x="110" y="314" width="700.773" height="20" rx="2" fill="#62758a"/>
+<text x="817.7730618181818" y="329" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€25,356.92</text>
+<text x="24" y="373" font-size="16" fill="#172b40" text-anchor="start" font-weight="normal">Run 5</text>
+<rect x="110" y="349" width="330.757" height="20" rx="2" fill="#1461b8"/>
+<text x="447.75725090909094" y="364" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€11,968.19</text>
+<rect x="110" y="373" width="564.114" height="20" rx="2" fill="#62758a"/>
+<text x="681.1142836363636" y="388" font-size="14" fill="#172b40" text-anchor="start" font-weight="normal">€20,412.03</text>
+<text x="490" y="453" font-size="15" fill="#172b40" text-anchor="middle" font-weight="normal">Gross margin per run (euros)</text>
+</g></svg>
