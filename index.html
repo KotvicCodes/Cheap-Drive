@@ -595,15 +595,65 @@ summary { cursor: pointer; }
 .capture-grid { display: none !important; }
 .capture-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--line); padding: 8px 0; font-size: 12.5px; }
 .capture-row button { font-size: 11.5px; }
-.map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start; }
+.map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 276px; gap: 18px; align-items: start; }
 .map-svg { display: block; width: 100%; height: auto; background: var(--surface-2); border-radius: var(--radius-sm); border: 1.5px solid var(--line-strong); }
-.map-svg text { fill: var(--ink); font-size: 11px; font-weight: 700; font-family: var(--sans); paint-order: stroke; stroke: var(--surface-2); stroke-width: 3px; stroke-linejoin: round; }
-.map-svg line { stroke: var(--line-strong); stroke-width: 1.4; opacity: .65; }
+.map-svg text { fill: var(--ink); font-size: 11px; font-weight: 700; font-family: var(--sans); paint-order: stroke; stroke: var(--surface-2); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.map-svg line { stroke: var(--line-strong); stroke-width: 1.6; opacity: .55; }
 .map-svg circle { fill: var(--brand); stroke: var(--surface); stroke-width: 2; fill-opacity: .9; }
-.map-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--muted); flex-wrap: wrap; }
-.map-tools label { display: inline-flex; gap: 6px; align-items: center; }
-.map-tools input { height: auto; }
-.place-list { max-height: 420px; overflow: auto; font-size: 12.5px; }
+.finland-border { fill: var(--surface-3); fill-opacity: .22; stroke: var(--line-strong); stroke-width: 1.5; stroke-linejoin: round; }
+.pulse-ring { fill: none; stroke: var(--brand-2); stroke-width: 2; pointer-events: none; }
+.route-glow { fill: none; stroke: var(--brand); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; opacity: .26; pointer-events: none; }
+.route-glow.paired { stroke: var(--sunburst); opacity: .34; }
+.route-trail { fill: none; stroke: var(--brand); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.route-trail.paired { stroke: var(--sunburst); }
+.car-sprite { cursor: pointer; }
+.car-body { fill: var(--brand); stroke: #141413; stroke-width: 1.4; }
+.car-sprite.paired .car-body { fill: var(--sunburst); stroke: #141413; }
+.car-glass { fill: #141413; opacity: .82; }
+.replay-bar {
+  display: grid; gap: 10px; margin-bottom: 12px; padding: 11px 13px;
+  background: var(--surface-2); border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+}
+.replay-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.replay-play {
+  background: var(--brand); color: #141413; border-color: var(--brand);
+  font-weight: 700; min-width: 86px; justify-content: center;
+}
+.replay-play:hover { background: var(--brand-2); border-color: var(--brand-2); color: #141413; }
+.replay-slider {
+  flex: 1; min-width: 140px; height: 8px; padding: 0; border: 0;
+  accent-color: var(--brand); background: var(--surface-3); border-radius: 999px; cursor: pointer;
+}
+.speed-pills { display: inline-flex; gap: 4px; }
+.speed-pill { padding: 4px 8px; font-family: var(--mono); font-size: 11px; border-radius: 999px; }
+.speed-pill.active { background: var(--brand); color: #141413; border-color: var(--brand); font-weight: 700; }
+.road-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.road-toggle input { width: 15px; height: 15px; padding: 0; accent-color: var(--brand); }
+.replay-stats {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+  padding-top: 8px; border-top: 1px solid var(--line);
+}
+.replay-stat span { display: block; font-size: 10.5px; font-weight: 600; color: var(--muted); }
+.replay-stat b { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.active-cars-list { display: grid; gap: 6px; margin-bottom: 14px; max-height: 280px; overflow: auto; }
+.active-car-item {
+  width: 100%; display: grid; gap: 4px; text-align: left; padding: 8px 10px;
+  background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 9px;
+}
+.active-car-item:hover { border-color: var(--brand); }
+.ac-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; width: 100%; }
+.ac-top strong { font-size: 12.5px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ac-tag {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 1px 6px;
+  border-radius: 999px; background: var(--surface); color: var(--muted); border: 1px solid var(--line-strong);
+}
+.ac-tag.paired { background: var(--sunburst); color: #141413; border-color: var(--sunburst); }
+.ac-route { display: flex; justify-content: space-between; gap: 6px; font-size: 11.5px; color: var(--ink-2); width: 100%; }
+.ac-bar { width: 100%; height: 4px; background: var(--surface); border-radius: 999px; overflow: hidden; }
+.ac-fill { height: 100%; background: var(--brand); border-radius: 999px; }
+.ac-fill.paired { background: var(--sunburst); }
+.map-side h3:first-child { margin-top: 0; }
+.place-list { max-height: 290px; overflow: auto; font-size: 12.5px; }
 .place-list .r { display: grid; grid-template-columns: minmax(0, 1fr) 46px 46px; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 .place-list .r span:not(:first-child) { text-align: right; font-family: var(--mono); font-size: 12px; }
 .place-list .h { color: var(--muted); font-size: 11.5px; border-top: 0; font-weight: 700; }
@@ -1065,7 +1115,7 @@ function showTip(evt, title, rows) {
 const hideTip = () => { tip.hidden = true; };
 
 /* Charts are drawn at their real pixel width so text stays crisp, and redrawn on resize. */
-let observers = [];
+let observers = [], stopReplay = null;
 function responsive(draw, cls = 'chart-box') {
   const box = N('div', null, cls);
   const run = () => { const w = Math.max(260, Math.round(box.clientWidth || 720)); if (box.dataset.w === String(w)) return; box.dataset.w = String(w); clear(box); draw(box, w); };
@@ -1599,7 +1649,124 @@ function sourceIntro() {
   return panel;
 }
 
-/* Captured context */
+/* Captured context & Interactive Finland Replay */
+const FINLAND_BORDER = [
+  [59.82, 22.96], [60.05, 22.30], [60.45, 21.55], [60.85, 21.20], [61.48, 21.45],
+  [62.25, 21.30], [63.10, 21.15], [63.55, 22.15], [63.90, 22.95], [64.25, 23.70],
+  [64.68, 24.40], [65.01, 25.25], [65.35, 25.20], [65.75, 24.45], [65.82, 24.15],
+  [66.40, 23.65], [66.85, 23.90], [67.35, 23.60], [67.95, 23.60], [68.35, 22.90],
+  [68.48, 22.20], [68.70, 21.50], [69.05, 20.55], [69.30, 21.25], [69.00, 22.10],
+  [68.65, 22.80], [68.75, 23.80], [68.90, 25.10], [69.45, 25.80], [69.95, 26.80],
+  [70.09, 27.88], [69.70, 29.15], [69.05, 28.90], [68.85, 28.45], [68.40, 28.50],
+  [68.00, 29.30], [67.70, 29.90], [66.95, 29.05], [66.15, 29.95], [65.45, 29.85],
+  [64.80, 30.10], [64.10, 30.45], [63.30, 31.10], [62.67, 31.58], [62.05, 30.65],
+  [61.55, 29.60], [61.10, 28.80], [60.55, 27.78], [60.45, 26.90], [60.35, 26.10],
+  [60.15, 25.10], [59.98, 24.40], [59.82, 22.96]
+];
+const FINLAND_HIGHWAYS = [
+  ['helsinki', 'espoo'], ['espoo', 'salo'], ['salo', 'turku'], ['turku', 'raisio'],
+  ['raisio', 'rauma'], ['rauma', 'pori'], ['pori', 'vaasa'], ['vaasa', 'kokkola'],
+  ['kokkola', 'ylivieska'], ['ylivieska', 'oulu'], ['oulu', 'kemi'], ['kemi', 'rovaniemi'],
+  ['helsinki', 'vantaa'], ['vantaa', 'hyvinkaa'], ['hyvinkaa', 'hameenlinna'],
+  ['hameenlinna', 'lempaala'], ['lempaala', 'tampere'], ['tampere', 'pori'],
+  ['tampere', 'seinajoki'], ['seinajoki', 'vaasa'], ['seinajoki', 'kokkola'],
+  ['tampere', 'jyvaskyla'], ['helsinki', 'lahti'], ['lahti', 'hameenlinna'], ['lahti', 'jyvaskyla'],
+  ['jyvaskyla', 'ylivieska'], ['jyvaskyla', 'oulu'], ['jyvaskyla', 'kuopio'],
+  ['helsinki', 'porvoo'], ['porvoo', 'kotka'], ['kotka', 'kouvola'], ['lahti', 'kouvola'],
+  ['kouvola', 'mikkeli'], ['mikkeli', 'kuopio'], ['kuopio', 'kajaani'], ['kajaani', 'oulu'],
+  ['kouvola', 'lappeenranta'], ['lappeenranta', 'savonlinna'], ['savonlinna', 'joensuu'],
+  ['lappeenranta', 'joensuu'], ['joensuu', 'kuopio'], ['joensuu', 'kajaani']
+];
+
+function extractRunTrips(byId) {
+  const gigDriver = new Map(), pickups = new Map(), trips = [];
+  for (const x of D.timeline) {
+    const ev = x.event || {};
+    if ((x.kind === 'gig_booked' || x.kind === 'gig_started') && ev.gigId && ev.driverId) gigDriver.set(ev.gigId, ev.driverId);
+    if (x.kind === 'picked_up' && ev.orderId && Number.isInteger(x.at)) {
+      pickups.set(ev.orderId + ':' + (ev.leg ?? 0), {at: x.at, placeId: ev.placeId, gigId: ev.gigId});
+    } else if (x.kind === 'delivered' && ev.orderId && Number.isInteger(x.at)) {
+      const key = ev.orderId + ':' + (ev.leg ?? 0), p = pickups.get(key);
+      const ord = lookup.order.get(ev.orderId), legObj = arr((ord?.data?.order || ord?.data?.request)?.legs)[ev.leg ?? 0];
+      const from = p?.placeId || legObj?.pickup?.placeId, to = ev.placeId || legObj?.delivery?.placeId;
+      if (from && to && byId.has(from) && byId.has(to)) {
+        const gid = ev.gigId || p?.gigId || ord?.related?.[0] || '';
+        const t0 = p ? p.at : Math.max(480, x.at - 180), t1 = Math.max(t0 + 15, x.at);
+        const paired = (lookup.gig.get(gid)?.related?.length || 0) >= 2;
+        trips.push({orderId: ev.orderId, gigId: gid, driverId: gigDriver.get(gid) || gid || ev.orderId, from, to, t0, t1, paired});
+      }
+    }
+  }
+  return trips.sort((a, b) => a.t0 - b.t0);
+}
+
+function buildRouter(byId) {
+  const adj = new Map();
+  const addEdge = (a, b) => {
+    const pa = byId.get(a), pb = byId.get(b);
+    if (!pa || !pb) return;
+    const d = Math.hypot((pa.lon - pb.lon) * 0.5, pa.lat - pb.lat);
+    if (!adj.has(a)) adj.set(a, []);
+    if (!adj.has(b)) adj.set(b, []);
+    adj.get(a).push([b, d]);
+    adj.get(b).push([a, d]);
+  };
+  for (const [a, b] of FINLAND_HIGHWAYS) addEdge(a, b);
+  const memo = new Map();
+  return (from, to) => {
+    if (from === to) return [from];
+    const key = from + '>' + to;
+    if (memo.has(key)) return memo.get(key);
+    if (!adj.has(from) || !adj.has(to)) return [from, to];
+    const dist = new Map([[from, 0]]), prev = new Map(), visited = new Set();
+    while (true) {
+      let u = null, best = Infinity;
+      for (const [k, v] of dist) if (!visited.has(k) && v < best) { best = v; u = k; }
+      if (!u || u === to) break;
+      visited.add(u);
+      for (const [v, w] of adj.get(u) || []) {
+        const nd = best + w;
+        if (nd < (dist.get(v) ?? Infinity)) { dist.set(v, nd); prev.set(v, u); }
+      }
+    }
+    if (!prev.has(to)) { memo.set(key, [from, to]); return [from, to]; }
+    const out = [];
+    for (let cur = to; cur; cur = prev.get(cur)) out.push(cur);
+    out.reverse();
+    memo.set(key, out);
+    return out;
+  };
+}
+
+function polySlice(pts, p0, p1) {
+  if (pts.length < 2 || p1 <= p0) return [pts[0], pts.at(-1)];
+  const segs = []; let total = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const d = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]);
+    segs.push(d); total += d;
+  }
+  if (total <= 0) return [pts[0], pts.at(-1)];
+  const pointAt = target => {
+    let rem = target;
+    for (let i = 0; i < segs.length; i++) {
+      if (rem <= segs[i] || i === segs.length - 1) {
+        const f = segs[i] ? Math.max(0, Math.min(1, rem / segs[i])) : 0;
+        return [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * f, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * f];
+      }
+      rem -= segs[i];
+    }
+    return pts.at(-1);
+  };
+  const d0 = total * Math.max(0, p0), d1 = total * Math.min(1, p1), out = [pointAt(d0)];
+  let acc = 0;
+  for (let i = 0; i < segs.length; i++) {
+    acc += segs[i];
+    if (acc > d0 && acc < d1) out.push(pts[i + 1]);
+  }
+  out.push(pointAt(d1));
+  return out;
+}
+
 function capturedContext() {
   const root = $('captures'); clear(root);
   const grid = N('div', null, 'capture-grid');
@@ -1614,7 +1781,7 @@ function capturedContext() {
   }
   root.append(grid);
   if (mapRecord && Array.isArray(mapRecord.places)) {
-    const panel = section('Network map');
+    const panel = section('Finland replay');
     panel.append(mapView(mapRecord)); root.append(panel);
   }
 }
@@ -1624,40 +1791,196 @@ function placeActivity() {
   return counts;
 }
 function mapView(map) {
+  if (stopReplay) { stopReplay(); stopReplay = null; }
   const places = map.places.filter(p => p && Number.isFinite(p.lat) && Number.isFinite(p.lon));
   if (!places.length) return N('p', 'No coordinates in map.', 'muted');
-  const roads = arr(map.roads).filter(Boolean), byId = new Map(places.map(p => [p.id, p])), act = placeActivity();
-  const total = p => { const c = act.get(p.id); return c ? c.pickups + c.deliveries : 0; }, maxAct = Math.max(1, ...places.map(total));
+  const isFinland = places.length >= 10;
+  const byId = new Map(places.map(p => [p.id, p])), act = placeActivity();
+  const rawRoads = arr(map.roads).filter(Boolean);
+  const displayRoads = isFinland ? FINLAND_HIGHWAYS.map(([from, to]) => ({from, to})) : rawRoads;
+  const routeFor = buildRouter(byId);
+  const trips = isFinland ? extractRunTrips(byId) : [];
+  const total = p => { const c = act.get(p.id); return c ? c.pickups + c.deliveries : 0 }, maxAct = Math.max(1, ...places.map(total));
+
+  const allLats = [...places.map(p => p.lat), ...(isFinland ? FINLAND_BORDER.slice(0, 18).map(b => b[0]).concat([67.2]) : [])];
+  const allLons = [...places.map(p => p.lon), ...(isFinland ? FINLAND_BORDER.map(b => b[1]) : [])];
   const midLat = places.reduce((s, p) => s + p.lat, 0) / places.length, k = Math.cos(midLat * Math.PI / 180);
-  const minLat = Math.min(...places.map(p => p.lat)), maxLat = Math.max(...places.map(p => p.lat)), minLon = Math.min(...places.map(p => p.lon)), maxLon = Math.max(...places.map(p => p.lon));
+  const minLat = Math.min(...allLats), maxLat = Math.max(...allLats), minLon = Math.min(...allLons), maxLon = Math.max(...allLons);
   const spanX = ((maxLon - minLon) * k) || 1, spanY = (maxLat - minLat) || 1;
-  const layout = N('div', null, 'map-layout'), left = N('div'), tools = N('div', null, 'map-tools');
-  const toggle = N('input'); toggle.type = 'checkbox'; toggle.checked = roads.length <= 150;
-  add(tools, N('span', `${num(places.length)} places · ${num(roads.length)} roads`), roads.length ? add(N('label'), toggle, 'Roads') : null);
-  let roadsGroup = null;
+
+  const minMin = trips.length ? Math.max(480, trips[0].t0 - 15) : 480;
+  const maxMin = trips.length ? Math.max(...trips.map(t => t.t1)) + 30 : 10080;
+  let simMin = minMin, playing = isFinland && trips.length > 0, speed = 2, rafId = 0, lastTs = 0;
+
+  const layout = N('div', null, 'map-layout'), left = N('div'), right = N('div', null, 'map-side');
+  const replayBar = N('div', null, 'replay-bar');
+  const playBtn = button(playing ? '⏸ Pause' : '▶ Play', () => {
+    if (simMin >= maxMin) simMin = minMin;
+    playing = !playing;
+    playBtn.textContent = playing ? '⏸ Pause' : '▶ Play';
+    if (playing) { lastTs = performance.now(); rafId = requestAnimationFrame(tick); }
+  }, 'replay-play');
+  const slider = N('input', null, 'replay-slider');
+  slider.type = 'range'; slider.min = String(minMin); slider.max = String(maxMin); slider.step = '1'; slider.value = String(simMin);
+  slider.setAttribute('aria-label', 'Simulation world minute');
+  const speedWrap = N('div', null, 'speed-pills');
+  for (const sp of [1, 2, 4]) {
+    const sb = button(sp + '×', () => {
+      speed = sp;
+      for (const c of speedWrap.children) c.classList.toggle('active', c.textContent === sp + '×');
+    }, 'speed-pill' + (sp === speed ? ' active' : ''));
+    speedWrap.append(sb);
+  }
+  const toggle = N('input'); toggle.type = 'checkbox'; toggle.checked = true;
+  const roadToggleLabel = add(N('label', null, 'road-toggle'), toggle, 'Roads');
+
+  const statClock = N('b', time(simMin)), statActive = N('b', '0'), statDeliv = N('b', '0 / ' + num(trips.length)), statMargin = N('b', '€0.00');
+  const liveStats = N('div', null, 'replay-stats');
+  for (const [lbl, el] of [['Clock', statClock], ['On road', statActive], ['Delivered', statDeliv], ['Margin', statMargin]]) {
+    liveStats.append(add(N('div', null, 'replay-stat'), N('span', lbl), el));
+  }
+  add(replayBar, add(N('div', null, 'replay-controls'), playBtn, slider, speedWrap, roadToggleLabel), liveStats);
+
+  let roadsGroup = null, replayGroup = null, projectPt = null;
+  const activeList = N('div', null, 'active-cars-list');
+
+  function renderFrame() {
+    slider.value = String(Math.round(simMin));
+    statClock.textContent = time(Math.round(simMin));
+    let doneCount = 0;
+    const activeTrips = [];
+    for (const tr of trips) {
+      if (tr.t1 <= simMin) doneCount++;
+      else if (tr.t0 <= simMin && simMin <= tr.t1) activeTrips.push(tr);
+    }
+    statActive.textContent = num(activeTrips.length) + (activeTrips.length === 1 ? ' car' : ' cars');
+    statDeliv.textContent = `${num(doneCount)} / ${num(trips.length)}`;
+    let liveNet = 0;
+    for (const l of D.ledger) {
+      if (Number.isInteger(l.at) && l.at <= simMin) liveNet += l.cents;
+      else break;
+    }
+    statMargin.textContent = fmt(liveNet);
+
+    if (replayGroup && projectPt) {
+      clear(replayGroup);
+      for (const tr of trips) {
+        const dtPick = simMin - tr.t0, dtDrop = simMin - tr.t1;
+        for (const [pid, dt] of [[tr.from, dtPick], [tr.to, dtDrop]]) {
+          if (dt >= 0 && dt <= 28) {
+            const pObj = byId.get(pid);
+            if (pObj) {
+              const [px, py] = projectPt(pObj), r = 6 + (dt / 28) * 14, op = (1 - dt / 28) * 0.75;
+              const ring = svg('path', {d: `M${(px - r).toFixed(1)},${py.toFixed(1)}a${r.toFixed(1)},${r.toFixed(1)} 0 1,0 ${(r * 2).toFixed(1)},0a${r.toFixed(1)},${r.toFixed(1)} 0 1,0 ${(-r * 2).toFixed(1)},0`, class: 'pulse-ring'});
+              ring.style.strokeOpacity = String(op.toFixed(2));
+              replayGroup.append(ring);
+            }
+          }
+        }
+      }
+      for (const tr of activeTrips) {
+        const p = (simMin - tr.t0) / Math.max(1, tr.t1 - tr.t0);
+        const waypoints = routeFor(tr.from, tr.to).map(id => byId.get(id)).filter(Boolean).map(projectPt);
+        if (waypoints.length < 2) continue;
+        const seg = polySlice(waypoints, Math.max(0, p - 0.34), p);
+        const dPath = seg.map((pt, i) => (i ? 'L' : 'M') + pt[0].toFixed(1) + ',' + pt[1].toFixed(1)).join('');
+        const glow = svg('path', {d: dPath, class: 'route-glow' + (tr.paired ? ' paired' : '')});
+        const trail = svg('path', {d: dPath, class: 'route-trail' + (tr.paired ? ' paired' : '')});
+        replayGroup.append(glow, trail);
+
+        const cur = seg.at(-1), prev = seg.length >= 2 ? seg.at(-2) : waypoints[0];
+        const ahead = polySlice(waypoints, p, Math.min(1, p + 0.03)).at(-1);
+        const dx = (ahead[0] - prev[0]) || 1, dy = (ahead[1] - prev[1]) || 0;
+        const deg = Math.atan2(dy, dx) * 180 / Math.PI;
+        const carG = svg('g', {transform: `translate(${cur[0].toFixed(1)},${cur[1].toFixed(1)}) rotate(${deg.toFixed(1)})`, class: 'car-sprite' + (tr.paired ? ' paired' : '')});
+        carG.append(
+          svg('rect', {x: -8.5, y: -4.8, width: 17, height: 9.6, rx: 3.2, class: 'car-body'}),
+          svg('rect', {x: -1.8, y: -3.5, width: 5.8, height: 7, rx: 1.4, class: 'car-glass'})
+        );
+        carG.addEventListener('pointermove', evt => showTip(evt, `${driverName(tr.driverId)} · ${tr.orderId}`, [[`${tr.from} → ${tr.to}`, Math.round(p * 100) + '%'], ['Mode', tr.paired ? '2-car paired gig' : 'Single car']]));
+        carG.addEventListener('pointerleave', hideTip);
+        carG.addEventListener('click', () => { hideTip(); openDetail(() => entityDetail('order', tr.orderId)); });
+        replayGroup.append(carG);
+      }
+    }
+
+    clear(activeList);
+    if (!activeTrips.length) {
+      activeList.append(N('p', simMin >= maxMin ? 'Week completed.' : 'Waiting for next departure…', 'muted'));
+    } else {
+      for (const tr of activeTrips.slice(0, 7)) {
+        const p = Math.round(((simMin - tr.t0) / Math.max(1, tr.t1 - tr.t0)) * 100);
+        const item = N('button', null, 'active-car-item'); item.type = 'button';
+        const top = add(N('div', null, 'ac-top'), N('strong', driverName(tr.driverId)), N('span', tr.paired ? '2-car' : tr.orderId, 'ac-tag' + (tr.paired ? ' paired' : '')));
+        const routeRow = add(N('div', null, 'ac-route'), N('span', `${tr.from} → ${tr.to}`), N('span', p + '%', 'mono'));
+        const bar = N('div', null, 'ac-bar'), fill = N('div', null, 'ac-fill' + (tr.paired ? ' paired' : ''));
+        fill.style.width = p + '%'; bar.append(fill);
+        add(item, top, routeRow, bar);
+        item.addEventListener('click', () => openDetail(() => entityDetail('order', tr.orderId)));
+        activeList.append(item);
+      }
+    }
+  }
+
+  function tick(ts) {
+    if (!playing || active !== 'captures') return;
+    const dt = Math.min(64, ts - (lastTs || ts));
+    lastTs = ts;
+    simMin += (dt / 1000) * 42 * speed;
+    if (simMin >= maxMin) {
+      simMin = maxMin;
+      playing = false;
+      playBtn.textContent = '▶ Replay';
+      renderFrame();
+      return;
+    }
+    renderFrame();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  slider.addEventListener('input', () => {
+    simMin = Number(slider.value);
+    renderFrame();
+  });
+
   const box = responsive((b, width) => {
-    const pad = 34, height = Math.round(Math.min(620, Math.max(300, (width - pad * 2) * spanY / spanX + pad * 2)));
+    const pad = 32, height = Math.round(Math.min(660, Math.max(380, (width - pad * 2) * spanY / spanX + pad * 2)));
     const scale = Math.min((width - pad * 2) / spanX, (height - pad * 2) / spanY), ox = (width - spanX * scale) / 2, oy = (height - spanY * scale) / 2;
     const x = p => ox + (p.lon - minLon) * k * scale, y = p => height - oy - (p.lat - minLat) * scale;
+    projectPt = p => [x(p), y(p)];
     const s = svg('svg', {viewBox: `0 0 ${width} ${height}`, width, height, class: 'map-svg', role: 'img', 'aria-label': 'Captured places and road connections; schematic projection'});
-    roadsGroup = svg('g'); roadsGroup.style.display = toggle.checked ? '' : 'none';
-    for (const r of roads) { const a = byId.get(r.from), c = byId.get(r.to); if (a && c && a !== c) roadsGroup.append(svg('line', {x1: x(a), x2: x(c), y1: y(a), y2: y(c)})); }
+    if (isFinland) {
+      const borderPts = FINLAND_BORDER.map(([lat, lon]) => `${(ox + (lon - minLon) * k * scale).toFixed(1)},${(height - oy - (lat - minLat) * scale).toFixed(1)}`).join(' ');
+      s.append(svg('polygon', {points: borderPts, class: 'finland-border'}));
+    }
+    roadsGroup = svg('g', {class: 'map-roads'}); roadsGroup.style.display = toggle.checked ? '' : 'none';
+    for (const r of displayRoads) { const a = byId.get(r.from), c = byId.get(r.to); if (a && c && a !== c) roadsGroup.append(svg('line', {x1: x(a), x2: x(c), y1: y(a), y2: y(c)})); }
     s.append(roadsGroup);
+    replayGroup = svg('g', {class: 'replay-layer'});
+    s.append(replayGroup);
+
     const placed = [], labels = svg('g');
     for (const p of [...places].sort((a, b) => total(b) - total(a))) {
-      const g = svg('g'), c = svg('circle', {cx: x(p), cy: y(p), r: 3.5 + Math.sqrt(total(p) / maxAct) * 9}), t = svg('title'), a = act.get(p.id) || {pickups: 0, deliveries: 0};
+      const g = svg('g'), c = svg('circle', {cx: x(p), cy: y(p), r: 3.5 + Math.sqrt(total(p) / maxAct) * 8.5}), t = svg('title'), a = act.get(p.id) || {pickups: 0, deliveries: 0};
       t.textContent = `${p.name || p.id} (${p.lat}, ${p.lon}) · ${a.pickups} pickups · ${a.deliveries} deliveries`; c.append(t); g.append(c); s.append(g);
       const label = String(p.name || p.id), w = label.length * 6.2, lx = x(p) + 9, ly = y(p) + 4, box2 = [lx - 2, ly - 11, lx + w + 2, ly + 3];
       if (box2[2] < width && !placed.some(q => !(box2[2] < q[0] || box2[0] > q[2] || box2[3] < q[1] || box2[1] > q[3]))) { placed.push(box2); labels.append(svgText({x: lx, y: ly}, label)); }
     }
     s.append(labels); b.append(s);
+    renderFrame();
   });
   toggle.onchange = () => { if (roadsGroup) roadsGroup.style.display = toggle.checked ? '' : 'none'; };
-  add(left, tools, box);
+  add(left, isFinland ? replayBar : roadToggleLabel, box);
+
   const list = N('div', null, 'place-list');
   list.append(add(N('div', null, 'r h'), N('span', 'Place'), N('span', 'Pick'), N('span', 'Drop')));
   for (const p of [...places].sort((a, b) => total(b) - total(a))) { const a = act.get(p.id) || {pickups: 0, deliveries: 0}; list.append(add(N('div', null, 'r'), N('span', p.name || p.id), N('span', num(a.pickups)), N('span', num(a.deliveries)))); }
-  add(layout, left, add(N('div'), N('h3', 'Places'), list));
+  if (isFinland) add(right, N('h3', 'Active fleet'), activeList, N('h3', 'Places'), list);
+  else add(right, N('h3', 'Places'), list);
+  add(layout, left, right);
+
+  stopReplay = () => { playing = false; if (rafId) cancelAnimationFrame(rafId); };
+  if (playing) { lastTs = performance.now(); rafId = requestAnimationFrame(tick); }
   return layout;
 }
 
@@ -1674,6 +1997,7 @@ const titles = {
   captures: ['Captured context', '']
 };
 function navigate(id, preset) {
+  if (stopReplay && id !== 'captures') { stopReplay(); stopReplay = null; }
   active = getNavItems().some(x => x[0] === id) ? id : 'overview'; sortKey = ''; direction = 1; page = 0;
   for (const o of observers) o.disconnect(); observers = []; hideTip();
   for (const b of $('nav').querySelectorAll('button')) {
