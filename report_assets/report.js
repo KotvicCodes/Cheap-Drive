@@ -101,12 +101,12 @@ function themeIcon(mode) {
     s.append(svg('path', {d: 'M14.5 11.4A5.8 5.8 0 0 1 6.6 3.5a5.8 5.8 0 1 0 7.9 7.9Z', fill: 'currentColor', 'fill-opacity': 0.2}));
     return s;
   }
-  const s = svg('svg', {viewBox: '0 0 26 16', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'});
+  const s = svg('svg', {viewBox: '0 0 32 16', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'});
   s.append(
-    svg('circle', {cx: 6.5, cy: 8, r: 2.4, fill: 'currentColor', 'fill-opacity': 0.22}),
-    svg('path', {d: 'M6.5 2.4v1.4M6.5 12.2v1.4M1 8h1.4M10.6 8H12M2.6 4.1l1 1M9.4 10.9l1 1M2.6 11.9l1-1M9.4 5.1l1-1'}),
-    svg('path', {d: 'M14.2 13.2L16.2 2.8', opacity: 0.45}),
-    svg('path', {d: 'M24.2 10.4A4.3 4.3 0 0 1 18.6 4.8a4.3 4.3 0 1 0 5.6 5.6Z', fill: 'currentColor', 'fill-opacity': 0.22})
+    svg('circle', {cx: 6, cy: 8, r: 2.3, fill: 'currentColor', 'fill-opacity': 0.22}),
+    svg('path', {d: 'M6 2.5v1.3M6 12.2v1.3M0.8 8h1.3M9.9 8h1.3M2.3 4.3l.9.9M8.8 10.8l.9.9M2.3 11.7l.9-.9M8.8 5.2l.9-.9'}),
+    svg('path', {d: 'M14.8 13L17.2 3', opacity: 0.45}),
+    svg('path', {d: 'M29.8 10.2A4.4 4.4 0 0 1 24.2 4.6a4.4 4.4 0 1 0 5.6 5.6Z', fill: 'currentColor', 'fill-opacity': 0.22})
   );
   return s;
 }
