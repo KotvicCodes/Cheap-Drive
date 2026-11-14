@@ -1,0 +1,259 @@
+{
+  "plan_sha256": "31432d1dccb7e5f473215a12d956bfed1940acade293dd5f3f2c0cd346f12a65",
+  "controller_sha256": "8733e65f7b4663c56020f30bf7901e4fe0eec9b0cf2d6f4535c5fd4eabd95d94",
+  "pilot_manifest_sha256": "4a88e1b8fac1df98603d8929eaf22ce2a20b1fdd662fec632f4cdb4a1f612086",
+  "integration_sha": "7e1913d25a7571cb08506308c5cea8c6f3110d4c",
+  "neutral_exact_parity": true,
+  "neutral_operational_rows": 5347,
+  "parity_row_types": {
+    "act_result": {
+      "equal": true,
+      "control_rows": 33,
+      "neutral_rows": 33,
+      "control_sha256": "bb9f389df738e0847c6720e8d855734ac25968269ac0f1c3077957e439ac8cb2",
+      "neutral_sha256": "bb9f389df738e0847c6720e8d855734ac25968269ac0f1c3077957e439ac8cb2"
+    },
+    "action_intent": {
+      "equal": true,
+      "control_rows": 1892,
+      "neutral_rows": 1892,
+      "control_sha256": "d11b3282fed8d4c7fb0cfbc962f7454dfa4aac88bdbf5524391201d208905377",
+      "neutral_sha256": "d11b3282fed8d4c7fb0cfbc962f7454dfa4aac88bdbf5524391201d208905377"
+    },
+    "advance_batch": {
+      "equal": true,
+      "control_rows": 1859,
+      "neutral_rows": 1859,
+      "control_sha256": "d1e6d0f0e46fdebf9eb0e57267d1f0280ba9fc8349ab1253887cecee365e279a",
+      "neutral_sha256": "d1e6d0f0e46fdebf9eb0e57267d1f0280ba9fc8349ab1253887cecee365e279a"
+    },
+    "beta_decline": {
+      "equal": true,
+      "control_rows": 150,
+      "neutral_rows": 150,
+      "control_sha256": "fe56612f28c491b4b08e9feb87567ed25cd1ce75682bf7ddb2bef8f09337e343",
+      "neutral_sha256": "fe56612f28c491b4b08e9feb87567ed25cd1ce75682bf7ddb2bef8f09337e343"
+    },
+    "beta_quote": {
+      "equal": true,
+      "control_rows": 883,
+      "neutral_rows": 883,
+      "control_sha256": "731b9356ccb06cb5020f1214d08aa5964516db0a2b238a8c55e9d1c61db1f9df",
+      "neutral_sha256": "731b9356ccb06cb5020f1214d08aa5964516db0a2b238a8c55e9d1c61db1f9df"
+    },
+    "capture_skipped": {
+      "equal": true,
+      "control_rows": 1,
+      "neutral_rows": 1,
+      "control_sha256": "1fcfce7ca6d7d1137b5a6ae3a378177a05f7e57f141b26d1e8a65c670df980e4",
+      "neutral_sha256": "1fcfce7ca6d7d1137b5a6ae3a378177a05f7e57f141b26d1e8a65c670df980e4"
+    },
+    "gamma_note_no_window": {
+      "equal": true,
+      "control_rows": 3,
+      "neutral_rows": 3,
+      "control_sha256": "8cc65a129820a7b9ced5476a4aceacd42b07a4b51e014f9957458a08cdd1954e",
+      "neutral_sha256": "8cc65a129820a7b9ced5476a4aceacd42b07a4b51e014f9957458a08cdd1954e"
+    },
+    "gamma_pair": {
+      "equal": true,
+      "control_rows": 15,
+      "neutral_rows": 15,
+      "control_sha256": "0b1421a19a1be13d3f171c943ab3da6cb5b735c65cbc49c8ef1d8db0f4a6e6f7",
+      "neutral_sha256": "0b1421a19a1be13d3f171c943ab3da6cb5b735c65cbc49c8ef1d8db0f4a6e6f7"
+    },
+    "gamma_pair_booked": {
+      "equal": true,
+      "control_rows": 10,
+      "neutral_rows": 10,
+      "control_sha256": "dad4ff868e1c648affccf6d6fa5ed175454971c7cfcfb889b4949d6068550deb",
+      "neutral_sha256": "dad4ff868e1c648affccf6d6fa5ed175454971c7cfcfb889b4949d6068550deb"
+    },
+    "gamma_pair_error": {
+      "equal": true,
+      "control_rows": 3,
+      "neutral_rows": 3,
+      "control_sha256": "2c7dbb690032eb917a14130194f27645108321d8aeed54ed48203891ec14beac",
+      "neutral_sha256": "2c7dbb690032eb917a14130194f27645108321d8aeed54ed48203891ec14beac"
+    },
+    "gamma_pair_skip": {
+      "equal": true,
+      "control_rows": 274,
+      "neutral_rows": 274,
+      "control_sha256": "510e4b91d81092ab1a33c96670650415217a1b97f5c3d6942ea57402793c735a",
+      "neutral_sha256": "510e4b91d81092ab1a33c96670650415217a1b97f5c3d6942ea57402793c735a"
+    },
+    "gamma_pair_split": {
+      "equal": true,
+      "control_rows": 7,
+      "neutral_rows": 7,
+      "control_sha256": "f777f867cfe7803862bc70f7757af0a827ca5b57d45727d1cb4b310af86d35d6",
+      "neutral_sha256": "f777f867cfe7803862bc70f7757af0a827ca5b57d45727d1cb4b310af86d35d6"
+    },
+    "gamma_trust": {
+      "equal": true,
+      "control_rows": 211,
+      "neutral_rows": 211,
+      "control_sha256": "2638333e05eaee9bd6887653c39fffb50e8364c6ab4505ca43dce4ee37f95dd3",
+      "neutral_sha256": "2638333e05eaee9bd6887653c39fffb50e8364c6ab4505ca43dce4ee37f95dd3"
+    },
+    "map": {
+      "equal": true,
+      "control_rows": 1,
+      "neutral_rows": 1,
+      "control_sha256": "c4abdf56b6a19e791fddb01784ce3cf57b49717186bb7b9ca03199d7acba7751",
+      "neutral_sha256": "c4abdf56b6a19e791fddb01784ce3cf57b49717186bb7b9ca03199d7acba7751"
+    },
+    "roster": {
+      "equal": true,
+      "control_rows": 1,
+      "neutral_rows": 1,
+      "control_sha256": "2fb4854c203059d5300992527a46c4521f10cb8b84ee789d045a82155b328a3e",
+      "neutral_sha256": "2fb4854c203059d5300992527a46c4521f10cb8b84ee789d045a82155b328a3e"
+    },
+    "run_end": {
+      "equal": true,
+      "control_rows": 1,
+      "neutral_rows": 1,
+      "control_sha256": "6b66448beac01ce9291d0afec447bf89f80eabffc7559976f6826b8b133c6592",
+      "neutral_sha256": "6b66448beac01ce9291d0afec447bf89f80eabffc7559976f6826b8b133c6592"
+    },
+    "score": {
+      "equal": true,
+      "control_rows": 1,
+      "neutral_rows": 1,
+      "control_sha256": "c0f5e09612849a46154eba1f324bd01883e491fd4505991026059a661406a528",
+      "neutral_sha256": "c0f5e09612849a46154eba1f324bd01883e491fd4505991026059a661406a528"
+    },
+    "snapshot": {
+      "equal": true,
+      "control_rows": 2,
+      "neutral_rows": 2,
+      "control_sha256": "2717454af0b1349bf7e2836318af9cc0622db6706641dd41e9389bda21045bd0",
+      "neutral_sha256": "2717454af0b1349bf7e2836318af9cc0622db6706641dd41e9389bda21045bd0"
+    }
+  },
+  "ready_for_remaining_candidates": true,
+  "promotion_or_confirmation": false,
+  "seed": "delta-r1-s01",
+  "status": "Pilot only; remaining candidate screen running; no economic selection",
+  "arms": {
+    "neutral": {
+      "score": {
+        "marginCents": 1574442,
+        "revenueCents": 3881506,
+        "marginShare": 0.40562657896187715,
+        "wonOrders": 269,
+        "onTimeShare": 0.9739776951672863,
+        "undeliveredShare": 0.011152416356877323,
+        "ranked": true
+      },
+      "service_gate": true,
+      "trace_sha256": "02a067ec38e9ef5d21629405e0941445fee60a76e7bee7ff2010fe3a4bad28b3",
+      "integrity": {
+        "passed": true,
+        "mode": "off",
+        "competitive_quotes": 883,
+        "b1_quotes": 0,
+        "outcomes": 0,
+        "cleanup": 0,
+        "pending_at_end": 0,
+        "action_batches": 1892,
+        "events": 17809,
+        "snapshots": 2
+      },
+      "learner": {
+        "passed": true,
+        "markup": 17330.018498233294
+      }
+    },
+    "fastest-learning-only": {
+      "score": {
+        "marginCents": 1690861,
+        "revenueCents": 3874088,
+        "marginShare": 0.4364539473548355,
+        "wonOrders": 259,
+        "onTimeShare": 0.972972972972973,
+        "undeliveredShare": 0.003861003861003861,
+        "ranked": true
+      },
+      "service_gate": true,
+      "trace_sha256": "1aef344fdc8bfd630289d20e54900c0b798b81f8e79734439715d9d2a12ee382",
+      "integrity": {
+        "passed": true,
+        "mode": "fastest_learning_only",
+        "competitive_quotes": 886,
+        "b1_quotes": 886,
+        "outcomes": 886,
+        "cleanup": 0,
+        "pending_at_end": 0,
+        "action_batches": 1905,
+        "events": 18440,
+        "snapshots": 2
+      },
+      "learner": {
+        "passed": true,
+        "markup": 17938.643304873094
+      }
+    },
+    "fastest-learning-only-skipped-9200": {
+      "score": {
+        "marginCents": 1604688,
+        "revenueCents": 4014519,
+        "marginShare": 0.3997211122926557,
+        "wonOrders": 281,
+        "onTimeShare": 0.9679715302491103,
+        "undeliveredShare": 0.0071174377224199285,
+        "ranked": true
+      },
+      "service_gate": true,
+      "trace_sha256": "b9e98084579ee48dfdd952f3cb7351af8c6bb53e5056495cfc99104657a90569",
+      "integrity": {
+        "passed": true,
+        "mode": "fastest_learning_only_skipped_9200",
+        "competitive_quotes": 881,
+        "b1_quotes": 881,
+        "outcomes": 881,
+        "cleanup": 0,
+        "pending_at_end": 0,
+        "action_batches": 1957,
+        "events": 21757,
+        "snapshots": 2
+      },
+      "learner": {
+        "passed": true,
+        "markup": 17764.563109041756
+      }
+    },
+    "split-skipped-tracker": {
+      "score": {
+        "marginCents": 1647852,
+        "revenueCents": 3912397,
+        "marginShare": 0.42118731815815214,
+        "wonOrders": 273,
+        "onTimeShare": 0.9706959706959707,
+        "undeliveredShare": 0.007326007326007326,
+        "ranked": true
+      },
+      "service_gate": true,
+      "trace_sha256": "4a161bc3d065e0c976ba44c1886a79b2bfb0cdeb157d3ae5e6f99a90f33784c0",
+      "integrity": {
+        "passed": true,
+        "mode": "split_skipped_tracker",
+        "competitive_quotes": 882,
+        "b1_quotes": 882,
+        "outcomes": 882,
+        "cleanup": 0,
+        "pending_at_end": 0,
+        "action_batches": 1927,
+        "events": 18707,
+        "snapshots": 2
+      },
+      "learner": {
+        "passed": true,
+        "markup": 17690.969728671673
+      }
+    }
+  },
+  "reference_policy_addendum": "Candidate snapshots/choices unchanged; complete never-created frozen-Gamma s05..s08 references separately. Fixed references are measurement, not candidates; their service scores do not imply qualification. Candidate guards and promotion gates unchanged."
+}

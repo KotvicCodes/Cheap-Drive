@@ -29,8 +29,9 @@ to review the implementation belong in the PR, with the user's approval.
 
 Git ignores do not remove tracked history, prevent force-adding files or back
 up local files. The story stays in this checkout unless separately backed up
-privately. The existing tracked `AI overview.md` remains public project
-documentation; it is separate from the local story.
+privately. Public challenge constraints live in [docs/challenge.md](docs/challenge.md),
+operational instructions in [docs/reference.md](docs/reference.md), and measured
+prototype evidence in `docs/research/`; these are separate from the local story.
 
 ## Alpha
 
@@ -235,3 +236,13 @@ is documented in [historical Gamma results](docs/research/gamma-results.md).
 
 These are ordinary-practice results. Final clocks still require their own runner
 and validation. Further experiments are reserved for [Delta](docs/research/delta-handoff.md).
+
+## Delta
+
+Delta started with repository cleanup and documentation consolidation. Gamma
+remains the selected qualified practice baseline; Alpha and Beta remain supported
+comparisons. The experimental `delta:make_delta` factory isolates bounded note
+corrections and rescue-window handling behind independent switches. Neither is
+selected by default, and no Delta model has qualified yet. See the
+[investigation results](docs/research/delta-results.md) and
+[testing plan](docs/research/delta-testing-plan.md) for evidence and next steps.

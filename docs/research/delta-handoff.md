@@ -4,6 +4,32 @@ Gamma passed its frozen confirmation; its settings and acceptance gates are in
 [Gamma recovery results](gamma-recovery-results.md). Use the selected Gamma as
 Delta's fixed baseline. Do not revise Gamma using confirmation outcomes.
 
+## Development status
+
+Repository cleanup established Delta's groundwork. The experimental
+`delta:make_delta` factory now isolates note and rescue corrections; Gamma's
+settings and supported behavior remain fixed. No Delta model is qualified.
+Alpha, Beta and Gamma remain supported baselines. See the
+[investigation results](delta-results.md) for the current evidence.
+
+The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
+the volume, rescue and pairing hypotheses and provides executable settings-only
+screening plans. A1/A2 are complete; the two segment simplifications improved
+mean margin but missed the final economic gate. B intake and independent
+trust/review and learner screens stopped on their service guards. The lane and
+independent note/rescue pilots completed; two lane trajectories exposed an
+inherited private-window rescue defect. B4 conditional pricing is implemented
+and reviewed offline, with 301 combined tests passing, but has not run live.
+At the user's stopping point all owned worlds have completed, controllers have
+exited, and further launches are held. Other stages retain their gates.
+New [quote/fee hypotheses](delta-quote-fee-leads.md) are staged after A/B; their
+completed-trace audit corrects incomplete retry selection and flags omitted
+gig-only costs before any net segment margin claims.
+
+Challenge rules and final integration requirements are consolidated in
+[challenge constraints](../challenge.md); setup, run limits, event dates and
+reporting commands are in the [operational reference](../reference.md).
+
 ## First experiments
 
 Four proposed settings-only arms were parked before launch when Gamma was

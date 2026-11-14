@@ -7,13 +7,10 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-> **Final is close — as of 14 November 2026, 15:20 Helsinki (UTC+2).**
-> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, lasts about 34 minutes.
-> Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
-> Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
-> Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
-> **Missing: Alpha/Beta/Gamma dispatch has not been validated on final clocks; there is no final-mode runner yet.**
-> [Schedule details](AI%20overview.md#event-deadlines-and-submission).
+**Delta is under investigation.** Repository cleanup is complete; segment and
+correctness experiments are in progress. See the [Delta results](docs/research/delta-results.md)
+and [testing plan](docs/research/delta-testing-plan.md). Gamma remains the current
+qualified practice baseline until a successor passes fresh confirmation.
 
 ## Standings
 
@@ -68,7 +65,7 @@ All event times are **Helsinki time (EET, UTC+2)**:
 | **The Final** (`--final`) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
 | **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
 
-## Current model: Gamma
+## Current qualified baseline: Gamma
 
 Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
 8/8 more profitable**, gaining **€2,031/week (+20.21%)**, with **96.95% worst
@@ -104,10 +101,15 @@ those are exposed diagnostics, separate from confirmation.
 
 Earlier results: [Gamma guarded-route research](docs/research/gamma-results.md),
 [Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
-Further model work is parked in the [Delta handoff](docs/research/delta-handoff.md).
+The next proposed experiments and known note cases are in the
+[Delta handoff](docs/research/delta-handoff.md).
 
 For context, round 6’s leading teams averaged about €18–22k and 430–470
 orders/week on different ranking worlds; practice results are not directly comparable.
+
+Public ranking evidence is from Beta: [rounds 5 and 6](docs/research/beta-results.md#ranking-round-5-level-8),
+with [round-6 charts](docs/screenshots/README.md#leaderboard-visuals). Those dated
+results describe completed rounds, not current standings.
 
 ## What drove the changes
 
