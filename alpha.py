@@ -190,6 +190,16 @@ class AlphaDesk(JournalDesk):
             return min((km, driver) for candidates in options for km, driver in candidates if driver in common)[1]
         return min(options, key=len)[0][1]
 
+    def reserve_again(self, order_id):
+        """Replace a reservation with a free driver feasible for every quoted option, if any."""
+        del self.reservations[order_id]
+        request = self.requests.get(order_id)
+        if request is None:
+            return
+        options = [found for option in request["options"] if (found := self.candidates(request, option))]
+        if options:
+            self.reservations[order_id] = self.reservation_for(options)
+
     def read_results(self, actions: list[Action], results: list[ActionResult]) -> None:
         super().read_results(actions, results)
         for action, result in zip(actions, results):
@@ -201,15 +211,13 @@ class AlphaDesk(JournalDesk):
         kind = event["kind"]
         if kind in ("gig_booked", "gig_started"):
             booked = self.gig_drivers[event["gigId"]] = event["driverId"]
-            freed = [self.reservations.pop(stop["orderId"])
-                     for stop in self.posts.get(event["gigId"], {}).get("stops", [])
-                     if stop["orderId"] in self.reservations]
-            freed = [driver for driver in dict.fromkeys(freed) if driver != booked]
+            for stop in self.posts.get(event["gigId"], {}).get("stops", []):
+                self.reservations.pop(stop["orderId"], None)
             # Bookings are authoritative. If another quote's estimate relied on the
-            # driver who actually booked, move it to the estimate this booking freed.
+            # driver who actually booked, re-estimate it from drivers now free.
             for order_id, driver in list(self.reservations.items()):
-                if driver == booked and freed:
-                    self.reservations[order_id] = freed.pop()
+                if driver == booked:
+                    self.reserve_again(order_id)
         elif kind in ("gig_dropped", "no_show"):
             self.gig_drivers.pop(event["gigId"], None)
         elif kind in ("picked_up", "delivered"):

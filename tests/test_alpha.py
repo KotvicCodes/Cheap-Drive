@@ -179,6 +179,38 @@ class AlphaTests(unittest.TestCase):
         busy = set(self.desk.gig_drivers.values()) | set(self.desk.reservations.values())
         self.assertEqual(busy, {estimated, displaced})
 
+    def test_reassigned_reservation_uses_only_a_driver_feasible_for_that_quote(self):
+        first = self.quote('first')
+        self.win(first)
+        self.desk.send()
+        self.quote('second')
+        estimated, displaced = self.desk.reservations['first'], self.desk.reservations['second']
+        original = self.desk.candidates
+        self.desk.candidates = lambda request, option: [c for c in original(request, option) if c[1] != estimated]
+        gig_id = next(iter(self.desk.posts))
+        self.desk.handle({'seq': 3, 'at': 560, 'kind': 'gig_booked', 'gigId': gig_id,
+                          'driverId': displaced, 'feeCents': 12000})
+        self.assertNotIn(self.desk.reservations['second'], {estimated, displaced})
+        self.desk.candidates = lambda request, option: []
+        self.desk.reservations['third'] = 'driver-9'
+        self.desk.requests['third'] = sample_request()
+        self.desk.gig_drivers.clear()
+        self.desk.handle({'seq': 4, 'at': 561, 'kind': 'gig_booked', 'gigId': gig_id,
+                          'driverId': 'driver-9', 'feeCents': 12000})
+        self.assertNotIn('third', self.desk.reservations)
+
+    def test_booking_of_unreserved_order_releases_the_driver_it_used(self):
+        declined = self.quote('declined')
+        self.desk.reservations.pop('declined')  # e.g. a high-price decline that still won
+        self.win(declined)
+        self.desk.send()
+        self.quote('other')
+        taken = self.desk.reservations['other']
+        gig_id = next(iter(self.desk.posts))
+        self.desk.handle({'seq': 3, 'at': 560, 'kind': 'gig_booked', 'gigId': gig_id,
+                          'driverId': taken, 'feeCents': 12000})
+        self.assertNotEqual(self.desk.reservations.get('other'), taken)
+
     def test_expired_and_duplicate_requests_do_not_queue_quotes(self):
         request = self.quote('one')
         self.desk.quote(request)
