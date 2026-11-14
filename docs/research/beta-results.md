@@ -100,6 +100,22 @@ the organisers' own "House best" (€50,660). The round's leaders totalled
 €77–79k and the tenth-placed team about €71k: the final's top ten needs roughly
 40% more margin than Beta makes.
 
+## Ranking round 6, level 8
+
+Played with unchanged `models/beta.json` on 14 November ("Saturday 12:00").
+
+| Run | Margin | On time | Orders |
+|---|---|---|---|
+| 1 | €12,273 | 96.9% | 255 |
+| 2 | €13,501 | 96.1% | 257 |
+| 3 | €9,191 | 98.3% | 236 |
+| 4 | €12,596 | 99.2% | 244 |
+| 5 | €11,968 | 96.6% | 263 |
+| **Total** | **€59,529** | all five ranked | 1,255 |
+
+That placed 45th of the 58 teams ranked in the round when it closed (House best
+€77,560; tenth place about €91k; leaders €99–110k).
+
 ## Limits
 
 - Eight seeds, and the settings were chosen on them. Differences under about
