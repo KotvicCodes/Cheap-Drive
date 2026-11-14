@@ -411,17 +411,9 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
 def hero(t):
     im = base_canvas('juicy').copy()
     finland_map(im, t, (950, 64, 1840, 1016), zoom_south=False, bg=CARD, border='#E05500')
-    enter(im, 'Move cars,', 80, 210, 138, t, .05, color=INK, weight=700)
-    enter(im, 'Win', 80, 368, 138, t, .16, color=INK, weight=700)
-    enter(im, 'margins', 80, 526, 138, t, .26, color=INK, weight=700)
-    if t > .45:
-        steps = ['1. Screen', '2. Quote', '3. Escalate', '4. Deliver']
-        xx = 84
-        active_step = min(3, int((t - .45) / 0.95))
-        for i, s in enumerate(steps):
-            is_act = i == active_step
-            w = badge(im, s, xx, 780, color=SUNBURST if is_act else INK, bg=INK if is_act else CARD, border=None if is_act else '#E05500', size=22)
-            xx += w + 14
+    enter(im, 'Move cars,', 80, 260, 146, t, .05, color=INK, weight=700)
+    enter(im, 'Win', 80, 426, 146, t, .16, color=INK, weight=700)
+    enter(im, 'margins', 80, 592, 146, t, .26, color=INK, weight=700)
     return im
 
 
