@@ -13,6 +13,8 @@ plus those two repairs (`models/delta.json`).
 Alpha, Beta and Gamma remain supported baselines. See the
 [investigation results](delta-results.md) for the current evidence.
 
+See [Delta next steps](delta-next-steps.md) for tonight's ranked service-protection tweaks, queued settings screens and ideas parked for the next model.
+
 The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
 the volume, rescue and pairing hypotheses and provides executable settings-only
 screening plans. A1/A2 are complete; the two segment simplifications improved
