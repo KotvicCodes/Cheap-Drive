@@ -1,0 +1,66 @@
+{
+  "README.md": {
+    "bytes": 4846,
+    "sha256": "329159c028ac4b5c792c69c701fe35666cf74d348e88cd1d9a3ce19a353ae563"
+  },
+  "requirements.txt": {
+    "bytes": 50,
+    "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
+  },
+  "render.py": {
+    "bytes": 34314,
+    "sha256": "40d2a037b993131c97d5f2b385d78fee62b8153db2a9c26a71c09e5d837032c9"
+  },
+  "captions.vtt": {
+    "bytes": 1970,
+    "sha256": "672417ff4c4bb1931de4d594e5270bc4a737f94fa72d5c78d3b6bcb9b9693ce3"
+  },
+  "captions.srt": {
+    "bytes": 1962,
+    "sha256": "c12b12e4710b9d06b10344b1e055379605f26af2ea1907cd4ff024e02bf48b3c"
+  },
+  "data/graph-data.json": {
+    "bytes": 459165,
+    "sha256": "c2cec2d730b455d770a50639a367a3f5ca6cdf8f300fc17b65f8461dff992186"
+  },
+  "data/official-five-weeks.csv": {
+    "bytes": 312,
+    "sha256": "d90990dce95bcef63db075a08cb99a2876aa1ce2471ebd45d1b3ed291310ac05"
+  },
+  "data/per-seed-comparisons.csv": {
+    "bytes": 20706,
+    "sha256": "6ac665283f706c1a2fede104e20532401a614e49e2c1289b7f8a950a616f217c"
+  },
+  "assets/IBMPlexMono-OFL.txt": {
+    "bytes": 4456,
+    "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  },
+  "assets/IBMPlexMono.ttf": {
+    "bytes": 135580,
+    "sha256": "6a3412f058c7d8dfd9170c41e85ade48e5156ecb89356110ca57a0a27734af46"
+  },
+  "assets/SpaceGrotesk.ttf": {
+    "bytes": 136676,
+    "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72"
+  },
+  "assets/SpaceGrotesk-OFL.txt": {
+    "bytes": 4495,
+    "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+  },
+  "assets/all-run-margins.png": {
+    "bytes": 342923,
+    "sha256": "94a89cde93f54433393f2fcaab79776626e036294f88bb6477cfdf3f3bfd7c4f"
+  },
+  "../../docs/screenshots/week-overview.png": {
+    "bytes": 311202,
+    "sha256": "d3e3f873a5ea26a536ac74dcabf0aba8b5e7518f5382db913d9083186e2733eb"
+  },
+  "assets/poster.png": {
+    "bytes": 156142,
+    "sha256": "ba55d12bf54a2a2931e9493d7ba8fde435840d3570044d3ca651fa986cee338c"
+  },
+  "assets/contact-sheet.jpg": {
+    "bytes": 638541,
+    "sha256": "bfe68954bd726beef77d7f17887bcf2d4b31a6ada4012778b245f830b87f809d"
+  }
+}

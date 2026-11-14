@@ -1,0 +1,64 @@
+1
+00:00:00,500 --> 00:00:08,800
+Cheap-Drive: an adaptive dispatcher for the Spread simulation.
+Win the right work and deliver it reliably.
+
+2
+00:00:09,300 --> 00:00:12,800
+First, screen the request for pickup slack,
+route length, and trade-ins. Illustrative Beta replay.
+
+3
+00:00:13,200 --> 00:00:16,800
+Price each viable option from its own list price,
+with an adaptive markup and counted dealer trust.
+
+4
+00:00:17,200 --> 00:00:20,800
+Start the driver fee at 0.8 times the typical fee.
+Increase it toward 1.5 times as the warning approaches.
+
+5
+00:00:21,200 --> 00:00:24,800
+Track the gig, driver booking, and delivery.
+Timing and route are illustrative, not a live run.
+
+6
+00:00:25,300 --> 00:00:34,800
+Capture events, reconcile the ledger, and inspect failures.
+The real report shown is a level-4 fixed-baseline tooling example.
+
+7
+00:00:35,300 --> 00:00:39,000
+1,022 completed practice worlds across 34 seed-and-level scenarios.
+Repeated seeds are correlated, not independent validation weeks.
+
+8
+00:00:39,000 --> 00:00:48,800
+The complete experiment chart includes failures.
+Blue dots qualify; red crosses fail. Groups are not a time axis.
+
+9
+00:00:49,300 --> 00:01:00,800
+Same stress seed: 500 km / 30% versus 600 km / 38% target.
+More wins reduced margin and crossed below the 90% on-time gate.
+
+10
+00:01:01,300 --> 00:01:09,500
+Selective longer routes added 1,231.75 simulated euros per week.
+Eight matched development seeds: higher margin and qualification on all eight.
+
+11
+00:01:09,500 --> 00:01:15,800
+Mean on-time fell from 96.35% to 95.51%; worst week was 92.98%.
+This is a promising development result; unseen-week validation is still needed.
+
+12
+00:01:16,300 --> 00:01:29,800
+Five saved official ranking weeks totalled 50,541.26 simulated euros.
+All five qualified. This historical ranking result is separate from the final.
+
+13
+00:01:30,300 --> 00:01:40,000
+Cheap-Drive. Win the right work. Deliver it reliably.
+Next: validate on unseen weeks.
