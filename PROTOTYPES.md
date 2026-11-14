@@ -116,3 +116,73 @@ check, and small differences between top candidates are noise.
 
 Measured results and the reasons Alpha trails the leading teams are in
 [docs/research/alpha-results.md](docs/research/alpha-results.md).
+
+## Beta
+
+Beta changes two things Alpha left alone or got wrong: how the quote is
+anchored, and who owns the driver fee. It has three tuned parameters
+(`models/beta.json`).
+
+### Quote: list price times a markup that follows the market and dealer trust
+
+```text
+quote(option) = option's list price x markup x (1 + 0.01 x dealer's on-time orders, at most 25)
+after a win:   markup x (1 + 0.02 x (1 - win share))
+after a loss:  markup x (1 - 0.02 x win share)
+```
+
+- Each option is priced from its own list price, so the dealer still chooses
+  by speed. Alpha built a price up from a cost floor and sent the same price
+  for every option; that priced long lanes out of the market.
+- The steps cancel when the share of won quotes equals `win_target_bps`
+  (30%), so the markup settles where this week's competitor gives that share.
+  It starts at 1.5 and stays within 1.2-2.0. A world's competitor level
+  (26-54% above list), its day factors and the price-war day are never
+  observed; wins and losses are.
+- The trust term is the level-8 rule itself: a dealer accepts 1% more per
+  order delivered to it on time, up to 25, and a late order halves the count.
+  Beta counts it from its own ledger: a revenue line adds one, a late refund
+  takes that back and halves.
+
+### Driver fee: open low, pay for time only when time is short
+
+```text
+fee(t) rises in 8 even steps from opening_fee x typical fee at posting
+       to 1.5 x typical fee at the deadline warning (3 hours before the last pickup)
+```
+
+The starter opens at the typical fee and adds 10% every hour whatever the
+deadline. A next-day car then climbs to 1.5x on the evening before, while most
+drivers cannot yet book that day, and drivers learn that our fees rise. Beta
+opens at `opening_fee_bps` (80%) and spreads the same rise over the time the
+order really has. After the deadline warning the starter's steep rescue fees
+still apply. Steps are never closer than an hour.
+
+### What Beta declines
+
+A decline is a quote at ten times the list price: it costs no goodwill, and it
+does not teach the markup.
+
+- Routes longer than `max_km` (500 km).
+- Options that leave a driver less than 8 hours between the dealer's decision
+  and the last pickup that still meets the deadline (by road minutes, stated
+  closing times and the car's ready time). Other options of the same request
+  are still quoted.
+- Trade-ins (two cars).
+
+### Also
+
+- Notes: a car without plates is posted `withPlates`, a manual gearbox with a
+  manual-licence audience. Other notes stay with the starter's reader.
+- Levels 1-3 keep starter quotes.
+- Posting, retries, expiry and deadline rescue are the starter's.
+- `passive_wake_events` is declared, so fast practice (`--fast`) can deliver a
+  lost quote with the next decision event; the markup step still happens
+  before that decision.
+
+### Evaluation
+
+`scripts/sweep.py` plays a grid of settings on shared seeds, eight worlds at a
+time, and keeps every trace and reveal under ignored `runs/`. `scripts/board.py`
+plays ranking runs. Results, the rejected variants and the limits are in
+[docs/research/beta-results.md](docs/research/beta-results.md).

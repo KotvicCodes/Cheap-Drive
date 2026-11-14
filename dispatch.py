@@ -13,7 +13,8 @@ from typing import Callable
 
 from capture import CapturedWorld, Journal
 
-from spread import Client, SpreadError, World
+from spread import SpreadError, World
+from performance import PracticeClient as Client
 from spread.starter import DAY, WAKE_ON, WEEKDAYS, Desk, report
 from spread.types import Action, ActionResult, DeskEvent, DeskEventKind, FeeStep, Order, PriceRequest, Score
 
@@ -44,6 +45,11 @@ class FixedPrices:
 
 class JournalDesk(Desk):
     """The official starter with the same trace instrumentation as our models."""
+
+    # These handlers queue no actions. Read them with the next decision event.
+    # play_model requires an explicit declaration on each concrete class so
+    # custom subclasses with new behavior retain the conservative wake policy.
+    passive_wake_events = frozenset({"order_lost", "driver_late", "forecast", "release"})
 
     def __init__(self, world: World, level: int, now: int, journal: Journal):
         super().__init__(world, level, now)
@@ -78,6 +84,8 @@ class JournalDesk(Desk):
 class FixedDesk(JournalDesk):
     """Keep the starter's delivery handling and replace its pricing decisions."""
 
+    passive_wake_events = JournalDesk.passive_wake_events
+
     def __init__(self, world: World, level: int, now: int, prices: FixedPrices, journal: Journal):
         super().__init__(world, level, now, journal)
         self.prices = prices
@@ -100,37 +108,68 @@ class FixedDesk(JournalDesk):
 DeskFactory = Callable[[World, int, int, Journal], Desk]
 
 
-def play_model(world: World, level: int, journal: Journal, factory: DeskFactory) -> Score:
+def handle_batch(desk, events, now, *, coalesced=False):
+    """Retain the old handler clock at bookkeeping stops removed from HTTP.
+
+    Events such as gig_started can precede a loss and re-estimate capacity
+    using desk.now. Handle that prefix at the original loss minute, rather
+    than silently moving those calculations to the next price request.
+    """
+    if not coalesced:
+        desk.now = now
+        for event in events:
+            desk.handle(event)
+        return
+    stops = sorted({event["at"] for event in events
+                    if event["kind"] in WAKE_EVENTS and event["at"] < now})
+    index = 0
+    for minute in [*stops, now]:
+        desk.now = minute
+        while index < len(events) and events[index]["at"] <= minute:
+            desk.handle(events[index])
+            index += 1
+        if minute < now and desk.outbox:
+            raise RuntimeError("a declared passive wake queued actions")
+
+
+def play_model(world: World, level: int, journal: Journal, factory: DeskFactory, *,
+               fast=False, stop_requested=None) -> Score:
     """Run any desk on the same practice clock and wake events."""
     world = CapturedWorld(world, journal)
     snapshot = world.capture("snapshot", world.world.snapshot, "initial")
-    world.optional("map", lambda: world.world.client.map(), "initial")
-    world.optional("roster", lambda: world.world.roster(), "initial")
+    world.initial_snapshot = snapshot
+    world.initial_map = world.optional("map", lambda: world.world.client.map(), "initial")
+    world.initial_roster = world.optional("roster", lambda: world.world.roster(), "initial")
     desk = factory(world, level, snapshot["now"], journal)
+    passive = type(desk).__dict__.get("passive_wake_events", ()) if fast else ()
+    wake_events = [kind for kind in WAKE_EVENTS if kind not in passive]
     while desk.now < snapshot["endsAt"]:
+        if stop_requested and stop_requested():
+            raise KeyboardInterrupt
         day = desk.now // DAY
         actions, desk.outbox = desk.outbox, []
-        step = world.advance(until=WAKE_EVENTS, max=min(snapshot["endsAt"], (day + 1) * DAY), actions=actions)
+        step = world.advance(until=wake_events, max=min(snapshot["endsAt"], (day + 1) * DAY), actions=actions)
         desk.read_results(actions, step["results"])
-        desk.now = step["now"]
-        for event in step["events"]:
-            desk.handle(event)
-        if desk.now // DAY > day:
+        handle_batch(desk, step["events"], step["now"], coalesced=bool(passive))
+        if not fast and desk.now // DAY > day:
             score = world.world.score()
             report(WEEKDAYS[day % 7], score)
             journal.record("daily_score", at=desk.now, score=score)
     score = world.world.score()
     journal.record("score", at=desk.now, score=score)
     world.optional("snapshot", world.world.snapshot, "end")
-    world.optional("roster", lambda: world.world.roster(), "end")
-    world.optional("reveal", lambda: world.world.reveal(), "end")
+    if not fast:
+        world.optional("roster", lambda: world.world.roster(), "end")
+        world.optional("reveal", lambda: world.world.reveal(), "end")
+    else:
+        journal.record("capture_skipped", capabilities=["daily_score", "end_roster", "reveal"], reason="fast practice")
     journal.record("run_end", at=desk.now, endsAt=snapshot["endsAt"])
     return score
 
 
-def play_practice(world: World, level: int, prices: FixedPrices, journal: Journal) -> Score:
+def play_practice(world: World, level: int, prices: FixedPrices, journal: Journal, *, fast=False) -> Score:
     return play_model(world, level, journal,
-                      lambda world, level, now, journal: FixedDesk(world, level, now, prices, journal))
+                      lambda world, level, now, journal: FixedDesk(world, level, now, prices, journal), fast=fast)
 
 
 def main() -> int:
@@ -142,6 +181,7 @@ def main() -> int:
     parser.add_argument("--driver-fee", type=euro_cents, default=15_000, metavar="EUROS", help="fixed fee per car (default 150)")
     parser.add_argument("--log", type=Path, help="JSONL trace path (default runs/<time>.jsonl)")
     parser.add_argument("--delete-on-error", action="store_true", help="explicitly delete this invocation's failed practice world; default preserves it")
+    parser.add_argument("--fast", action="store_true", help="coalesce bookkeeping wakes and omit optional end diagnostics")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
     prices = FixedPrices(args.dealer_price, args.driver_fee)
@@ -165,7 +205,7 @@ def main() -> int:
                            level=args.level, seed=args.seed, dealerCents=prices.dealer_cents,
                            driverCentsPerCar=prices.driver_cents)
             print(f"World: {world.id}; trace: {log_path}", flush=True)
-            score = play_practice(world, args.level, prices, journal)
+            score = play_practice(world, args.level, prices, journal, fast=args.fast)
             report("End", score)
             print("Ranked." if score["ranked"] else "Not ranked. This is a fixed-price plumbing baseline.", flush=True)
         return 0

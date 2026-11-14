@@ -20,6 +20,13 @@ New prototypes use Greek letters in order: **Alpha, Beta, Gamma, Delta**, and so
 
 The evolving prototype story lives locally in `prototype-story/STORY.md`. The entire `prototype-story/` directory is gitignored; it must stay out of commits and PRs. Prototype code, configurations and technical documentation are intended for PRs after discussion and explicit approval to publish.
 
+Beta is the current model: quotes at the list price times a markup that follows the market and dealer trust, and a driver fee that opens low and rises only as the deadline nears. See [docs/research/beta-results.md](docs/research/beta-results.md).
+
+```bash
+python scripts/sweep.py runs/beta/my-sweep plan.json   # a grid of settings on shared seeds, 8 worlds at a time
+python scripts/board.py models/beta.json --runs 5      # public ranking runs: cannot be taken back
+```
+
 Compare Alpha with the official starter on shared practice seeds:
 
 ```bash
@@ -28,7 +35,7 @@ python compare.py run --model-a models/alpha.json --model-b models/starter.json 
 
 ## Current approach
 
-We are prioritizing a working prototype and strategy experiments. **We do not optimize compute time or compute cost at this stage; we will address that later.**
+We are prioritizing strategy experiments and shorter feedback cycles on the official simulator. Use the fast practice options below when screening changes, then keep full captures for detailed analysis and validation.
 
 The first prototype uses constant prices:
 
@@ -68,7 +75,7 @@ After this workflow is merged to `main`, open **Actions → Practice comparison 
 
 To verify credentials and live execution before merging a repository branch, add the **run-practice** label to its pull request. This runs both models at level 4 on seed `github-pr-smoke-1` (two ordinary practice weeks). Remove and reapply the label to request another run. Fork pull requests are excluded. Runs start only when manually dispatched or labeled; adding a secret or pushing a commit does not start practice.
 
-The workflow shows the leaderboard in its run summary and uploads `leaderboard.md`, `results.json` and the JSONL traces as a **practice-comparison** artifact retained for 14 days. Failed runs also upload any partial results and traces that were written. Download results before they expire. Practice jobs run sequentially within the workflow, but local runs and other users still share the team's unfinished-world slots and rate limit. A forced cancellation or timeout may leave an unfinished world; check the world IDs in the traces if you need to clean one up.
+The workflow shows the leaderboard in its run summary and uploads `leaderboard.md`, `results.json` and the JSONL traces as a **practice-comparison** artifact retained for 14 days. Failed runs also upload any partial results and traces that were written. Download results before they expire. Practice weeks run concurrently using up to eight free team slots. Local runs and other users share the team's unfinished-world slots and rate limit; a suite refuses to create worlds when all slots are occupied. A forced cancellation or timeout may leave an unfinished world; check the world IDs in the traces if you need to clean one up.
 
 ## Try it without a team key
 
@@ -155,6 +162,49 @@ For a quick all-level comparison with one paired seed:
 python compare.py run --seeds smoke-1 --output runs/smoke-comparison
 ```
 
+For a short level-8 screening experiment, run paired seeds concurrently:
+
+```bash
+python compare.py run --model-a models/alpha.json --model-b models/starter.json \
+  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast \
+  --output runs/quick-screen
+```
+
+`--workers` defaults to 1 and accepts up to 8. Each worker has its own process,
+SDK connection and world; the requested count is reduced to the number of free
+team slots observed before starting. Other processes can still race for those
+slots. The server's team-wide rate limit remains in effect. GitHub practice
+comparisons request eight workers while keeping full captures.
+
+`--fast` removes HTTP stops for declared bookkeeping events, while retaining
+every event and the handler clock at the original stops. The built-in starter,
+fixed model and Alpha opt in; custom subclasses keep all wakes unless they
+explicitly declare `passive_wake_events` on their own class. Fast mode skips
+daily score reads and end roster/reveal downloads. It retains all actions,
+event batches, durable journaling, the final score and the endpoint snapshot.
+Use normal mode for complete diagnostics, or fetch a completed world's reveal
+later. A passive handler that queues actions stops the run instead of silently
+delaying them.
+
+The SDK wrapper requests gzip responses, reuses connections and caches only the
+public map. Alpha reuses the initial snapshot/map/roster already captured by
+the runner. Per-week `seconds` and transport `timing` in `results.json` show
+request counts, API/transport time, transferred bytes and observed rate limits.
+`--no-compression` allows a transport comparison. The wrapper retains the
+official SDK's request validation, rate-limit waiting and retry behavior.
+
+Measure public API latency from a candidate host without credentials or new
+practice worlds:
+
+```bash
+python performance.py --samples 8
+```
+
+The command alternates compressed and uncompressed map reads over a warm
+connection. It measures that host's network path, not the duration of a week.
+Moving the runner near the official server remains a useful next experiment
+when round-trip time dominates; more machines do not increase the team limit.
+
 For a focused experiment with explicit model definitions:
 
 ```bash
@@ -192,7 +242,16 @@ python compare.py report runs/fixed-vs-starter/results.json
 python compare.py report runs/fixed-vs-starter/results.json --output comparison.md
 ```
 
-Existing output directories and report files are never overwritten. Results are checkpointed after every run. On an error or Ctrl-C, the suite stops, saves the failure and preserves its current practice world for debugging. It may hold an unfinished practice slot. Use `--delete-on-error` to opt into deleting only that invocation's failed world; completed worlds remain inspectable. Cleanup failures retain the world ID in local results. Incomplete or mismatched pairs cannot produce a leaderboard; rerun the suite into a fresh output directory after fixing the failure.
+Existing output directories and report files are never overwritten during a new suite. Results are checkpointed after every run. On a worker failure the suite starts no more worlds and finishes those already running before reporting the failure. Ctrl-C requests that active workers stop between API calls. Failed worlds are preserved for debugging by default and may hold unfinished slots. Use `--delete-on-error` to opt into deleting only this invocation's failed worlds; completed worlds remain inspectable. Cleanup failures retain world IDs in results. A lost response can still leave an unknown world or outcome. Incomplete or mismatched pairs cannot produce a leaderboard.
+
+To continue a suite without replaying its completed weeks, repeat the same
+command and output directory with `--resume`. Code revision and Python source
+hashes, model settings, server, fast mode, levels and seeds must match. The
+worker count can change. Failed attempts receive fresh trace filenames, and
+their prior traces and world IDs remain in the checkpoint; resume does not
+delete or blindly replay an unfinished world. Only one controller can write a
+given output directory at a time (the output lock uses POSIX file locking).
+If code or selections change, use a fresh output directory.
 
 ## Checks
 
