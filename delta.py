@@ -50,14 +50,24 @@ def rescue_window(place, kind, facts, low, high):
 
 
 class DeltaNotesMixin(GammaNotesMixin):
-    def __init__(self, *args, delta_note_fixes=0, delta_rescue_windows=0, **kwargs):
+    def __init__(self, *args, delta_note_fixes=0, delta_rescue_windows=0,
+                 delta_ev_rule=0, **kwargs):
         for name, value in (('delta_note_fixes', delta_note_fixes),
-                            ('delta_rescue_windows', delta_rescue_windows)):
+                            ('delta_rescue_windows', delta_rescue_windows),
+                            ('delta_ev_rule', delta_ev_rule)):
             if type(value) is not int or value not in (0, 1):
                 raise ValueError(name + ' must be 0 or 1')
         self.delta_note_fixes = delta_note_fixes
         self.delta_rescue_windows = delta_rescue_windows
+        self.delta_ev_rule = delta_ev_rule
         super().__init__(*args, **kwargs)
+
+    def _needs_charging(self, leg):
+        low_battery = super()._needs_charging(leg)
+        if not self.delta_ev_rule or not low_battery:
+            return low_battery
+        # Rules §5.3: a low-charge EV needs charging only over 200 road km.
+        return self.roads[leg['pickup']['placeId'], leg['delivery']['placeId']]['km'] > 200
 
     def note_facts(self, request):
         if not self.delta_note_fixes:
@@ -111,7 +121,8 @@ class DeltaNotesMixin(GammaNotesMixin):
 
 
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
-               delta_b1="off", delta_lanes="off", delta_option_spread="off", **settings):
+               delta_ev_rule=0, delta_b1="off", delta_lanes="off",
+               delta_option_spread="off", **settings):
     class DeltaDesk(DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
                     DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
@@ -133,5 +144,6 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                    note_fixes=delta_note_fixes, rescue_windows=delta_rescue_windows)
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver,
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
+                     delta_ev_rule=delta_ev_rule,
                      delta_b1=delta_b1, delta_lanes=delta_lanes,
                      delta_option_spread=delta_option_spread)
