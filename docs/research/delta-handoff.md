@@ -4,6 +4,36 @@ Gamma passed its frozen confirmation; its settings and acceptance gates are in
 [Gamma recovery results](gamma-recovery-results.md). Use the selected Gamma as
 Delta's fixed baseline. Do not revise Gamma using confirmation outcomes.
 
+## Development status
+
+Repository cleanup established Delta's groundwork. The experimental
+`delta:make_delta` factory now isolates note and rescue corrections; Gamma's
+settings and supported behavior remain fixed. Delta was later selected as Gamma
+plus those two repairs (`models/delta-early.json`, "Early Delta"); the current
+`models/delta.json` adds the capacity switches and a 42% win target.
+Alpha, Beta and Gamma remain supported baselines. See the
+[investigation results](delta-results.md) for the current evidence.
+
+See [Delta next steps](delta-next-steps.md) for tonight's ranked service-protection tweaks, queued settings screens and ideas parked for the next model.
+
+The [evidence review and staged testing plan](delta-testing-plan.md) evaluates
+the volume, rescue and pairing hypotheses and provides executable settings-only
+screening plans. A1/A2 are complete; the two segment simplifications improved
+mean margin but missed the final economic gate. B intake and independent
+trust/review and learner screens stopped on their service guards. The lane and
+independent note/rescue pilots completed; two lane trajectories exposed an
+inherited private-window rescue defect. B4 conditional pricing is implemented
+and reviewed offline, with 301 combined tests passing, but has not run live.
+At the user's stopping point all owned worlds have completed, controllers have
+exited, and further launches are held. Other stages retain their gates.
+New [quote/fee hypotheses](delta-quote-fee-leads.md) are staged after A/B; their
+completed-trace audit corrects incomplete retry selection and flags omitted
+gig-only costs before any net segment margin claims.
+
+Challenge rules and final integration requirements are consolidated in
+[challenge constraints](../challenge.md); setup, run limits, event dates and
+reporting commands are in the [operational reference](../reference.md).
+
 ## First experiments
 
 Four proposed settings-only arms were parked before launch when Gamma was
@@ -55,3 +85,17 @@ manifests and private traces; do not publish raw notes, reveals or credentials.
 
 Practice qualification does not validate a final-clock dispatcher. The current
 repository still needs that integration before a model can run in the final.
+
+## Parked: Gemini for dealer notes
+
+The user's standing idea (raised twice on 14 November): a fast Gemini call,
+given rich context about the game's note conventions, might read dealer notes
+better than the rule-based parser. It is parked, not rejected. An offline
+extraction contract, a cached-response adapter and a three-arm benchmark
+already exist in [gemini-notes.md](gemini-notes.md), `models/gemini_notes.py` and
+`scripts/benchmark_gemini_notes.py`; dispatch never imports them and no
+inference has been run. To take it up: label a held-out set of real notes,
+run the benchmark with live inference, and compare accuracy, cost and answer
+time against `models/notes.py` before letting it influence any action. A quote has a
+few real seconds in the final, so the call must fall back to the parser on
+timeout.

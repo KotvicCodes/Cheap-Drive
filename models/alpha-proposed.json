@@ -1,6 +1,6 @@
 {
   "name": "Alpha proposed",
-  "factory": "alpha:make_alpha",
+  "factory": "models.alpha:make_alpha",
   "settings": {
     "distance_cents_per_km": 45,
     "pickup_cents_per_km": 30,

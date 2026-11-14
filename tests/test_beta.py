@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import unittest
 
-from beta import MARKUP_MAX, MARKUP_MIN, MIN_SLACK, START_MARKUP, BetaDesk, BetaSettings
+from models.beta import MARKUP_MAX, MARKUP_MIN, MIN_SLACK, START_MARKUP, BetaDesk, BetaSettings
 from compare import load_model
 from demo import sample_request
 from dispatch import Journal, JournalDesk, play_model

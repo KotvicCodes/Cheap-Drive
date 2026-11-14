@@ -5,10 +5,10 @@ import io
 import json
 import unittest
 
-from beta import BetaDesk, BetaSettings
+from models.beta import BetaDesk, BetaSettings
 from dispatch import Journal, handle_batch
-from gamma import GammaDesk, GammaSettings
-from gamma_notes import make_gamma_notes, make_gamma_notes_pairs
+from models.gamma import GammaDesk, GammaSettings
+from models.gamma_notes import make_gamma_notes, make_gamma_notes_pairs
 from spread.starter import DAY
 from tests.test_gamma import GammaWorld, request
 

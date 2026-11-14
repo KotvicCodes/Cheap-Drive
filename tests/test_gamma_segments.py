@@ -4,9 +4,9 @@ import io
 import json
 import unittest
 
-from beta import BetaDesk, BetaSettings
+from models.beta import BetaDesk, BetaSettings
 from dispatch import Journal
-from gamma import GammaDesk, GammaSettings
+from models.gamma import GammaDesk, GammaSettings
 from tests.test_gamma import GammaWorld, request
 
 

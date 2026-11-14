@@ -143,18 +143,19 @@ def play_model(world: World, level: int, journal: Journal, factory: DeskFactory,
     desk = factory(world, level, snapshot["now"], journal)
     passive = type(desk).__dict__.get("passive_wake_events", ()) if fast else ()
     wake_events = [kind for kind in WAKE_EVENTS if kind not in passive]
-    while desk.now < snapshot["endsAt"]:
-        if stop_requested and stop_requested():
-            raise KeyboardInterrupt
-        day = desk.now // DAY
-        actions, desk.outbox = desk.outbox, []
-        step = world.advance(until=wake_events, max=min(snapshot["endsAt"], (day + 1) * DAY), actions=actions)
-        desk.read_results(actions, step["results"])
-        handle_batch(desk, step["events"], step["now"], coalesced=bool(passive))
-        if not fast and desk.now // DAY > day:
-            score = world.world.score()
-            report(WEEKDAYS[day % 7], score)
-            journal.record("daily_score", at=desk.now, score=score)
+    with journal.batch():
+        while desk.now < snapshot["endsAt"]:
+            if stop_requested and stop_requested():
+                raise KeyboardInterrupt
+            day = desk.now // DAY
+            actions, desk.outbox = desk.outbox, []
+            step = world.advance(until=wake_events, max=min(snapshot["endsAt"], (day + 1) * DAY), actions=actions)
+            desk.read_results(actions, step["results"])
+            handle_batch(desk, step["events"], step["now"], coalesced=bool(passive))
+            if not fast and desk.now // DAY > day:
+                score = world.world.score()
+                report(WEEKDAYS[day % 7], score)
+                journal.record("daily_score", at=desk.now, score=score)
     score = world.world.score()
     journal.record("score", at=desk.now, score=score)
     world.optional("snapshot", world.world.snapshot, "end")

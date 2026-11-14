@@ -5,11 +5,11 @@ import json
 import unittest
 from unittest.mock import patch
 
-from beta import BetaDesk
+from models.beta import BetaDesk
 from demo import sample_request
 from dispatch import Journal, handle_batch, play_model
-from gamma import GammaCoreDesk
-from gamma_pairs import DriverSideSettings, make_gamma_pairs, make_pairs_beta
+from models.gamma import GammaCoreDesk
+from models.gamma_pairs import DriverSideSettings, make_gamma_pairs, make_pairs_beta
 from spread.starter import retry_from, steep
 from tests.test_alpha import MarketWorld
 
