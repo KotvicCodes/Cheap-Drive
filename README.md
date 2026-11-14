@@ -30,19 +30,18 @@ weeks by €682/week (+€518/week over 27 paired weeks). The pricing experiment
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. **The Epsilon candidate completed
+Our public team is **Guardians of the Moonlight**. **Delta completed
 all five level-8 runs in round 9 ("Saturday 21:00", 14 November 2026, Helsinki time).**
 At 2026-11-14 21:34:23 UTC, we are **#31 of 52 ranked teams**, with
 **€75,763.55 total gross margin** and **96.72% on time**
 on the official board. All five weeks qualified; the worst week was
 93.58% on time (90% required in every week).
 The round was still open until 22:00 UTC; positions can change.
-The Epsilon candidate uses Delta plus the three dispatch fixes, extended pairing
-(`delta_pairing="extended"`) and a 42% win target (`win_target_bps=4200`),
-from code at [589daf7](https://github.com/KotvicCodes/Cheap-Drive/commit/589daf7ad8b17d6c2402bb45f7cab7856cd777b9)
-on `t3/epsilon-volume`; it has no committed model file.
+The runs used [models/delta.json](models/delta.json)'s settings: the dispatch fixes,
+extended pairing and a 42% win target, from code at
+[589daf7](https://github.com/KotvicCodes/Cheap-Drive/commit/589daf7ad8b17d6c2402bb45f7cab7856cd777b9).
 
-| Epsilon candidate run | Gross margin | On time | Orders won | Ranked |
+| Delta run | Gross margin | On time | Orders won | Ranked |
 | --- | ---: | ---: | ---: | :---: |
 | 1 | €13,767.61 | 97.99% | 348 | Yes |
 | 2 | €16,382.65 | 93.58% | 374 | Yes |
@@ -57,19 +56,19 @@ Organisers' **House best**: €66,135.59.
 House teams have no public rank and are excluded from the ranked-team count.
 
 ![Round 9 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round9-totals.svg)
-![The Epsilon candidate's five round-9 margins versus the round leader](docs/screenshots/round9-runs.svg)
+![Delta's five round-9 margins versus the round leader](docs/screenshots/round9-runs.svg)
 
 *Charts generated from the official public leaderboard, retrieved 2026-11-14 21:34:23 UTC.
 Exact cents are retained; the public page rounds margins to whole euros.*
 
 ![Public leaderboard: round 9, Saturday 21:00, level 8, leading teams](docs/screenshots/leaderboard-round9.png)
-![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Epsilon candidate runs](docs/screenshots/leaderboard-round9-team.png)
+![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Delta runs](docs/screenshots/leaderboard-round9-team.png)
 
 *Real public-page screenshots captured on 14 November 2026 at 21:35:12 UTC
-(leaders) and 21:35:40 UTC (our row), after all five Epsilon candidate runs,
-while the round was still open. [Run and snapshot details](docs/research/epsilon-board-round9.md).*
+(leaders) and 21:35:40 UTC (our row), after all five Delta runs,
+while the round was still open. [Run and snapshot details](docs/research/delta-board-round9.md).*
 
-Previous rounds: **Delta**, round 8 ("Saturday 18:00"),
+Previous rounds: **Early Delta**, round 8 ("Saturday 18:00"),
 **37th of 58 ranked teams**, €55,639.62, 96.96% on time, all five weeks qualified
 (open-round snapshot retrieved 2026-11-14 17:53:55 UTC).
 [Round-8 snapshot and evidence](docs/research/delta-board-round8.md).

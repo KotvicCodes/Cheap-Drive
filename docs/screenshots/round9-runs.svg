@@ -142,35 +142,35 @@ L 698.818809 81.648
      <g id="line2d_13"/>
      <g id="text_8">
       <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 109.421802)">Run 1</text>
-      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 121.424537)">Epsilon candidate 98.0% on time</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 121.424537)">Delta 98.0% on time</text>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_14"/>
      <g id="text_9">
       <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 159.807876)">Run 2</text>
-      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 171.81061)">Epsilon candidate 93.6% on time</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 171.81061)">Delta 93.6% on time</text>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_15"/>
      <g id="text_10">
       <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 210.193949)">Run 3</text>
-      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 222.196684)">Epsilon candidate 95.5% on time</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 222.196684)">Delta 95.5% on time</text>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_16"/>
      <g id="text_11">
       <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 260.580023)">Run 4</text>
-      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 272.582757)">Epsilon candidate 98.4% on time</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 272.582757)">Delta 98.4% on time</text>
      </g>
     </g>
     <g id="ytick_5">
      <g id="line2d_17"/>
      <g id="text_12">
       <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 310.966096)">Run 5</text>
-      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 322.968831)">Epsilon candidate 98.3% on time</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(17.022187 322.968831)">Delta 98.3% on time</text>
      </g>
     </g>
    </g>
@@ -306,7 +306,7 @@ z
 " style="fill: #1461b8"/>
    </g>
    <g id="text_25">
-    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="53.1" y="71.314594" transform="rotate(-0 53.1 71.314594)">The Epsilon candidate / Guardians of the Moonlight (#31)</text>
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="53.1" y="71.314594" transform="rotate(-0 53.1 71.314594)">Delta / Guardians of the Moonlight (#31)</text>
    </g>
    <g id="patch_15">
     <path d="M 330.477187 71.314594

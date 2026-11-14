@@ -103,7 +103,7 @@ def totals_chart():
     axes_style(ax)
     ax.bar_label(bars, labels=[f"€{row[2] / 100:,.2f}" for row in rows],
                  padding=5, fontsize=9)
-    fig.text(0.025, 0.956, "Round 9: the Epsilon candidate on the official leaderboard",
+    fig.text(0.025, 0.956, "Round 9: Delta on the official leaderboard",
              fontsize=17, fontweight="bold")
     fig.text(0.025, 0.925,
              f"Level 8 · Saturday 21:00 · rank {RANK} of {RANKED_TEAMS} · {STAMP} · round open")
@@ -120,7 +120,7 @@ def runs_chart():
     fig.subplots_adjust(left=0.24, right=0.99, bottom=0.12, top=0.79)
     positions = list(range(5))
     for runs, offset, color, label in (
-        (OUR_RUNS, -0.19, BLUE, "The Epsilon candidate / Guardians of the Moonlight (#31)"),
+        (OUR_RUNS, -0.19, BLUE, "Delta / Guardians of the Moonlight (#31)"),
         (LEADER_RUNS, 0.19, GREY, "Juhus (#1)"),
     ):
         bars = ax.barh([i + offset for i in positions],
@@ -128,7 +128,7 @@ def runs_chart():
                        color=color, label=label)
         ax.bar_label(bars, labels=[f"€{row[1] / 100:,.2f}" for row in runs],
                      padding=5, fontsize=9)
-    ax.set_yticks(positions, [f"Run {run}\nEpsilon candidate {share:.1%} on time"
+    ax.set_yticks(positions, [f"Run {run}\nDelta {share:.1%} on time"
                               for run, _, share, _ in OUR_RUNS])
     ax.invert_yaxis()
     ax.set_xlim(0, max(row[1] for row in LEADER_RUNS + OUR_RUNS) / 100 * 1.19)
