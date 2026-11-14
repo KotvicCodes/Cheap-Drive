@@ -1,6 +1,6 @@
 {
   "name": "Alpha conservative",
-  "factory": "alpha:make_alpha",
+  "factory": "models.alpha:make_alpha",
   "settings": {
     "distance_cents_per_km": 70,
     "pickup_cents_per_km": 50,

@@ -7,6 +7,11 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
+Model code lives in the [models package](models/), alongside its JSON configs
+(for example [models/delta.py](models/delta.py)). Runners and tools stay at the
+root and in `scripts/`. Old imports and saved factory names still work through
+one-line module aliases; see [model compatibility](docs/reference.md#model-package-compatibility).
+
 **Delta** ([models/delta.json](models/delta.json)) takes on more work and offers it to
 drivers better: a 42% win target instead of 30%, stops posted for the whole span an order
 allows, pairs searched over 90 km, and rescue for overdue private deliveries. Over 19
@@ -121,7 +126,7 @@ Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
 on-time delivery**. See the [recovery results](docs/research/gamma-recovery-results.md)
 for the selection process, exact comparisons and remaining limits.
 
-[models/gamma.json](models/gamma.json) uses `gamma_notes:make_gamma_notes_pairs`:
+[models/gamma.json](models/gamma.json) uses `models.gamma_notes:make_gamma_notes_pairs`:
 correct note dates/readiness and recurring business hours, guarded 500–700 km
 routes, short-route/premium-car fee controls, and two-car pairs. Fresh pairs
 open at 0.72 × summed reference fees; waiting-car rescue pairs open at 0.78 ×

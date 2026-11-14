@@ -9,9 +9,10 @@ are not used as forecasts.
 
 ## Evidence and candidate
 
-All code references in this report refer to frozen commit
+Code references use the current `models/` paths (these files were at the root
+in the frozen commit). All code references in this report refer to frozen commit
 [`589daf7ad8b17d6c2402bb45f7cab7856cd777b9`](https://github.com/KotvicCodes/Cheap-Drive/commit/589daf7ad8b17d6c2402bb45f7cab7856cd777b9),
-unless labelled current worktree. In particular, `delta.py:234–241` replaces
+unless labelled current worktree. In particular, `models/delta.py:234–241` replaces
 explicit pair transfer/driving settings with the selected profile: an
 `extended` experiment still means **90 km / 720 driving minutes**, regardless
 of a simultaneous `pair_transfer_km` override. Other pair controls remain
@@ -122,7 +123,7 @@ extra pair spare, already failed s07 during the audit and is now dropped below.
 ```
 
 The second arm changes only `win_target_low_bps` to **2600**. These map to
-`gamma.py:388–393,460–475`: the low target applies at **high backlog**, not at
+`models/gamma.py:388–393,460–475`: the low target applies at **high backlog**, not at
 low backlog. The evidence is the 516/858 versus zero easy-seed quotes above
 25. Unlike the failed 3/6 and 5/10 intake screens, this preserves the 4200 target
 across the observed easy-week backlog range.
@@ -154,11 +155,11 @@ the 2600 guard on a smaller hard-week subset.
 {"pair_with_waiting": 0}
 ```
 
-`gamma_pairs.py:264–273` removes waiting posted singles from eligibility while
+`models/gamma_pairs.py:264–273` removes waiting posted singles from eligibility while
 keeping eligible new/unposted orders and all existing route safety checks.
 The s07 evidence is 122 rescue pairs out of 124, 76 timer splits and 24 late
 orders touched by splits. `_try_pair` withdraws singles only after building a
-plan (`gamma_pairs.py:376–413`); this is a scheduling choice, not an unsafe
+plan (`models/gamma_pairs.py:376–413`); this is a scheduling choice, not an unsafe
 withdrawal bug.
 
 Expected direction: preserve single-gig exposure and avoid the new pair fee
@@ -180,7 +181,7 @@ and is distinct from the existing `delta_pairing="off"` ablation, which leaves
 }
 ```
 
-`gamma_pairs.py:492–521` wakes/splits using the earlier of the timer and its
+`models/gamma_pairs.py:492–521` wakes/splits using the earlier of the timer and its
 safe-start boundary. The current timer is 60 minutes. Six s07 pair booking
 events occurred after 30 minutes, only two after 45; 76 splits were already
 timer driven. Across eleven cap-4200 weeks, 578 splits were timer driven.
@@ -203,7 +204,7 @@ each driver once. Do not repeat the existing **split90** screen. No code.
 }
 ```
 
-`gamma_pairs.py:235–255` starts rescue pairs at 7800 bps and delays every
+`models/gamma_pairs.py:235–255` starts rescue pairs at 7800 bps and delays every
 higher scheduled rung until at least posting +60. The default split is also
 posting +60. Thus a rescue pair cannot receive a higher rung **before** its
 ordinary timer split; shortening the hold permits earlier escalation when
@@ -243,7 +244,7 @@ from **600** to **500**:
 }
 ```
 
-`gamma.py:299–358,406–434,460–465` already implements it. The signal is
+`models/gamma.py:299–358,406–434,460–465` already implements it. The signal is
 `(late + 0.5 * warned_open) / max(non_cancelled_won,40)`, in bps; the existing
 warned-open set is not restricted to the trailing 24 hours. The large warning
 and drop thresholds isolate that projected service signal. Neutral bumps
@@ -279,7 +280,7 @@ Do not combine this with #1 until their separate effects are known. No code.
 }
 ```
 
-`gamma.py:204–242,567–577` counts initial driver homes within **30 road km**
+`models/gamma.py:204–242,567–577` counts initial driver homes within **30 road km**
 and takes the maximum of fee floors. This is a supply proxy, not current
 positions or the notification's straight-line radius. s07 has 669 roster
 drivers; 119 of its 349 noncancelled wins originate at towns with ≤10 nearby
@@ -314,7 +315,7 @@ strict integer input; test explicit-off action/journal parity, same-audience
 acceptance and differing manual/experienced requirements rejected before any
 withdrawal. Make no Gamma changes.
 
-The current union in `gamma_pairs.py:306–313` is **legal**, not a bug, but can
+The current union in `models/gamma_pairs.py:306–313` is **legal**, not a bug, but can
 reserve an experienced/manual driver for a car that did not need one. Rebuilding
 single audience requirements from the frozen note parser and car flags gives
 **12/124** mixed-requirement pairs on s07, with **three** mixed pair booking
@@ -381,10 +382,10 @@ orders/margin. Do not launch additional broad pricing/learner searches tonight.
 | Tighten same-day slack to protect s07 | **Poor target in our data.** At 600/720 minutes it removes 9/10 observed s07 wins, none late. Twenty of 31 late orders are `next_day`. Park broad menu/admission cuts. |
 | Freeze every overnight fee raise because no drivers look | **Wrong premise.** Rules restrict overnight direct-offer reading; the Handbook also restricts notification reading, not every app view. I counted **4,076** overnight public gig views in selected Delta's eleven weeks and **5,524** at cap-4200. Any saved-fee arithmetic holding bookings fixed is not recoverable profit. |
 | The reference fee has exactly 14% noise; blending it saves EUR 495/week | **Partly supported only.** Handbook, Typical fee, confirms per-request noise, not 14%. On s07, the low `ref/min(listPrice)<0.8` group has 4/41 late orders, versus 31/349 overall: it does not isolate the dominant hard-week failure. Fit a fee-cost model before changing the anchor. |
-| Drop in a 100%-accurate parser v2, fixing 637 cases | **Unverified artifact and accuracy.** No reproducible v2 implementation, corpus manifest or held-out evaluation accompanies the three write-ups. Word-hour parsing already exists in `notes.py:62–83`; summer tyres are absent from `NoteFacts` and require forecast/retry integration, not just another regex. |
+| Drop in a 100%-accurate parser v2, fixing 637 cases | **Unverified artifact and accuracy.** No reproducible v2 implementation, corpus manifest or held-out evaluation accompanies the three write-ups. Word-hour parsing already exists in `models/notes.py:62–83`; summer tyres are absent from `NoteFacts` and require forecast/retry integration, not just another regex. |
 | Subtract one minute from every closing time to prevent 17 failed visits | **Not verified for this cohort.** `_daily_window` and `beta.closing` use the stated close; the claimed exclusive simulator boundary is not established by SDK source. Across our eleven selected-Delta weeks there are two `closed` pickup failures, and one at cap-4200; **none** occurs at the site's stated closing minute. Note closes and stated closes need separate evidence. Do not silently subtract from private slots or note deadlines. |
 | Shift every delayed-readiness deadline in our model | **Real rule, unsafe blanket fix.** Rules, Your account, and the Handbook say `order_won` already contains the shifted deadline. Quote-time option feasibility may need a distinct correction; shifting won orders again would double-count it. Park until a failing request-level fixture exists. |
-| Final stalls are proved to be fsync, 20 ms batching is zero-risk, and rejoin is still a state wipe | **Stale/unproven in this checkout.** Current `gamma.py` has `rejoin_model` and quote-receipt recovery; `capture.py` has batched history recording. Latency attribution needs timings, and event batching changes action time. See [the recovery handoff](final-rejoin-recovery.md); no final runner edits belong to this research task. |
+| Final stalls are proved to be fsync, 20 ms batching is zero-risk, and rejoin is still a state wipe | **Stale/unproven in this checkout.** Current `models/gamma.py` has `rejoin_model` and quote-receipt recovery; `capture.py` has batched history recording. Latency attribution needs timings, and event batching changes action time. See [the recovery handoff](final-rejoin-recovery.md); no final runner edits belong to this research task. |
 | We lead every team's EUR/order, so the entire gap is volume | **Overstated.** Our saved Test Final 2 numbers yield EUR 50.065/order, above the displayed leaders, but the three write-ups do not prove every team's ratio. Volume/rate decomposition is arithmetic, not evidence that changing policy holds unit margin, service or requests won fixed; different official rounds are not paired model tests. |
 
 ## Part B — Parked for the next model
@@ -394,7 +395,7 @@ repositories are leads from the supplied session, not independently reproduced
 benchmarks; none of their reported euro improvements transfers to our model.
 
 - **A learner with separate world/day/shock state.** Gamma has a global
-  multiplicative win-target learner (`gamma.py:549–563`), and the documented
+  multiplicative win-target learner (`models/gamma.py:549–563`), and the documented
   level-8 price war/outage makes regime separation plausible. A new design
   needs identifiable world/day/region states, treatment of skipped menu
   feedback, persisted/replayed state, frozen fitting data and fresh-world
