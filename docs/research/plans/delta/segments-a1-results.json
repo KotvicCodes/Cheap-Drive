@@ -1,0 +1,354 @@
+{
+  "stage": "A1",
+  "baseline_commit": "0eb4e3efc7b49c17a29aa05e9249e7ab45db710d",
+  "completed_worlds": 20,
+  "attempts": 28,
+  "failed_attempts": 8,
+  "arms": [
+    {
+      "label": "gamma",
+      "completed": 4,
+      "all_ranked_and_93pct": true,
+      "paired_margin_deltas_cents": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "positive_weeks": 0,
+      "mean_margin_delta_cents": 0,
+      "undelivered_delta": 0,
+      "advances": false,
+      "weeks": [
+        {
+          "seed": "gamma-v01",
+          "score": {
+            "marginCents": 1806672,
+            "revenueCents": 3816941,
+            "marginShare": 0.473329820922042,
+            "wonOrders": 265,
+            "onTimeShare": 0.9924528301886792,
+            "undeliveredShare": 0.0037735849056603774,
+            "ranked": true
+          },
+          "undelivered": 1
+        },
+        {
+          "seed": "gamma-v02",
+          "score": {
+            "marginCents": 1149849,
+            "revenueCents": 3097847,
+            "marginShare": 0.37117682054665707,
+            "wonOrders": 248,
+            "onTimeShare": 0.9596774193548387,
+            "undeliveredShare": 0.024193548387096774,
+            "ranked": true
+          },
+          "undelivered": 6
+        },
+        {
+          "seed": "gamma-v03",
+          "score": {
+            "marginCents": 1171499,
+            "revenueCents": 2922688,
+            "marginShare": 0.40082930507806513,
+            "wonOrders": 244,
+            "onTimeShare": 0.9959016393442623,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "undelivered": 0
+        },
+        {
+          "seed": "gamma-v04",
+          "score": {
+            "marginCents": 1016480,
+            "revenueCents": 2885371,
+            "marginShare": 0.3522874528093614,
+            "wonOrders": 258,
+            "onTimeShare": 0.9457364341085271,
+            "undeliveredShare": 0.031007751937984496,
+            "ranked": true
+          },
+          "undelivered": 8
+        }
+      ]
+    },
+    {
+      "label": "no-segments",
+      "completed": 4,
+      "all_ranked_and_93pct": true,
+      "paired_margin_deltas_cents": [
+        -58799,
+        96703,
+        16036,
+        13572
+      ],
+      "positive_weeks": 3,
+      "mean_margin_delta_cents": 16878,
+      "undelivered_delta": -2,
+      "advances": true,
+      "weeks": [
+        {
+          "seed": "gamma-v01",
+          "score": {
+            "marginCents": 1747873,
+            "revenueCents": 3854397,
+            "marginShare": 0.45347508313232915,
+            "wonOrders": 263,
+            "onTimeShare": 0.9923954372623575,
+            "undeliveredShare": 0.0038022813688212928,
+            "ranked": true
+          },
+          "undelivered": 1
+        },
+        {
+          "seed": "gamma-v02",
+          "score": {
+            "marginCents": 1246552,
+            "revenueCents": 3114908,
+            "marginShare": 0.4001890264495773,
+            "wonOrders": 246,
+            "onTimeShare": 0.9512195121951219,
+            "undeliveredShare": 0.016260162601626018,
+            "ranked": true
+          },
+          "undelivered": 4
+        },
+        {
+          "seed": "gamma-v03",
+          "score": {
+            "marginCents": 1187535,
+            "revenueCents": 2916472,
+            "marginShare": 0.4071820336351592,
+            "wonOrders": 241,
+            "onTimeShare": 0.991701244813278,
+            "undeliveredShare": 0.004149377593360996,
+            "ranked": true
+          },
+          "undelivered": 1
+        },
+        {
+          "seed": "gamma-v04",
+          "score": {
+            "marginCents": 1030052,
+            "revenueCents": 3156607,
+            "marginShare": 0.3263161996409436,
+            "wonOrders": 260,
+            "onTimeShare": 0.95,
+            "undeliveredShare": 0.026923076923076925,
+            "ranked": true
+          },
+          "undelivered": 7
+        }
+      ]
+    },
+    {
+      "label": "short-only",
+      "completed": 4,
+      "all_ranked_and_93pct": true,
+      "paired_margin_deltas_cents": [
+        -40229,
+        -5111,
+        -6060,
+        5726
+      ],
+      "positive_weeks": 1,
+      "mean_margin_delta_cents": -11418.5,
+      "undelivered_delta": 3,
+      "advances": false,
+      "weeks": [
+        {
+          "seed": "gamma-v01",
+          "score": {
+            "marginCents": 1766443,
+            "revenueCents": 3776676,
+            "marginShare": 0.467724263346922,
+            "wonOrders": 264,
+            "onTimeShare": 0.9924242424242424,
+            "undeliveredShare": 0.007575757575757576,
+            "ranked": true
+          },
+          "undelivered": 2
+        },
+        {
+          "seed": "gamma-v02",
+          "score": {
+            "marginCents": 1144738,
+            "revenueCents": 3064113,
+            "marginShare": 0.3735952296798454,
+            "wonOrders": 248,
+            "onTimeShare": 0.9435483870967742,
+            "undeliveredShare": 0.024193548387096774,
+            "ranked": true
+          },
+          "undelivered": 6
+        },
+        {
+          "seed": "gamma-v03",
+          "score": {
+            "marginCents": 1165439,
+            "revenueCents": 2852880,
+            "marginShare": 0.40851315162222035,
+            "wonOrders": 242,
+            "onTimeShare": 0.9917355371900827,
+            "undeliveredShare": 0.004132231404958678,
+            "ranked": true
+          },
+          "undelivered": 1
+        },
+        {
+          "seed": "gamma-v04",
+          "score": {
+            "marginCents": 1022206,
+            "revenueCents": 2917141,
+            "marginShare": 0.35041364130153463,
+            "wonOrders": 259,
+            "onTimeShare": 0.9459459459459459,
+            "undeliveredShare": 0.03474903474903475,
+            "ranked": true
+          },
+          "undelivered": 9
+        }
+      ]
+    },
+    {
+      "label": "premium-only",
+      "completed": 4,
+      "all_ranked_and_93pct": true,
+      "paired_margin_deltas_cents": [
+        -49734,
+        27973,
+        31687,
+        83823
+      ],
+      "positive_weeks": 3,
+      "mean_margin_delta_cents": 23437.25,
+      "undelivered_delta": -1,
+      "advances": true,
+      "weeks": [
+        {
+          "seed": "gamma-v01",
+          "score": {
+            "marginCents": 1756938,
+            "revenueCents": 3962419,
+            "marginShare": 0.44340035720604004,
+            "wonOrders": 267,
+            "onTimeShare": 0.9812734082397003,
+            "undeliveredShare": 0.011235955056179775,
+            "ranked": true
+          },
+          "undelivered": 3
+        },
+        {
+          "seed": "gamma-v02",
+          "score": {
+            "marginCents": 1177822,
+            "revenueCents": 3065755,
+            "marginShare": 0.38418660330000276,
+            "wonOrders": 244,
+            "onTimeShare": 0.9467213114754098,
+            "undeliveredShare": 0.020491803278688523,
+            "ranked": true
+          },
+          "undelivered": 5
+        },
+        {
+          "seed": "gamma-v03",
+          "score": {
+            "marginCents": 1203186,
+            "revenueCents": 2998796,
+            "marginShare": 0.4012230241737017,
+            "wonOrders": 243,
+            "onTimeShare": 0.9958847736625515,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "undelivered": 0
+        },
+        {
+          "seed": "gamma-v04",
+          "score": {
+            "marginCents": 1100303,
+            "revenueCents": 3097853,
+            "marginShare": 0.3551824440991874,
+            "wonOrders": 258,
+            "onTimeShare": 0.9573643410852714,
+            "undeliveredShare": 0.023255813953488372,
+            "ranked": true
+          },
+          "undelivered": 6
+        }
+      ]
+    },
+    {
+      "label": "pair-opening-75",
+      "completed": 4,
+      "all_ranked_and_93pct": true,
+      "paired_margin_deltas_cents": [
+        -7543,
+        -9299,
+        -3510,
+        10564
+      ],
+      "positive_weeks": 1,
+      "mean_margin_delta_cents": -2447,
+      "undelivered_delta": 3,
+      "advances": false,
+      "weeks": [
+        {
+          "seed": "gamma-v01",
+          "score": {
+            "marginCents": 1799129,
+            "revenueCents": 3817109,
+            "marginShare": 0.4713328856996224,
+            "wonOrders": 265,
+            "onTimeShare": 0.9924528301886792,
+            "undeliveredShare": 0.0037735849056603774,
+            "ranked": true
+          },
+          "undelivered": 1
+        },
+        {
+          "seed": "gamma-v02",
+          "score": {
+            "marginCents": 1140550,
+            "revenueCents": 3041452,
+            "marginShare": 0.3750018083468028,
+            "wonOrders": 247,
+            "onTimeShare": 0.951417004048583,
+            "undeliveredShare": 0.032388663967611336,
+            "ranked": true
+          },
+          "undelivered": 8
+        },
+        {
+          "seed": "gamma-v03",
+          "score": {
+            "marginCents": 1167989,
+            "revenueCents": 2922688,
+            "marginShare": 0.39962835581492107,
+            "wonOrders": 244,
+            "onTimeShare": 0.9959016393442623,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "undelivered": 0
+        },
+        {
+          "seed": "gamma-v04",
+          "score": {
+            "marginCents": 1027044,
+            "revenueCents": 2946809,
+            "marginShare": 0.34852750890878914,
+            "wonOrders": 260,
+            "onTimeShare": 0.9461538461538461,
+            "undeliveredShare": 0.03461538461538462,
+            "ranked": true
+          },
+          "undelivered": 9
+        }
+      ]
+    }
+  ]
+}
