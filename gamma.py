@@ -180,6 +180,7 @@ class GammaDesk(BetaDesk):
         self.markups: dict[str, float] = {}
         self.quote_trackers: dict[str, str] = {}
         self.day_starts: dict[str, tuple[int, float]] = {}
+        self.recovery_quotes: dict[str, dict] = {}
         self.brake_mode = "normal"
         self.brake_last_held: dict[str, int] = {}
         self.brake_warned: set[str] = set()
@@ -586,7 +587,12 @@ class GammaDesk(BetaDesk):
                  "feeCents": max(1, int(fee * (opening + (self.settings.fee_cap_bps - opening) * k / max(1, steps - 1)) / 10000 + 0.5))}
                 for k in range(steps)]
 
-    def handle(self, event):
+    def rejoin(self, snapshot, history):
+        from recovery import rejoin_model
+        rejoin_model(self, snapshot, history)
+
+    def observe_history(self, event):
+        """Bookkeeping shared by live handling and side-effect-free replay."""
         kind = event["kind"]
         self.observe_town_outcome(event)
         if kind in ("order_won", "order_cancelled", "order_changed", "delivered", "deadline_close",
@@ -600,6 +606,9 @@ class GammaDesk(BetaDesk):
         elif kind == "ledger" and event["line"]["kind"] == "late_refund":
             if event["line"].get("orderId") is not None:
                 self.brake_late.add(event["line"]["orderId"])
+
+    def handle(self, event):
+        self.observe_history(event)
         dealer = None
         if event["kind"] == "ledger":
             dealer = self.dealers.get(event["line"].get("orderId") or "")
@@ -610,6 +619,16 @@ class GammaDesk(BetaDesk):
                                 after=self.trust[dealer], cause=event["line"]["kind"])
 
     def read_results(self, actions, results):
+        # History has quote outcomes, but no action receipts. Persist enough to
+        # avoid training on a quote rejected after its short response window.
+        for action, result in zip(actions, results):
+            if action["type"] == "quote":
+                identity = action["requestId"]
+                receipt = dict(at=self.now, ok=result["ok"], competitive=identity in self.pending,
+                               tracker=self.quote_trackers.get(identity))
+                self.recovery_quotes[identity] = receipt
+                if getattr(self.world, "capture_recovery", False):
+                    self.journal.record("model_quote_result", requestId=identity, **receipt)
         super().read_results(actions, results)
         for action, result in zip(actions, results):
             if action["type"] == "quote" and not result["ok"]:
