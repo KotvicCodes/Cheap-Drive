@@ -1,0 +1,94 @@
+{
+  "weeks": 16,
+  "metadata_matched": true,
+  "latest_trace_matches_completed": 13,
+  "score_ledger_reconciled": true,
+  "ledger_without_order_id_cents": {
+    "driver_fee": -1429604
+  },
+  "revealed_wins_also_cancelled": 41,
+  "sources": [
+    {
+      "seed": "gamma-v01",
+      "trace_sha256": "16a0c07b745e87a3790c5af2c5edb3f21c886c21b148b0c2435d1c1a59e131bf",
+      "reveal_sha256": "4860c90d510f1f51686f3801d0391b445160aefb746494c984662e4d4b03a186"
+    },
+    {
+      "seed": "gamma-v02",
+      "trace_sha256": "99ec4ae18a6c0a80e59c883ddd19e0581eade1dc255c322b1c8d7b85089c36e4",
+      "reveal_sha256": "e23e9ebe7444c7726ae935b82714e24b773555c68ee6fcd1f8a86c44368418e6"
+    },
+    {
+      "seed": "gamma-v03",
+      "trace_sha256": "e9503c69b502424bc13b01ea52ceb93862d234de6ba8d4f2e9fe9fe380ee7885",
+      "reveal_sha256": "6a840bbd3846438fb43d1fecffc4352e2f4f537ac7874c2af87bc3c2caa2235d"
+    },
+    {
+      "seed": "gamma-v04",
+      "trace_sha256": "2806a337b8cf763c387980700125fea5280b2d97999b879825e09b6c62528413",
+      "reveal_sha256": "edaf78e3fbeff63fb41afe18caef20b03675681942bd99beaee93b8593f749c1"
+    },
+    {
+      "seed": "gamma-v06",
+      "trace_sha256": "d94121b0a72e3570e73b03ef9ea40981db1075cd5c774c11f91e0d3fe7e26877",
+      "reveal_sha256": "9f05f63ca4fadac35cf0bc8e5ba1bfd151e28856da8d67d6396328edeb4105e1"
+    },
+    {
+      "seed": "gamma-v08",
+      "trace_sha256": "e80d0347258fb54d22f2390c9db90c6b3f442da72e8f0b2ad8d119bd665f8f1a",
+      "reveal_sha256": "f2cef309aede22970602437a692205a0748eea31d2dbd3c060501f3ba0ee68be"
+    },
+    {
+      "seed": "gamma-v07",
+      "trace_sha256": "2fb796c5d2e78d490d38a3db61da15db9e753e579c3f8972066f7c6a2b2bf0a8",
+      "reveal_sha256": "2d0b58e075abb3a8be2c8db86e64dac4a07ba89fa95c3905b6a4370ec9aabeab"
+    },
+    {
+      "seed": "gamma-v05",
+      "trace_sha256": "82144ad4bd651d3aa64975220dbb149ce3d6f15c9ac4b607cd2468d7aa71cc7d",
+      "reveal_sha256": "952e0aa048dfdc5456710afc28371fe8d5125aff491e40f37797950fa3f09c96"
+    },
+    {
+      "seed": "gamma-v10",
+      "trace_sha256": "646302e7d6259cea450a2c655475ef1ed928d2cd6d0aee319353b1e2f18a7822",
+      "reveal_sha256": "452dc9ef4f9e2f2cc9d80cde7508570edad27434a93700f89d476934a01f2a4a"
+    },
+    {
+      "seed": "gamma-v11",
+      "trace_sha256": "7ffbe63d50d344923106930e29a4d97ab88617f7f6728cdb6b3d17121df35e62",
+      "reveal_sha256": "2daab822a019471d0b7ae26c2e65f6a6209e637a8c4fe4704bd265e08d8d139a"
+    },
+    {
+      "seed": "gamma-v09",
+      "trace_sha256": "858fc9c6978e71d719046ca4e8a3339835a503ed19af78661909c920ab97acdb",
+      "reveal_sha256": "38e841045ed49cc9dcf30f1883e0ae18d15b9acaba7eb648837d137df988cd82"
+    },
+    {
+      "seed": "gamma-v12",
+      "trace_sha256": "fde1f85b3a42c63f90c9e2b09ae38c3387179e8e190561a341ce8e826bc4e1ef",
+      "reveal_sha256": "e830508658981a7604bd4439318b8876318d13d9345db05f033ccfc5feae7e2b"
+    },
+    {
+      "seed": "gamma-v13",
+      "trace_sha256": "d1fce39b0fa9cc88306a53cb1a572cc1ca09f956bd565cb4b2894a143e3c40af",
+      "reveal_sha256": "abe3e009a0a132c85ab07bb7d724658b27b8064b43a90094637359093e27f3ea"
+    },
+    {
+      "seed": "gamma-v14",
+      "trace_sha256": "ae12c6ee65033e9ce97497c3e59576040688abca2756ea4f3bdc64cbc231b01b",
+      "reveal_sha256": "fb5b5b0211ccaccccefcb00dba74edd1cd79101b978f65807a61eac66d39aa5b"
+    },
+    {
+      "seed": "gamma-v15",
+      "trace_sha256": "203e9f5097b1b4be418a2ba97d465790538f9e7c21a9fcf1a8e5d128d7bc30ee",
+      "reveal_sha256": "d91853608ccb49415349726dc03082114b639ec0cfb27d6fdb063579ed5f3f5d"
+    },
+    {
+      "seed": "gamma-v16",
+      "trace_sha256": "ce12701ded0050edf78a91fb2f1aaab047d04b564482f65ab65b2819b4a555aa",
+      "reveal_sha256": "f82118139cb625d6f75345a60482a12cc86b64dd3f0c1009844eb934435ece3c"
+    }
+  ],
+  "selection_note": "Exact completed runs.jsonl traces and reveals matched by wrapper worldId. Three lexicographically last traces differ from completed selection.",
+  "interpretation": "Mechanisms only; no Delta gain measured. Per-order economics omit gig-only driver fees; 41 reveal-won requests subsequently cancelled."
+}

@@ -1,0 +1,119 @@
+{
+  "schema": "delta-research-stage-spec/v1",
+  "executable": false,
+  "baseline_manifest": "gamma-baseline.json",
+  "order": "After A/B, before C; each stage requires review; B6 conditional",
+  "seeds": [
+    "delta-r1-s01",
+    "delta-r1-s02",
+    "delta-r1-s03",
+    "delta-r1-s04",
+    "delta-r1-s05",
+    "delta-r1-s06",
+    "delta-r1-s07",
+    "delta-r1-s08"
+  ],
+  "scope": "Frozen Gamma control; Delta-only candidates; other Gamma settings fixed",
+  "gates": "delta-testing-plan.md existing safety and pre-E gates, unchanged",
+  "independent_completed_worlds": 136,
+  "conditional_completed_worlds": 32,
+  "stages": [
+    {
+      "id": "B1",
+      "worlds": 32,
+      "arms": [
+        "gamma",
+        "fastest-learning-only",
+        "fastest-learning-only+skipped-price-0.92",
+        "split-skipped-tracker"
+      ],
+      "requires": [
+        "A/B review",
+        "Delta-only hooks, neutral parity, lifecycle regressions",
+        "validated executable snapshot"
+      ]
+    },
+    {
+      "id": "B2",
+      "worlds": 48,
+      "arms": [
+        "gamma",
+        "inbound-0.91",
+        "outbound-1.04",
+        "outbound-1.06",
+        "inbound-0.91+outbound-1.04",
+        "inbound-0.91+outbound-1.06"
+      ],
+      "requires": [
+        "B1 review; run with unchanged Gamma learner",
+        "frozen lane cohorts and exact final cent rounding",
+        "Delta-only hooks and validated executable snapshot"
+      ]
+    },
+    {
+      "id": "B3",
+      "worlds": 16,
+      "arms": [
+        "gamma",
+        "mixed-reference-anchor"
+      ],
+      "requires": [
+        "B2 review",
+        "booking-latency audit and reconciled gig/shared fees",
+        "explicit single/pair/urgent/rescue/multi-car coverage",
+        "Delta-only hooks and validated executable snapshot"
+      ]
+    },
+    {
+      "id": "B4",
+      "worlds": 16,
+      "arms": [
+        "gamma",
+        "conditional-dual-menu-spread"
+      ],
+      "requires": [
+        "B3 review or documented prerequisite failure/skip",
+        "post-gating dual-menu hook, lone-option parity",
+        "Delta-only hooks and validated executable snapshot"
+      ]
+    },
+    {
+      "id": "B5",
+      "worlds": 24,
+      "arms": [
+        "gamma",
+        "trust-50",
+        "review-fee-shape"
+      ],
+      "existing_settings": {
+        "trust-50": {
+          "trust_bps_per_order": 50
+        },
+        "review-fee-shape": {
+          "fee_shape": "review"
+        }
+      },
+      "requires": [
+        "B4 review",
+        "validated executable plan and frozen baseline"
+      ]
+    },
+    {
+      "id": "B6",
+      "worlds": 32,
+      "conditional": true,
+      "arms": [
+        "gamma",
+        "selected-learner",
+        "selected-lane",
+        "selected-learner+selected-lane"
+      ],
+      "requires": [
+        "B1 and B2 independently pass existing pre-E gates",
+        "B5 review",
+        "freeze one learner and one lane arm before combination",
+        "validated executable snapshot"
+      ]
+    }
+  ]
+}
