@@ -141,3 +141,35 @@ The [Gemini note prototype](gemini-notes.md) adds an offline extraction contract
 validated cached-response adapter and three-arm semantic benchmark. No inference,
 latency, note-accuracy gain or margin gain has been measured; dispatch never
 imports it. The active simulator tests continue independently of this research.
+
+## B1 learning pilot and release
+
+The default-off `delta_b1` switch now implements feedback exclusion, exclusion
+plus skipped-fastest 9200 bps pricing, and a separate skipped-fastest tracker.
+An independent code/lifecycle review found no substantive issue. The combined
+offline suite passes 271 tests. Gamma/configs remain unchanged; enabled B1
+rejects combinations with intake, tables, other tracker scopes, review fees or
+Delta note/rescue repairs. Its [technical contract](delta-b1-implementation-contract.md)
+records the hook ordering and lifecycle assumptions.
+
+All four `delta-r1-s01` pilot worlds completed ranked and ≥93% on time, with
+live menu, exact-price and learner-update audits passing and terminal pending
+state empty. Neutral Delta exactly matched all **5,347 chronological operational
+rows** of the retained frozen-Gamma control, after removing world IDs: actions,
+timing, receipts, events, ledger, score and initial/end snapshots. See the
+[sanitized pilot record](plans/delta/b1-pilot-results.json). This is one seed's
+identity/economic pilot, not a selected gain or universal parity proof.
+
+The remaining three candidate arms on s02–s08 are running from the exact same
+reviewed source, settings and controller, with eight practice workers. Candidate
+service/integrity stops remain in force and there is no automatic confirmation.
+The trust/review supplemental screen drained 15 worlds and stopped both
+candidate arms by its service guard; it did not select a model.
+
+Four frozen-Gamma s05–s08 references were never created because the original B
+controller incorrectly applied a candidate scheduling guard to the reference.
+A separate immutable reference-only completion is queued for free slots. This
+completes paired measurements regardless of the fixed control's service score;
+it does not restart any unsafe candidate or change a promotion threshold.
+Preserve the earlier bad Gamma week in every report. Until all references and
+candidate weeks exist, partial paired gains cannot establish eight-seed uplift.

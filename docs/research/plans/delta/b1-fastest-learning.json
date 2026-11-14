@@ -98,5 +98,19 @@
     "combined_offline_tests_passed": 271,
     "economic_selection": false,
     "confirmation_released": false
+  },
+  "reference_completion_addendum": {
+    "supersedes": "frozen_control.later_policy evaluation coverage restriction only; live candidate snapshot/plan unchanged",
+    "seeds": [
+      "delta-r1-s05",
+      "delta-r1-s06",
+      "delta-r1-s07",
+      "delta-r1-s08"
+    ],
+    "factory": "gamma_notes:make_gamma_notes_pairs",
+    "git_commit": "0eb4e3efc7b49c17a29aa05e9249e7ab45db710d",
+    "role": "Diagnostic fixed controls, never candidate promotion",
+    "private_plan": "runs/delta-research/gamma-reference-completion-plan.json",
+    "policy": "Complete missing paired references regardless of reference on-time score; no restart of failed owned worlds or unsafe candidate settings; retain all reference outcomes and candidate gates"
   }
 }
