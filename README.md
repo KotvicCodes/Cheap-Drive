@@ -7,13 +7,25 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-> **Final is close — as of 14 November 2026, 12:00 Helsinki (UTC+2).**
-> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, about 20 hours away; lasts about 34 minutes.
+> **Final is close — as of 14 November 2026, 15:00 Helsinki (UTC+2).**
+> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, lasts about 34 minutes.
 > Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
 > Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
 > Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
 > **Missing: Beta has only been played on practice clocks; there is no final-mode runner yet.**
 > [Schedule details](AI%20overview.md#event-deadlines-and-submission).
+
+## Schedule & Run Limits (Official Rules)
+
+All event times are **Helsinki time (EET, UTC+2)**:
+
+| Run Type | Schedule (Starts / Opens) | How Many You Can Submit |
+| --- | --- | --- |
+| **Ranking Rounds** (`--board` / `board: true`) | **Opens** at:<br>• **Fri:** `19:30`<br>• **Sat:** `00:00`, `09:00`, `12:00`, **`15:00`**, `18:00`, `21:00`<br>• **Sun:** `00:00`, `03:00`, `06:00`<br>*(e.g. the 15:00 round **starts** at 15:00 and stays open until 18:00)* | **5 runs per level, per round** (played one at a time in order 1–5; each secret week once).<br>• After 5 runs at a level, `board: true` returns `409` until the next round opens.<br>• Deleting an unfinished ranking run **still counts** (the server runs it to completion without your system).<br>• Runs started before the next round opens still count in the round they were created in. |
+| **Practice Runs** (`--seed` / regular) | Anytime | **Unlimited** total runs.<br>• **Max 8 active (unended) worlds** at once per team (including `fork` copies and active ranking runs). Ended/deleted practice worlds free their slot. |
+| **Test Finals** (`--final`) | **Starts** on **Sat** at **`14:00`** and **`20:00`** (~19 min each; set 15 min before at `13:45` and `19:45`) | **1 live world per team** per test final (2 test finals total). Restarting reconnects to the same world. |
+| **The Final** (`--final`) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
+| **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
 
 ## Standings
 
