@@ -89,11 +89,32 @@ $('export-model').onclick = () => download('cheap-drive-analysis.json', D);
 const THEME_KEY = 'cheap-drive-report-theme', THEMES = ['system', 'light', 'dark'];
 let theme = 'system';
 try { theme = THEMES.includes(localStorage.getItem(THEME_KEY)) ? localStorage.getItem(THEME_KEY) : 'system'; } catch (_) { theme = 'system'; }
+function themeIcon(mode) {
+  if (mode === 'light') {
+    const s = svg('svg', {viewBox: '0 0 18 18', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'});
+    const c = svg('circle', {cx: 9, cy: 9, r: 3.4, fill: 'currentColor', 'fill-opacity': 0.2});
+    s.append(c, svg('path', {d: 'M9 1.8v1.8M9 14.4v1.8M1.8 9h1.8M14.4 9h1.8M3.9 3.9l1.3 1.3M12.8 12.8l1.3 1.3M3.9 14.1l1.3-1.3M12.8 5.2l1.3-1.3'}));
+    return s;
+  }
+  if (mode === 'dark') {
+    const s = svg('svg', {viewBox: '0 0 18 18', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'});
+    s.append(svg('path', {d: 'M14.5 11.4A5.8 5.8 0 0 1 6.6 3.5a5.8 5.8 0 1 0 7.9 7.9Z', fill: 'currentColor', 'fill-opacity': 0.2}));
+    return s;
+  }
+  const s = svg('svg', {viewBox: '0 0 26 16', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'});
+  s.append(
+    svg('circle', {cx: 6.5, cy: 8, r: 2.4, fill: 'currentColor', 'fill-opacity': 0.22}),
+    svg('path', {d: 'M6.5 2.4v1.4M6.5 12.2v1.4M1 8h1.4M10.6 8H12M2.6 4.1l1 1M9.4 10.9l1 1M2.6 11.9l1-1M9.4 5.1l1-1'}),
+    svg('path', {d: 'M14.2 13.2L16.2 2.8', opacity: 0.45}),
+    svg('path', {d: 'M24.2 10.4A4.3 4.3 0 0 1 18.6 4.8a4.3 4.3 0 1 0 5.6 5.6Z', fill: 'currentColor', 'fill-opacity': 0.22})
+  );
+  return s;
+}
 function applyTheme(next) {
   theme = next;
   if (theme === 'system') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme = theme;
   const t = $('theme-toggle'); clear(t);
-  add(t, icon({system: ['M8 2.5a5.5 5.5 0 1 0 0 11a5.5 5.5 0 1 0 0-11z', 'M8 2.5v11'], light: ['M8 5.2a2.8 2.8 0 1 0 0 5.6a2.8 2.8 0 1 0 0-5.6z', 'M8 1.5v1.4M8 13.1v1.4M1.5 8h1.4M13.1 8h1.4M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1'], dark: ['M12.8 10.2A5.6 5.6 0 0 1 5.8 3.2a5.6 5.6 0 1 0 7 7z']}[theme]), N('span', {system: 'Auto', light: 'Light', dark: 'Dark'}[theme]));
+  add(t, themeIcon(theme), N('span', {system: 'Auto', light: 'Light', dark: 'Dark'}[theme]));
   t.setAttribute('aria-label', `Color theme: ${theme}. Activate to switch.`);
   try { if (theme === 'system') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, theme); } catch (_) { /* storage unavailable */ }
 }
