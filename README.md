@@ -7,45 +7,15 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-> **Final is close — as of 14 November 2026, 15:20 Helsinki (UTC+2).**
-> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, lasts about 34 minutes.
-> Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
-> Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
-> Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
-> **Missing: Alpha/Beta/Gamma dispatch has not been validated on final clocks; there is no final-mode runner yet.**
-> [Schedule details](AI%20overview.md#event-deadlines-and-submission).
+**Delta development is starting with repository cleanup.** Strategy experiments
+and qualification are still ahead; use the [Delta handoff](docs/research/delta-handoff.md)
+for the next proposed work. Gamma remains the current qualified practice baseline.
 
-## Schedule & Run Limits (Official Rules)
+The repository has **no final-mode runner**, and Alpha/Beta/Gamma have not been
+validated on final clocks. [Event schedule, run limits and submission](docs/reference.md#event-schedule-and-run-limits)
+· [Challenge constraints and final integration](docs/challenge.md).
 
-All event times are **Helsinki time (EET, UTC+2)**:
-
-| Run Type | Schedule (Starts / Opens) | How Many You Can Submit |
-| --- | --- | --- |
-| **Ranking Rounds** (`--board` / `board: true`) | **Opens** at:<br>• **Fri:** `19:30`<br>• **Sat:** `00:00`, `09:00`, `12:00`, **`15:00`**, `18:00`, `21:00`<br>• **Sun:** `00:00`, `03:00`, `06:00`<br>*(e.g. the 15:00 round **starts** at 15:00 and stays open until 18:00)* | **5 runs per level, per round** (played one at a time in order 1–5; each secret week once).<br>• After 5 runs at a level, `board: true` returns `409` until the next round opens.<br>• Deleting an unfinished ranking run **still counts** (the server runs it to completion without your system).<br>• Runs started before the next round opens still count in the round they were created in. |
-| **Practice Runs** (`--seed` / regular) | Anytime | **Unlimited** total runs.<br>• **Max 8 active (unended) worlds** at once per team (including `fork` copies and active ranking runs). Ended/deleted practice worlds free their slot. |
-| **Test Finals** (`--final`) | **Starts** on **Sat** at **`14:00`** and **`20:00`** (~19 min each; set 15 min before at `13:45` and `19:45`) | **1 live world per team** per test final (2 test finals total). Restarting reconnects to the same world. |
-| **The Final** (`--final`) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
-| **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
-
-## Standings
-
-Our public team is **Guardians of the Moonlight**. Round 6 ("Saturday 12:00"), level 8:
-**45th of 58 ranked teams**, €59,529; all five ranked, 96.1–99.2% on time.
-Runs: €12,273 / €13,501 / €9,191 / €12,596 / €11,968. House best (organisers):
-€77,560; tenth place about €91k; leaders €99–110k. (Round 5, "Saturday 09:00":
-41st of 65, €50,541.) Round 7 ("Saturday 15:00"): current; we have not played it.
-Unchanged Beta completed round 6 before 15:00 Helsinki, totalling €59,528.62.
-
-![Round 6 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round6-totals.svg)
-![Our five round-6 margins versus leader Juhus](docs/screenshots/round6-runs.svg)
-
-*Charts: 14 November 2026, retrieved 13:20:20 UTC. Exact cents in charts; research notes' whole euros in prose.*
-
-![Public leaderboard: round 7, Saturday 15:00, level 8](docs/screenshots/leaderboard-round7.png)
-
-*Real public-page screenshot, 14 November 2026, 13:18 UTC: only round 7 is shown; our round-6 row is unavailable.*
-
-## Current model: Gamma
+## Current qualified baseline: Gamma
 
 Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
 8/8 more profitable**, gaining **€2,031/week (+20.21%)**, with **96.95% worst
@@ -81,10 +51,15 @@ those are exposed diagnostics, separate from confirmation.
 
 Earlier results: [Gamma guarded-route research](docs/research/gamma-results.md),
 [Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
-Further model work is parked in the [Delta handoff](docs/research/delta-handoff.md).
+The next proposed experiments and known note cases are in the
+[Delta handoff](docs/research/delta-handoff.md).
 
 For context, round 6’s leading teams averaged about €18–22k and 430–470
 orders/week on different ranking worlds; practice results are not directly comparable.
+
+Public ranking evidence is from Beta: [rounds 5 and 6](docs/research/beta-results.md#ranking-round-5-level-8),
+with [round-6 charts](docs/screenshots/README.md#leaderboard-visuals). Those dated
+results describe completed rounds, not current standings.
 
 ## What drove the changes
 

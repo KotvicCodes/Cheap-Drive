@@ -4,6 +4,34 @@ Detailed setup, practice, capture and reporting instructions. See the
 [README](../README.md) for the current model and results. Commands below run
 from the repository root.
 
+## Event schedule and run limits
+
+Published schedule for **13–15 November 2026**. All event times are **Helsinki time (EET, UTC+2)**. Recheck the [judging page](https://spread.bahnexpress.com/judging) and Junction schedule before relying on them:
+
+| Run Type | Schedule (Starts / Opens) | How Many You Can Submit |
+| --- | --- | --- |
+| **Ranking Rounds** (`scripts/board.py` / `board: true`) | **Opens** at:<br>• **Fri:** `19:30`<br>• **Sat:** `00:00`, `09:00`, `12:00`, **`15:00`**, `18:00`, `21:00`<br>• **Sun:** `00:00`, `03:00`, `06:00`<br>*(e.g. the 15:00 round **starts** at 15:00 and stays open until 18:00)* | **5 runs per level, per round** (played one at a time in order 1–5; each secret week once).<br>• After 5 runs at a level, `board: true` returns `409` until the next round opens.<br>• Deleting an unfinished ranking run **still counts** (the server runs it to completion without your system).<br>• Runs started before the next round opens still count in the round they were created in. |
+| **Practice Runs** (`--seed` / regular) | Anytime | **Unlimited** total runs.<br>• **Max 8 active (unended) worlds** at once per team (including `fork` copies and active ranking runs). Ended/deleted practice worlds free their slot. |
+| **Test Finals** (official kit final mode) | **Starts** on **Sat** at **`14:00`** and **`20:00`** (~19 min each; set 15 min before at `13:45` and `19:45`) | **1 live world per team** per test final (2 test finals total). Restarting reconnects to the same world. |
+| **The Final** (official kit final mode) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
+| **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
+
+The final starts Sunday 15 November at **06:00 UTC**, with registration
+closing at **05:30 UTC**; start the dispatcher before the clock begins. Final
+submission is **08:00 UTC**. Test finals start Saturday at **12:00 and 18:00 UTC**,
+begin on Thursday in the simulated week and last about 19 minutes.
+
+Submission needs the team-page submission hash, a code link and a presentation
+(ideally 5–10 slides or a short video). Explain decisions with paired evidence,
+including failures and limits.
+
+**The repository has no final-mode runner.** `dispatch.py`, `compare.py` and
+`scripts/sweep.py` run ordinary practice; `scripts/board.py` runs public practice
+rankings. The official kit's final mode is not wired into these commands.
+[Final integration requirements](challenge.md#final-integration-requirements)
+still need implementation and test-final validation before any baseline is
+used on final clocks.
+
 ## Setup
 
 Python 3.9 or later is supported by the official kit. We use Python 3.12 for GitHub practice runs and check 3.9, 3.12 and 3.14 in CI. From the repository root, create a local environment and install the official client:
@@ -97,7 +125,7 @@ python week_report.py runs/my-run.jsonl
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
 ```
 
-Open the generated HTML directly in your browser. No server, key, Spread installation, CDN, map tiles, telemetry or internet connection is needed. The report generator uses Python's standard library. Output files must be fresh; the CLI refuses to overwrite an existing report or input. The application version is in `VERSION` and appears in each report.
+Open the generated HTML directly in your browser. No server, key, Spread installation, CDN, map tiles, telemetry or internet connection is needed. The report generator uses Python's standard library. Output files must be fresh; the CLI refuses to overwrite an existing report or input. The report-generator version is read from the root `VERSION` file at import time and appears in each report and CLI output. Keep that file; its version is independent of the Alpha/Beta/Gamma/Delta strategy names.
 
 The report includes financial and score charts, every observed request and quote, wins/losses, original notes and options, order/leg histories and windows, gigs/stops/fee changes, driver activity, incidents, the complete ledger, and a searchable raw explorer. Entity IDs open histories. Tables support sorting, pagination, text search, entity filters, world-day and clock filters, and exports of all filtered rows across pages. Clock ranges spanning midnight are supported. Entity-time filters match any captured activity for that entity. Overview charts always cover the full source. Days after Sunday retain distinct day numbers, including the delivery tail beyond the request week.
 
