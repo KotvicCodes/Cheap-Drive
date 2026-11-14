@@ -5,15 +5,21 @@ import io
 import json
 import os
 import re
+from contextlib import contextmanager
+from functools import lru_cache
 from typing import TextIO
 
 SECRET_KEY = re.compile(r'^(authorization|proxy.authorization|.*api.?key|spread.?key|access.?token|refresh.?token|password|secret)$', re.I)
 SECRET_TEXT = re.compile(r'(?i)(?:bearer\s+\S+|(?:authorization|spread_key|api[_-]?key)\s*[=:]\s*[^\s,}\]]+)')
 
+# API field names repeat throughout a week. Cache only key classification;
+# values (including note text and credentials) are always inspected afresh.
+_secret_key = lru_cache(maxsize=1024)(SECRET_KEY.fullmatch)
+
 
 def clean(value):
     if isinstance(value, dict):
-        return {k: '[credential removed]' if SECRET_KEY.fullmatch(k) else clean(v) for k, v in value.items()}
+        return {k: '[credential removed]' if _secret_key(k) else clean(v) for k, v in value.items()}
     if isinstance(value, list):
         return [clean(v) for v in value]
     return SECRET_TEXT.sub('[credential removed]', value) if isinstance(value, str) else value
@@ -22,14 +28,37 @@ def clean(value):
 class Journal:
     def __init__(self, output: TextIO):
         self.output = output
+        self._batch_depth = 0
+        self._dirty = False
 
     def record(self, kind: str, **fields: object) -> None:
         self.output.write(json.dumps(clean({'type': kind, **fields}), ensure_ascii=False, allow_nan=False) + '\n')
+        self._dirty = True
+        # Inputs remain durable before handling; intents before the SDK call;
+        # complete returns before their bookkeeping. Only adjacent diagnostics
+        # may share a flush inside an explicit batch.
+        if not self._batch_depth or kind in ('event', 'action_intent', 'act_result', 'advance_batch',
+                                            'model_quote_result'):
+            self._flush()
+
+    def _flush(self):
         self.output.flush()
         try:
             os.fsync(self.output.fileno())
         except (io.UnsupportedOperation, AttributeError):
             pass  # In-memory fixtures have no durable file descriptor.
+        self._dirty = False
+
+    @contextmanager
+    def batch(self):
+        """Group diagnostic writes, with durable SDK boundaries even when nested."""
+        self._batch_depth += 1
+        try:
+            yield
+        finally:
+            self._batch_depth -= 1
+            if not self._batch_depth and self._dirty:
+                self._flush()
 
     def record_history(self, events) -> None:
         """One durable flush for an already read replay, not one fsync per old event."""

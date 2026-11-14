@@ -388,9 +388,17 @@ class GammaDesk(BetaDesk):
 
     def orders_without_driver(self):
         # Missing posts and partially booked split trade-ins still need a driver.
-        return {identity for identity, order in self.orders.items()
-                if order["status"] not in ("cancelled", "delivered") and undelivered(order)
-                and any(self.leg_gigs.get(identity, {}).get(leg) not in self.booked for leg in undelivered(order))}
+        cached = getattr(self, "_quote_open_orders", None)
+        if cached is not None:
+            return cached
+        result = {identity for identity, order in self.orders.items()
+                if order["status"] not in ("cancelled", "delivered")
+                and any(order["deliveredAt"][leg] is None
+                        and self.leg_gigs.get(identity, {}).get(leg) not in self.booked
+                        for leg in range(len(order["legs"])))}
+        if hasattr(self, "_quote_open_orders"):
+            self._quote_open_orders = result
+        return result
 
     def long_orders_without_driver(self):
         if not self.settings.max_km or self.effective_long_max_km() <= self.settings.max_km:
@@ -504,6 +512,16 @@ class GammaDesk(BetaDesk):
         return -(-price.numerator // price.denominator)
 
     def quote(self, request):
+        # Admission and quote diagnostics read the same order/gig books several
+        # times. They do not change those books. Scope reuse to this one quote;
+        # never retain a count across events, results, pair timers or recovery.
+        self._quote_open_orders = None
+        try:
+            return self._quote_request(request)
+        finally:
+            del self._quote_open_orders
+
+    def _quote_request(self, request):
         if request["id"] in self.requests or self.now >= request["respondBy"]:
             return
         brake = self.update_brake()
