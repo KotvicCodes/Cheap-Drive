@@ -11,6 +11,6 @@ They were captured from a compact renderer copy that omits the redundant embedde
 
 ## Leaderboard visuals
 
-- [round5-totals.svg](round5-totals.svg): generated round-5 level-8 totals chart, top ten, ranks 38–43 and House best; Guardians of the Moonlight highlighted; public endpoint retrieved 14 November 2026, 10:13:44 UTC.
-- [round5-runs.svg](round5-runs.svg): generated comparison of our five round-5 runs with leader Juhus, using the same public endpoint snapshot.
-- [leaderboard-round6.png](leaderboard-round6.png): real public-page screenshot, 14 November 2026, 10:14 UTC; the page shows only current round 6 (Saturday 12:00), where we have not played, so our round-5 row is absent.
+- [round6-totals.svg](round6-totals.svg): generated round-6 level-8 totals chart, top ten, ranks 42–47 and House best; Guardians of the Moonlight highlighted; public endpoint retrieved 14 November 2026, 13:20:20 UTC.
+- [round6-runs.svg](round6-runs.svg): generated comparison of our five round-6 runs with leader Juhus, using the same public endpoint snapshot.
+- [leaderboard-round7.png](leaderboard-round7.png): real public-page screenshot, 14 November 2026, 13:18 UTC; the page shows only current round 7 (Saturday 15:00), where we have not played, so our round-6 row is absent.
