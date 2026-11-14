@@ -59,3 +59,9 @@ Three/six orders within six hours of losing that opportunity cap the learner
 target at 3000/2400. This needs no additional historical state and therefore
 survives the existing final-runner checkpoint/replay path. It changes only
 the target; it preserves admission and fee formulas.
+
+Prepared next, behind `delta_pair_same_audience=0`: when enabled, compare the
+exact audiences of the two proposed single gigs and reject mismatches before
+any withdrawal. Matching pairs retain the existing union, calendar checks,
+fees and fallback. Four unit tests cover neutral parity, accepted plans,
+manual/experienced mismatches and strict integer validation. No worlds yet.
