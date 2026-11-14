@@ -411,9 +411,8 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
 def hero(t):
     im = base_canvas('juicy').copy()
     finland_map(im, t, (950, 64, 1840, 1016), zoom_south=False, bg=CARD, border='#E05500')
-    enter(im, 'Move cars,', 80, 260, 146, t, .05, color=INK, weight=700)
-    enter(im, 'Win', 80, 426, 146, t, .16, color=INK, weight=700)
-    enter(im, 'margins', 80, 592, 146, t, .26, color=INK, weight=700)
+    enter(im, 'Move cars,', 80, 340, 132, t, .05, color=INK, weight=700)
+    enter(im, 'Win margins', 80, 505, 132, t, .18, color=INK, weight=700)
     return im
 
 
