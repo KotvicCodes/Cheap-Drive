@@ -23,14 +23,24 @@ hiding rows. The fifth run is present and ranked. The public page rounds margins
 to whole euros; the charts retain exact cents. The current-round positions can
 change, and the page can update between captures.
 
-At **2026-11-14 17:53:35 UTC**, the public final feed was **scheduled** for
-`2026-11-14T18:00:00.000Z` (20:00 Helsinki), with no teams displayed.
-The test final had not started: our team, margin, on-time share and rank were
-not yet present, so there is no final-result screenshot.
-
 [Exact Delta results and snapshot details](../research/delta-board-round8.md).
 Different rounds use different secret weeks, so their totals are not a paired
 model comparison.
+
+Test final 2 (Delta via `final.py`), Saturday 20:00 Helsinki (18:00 UTC),
+14 November 2026:
+
+- [test-final-2-leaders.png](test-final-2-leaders.png): real public-page screenshot of "The final", its ended status and leading teams, captured 2026-11-14 18:41:23 UTC.
+- [test-final-2-team.png](test-final-2-team.png): real public-page screenshot of Guardians of the Moonlight at rank 42 and neighbouring teams, captured 2026-11-14 18:41:39 UTC.
+
+These screenshots show the original page at a 1280 × 1000 viewport, scrolled
+without changing its data, hiding rows, cropping or annotating the captures.
+The public feed retrieved at **2026-11-14 18:40:38 UTC** confirms **42 of 75
+ranked teams**, **€12,816.67**, **99.61% on time**, **256 orders won**;
+the page displays rounded **€12,817** and **99.6%**.
+The interrupted run rebuilt its desk on simulated Saturday and won no further
+orders, so it understates a clean run.
+[Exact figures, public JSON and interruption details](../research/delta-test-final-2.md).
 
 Historical round 7, level 8, Saturday 15:00 Helsinki, 14 November 2026:
 
