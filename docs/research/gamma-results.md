@@ -60,7 +60,7 @@ and 1.05 for premium cars, a 10-hour premium slack floor, and an 8% short-route
 quote discount. These are neutral by default and remain under live evaluation.
 The short and premium segments overlap; their late-order shares cannot be added.
 
-At this checkpoint, 206 offline tests pass on Python 3.9 and 3.14. Fresh Beta
+At this checkpoint, 226 offline tests pass on Python 3.9 and 3.14. Fresh Beta
 baselines and four candidate arms are running on `gamma-v01` … `gamma-v08`.
 `gamma-v09` … `gamma-v16` are reserved for confirmation after settings are
 chosen. Note parsing and its integration are implemented in `notes.py` and `gamma_notes.py`;
@@ -91,6 +91,29 @@ through seven use the dispatch vocabulary's afternoon convention unless AM/PM
 is explicit. After a missed promise, already-won orders can receive physically
 valid late rescue windows. No feasible window within the 14-day rescue horizon
 is journaled explicitly instead of submitting an invalid stop.
+
+## Roster supply controls under live evaluation
+
+Optional `supply_scale=1` reads the initial captured roster and selects normal
+win targets of 29% / 35% / 38% at roster sizes below 710 / below 810 / at least
+810. The proposed long-route ceilings are 550 / 700 / 700 km; these only tighten
+an explicitly enabled long-route corridor. Hard-brake targets take priority.
+
+`town_caps=1` limits competitive daily intake from a pickup town using
+`max(2, floor(0.25 * near30[pickup] + 0.05 * near30[delivery]))`. Supply counts
+public driver homes within 30 road km, not current availability. Enable
+`town_reserve_pending=1` to count undecided competitive quotes as reservations;
+a won-only counter can admit an entire bulk batch before its first outcome.
+A separate optional 1.10 opening floor applies when pickup supply is at most four.
+Missing or incomplete home/road data disables the affected estimate; roster
+reads are never repeated. These controls are neutral by default.
+
+The historical audit does not establish the proposed profit or qualification
+gains. All 24 audited Beta baseline weeks ranked, including four with fewer than
+700 drivers; sparse pickups accounted for 41 of 228 distinct late-refund orders.
+A large roster alone does not establish a profitable market. Live experiments
+therefore separate supply scaling from town caps and test both the three known
+weak weeks and the new screening seeds before fresh confirmation.
 
 ## What was kept, and why
 
