@@ -1182,6 +1182,10 @@ function navigate(id, preset) {
 /* Multi-Run Live Demo Switcher & Quick Jump Bar */
 const runsScript = $('report-runs');
 if (runsScript) {
+  const allOpt = $('page-size').querySelector('option[value="all"]');
+  if (allOpt) $('page-size').prepend(allOpt);
+  $('page-size').value = 'all';
+  size = Infinity;
   const RUNS = JSON.parse(runsScript.textContent);
   const defaultRun = RUNS.find(r => r.default) || RUNS.at(-1) || RUNS[0];
   for (const r of RUNS) if (!r.model && r.id === defaultRun?.id) r.model = D;
