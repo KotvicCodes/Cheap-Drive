@@ -149,3 +149,35 @@ to six, and use 1080/1200-minute slack. The existing code confirms these are
 admission/driver-fee guards, not lane pricing. The extra cap avoids conflating
 a wider guarded band with the old three-order bottleneck. Neither change is
 adopted or assumed beneficial.
+
+Live final completion was confirmed by snapshot (`14280 >= 14280`) at 23:34 UTC.
+The ten suspended practice workers resumed and two dispatch-safety workers
+started. `client.worlds()` confirmed **12 ordinary practice, zero ranking,
+zero active final worlds** at 23:35 UTC. The orchestrator's current policy is
+12 total workers and no reserve until a ranking-stop instruction arrives.
+
+A second note repair was verified offline from the scout's exact example:
+“Perillä liike kiinni klo 16.30 jälkeen” currently becomes delivery **opens**
+at 16:30. Opt-in `delta_finnish_close_fixes=1` removes the conflicting “after”
+cue only from the bounded `kiinni [klo] HH:MM jälkeen` construction, retaining
+its pickup/delivery scope as a **closing** constraint. Default 0 preserves the
+old parse. Five tests cover delivery and pickup scope, independent operation,
+separate readiness, bounded/invalid text and validation.
+
+| Additional hypothesis | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Pickup-opportunity brake, 180 min horizon | Pending (4 planned) | — | — | — | Screen in flight |
+| Pickup-opportunity brake, 360 min horizon, thresholds 2/4 | Pending (4 planned) | — | — | — | Screen in flight |
+| Pickup-opportunity brake, 720 min horizon | Pending (4 planned) | — | — | — | Screen in flight |
+| Require matching pair driver audiences | Pending (4 planned) | — | — | — | Screen in flight |
+| English negative pickup-closing repair | Pending (4 planned) | — | — | — | Screen in flight |
+| Wide pickup cushion 20 min | Pending (4 planned) | — | — | — | Screen in flight |
+| Wide pickup cushion 30 min | Pending (4 planned) | — | — | — | Screen in flight |
+| Count map self roads in pair planning | Pending (4 planned) | — | — | — | Screen in flight |
+| Pairable waiting-order quote factor 9800 bps | Pending (4 planned) | — | — | — | Queued |
+| Pairable waiting-order quote factor 9500 bps | Pending (4 planned) | — | — | — | Queued |
+| Premium service slack 1440 min | Pending (4 planned) | — | — | — | Queued |
+| Premium service slack 2880 min | Pending (4 planned) | — | — | — | Queued |
+| Guard routes above 420 km, cap 6, slack 1200 | Pending (4 planned) | — | — | — | Queued |
+| Guard routes above 400 km, cap 6, slack 1080 | Pending (4 planned) | — | — | — | Queued |
+| Finnish closed-after note repair | Pending (4 planned) | — | — | — | Queued |
