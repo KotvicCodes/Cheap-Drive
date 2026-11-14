@@ -119,7 +119,9 @@ class ReviewTests(unittest.TestCase):
 
     def test_settings_validation_and_factory_keyword_split(self):
         for settings in ({'fee_shape': 'bad'}, {'pairs': True}, {'pairs': 2}, {'review_after_minutes': -1},
-                         {'pair_max_drive_minutes': 721}, {'pair_split_minutes': 0}, {'pair_fee_bps': 0}):
+                         {'pair_max_drive_minutes': 721}, {'pair_split_minutes': 0}, {'pair_fee_bps': 0},
+                         {'pair_rescue_fee_bps': 0}, {'pair_rescue_flat_minutes': -1},
+                         {'pair_max_idle_minutes': -1}, {'pair_max_idle_minutes': True}):
             with self.subTest(settings=settings), self.assertRaises(ValueError):
                 DriverSideSettings(**settings)
         for factory in (make_pairs_beta, make_gamma_pairs):
@@ -131,6 +133,10 @@ class ReviewTests(unittest.TestCase):
         # Unused pair knobs cannot reject an otherwise valid Gamma fee cap.
         desk, _ = new_desk(make_gamma_pairs, opening_fee_bps=5000, long_opening_fee_bps=5000, fee_cap_bps=7000)
         self.assertEqual(desk.settings.fee_cap_bps, 7000)
+        for setting in ('pair_fee_bps', 'pair_rescue_fee_bps'):
+            for factory in (make_pairs_beta, make_gamma_pairs):
+                with self.subTest(factory=factory.__name__, setting=setting), self.assertRaisesRegex(ValueError, setting):
+                    new_desk(factory, pairs=1, **{setting: 16000})
 
 
 class PairWorld:
@@ -218,11 +224,12 @@ class PairTests(unittest.TestCase):
         action = desk.posts[gig]
         self.assertEqual([(s['orderId'], s['kind']) for s in action['stops']],
                          [('one', 'pickup'), ('one', 'delivery'), ('two', 'pickup'), ('two', 'delivery')])
-        self.assertEqual(action['schedule'][0]['feeCents'], 19200)
+        self.assertEqual(action['schedule'][0]['feeCents'], 17280)
         self.assertEqual(action['schedule'][-1]['feeCents'], 36000)
         self.assertEqual(self.records('gamma_pair')[0]['transferKm'], 0)
         self.assertEqual(self.records('gamma_pair')[0]['driveMinutes'], 60)
         self.assertEqual(self.records('gamma_pair')[0]['typicalFeeCents'], 24000)
+        self.assertEqual(self.records('gamma_pair')[0]['feePolicy'], 'fresh')
         desk.now = 620
         self.event(desk, 'gig_booked', gigId=gig, driverId='d', feeCents=19200)
         self.assertEqual(desk.gigs_of('one'), [gig])
@@ -290,6 +297,36 @@ class PairTests(unittest.TestCase):
         desk.now = 6 * 1440 + 300
         self.assertEqual(desk._plan(one, two)[0].finish, 7 * 1440 + 1060)
 
+    def test_second_pickup_idle_limit_boundaries_exclude_transfer_and_plates(self):
+        for transfer in (0, 30):
+            for plates in (False, True):
+                for wait in (59, 60, 61):
+                    with self.subTest(transfer=transfer, plates=plates, wait=wait):
+                        desk = self.desk()
+                        one = pair_order(desk, 'one')
+                        two = pair_order(desk, 'two', 'b' if not transfer else 'c', 'd')
+                        if plates:
+                            desk.requests['two']['note'] = {'text': 'without plates', 'language': 'en'}
+                        # Arrival: start780 + drive30 + transfer + plate errand.
+                        two['legs'][0]['pickup']['window']['from'] = 810 + transfer + 30 * plates + wait
+                        plan, reason = desk._plan(one, two)
+                        if wait <= 60:
+                            self.assertIsNone(reason)
+                            self.assertEqual(plan.finish, 840 + transfer + 30 * plates + wait)
+                        else:
+                            self.assertIsNone(plan)
+                            self.assertEqual(reason, 'idle_too_long')
+
+    def test_second_pickup_opening_hours_wait_is_capped_and_limit_is_configurable(self):
+        desk = self.desk()
+        one, two = pair_order(desk, 'one'), pair_order(desk, 'two', 'b', 'c')
+        two['legs'][0]['pickup']['hours'] = dict(opens=871, closes=1200, weekdays=[0], saturday=None)
+        self.assertEqual(desk._plan(one, two)[1], 'idle_too_long')
+        desk = self.desk(pair_max_idle_minutes=61)
+        one, two = pair_order(desk, 'one'), pair_order(desk, 'two', 'b', 'c')
+        two['legs'][0]['pickup']['hours'] = dict(opens=871, closes=1200, weekdays=[0], saturday=None)
+        self.assertIsNotNone(desk._plan(one, two)[0])
+
     def test_spare_allowance_plates_charging_notes_and_combined_audience(self):
         desk = self.desk()
         one, two = pair_order(desk, 'one'), pair_order(desk, 'two', 'b', 'c')
@@ -343,6 +380,8 @@ class PairTests(unittest.TestCase):
         self.flush(desk)
         self.assertEqual([a['type'] for a in self.world.actions], ['post', 'withdraw', 'post'])
         self.assertTrue(self.records('gamma_pair')[0]['waitingWithdrawn'])
+        self.assertEqual(self.records('gamma_pair')[0]['feePolicy'], 'rescue')
+        self.assertEqual(self.records('gamma_pair')[0]['openingFeeCents'], 18720)
         desk = self.desk(pair_with_waiting=0)
         one, two = pair_order(desk, 'one'), pair_order(desk, 'two', 'b', 'c')
         self.win(desk, one)
@@ -600,7 +639,7 @@ class PairTests(unittest.TestCase):
         pair = next(iter(desk._pending_pairs.values()))
         schedule = desk.outbox[0]['schedule']
         self.assertEqual(len(schedule), 3)
-        self.assertEqual([s['feeCents'] for s in schedule], [19200, 28800, 38400])
+        self.assertEqual([s['feeCents'] for s in schedule], [17280, 27840, 38400])
         self.assertLessEqual(abs(schedule[-1]['at'] - (pair.last_start - 180)), 1)
         self.assertLess(pair.last_start, one['lastPickupAt'])
         self.assertLessEqual(pair.last_start + 60, two['deadline'])
@@ -612,9 +651,68 @@ class PairTests(unittest.TestCase):
         self.win(desk, two)
         pair = next(iter(desk._pending_pairs.values()))
         schedule = pair.action['schedule']
-        self.assertEqual(schedule[0], {'at': 600, 'feeCents': 19200})
+        self.assertEqual(schedule[0], {'at': 600, 'feeCents': 17280})
         self.assertEqual(schedule[1], {'at': 960, 'feeCents': 26400})
         self.assertEqual(schedule[-1], {'at': pair.last_start - 360, 'feeCents': 36000})
+
+    def test_waiting_rescue_has_new_fee_clock_flat_opening_and_original_fallback_age(self):
+        for shape in ('ramp', 'review'):
+            with self.subTest(shape=shape):
+                desk = self.desk(fee_shape=shape, review_after_minutes=30, review_skip_night=0,
+                                 pair_split_minutes=180)
+                one = pair_order(desk, 'one', deadline=6000)
+                self.win(desk, one)
+                self.flush(desk)
+                desk.now = 1200
+                two = pair_order(desk, 'two', 'b', 'c', deadline=6000)
+                self.win(desk, two)
+                pair = next(iter(desk._pending_pairs.values()))
+                schedule = pair.action['schedule']
+                self.assertEqual(pair.fee_policy, 'rescue')
+                self.assertEqual(schedule[0], {'at': 1200, 'feeCents': 18720})
+                self.assertTrue(all(s['at'] >= 1260 for s in schedule[1:]))
+                if shape == 'review':
+                    self.assertEqual(schedule[1], {'at': 1260, 'feeCents': 26400})
+                self.assertEqual(desk.first_posted, {'one': 600, 'two': 1200})
+                self.flush(desk)
+                desk.now = 1380
+                self.assert_singles(desk)
+                fallback = next(a for a in desk.outbox if a['stops'][0]['orderId'] == 'one')
+                self.assertEqual(fallback['schedule'], desk.fees_for(one, 1))
+                self.assertEqual(desk.first_posted['one'], 600)
+
+    def test_pair_schedules_are_monotone_capped_and_have_distinct_future_times(self):
+        for shape in ('ramp', 'review'):
+            for flat in (0, 60, 300):
+                for latest in (600, 800, 10000):
+                    for rescue in (False, True):
+                        with self.subTest(shape=shape, flat=flat, latest=latest, rescue=rescue):
+                            desk = self.desk(fee_shape=shape, review_after_minutes=30, review_skip_night=0,
+                                             pair_rescue_flat_minutes=flat)
+                            schedule = desk._pair_schedule(24000, latest, rescue)
+                            times = [s['at'] for s in schedule]
+                            fees = [s['feeCents'] for s in schedule]
+                            self.assertEqual(times[0], desk.now)
+                            self.assertEqual(times, sorted(set(times)))
+                            self.assertEqual(fees, sorted(fees))
+                            self.assertTrue(all(0 < fee <= 36000 for fee in fees))
+                            if rescue and flat:
+                                self.assertEqual(fees[0], 18720)
+                                self.assertTrue(all(at >= desk.now + flat for at in times[1:]))
+
+    def test_custom_pair_openings_and_old_unpublished_age_do_not_choose_rescue(self):
+        desk = self.desk(pair_fee_bps=7000, pair_rescue_fee_bps=9000)
+        one, two = pair_order(desk, 'one'), pair_order(desk, 'two', 'b', 'c')
+        desk.first_posted['one'] = 0
+        plan, _ = desk._plan(one, two)
+        self.assertEqual(plan.fee_policy, 'fresh')
+        self.assertEqual(plan.action['schedule'][0], {'at': 600, 'feeCents': 16800})
+        self.win(desk, one)
+        self.flush(desk)
+        self.win(desk, two)
+        pair = next(iter(desk._pending_pairs.values()))
+        self.assertEqual(pair.fee_policy, 'rescue')
+        self.assertEqual(pair.action['schedule'][0], {'at': 600, 'feeCents': 21600})
 
     def test_ramp_split_keeps_first_posting_age_and_once_can_be_disabled(self):
         desk, one, two, gig = self.paired(pair_split_minutes=400, pair_once=0)
@@ -698,7 +796,7 @@ class PairTests(unittest.TestCase):
     def test_transfer_tie_selects_earliest_finish(self):
         desk = self.desk()
         one, two = pair_order(desk, 'one'), pair_order(desk, 'two', 'c', 'd')
-        one['legs'][0]['pickup']['window']['from'] = 1000
+        one['legs'][0]['pickup']['window']['from'] = 900
         early = desk._plan(two, one)[0]
         late = desk._plan(one, two)[0]
         self.assertEqual(early.transfer_km, late.transfer_km)

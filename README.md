@@ -21,7 +21,8 @@ Our public team is **Guardians of the Moonlight**. Round 5 ("Saturday 09:00"), l
 **41st of 65 ranked teams**, €50,541; all five ranked, 95.5–98.7% on time.
 Runs: €7,872 / €12,396 / €9,653 / €12,804 / €7,816. House best (organisers):
 €50,660; tenth place about €71k; leaders €77–79k.
-Round 6 ("Saturday 12:00"): current; we have not played it.
+Round 6 ("Saturday 12:00"): **€59,528.62 with unchanged Beta**, all five ranked,
+96.1–99.2% on time. All five finished before 15:00 Helsinki.
 
 ![Round 5 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round5-totals.svg)
 ![Our five round-5 margins versus leader Juhus](docs/screenshots/round5-runs.svg)
@@ -32,9 +33,12 @@ Round 6 ("Saturday 12:00"): current; we have not played it.
 
 *Real public-page screenshot, 14 November 2026, 10:14 UTC: only round 6 is shown; our round-5 row is unavailable.*
 
-## Current model: Gamma
+## Current model: Beta; Gamma remains experimental
 
-Gamma keeps Beta's list-price markup, 30% win target, dealer trust charge and
+Beta remains the ranking model: guarded 700 km Gamma failed one of eight
+held-out weeks (89.956% on time). See [Gamma results](docs/research/gamma-results.md).
+
+The experimental Gamma keeps Beta's list-price markup, 30% win target, dealer trust charge and
 fee ramp. It adds guarded 500–700 km routes: `next_day` or `within_3_days` only,
 at least 24 hours from the dealer's decision to the last feasible pickup, and
 fewer than three long orders waiting for a driver. These gigs open at 1.0 × the
@@ -109,7 +113,7 @@ python compare.py report runs/beta-vs-alpha/results.json
 python scripts/sweep.py runs/gamma/check plan.json
 
 # Public ranking runs; qualify on private seeds first.
-python scripts/board.py models/beta.json --runs 5
+python scripts/board.py models/beta.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
@@ -128,6 +132,9 @@ Minimal `plan.json` (fast by default; reruns skip completed weeks):
  "base":{"win_target_bps":3000,"opening_fee_bps":8000,"max_km":500},
  "variants":{"beta":{},"long700g":{"long_max_km":700}}}
 ```
+
+The server allows only one unfinished ranking run per level. Use `--runs 5`
+to finish them sequentially; parallel invocations receive HTTP 409.
 
 **Ranking runs are public and cannot be retried or taken back. All five runs
 of a round must reach 90% on time.** Stopping or deleting one still counts.

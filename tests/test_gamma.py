@@ -629,9 +629,9 @@ class GammaTests(unittest.TestCase):
         desk.now += 1
         self.brake_quote(desk, slacks=(1200, 1800))
         self.assertEqual(self.record(desk)['mode'], 'caution')
-        self.assertEqual(desk.markup, 16686)
+        self.assertEqual(desk.markup, 16200)
         self.brake_quote(desk, slacks=(1200, 1800))
-        self.assertEqual(desk.markup, 16686)
+        self.assertEqual(desk.markup, 16200)
         desk.now = 600 + DAY + 240
         self.brake_quote(desk)
         self.assertEqual(self.record(desk)['mode'], 'normal')
@@ -660,6 +660,25 @@ class GammaTests(unittest.TestCase):
             self.risk_event(desk, 'deadline_close', 'unknown')
             self.brake_quote(desk, slacks=(1200, 1800))
             self.assertEqual(desk.win_target(), 3800)
+
+    def test_brake_downgrade_preserves_all_tracker_markups_and_reescalation_bumps(self):
+        for scope, trackers in [('global', ['global']), ('dealer', [*BIG_DEALERS, 'other']),
+                                ('km', ['under_100', '100_to_300', 'over_300'])]:
+            with self.subTest(scope=scope):
+                desk = self.desk(brake=1, markup_scope=scope, brake_soft_warnings=1, brake_hard_warnings=2)
+                self.risk_event(desk, 'deadline_close', 'unknown')
+                desk.now += 100
+                self.risk_event(desk, 'deadline_close', 'unknown')
+                desk.update_brake()
+                self.assertEqual([desk.tracker_markup(t) for t in trackers], [16200] * len(trackers))
+                desk.now = 500 + DAY + 240
+                self.assertEqual(desk.update_brake()['mode'], 'caution')
+                self.assertEqual([desk.tracker_markup(t) for t in trackers], [16200] * len(trackers))
+                for _ in range(2):
+                    self.risk_event(desk, 'deadline_close', 'unknown')
+                self.assertEqual(desk.update_brake()['mode'], 'brake')
+                for tracker in trackers:
+                    self.assertAlmostEqual(desk.tracker_markup(tracker), 17496)
 
     def test_brake_entry_bumps_once_each_entry_and_bounds_every_tracker(self):
         for scope, trackers in [('global', []), ('dealer', [*BIG_DEALERS, 'other']),
@@ -728,7 +747,7 @@ class GammaTests(unittest.TestCase):
             self.assertFalse(desk.pending)
 
     def test_brake_long_route_block_and_all_route_cap_with_ablations(self):
-        for warnings, blocked in [(0, False), (6, True), (12, True)]:
+        for warnings, blocked in [(0, False), (6, False), (12, True)]:
             for blocks in (0, 1):
                 desk = self.desk(brake=1, long_max_km=600, brake_blocks_long=blocks)
                 desk.roads['helsinki', 'tampere']['km'] = 600
@@ -750,6 +769,21 @@ class GammaTests(unittest.TestCase):
                 self.assertEqual(bool(desk.pending), accepted)
                 if not accepted:
                     self.assertEqual(self.record(desk, 'beta_decline')['reason'], 'on-time brake')
+
+    def test_caution_long_routes_still_require_all_long_route_guards(self):
+        for settings, reason in [({}, None), ({'long_max_km': 599}, 'route too long'),
+                                 ({'long_min_slack_minutes': 1801}, 'no eligible long route option'),
+                                 ({'long_open_cap': 0}, 'long route capacity'),
+                                 ({'long_options': 'within_3_days'}, 'no eligible long route option')]:
+            with self.subTest(settings=settings):
+                desk = self.desk(brake=1, **({'long_max_km': 600} | settings))
+                desk.roads['helsinki', 'tampere']['km'] = 600
+                for _ in range(6):
+                    self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1800, 1800))
+                self.assertEqual(bool(desk.pending), reason is None)
+                if reason:
+                    self.assertEqual(self.record(desk, 'beta_decline')['reason'], reason)
 
     def test_same_day_slack_inherits_general_setting_and_is_independent(self):
         self.assertEqual(GammaSettings(min_slack_minutes=123).same_day_min_slack_minutes, 123)

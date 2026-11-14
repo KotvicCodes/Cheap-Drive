@@ -21,18 +21,50 @@ cent on all eight seeds. Earlier Beta results used different seeds.
 ## Held-out confirmation: fresh seeds
 
 <!-- H1 -->
-7 of 16 planned h1 weeks have finished; 9 are missing.
-These seeds (`gamma-h01` … `gamma-h08`) were not used to choose the settings.
-Model means use all available weeks; paired gains use only matched seeds.
+The complete confirmation used eight fresh seeds (`gamma-h01` … `gamma-h08`),
+which were not used to choose the guarded 700 km settings. This candidate
+**failed qualification**: `gamma-h07` finished below the 90% requirement.
 
 | Model | Seeds played | Margin / week | Weeks ranked | On time, worst / mean | Orders / week |
 |---|---|---|---|---|---|
-| Beta | 4 of 8 | €9,326.83 | 4 of 4 | 95.122% / 95.74% | 224.25 |
-| Gamma | 3 of 8 | €10,711.97 | 3 of 3 | 94.017% / 94.94% | 242.67 |
+| Beta | 8 of 8 | €9,552.34 | 8 of 8 | 91.705% / 95.27% | 228.75 |
+| Guarded 700 km candidate | 8 of 8 | €10,382.78 | 7 of 8 | 89.956% / 94.35% | 246.50 |
 
-Paired gain: €830.06/week; 3 of 3 matched seeds positive.
-This is not a completed held-out check; the available rows are provisional.
+Paired gain: €830.44/week; 7 of 8 seeds positive.
+The failed week scored 89.956% on time, versus Beta’s 91.705%. Rounding
+the candidate to 90.0% hides the failure; the server returned `ranked=false`.
+
+Follow-up checks on that same failed seed also failed with the default brake
+(88.889%) and earlier warning thresholds (88.177%). Beta with the brake ranked
+at 91.089%, but earned less than unchanged Beta. These targeted follow-ups
+are diagnostic tests, not fresh held-out confirmation. Round 6 therefore uses
+unchanged Beta. The guarded 700 km model must not be promoted on this evidence.
 <!-- /H1 -->
+
+## Recovery work and ranking round 6
+
+Unchanged Beta completed all five round-6 ranking runs before 15:00 Helsinki:
+€12,272.77 / €13,500.54 / €9,191.30 / €12,595.82 / €11,968.19, totalling
+**€59,528.62**. All five ranked, with on-time shares from 96.109% to 99.180%.
+The public board showed rank 45 at 13:00 UTC; the position can change as others finish.
+
+The recovery branch fixes markup bumps on brake de-escalation and limits the
+long-route block to hard brake. Pair schedules now open fresh pairs at 0.72 of
+summed reference fees, or waiting-car rescue pairs at 0.78 with a new 60-minute
+flat opening. Pair feasibility rejects idle waits above 60 minutes at the second
+pickup. The brake and pair regressions have offline coverage; their earlier live
+results above used the old code and do not establish gains from these fixes.
+
+Optional segment controls can set opening floors of 1.10 for routes below 45 km
+and 1.05 for premium cars, a 10-hour premium slack floor, and an 8% short-route
+quote discount. These are neutral by default and remain under live evaluation.
+The short and premium segments overlap; their late-order shares cannot be added.
+
+At this checkpoint, 185 offline tests pass on Python 3.9 and 3.14. Fresh Beta
+baselines and four candidate arms are running on `gamma-v01` … `gamma-v08`.
+`gamma-v09` … `gamma-v16` are reserved for confirmation after settings are
+chosen. Note parsing and its integration are still being implemented separately.
+No revised candidate has been qualified or promoted yet.
 
 ## What was kept, and why
 
