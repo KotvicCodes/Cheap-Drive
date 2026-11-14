@@ -1,0 +1,26 @@
+{
+  "weeks": 16,
+  "counts": {
+    "inbound_exact_five_quotes": 2348,
+    "inbound_exact_five_won": 217,
+    "no_time_private": 614,
+    "no_time_ordinary": 644
+  },
+  "declines": {
+    "trade-in": 327,
+    "no option leaves a driver enough time": 1258,
+    "no eligible long route option": 266,
+    "route too long": 474,
+    "long route capacity": 243,
+    "premium slack": 2
+  },
+  "private_no_time_menus": {
+    "next_day": 262,
+    "same_day+next_day": 170,
+    "next_day+within_3_days": 64,
+    "same_day": 59,
+    "same_day+next_day+within_3_days": 59
+  },
+  "selection": "Same 16 exact completed trace/reveal world-matched sources as quote-fee-evidence-audit.json",
+  "limitations": "Retrospective counts only; private defined by first pickup hours=null; single-leg/supply/feasibility eligibility not yet audited; discrepancy with reported follow-up counts unresolved"
+}

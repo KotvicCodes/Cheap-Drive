@@ -5,8 +5,10 @@ additional intake. Gamma's paired improvement is established; the proposed
 35–42% targets, €650–700 immediate rescue gain and top-ten projections are not.
 Keep supported Gamma fixed. This document defines the staged research gates;
 [investigation results](delta-results.md) track execution and experimental
-Delta code. No model has been promoted. A1 is running, with two additional
-diagnostic worlds on exposed `gamma-v01` for neutral-factory parity and rescue.
+Delta code. No model has been promoted. A1 completed its 20 worlds and A2 is
+running no-segments and premium-only against Gamma on the remaining four
+exposed screening seeds. Two additional diagnostic worlds on exposed
+`gamma-v01` checked neutral-factory parity and rescue.
 These add two completed worlds to the program budget below, without changing
 its selection or confirmation gates.
 
@@ -84,15 +86,16 @@ seeds. No multi-setting jump to 35–38%, cap 5–6 or >700 km routes.
 | B4: two-option menu spread | Gamma; same-day 1.04× and next-day 0.98× only when both are actually quoted. s01–s08. | 16 |
 | B5: smaller independent controls | Gamma; `trust_bps_per_order=50`; `fee_shape="review"`. s01–s08, separate arms. | 24 |
 | Optional B6: learner × lane interaction | Gamma; one preselected passing learner arm; one preselected passing lane arm; both. s01–s08. Only after separate B1/B2 success; freeze choice before combining. | 32 |
+| B7: private-pickup admission | Gamma; private slack 240 minutes, initial-roster `near30≥5`, opening floor 10000 bps for newly admitted work only. Single-leg original no-time declines, all other guards retained; offline route/window audit first. s01–s08. | 16 |
 | C: repairs separately | Gamma; note date/closing fixes only; rescue-window fallback only; pair/brake bookkeeping only. All remain 30%, cap 3. Run s01–s08 after separate opt-in Delta factories and regressions exist. No patch to supported Gamma. | 32 |
 | D: capacity boundary | Gamma; selected repaired anchor; that same anchor with `long_open_cap=4` only, on s01–s08. Release only after C; retain long options, distance and slack guards. Cap 5 is a later experiment requiring its own predeclared budget. | 24 |
 | E: development | Beta, Gamma and one selected Delta combination, frozen before d01–d08. May combine only individually justified changes. If the combination fails, return to exploratory work and reserve a replacement fresh development block. | 24 |
 | F: confirmation | Same three factories/settings, fresh c01–c08, no tuning or arm selection from these results. Failed confirmation leaves Gamma supported. | 24 |
 | Optional stress | Gamma and one finalist on the three exposed difficult weeks; diagnostic only. | 6 |
 
-Maximum listed program: **334 completed worlds**, including optional stress and
-the conditional interaction screen; **336 including the two completed parity/rescue
-diagnostics**. The additions reserve 136 independent-screen worlds plus 32
+Maximum listed program: **350 completed worlds**, including optional stress and
+the conditional interaction screen; **352 including the two completed parity/rescue
+diagnostics**. The additions reserve 152 independent-screen worlds plus 32
 conditional interaction worlds; stop early when gates reject an arm. A1 can resolve the first decision in 20
 worlds. Do not execute all rows as one unattended sweep. This is a staged
 research budget, not a request to occupy all slots before the final.
@@ -115,13 +118,14 @@ This code and its run budget are **not** part of the executable staged plans.
 
 ## Quote and fee hypotheses after A/B
 
-B1–B5 are newly queued research stages, in that order after A/B; B6 is conditional
-and follows B5 before C. They do not interrupt A1 or change any A/B arm, source,
+B1–B5 are newly queued research stages, in that order after A/B; conditional
+B6 follows B5, then B7 before C. They do not interrupt A1 or change any A/B arm, source,
 seed or gate. Every stage uses frozen Gamma on `delta-r1-s01..s08`, with a
-same-stage control and no intake, segment, cap, note or repair changes. Screen
+same-stage control and unchanged global intake target, segments, cap and repairs;
+B7 alone isolates the specified private-pickup admission exception. Screen
 learner and lane effects separately before any combination. Their full specs and
 release prerequisites are in [the non-executable stage manifest](plans/delta/quote-fee-stages.json).
-Do not feed that manifest to `sweep.py`: B1–B4/B6 need Delta-only code and a
+Do not feed that manifest to `sweep.py`: B1–B4/B6/B7 need Delta-only code and a
 validated executable plan before release. Existing B5 settings need no strategy
 implementation, but remain ordered after B4.
 
@@ -151,8 +155,11 @@ full ledgers; their trace/reveal world identities match.
   retrospective script also excluded tampere/lempaala/raisio as inbound origins;
   report that cohort separately rather than changing the arm silently. Factors
   apply to eligible quoted options, compose with unchanged Gamma factors before
-  one final cent ceiling, and never relax dispatch guards. No new discount on
-  trips below 60 km. Measure hub arrivals, available pair partners, booked pairs
+  one final cent ceiling, and never relax dispatch guards. Explicitly clamp the
+  new lane offset to ≥0 below 60 km (equivalently
+  a new lane multiplier ≥1); this does not neutralize Gamma's existing short
+  factor or change the independent A attribution screen. Measure hub arrivals,
+  available pair partners, booked pairs
   and total ledger, not just accepted-order margins.
 - **B3:** first audit opening-to-booking latency for reference/minimum-list
   ratios >1.04 against lower groups, stratified by distance, place, readiness,
@@ -179,6 +186,27 @@ full ledgers; their trace/reveal world identities match.
   Report interaction as `combined − learner − lane + Gamma` per seed, alongside
   direct combined-versus-Gamma net margin and all safety metrics. Reusing s01–s08
   makes this exploratory; development and untouched confirmation remain required.
+- **B7:** a separate private-pickup admission screen, not a global slack cut.
+  Replay original no-time declines first. Require a single-leg pickup with
+  `hours: null`, known initial-roster `near30≥5`, and at least 240 minutes of
+  note-aware slack from decision/readiness. Freeze the proposed threshold before
+  live release after inspecting offline coverage; if it changes, version the
+  spec before any outcomes. `near30` counts homes within 30 km, not available,
+  appropriately licensed drivers. Require an observable feasible route within
+  the original three-hour private slot and delivery promise. Missing supply or
+  infeasible readiness/licence/charging/route rejects relaxation. Preserve every
+  other long, premium, option, trust and capacity guard; already eligible work
+  keeps Gamma behavior. Newly admitted private work gets an opening floor of
+  10000 bps, respecting any higher segment floor. Preserve fee clocks and caps,
+  and never extend the private window or add the rescue repair to this arm.
+  Report newly eligible/quoted/won counts, route/list-price mix, booking latency,
+  failed visits, refunds, undelivered share and full incremental ledger. Stop for
+  the existing service gates; additionally require paired mean on time no lower
+  than Gamma and newly admitted private orders ≥93% on time. Report the new
+  cohort denominator and uncertainty separately. This is timing-risk volume,
+  not free margin. The other declined groups
+  (ordinary same-day-only, >700 km, trade-ins, unsupported long options) stay out
+  of scope; long capacity remains solely stage D.
 
 Apply the existing safety stops and pre-E eligibility gates to these stages;
 retain ≥€500/week, ≥6/8 positive, service and undelivered gates without relaxing
@@ -256,8 +284,9 @@ Predeclare these gates; do not loosen them after observing results:
 
 The three original executable JSON plans under `plans/delta/` use the existing
 `scripts/sweep.py`
-`factory/level/seeds/base/variants/fast` schema. A1 has started; other full stages
-have not been released. Neutral/rescue diagnostics use separate copied plans.
+`factory/level/seeds/base/variants/fast` schema. A1 is complete; A2 uses a
+pruned, hashed copy with the two passing arms and Gamma. Later stages have not
+been released. Neutral/rescue diagnostics use separate copied plans.
 The integration checkout retains the private staged queue and exact commands
 under ignored `runs/delta-research/queue.json` and `commands.txt`. These local
 artifacts are not part of Git; use the tracked plans and this document when
@@ -277,7 +306,7 @@ retries failures up to four times. Therefore release small stages manually,
 use immutable source copies and fresh output directories, retain failure
 records, and do not run a retry storm against a full slot pool. For bounded
 risk launch a one-seed copied plan first, inspect it, then release the rest.
-The 334 planned-world budget (336 with completed diagnostics) counts completed
+The 350 planned-world budget (352 with completed diagnostics) counts completed
 weeks; reserve at most one manually reviewed
 infrastructure retry per job. Existing automatic retry behavior must be
 controlled by a supervising owner or a separate runner improvement before
@@ -285,9 +314,9 @@ claiming this attempt limit is enforced.
 
 Saved Gamma screening/confirmation median completed-week times were 265/327
 seconds; these are not speed experiments or an SLA. Budget 5–15 worker-minutes
-per world (27.8–83.5 worker-hours for the maximum 334-world planned program), plus
+per world (29.2–87.5 worker-hours for the maximum 350-world planned program), plus
 outages and review. With two independent free workers that is ideally
-13.9–41.75 elapsed hours; actual shared rate limits and slots can be slower.
+14.6–43.75 elapsed hours; actual shared rate limits and slots can be slower.
 Coordinate rather than consuming practice slots needed for speed validation.
 
 The final-clock runner is a separate operational priority. `dispatch.py` still
@@ -300,6 +329,6 @@ classes' validators, excluded seed checks and 35 baseline hash checks. Integrati
 also validated all 13 settings arms through the installed SDK-backed factory's
 settings splitter. Saved score/ledger/segment reconciliations passed. Those
 initial checks did not run simulator weeks. Live A1 and pilot execution
-is recorded separately in the investigation results. The new B1–B6 manifest is
+is recorded separately in the investigation results. The new B1–B7 manifest is
 a staged specification, not a validated executable sweep. No new quote/fee arm
 or final-clock validation has run; no Delta is qualified.

@@ -47,7 +47,7 @@ No parameter was selected from this single seed.
 All arms ranked. None beat Gamma's margin on this seed. Rescue eliminated the
 one undelivered order, but lost €106.57 overall and reduced on-time share;
 delivering formerly abandoned work is not automatically profitable or safer.
-The remaining three segment screening seeds are running before the A1 verdict.
+The four-seed A1 screen is now complete; see the stage verdict below.
 The larger rescue screen and note-correction economic tests remain pending.
 
 Neutral Delta exactly matched frozen Gamma across 1,521 actions, their world
@@ -65,3 +65,34 @@ owned-world records, every attempt and raw traces/reveals remain private.
 Use the [staged testing plan](delta-testing-plan.md) for promotion gates, fresh
 seed separation and the remaining intake, repair and capacity hypotheses.
 Practice results do not validate final-clock integration.
+
+## Four-seed A1 attribution verdict
+
+All 20 planned worlds completed and ranked on `gamma-v01..v04`; all were at
+least 93% on time. Eight infrastructure-failed attempts (three on v01, five on
+v04) were retained and rerun once with identical frozen source/settings/seed.
+Only the owned, verified failed ordinary-practice worlds were removed. A retry
+launcher also failed before SDK import/world creation and was corrected; it did
+not consume a simulator attempt. Completed scores reconcile to full ledgers.
+Sanitized scores and every paired margin delta are in
+[the A1 results](plans/delta/segments-a1-results.json).
+
+| Arm | Mean margin vs Gamma/week | Positive weeks | Total undelivered | Worst on time | A2 decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Gamma | €0 | — | 15 | 94.574% | Control |
+| No segments | +€168.78 | 3/4 | 13 | 95.000% | Advance |
+| Short only | −€114.19 | 1/4 | 18 | 94.355% | Stop |
+| Premium only | +€234.37 | 3/4 | 14 | 94.672% | Advance |
+| Higher pair opening | −€24.47 | 1/4 | 18 | 94.615% | Stop |
+
+Selection used the declared four-seed A1 gates: all ranked, at least three
+positive weeks, positive mean margin and no greater total undelivered count.
+There were exactly two passing arms, so neither needed discretionary ranking.
+Their gains remain exploratory and below the final €500/week requirement.
+No settings were promoted and Gamma remains supported.
+
+A2 is running Gamma, no-segments and premium-only on `gamma-v05..v08`, with
+unchanged baseline source and settings and a maximum five workers. Its pruned
+plan was hashed and selection recorded before launch. Modest intake B follows
+A review; the newly added [quote/fee leads](delta-quote-fee-leads.md) remain queued
+after A/B, with independent learner/lane screens before a combination.
