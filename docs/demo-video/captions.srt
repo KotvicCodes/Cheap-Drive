@@ -1,10 +1,10 @@
 1
 00:00:00,200 --> 00:00:04,800
-Move cars, Win margins
+Cheap-Drive: Move cars, Win margins.
 
 2
 00:00:05,100 --> 00:00:12,800
-1,187 simulator runs across four model generations: Alpha (677), Beta (278), Gamma (208), and live Delta (22+).
+1,492 completed practice runs across four model generations: Alpha (677), Beta (268), Gamma (242), and Delta (303).
 
 3
 00:00:13,100 --> 00:00:19,800
@@ -16,16 +16,20 @@ Every run produces an inspectable offline HTML report reconciling the event stre
 
 5
 00:00:26,100 --> 00:00:33,800
-All 1,155 completed practice runs across six stages—including failed experiments—remain in the record.
+All 1,492 completed practice runs across Baseline, Alpha, Beta, Gamma, and Delta—including failed experiments—remain in the record.
 
 6
 00:00:34,100 --> 00:00:40,800
 Tuning is not validation: pushing volume failed gamma-t04 at 89.80%, and Gamma Early failed its first fresh holdout at 89.956% on time.
 
 7
-00:00:41,100 --> 00:00:48,800
+00:00:41,100 --> 00:00:47,800
 Revised Gamma passed all 8 fresh confirmation weeks (v09–v16), adding +€2,031/week (+20.21%) while raising worst on-time to 96.95%.
 
 8
-00:00:49,100 --> 00:00:53,800
+00:00:48,100 --> 00:00:54,800
+Delta—adding rescue windows and note fixes—beat Gamma in all 11 fresh confirmation weeks (f01–f11), adding +€682/week with 300 of 303 Delta runs ranked.
+
+9
+00:00:55,100 --> 00:00:59,800
 Win the right work. Deliver it.

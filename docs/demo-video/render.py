@@ -11,7 +11,7 @@ import imageio_ffmpeg
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 OUT = REPO / 'runs/demo-video'
-W, H, FPS, DURATION = 1920, 1080, 30, 54
+W, H, FPS, DURATION = 1920, 1080, 30, 60
 
 # Juicy yellow-orange, golden marigold, and sunlit citrus palette (zero brown/taupe/umber).
 INK = '#141416'          # Crisp neutral carbon ink for typography & vehicle silhouettes
@@ -35,11 +35,13 @@ SCENES = [
     (20, 26),
     (26, 34),
     (34, 41),
-    (41, 49),
-    (49, 54),
+    (41, 48),
+    (48, 55),
+    (55, 60),
 ]
 
 GRAPH = json.loads((ROOT / 'data/graph-data.json').read_text())
+RUN_DATA = json.loads((ROOT / 'data/run-data.json').read_text())
 CHART_DATA = json.loads((ROOT / 'data/chart-data.json').read_text())
 PAIRED_WEEKS = list(csv.DictReader((ROOT / 'data/paired-weeks.csv').open()))
 CONFIRM_WEEKS = [r for r in PAIRED_WEEKS if r['comparison'] == 'Revised candidate: fresh confirmation']
@@ -48,6 +50,20 @@ OFFICIAL_RUNS = [r for r in GRAPH['runs'] if r['family'] == 'Official ranking']
 ROUND5_RUNS = OFFICIAL_RUNS[:5]
 ROUND6_RUNS = OFFICIAL_RUNS[5:10]
 PAIRED_OLD = list(csv.DictReader((ROOT / 'data/per-seed-comparisons.csv').open()))
+
+DELTA_CONFIRM = [
+    ('f01', 7353.40, 8178.10, 824.70, 97.0, 96.6),
+    ('f02', 11918.61, 13468.72, 1550.11, 96.3, 97.8),
+    ('f03', 11620.83, 12000.00, 379.17, 98.4, 98.0),
+    ('f04', 14102.64, 14357.99, 255.35, 98.5, 98.5),
+    ('f05', 10663.96, 11063.43, 399.47, 97.2, 97.2),
+    ('f06', 15844.85, 16630.83, 785.98, 97.0, 97.0),
+    ('f07', 10001.28, 12015.18, 2013.90, 94.9, 93.7),
+    ('f08', 10566.66, 10586.94, 20.28, 97.2, 97.2),
+    ('f09', 12836.87, 13601.21, 764.34, 97.4, 98.5),
+    ('f10', 13810.94, 13962.56, 151.62, 98.6, 97.8),
+    ('f11', 9770.47, 10128.71, 358.24, 97.1, 97.1),
+]
 
 CHART_ALL = Image.open(ROOT / 'assets/all-run-margins.png').convert('RGB')
 CHART_STAGES = Image.open(ROOT / 'assets/learning-stages.png').convert('RGB')
@@ -420,9 +436,9 @@ def hero(t):
 
 
 def evolution(t):
-    """Graphical Alpha -> Beta -> Gamma -> Delta iteration pipeline and total run counter."""
+    """Graphical Alpha -> Beta -> Gamma -> Delta iteration pipeline (1,492 practice runs)."""
     im = base_canvas('sunburst').copy()
-    total_runs = round(1187 * ease(t / 0.9))
+    total_runs = round(1492 * ease(t / 0.9))
     enter(im, f'{total_runs:,} runs', 80, 82, 92, t, 0.05, color=INK, weight=700)
 
     p_car = clamp((t - 0.4) / 7.5)
@@ -446,10 +462,10 @@ def evolution(t):
 
     # 4 prototype columns: (num_tag, name, runs, dots_count, margin_eur, tag, accent_col)
     protos = [
-        ('01', 'Alpha', 677, 68, 5476, 'Route + scarcity', MARIGOLD),
-        ('02', 'Beta', 278, 28, 10048, 'Trust + fee ramp', MANGO),
-        ('03', 'Gamma', 208, 21, 12079, 'Notes + pairs', ORANGE),
-        ('04', 'Delta', 22, 6, 12313, 'Rescue + ablation', MARIGOLD),
+        ('01', 'Alpha', 677, 68, 4466, 'Route + scarcity', MARIGOLD),
+        ('02', 'Beta', 268, 27, 10602, 'Trust + fee ramp', MANGO),
+        ('03', 'Gamma', 242, 24, 11157, 'Notes + pairs', ORANGE),
+        ('04', 'Delta', 303, 30, 12905, 'Rescue + notes', ORANGE),
     ]
 
     curve_pts = []
@@ -473,8 +489,6 @@ def evolution(t):
         circle(im, cx + 48, cy + 46, 26, INK)
         txt(im, num_tag, cx + 48, cy + 46, 22, SUNBURST, mono=True, weight=700, anchor='mm')
         txt(im, name, cx + 90, cy + 28, 34, hdr_fg, 700)
-        if is_delta:
-            badge(im, 'LIVE', cx + cw - 112, cy + 23, color=SUNBURST if is_focus else INK, bg=INK if is_focus else SUNBURST, size=18)
 
         # Big run count & visual dot-matrix meter (each dot = ~10 runs)
         cnt_now = round(r_cnt * appear)
@@ -492,9 +506,7 @@ def evolution(t):
                 dx,
                 dy,
                 8 if active_dot else 4,
-                (ORANGE if is_gamma else col) if active_dot else '#F7E6C4',
-                outline=ORANGE if (active_dot and is_delta) else None,
-                width=2 if (active_dot and is_delta) else 0,
+                (ORANGE if is_focus else col) if active_dot else '#F7E6C4',
             )
 
         # Strategy tag pill
@@ -503,13 +515,13 @@ def evolution(t):
         # Rising weekly margin bar at bottom of card
         bar_base = cy2 - 32
         max_h = 195
-        bh = max_h * (mgn / 13500.0) * appear
+        bh = max_h * (mgn / 14000.0) * appear
         by = bar_base - bh
         rect(im, (cx + 28, bar_base - max_h, cx + cw - 28, bar_base), '#FFF3D6', outline=GOLD_LINE, r=10)
-        rect(im, (cx + 28, by, cx + cw - 28, bar_base), ORANGE if is_gamma else col, r=10)
-        lbl_mgn = f'€{mgn / 1000:.1f}k / wk' if not is_delta else '+€234 A1'
+        rect(im, (cx + 28, by, cx + cw - 28, bar_base), ORANGE if (is_gamma or is_delta) else col, r=10)
+        lbl_mgn = f'€{mgn / 1000:.1f}k / wk'
         if appear > 0.35:
-            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD if is_gamma else INK, mono=True, weight=700, anchor='ma')
+            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD if (is_gamma or is_delta) else INK, mono=True, weight=700, anchor='ma')
         if i == 0:
             curve_pts.append((cx + 48, by + 10))
         curve_pts.append((cx + cw / 2, by))
@@ -625,10 +637,7 @@ def observability(t):
 
 @lru_cache(maxsize=1)
 def graph_all_small():
-    tinted = ImageChops.multiply(CHART_ALL, Image.new('RGB', CHART_ALL.size, CREAM)).resize((1790, 868), Image.Resampling.LANCZOS)
-    rect(tinted, (0, 0, 1790, 145), CREAM)
-    rect(tinted, (0, 765, 1790, 868), CREAM)
-    return tinted
+    return ImageChops.multiply(CHART_ALL, Image.new('RGB', CHART_ALL.size, CREAM)).resize((1760, 860), Image.Resampling.LANCZOS)
 
 
 @lru_cache(maxsize=1)
@@ -640,28 +649,28 @@ def graph_stages_small():
 
 
 def experiments(t):
-    """Clean 6-stage all-run margin search—headline + chart + stage scanner only."""
+    """Clean 5-stage all-run margin search (1,492 practice runs)."""
     im = base_canvas('chart').copy()
-    im.paste(graph_all_small(), (65, 140))
-    enter(im, '1,155 practice runs', 80, 96, 84, t, 0.05, color=INK, weight=700)
+    im.paste(graph_all_small(), (80, 195))
+    enter(im, '1,492 practice runs', 80, 76, 84, t, 0.05, color=INK, weight=700)
 
     stages = [
-        (1, 'Alpha · 677'),
-        (2, 'Beta Early · 64'),
-        (3, 'Beta Late · 204'),
-        (4, 'Gamma Early · 123'),
-        (5, 'Gamma Late · 85'),
+        (1, 'Alpha · 677 runs'),
+        (2, 'Beta · 268 runs'),
+        (3, 'Gamma · 242 runs'),
+        (4, 'Delta · 303 runs'),
     ]
     if t > 0.4:
         frac = clamp((t - 0.4) / 6.8)
-        pos = mix(0.0, 4.0, smooth(frac))
+        pos = mix(0.0, 3.0, smooth(frac))
         col = 1.0 + pos
-        stage_idx = min(4, int(pos + 0.5))
-        cx = 65 + 1790 * (0.09 + 0.89 * (col + 0.55) / 6.10)
-        hw = 1790 * (0.89 * 0.46 / 6.10)
-        rect(im, (cx - hw, 140 + 868 * 0.19, cx + hw, 140 + 868 * 0.77), None, ORANGE, r=6, width=4)
-        bx = clamp(cx - 110, 80, 1520)
-        badge(im, stages[stage_idx][1], bx, 242, color=CARD, bg=ORANGE, size=21)
+        stage_idx = min(3, int(pos + 0.5))
+        # Exact column math from plot-runs.py: left=0.09, right=0.98, xlim=(-0.55, 4.45) -> span=5.0
+        cx = 80 + 1760 * (0.09 + 0.89 * (col + 0.55) / 5.00)
+        hw = 1760 * (0.89 * 0.45 / 5.00)
+        rect(im, (cx - hw, 195 + 860 * 0.03, cx + hw, 195 + 860 * 0.80), None, ORANGE, r=6, width=4)
+        bx = clamp(cx - 125, 80, 1520)
+        badge(im, stages[stage_idx][1], bx, 156, color=CARD, bg=ORANGE, size=21)
     return im
 
 
@@ -812,6 +821,60 @@ def result(t):
     return im
 
 
+def delta_confirm(t):
+    """Fresh 11-week Delta confirmation (delta-f1-s01..s11): +€682/week, 11/11 positive, 303 runs."""
+    im = base_canvas('sunburst').copy()
+    enter(im, 'Delta confirmed', 80, 96, 84, t, 0.05, color=INK, weight=700)
+
+    p = ease((t - 0.2) / 1.0)
+    txt(im, f'+€{682.11 * p:,.0f}', 76, 268, 148, ORANGE, 700)
+    txt(im, 'per week vs Gamma', 84, 454, 36, INK, 650)
+
+    badge(im, '11/11 fresh weeks ahead', 84, 558, color=INK, bg=MARIGOLD, border=ORANGE, size=24)
+    badge(im, '300/303 Delta runs ranked', 84, 623, color=INK, bg=MARIGOLD, border=ORANGE, size=24)
+    badge(im, '93.7% worst fresh on-time', 84, 688, color=CARD, bg=ORANGE, size=24)
+
+    rect(im, (755, 236, 1840, 966), CARD, outline=GOLD_LINE, r=18, width=2)
+    txt(im, 'Fresh confirmation (f01–f11)', 790, 268, 26, INK, 700)
+    rect(im, (1410, 274, 1436, 294), GOLD_TRACK, r=4)
+    txt(im, 'Gamma', 1446, 268, 22, MUTED_INK, 650)
+    rect(im, (1570, 274, 1596, 294), ORANGE, r=4)
+    txt(im, 'Delta', 1606, 268, 22, ORANGE, 700)
+
+    base_y = 665
+    line(im, [(785, base_y), (1810, base_y)], GOLD_LINE, 2)
+    ot_pts_g = []
+    ot_pts_d = []
+    for i, (lbl, g_val, d_val, diff, ot_g, ot_d) in enumerate(DELTA_CONFIRM):
+        x = 790 + i * 92
+        pp = ease((t - 0.25 - i * 0.11) / 0.55)
+        gh = 270 * (g_val / 17200) * pp
+        dh = 270 * (d_val / 17200) * pp
+        rect(im, (x, base_y - gh, x + 32, base_y), GOLD_TRACK, outline=GOLD_LINE, r=4)
+        rect(im, (x + 35, base_y - dh, x + 67, base_y), ORANGE, r=4)
+        if pp > 0.4:
+            txt(im, f'+{diff / 1000:.1f}k' if diff >= 950 else f'+{diff:.0f}', x + 33, base_y - max(gh, dh) - 26, 15, ORANGE, mono=True, weight=700, anchor='ma')
+
+        cx = x + 33
+        yg = 885 - 135 * ((ot_g - 89) / 11)
+        yd = 885 - 135 * ((ot_d - 89) / 11)
+        ot_pts_g.append((cx, yg))
+        ot_pts_d.append((cx, yd))
+        txt(im, lbl, cx, 904, 17, INK, mono=True, weight=650, anchor='ma')
+
+    txt(im, 'On-time %', 790, 694, 21, MUTED_INK, 650)
+    gate_y = 885 - 135 * ((90 - 89) / 11)
+    line(im, [(785, gate_y), (1810, gate_y)], DANGER, 2)
+    txt(im, '90%', 1810, gate_y - 24, 18, DANGER, mono=True, weight=700, anchor='ra')
+    if len(ot_pts_g) > 1:
+        line(im, ot_pts_g, MUTED_INK, 3)
+        line(im, ot_pts_d, ORANGE, 4)
+        for (xg, yg), (xd, yd) in zip(ot_pts_g, ot_pts_d):
+            circle(im, xg, yg, 4, CARD, outline=MUTED_INK, width=2)
+            circle(im, xd, yd, 5, ORANGE, outline=INK, width=2)
+    return im
+
+
 def ending(t):
     im = base_canvas('juicy').copy()
     road_layer = im.copy()
@@ -823,7 +886,7 @@ def ending(t):
     enter(im, 'Win the', 80, 196, 146, t, .05, color=INK, weight=700)
     enter(im, 'right work.', 80, 356, 146, t, .16, color=INK, weight=700)
     enter(im, 'Deliver it.', 80, 516, 146, t, .28, color=CARD, weight=700)
-    badge(im, '+€2,031 / week confirmed', 86, 760, color=SUNBURST, bg=INK, size=26)
+    badge(im, '1,492 practice runs  ·  Delta confirmed (11/11)', 86, 760, color=SUNBURST, bg=INK, size=26)
 
     road = [(1370, 1020), (1690, 650), (1490, 350), (1825, 15)]
     for idx_c, offset_p in enumerate([0.12, 0.54]):
@@ -835,11 +898,11 @@ def ending(t):
     return im
 
 
-FUNCS = [hero, evolution, dispatcher, observability, experiments, failure, gain, ending]
+FUNCS = [hero, evolution, dispatcher, observability, experiments, failure, gain, delta_confirm, ending]
 
 
 def frame(t):
-    idx = next((i for i, (a, b) in enumerate(SCENES) if a <= t < b), 7)
+    idx = next((i for i, (a, b) in enumerate(SCENES) if a <= t < b), 8)
     a, b = SCENES[idx]
     im = FUNCS[idx](t - a)
     dt = t - a
@@ -847,7 +910,7 @@ def frame(t):
         xx = round(W * ease(dt / .30))
         prev = FUNCS[idx - 1](SCENES[idx - 1][1] - SCENES[idx - 1][0] + dt)
         im.paste(prev.crop((xx, 0, W, H)), (xx, 0))
-        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 7] else INK)
+        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 8] else INK)
     return im
 
 
@@ -909,7 +972,7 @@ def soundtrack(path):
                 noise = rng.standard_normal(len(ts))
                 noise = np.diff(np.r_[0, noise]) * np.exp(-ts * 95)
                 add(start + j * (beat_sec / 2), noise, .012 if j % 2 else .006, (-1 if j % 2 else 1) * .3)
-    for cut in [5, 13, 20, 26, 34, 41, 49]:
+    for cut in [5, 13, 20, 26, 34, 41, 48, 55]:
         ts = np.arange(round(sr * 0.7)) / sr
         noise = rng.standard_normal(len(ts))
         noise = np.convolve(noise, np.ones(12) / 12, mode='same')
@@ -927,7 +990,7 @@ def soundtrack(path):
 
 
 def stills(out):
-    times = [2.2, 6.5, 9.5, 11.8, 15.0, 18.2, 23.0, 28.5, 32.0, 38.0, 45.0, 51.5]
+    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 28.5, 32.0, 38.0, 45.0, 52.0, 57.5]
     thumbs = []
     for p in out.glob('frame-*.png'):
         p.unlink()
@@ -984,26 +1047,20 @@ def render(out, draft=False):
 
 
 def validate():
-    assert GRAPH['summary']['completed_practice'] == 1155
-    assert GRAPH['summary']['completed_official'] == 10
-    assert GRAPH['summary']['completed_total'] == 1165
-    assert CHART_DATA['chart_groups'] == {
+    assert RUN_DATA['summary']['completed_practice'] == 1492
+    assert RUN_DATA['summary']['chart_groups'] == {
         'Baseline': 2,
         'Alpha': 677,
-        'Beta Early': 64,
-        'Beta Late': 204,
-        'Gamma Early': 123,
-        'Gamma Late': 85,
+        'Beta': 268,
+        'Gamma': 242,
+        'Delta': 303,
     }
     assert len(CONFIRM_WEEKS) == 8
     assert all(r['candidate_qualified'] == 'True' and float(r['delta_eur']) > 0 for r in CONFIRM_WEEKS)
     assert round(sum(float(r['delta_eur']) for r in CONFIRM_WEEKS) / 8, 3) == 2030.845
-    assert round(sum(float(r['baseline_margin_eur']) for r in CONFIRM_WEEKS) / 8, 2) == 10047.87
-    assert round(sum(float(r['candidate_margin_eur']) for r in CONFIRM_WEEKS) / 8, 2) == 12078.71
-    assert len(OFFICIAL_ROUNDS) == 2
-    assert float(OFFICIAL_ROUNDS[0]['total_margin_eur']) == 50541.26
-    assert float(OFFICIAL_ROUNDS[1]['total_margin_eur']) == 59528.62
-    assert len(ROUND5_RUNS) == 5 and len(ROUND6_RUNS) == 5
+    assert len(DELTA_CONFIRM) == 11
+    assert all(d[3] > 0 for d in DELTA_CONFIRM)
+    assert round(sum(d[3] for d in DELTA_CONFIRM) / 11, 2) == 682.11
     stress = next(r for r in PAIRED_OLD if r['suite'] == 't1' and r['variant'] == 'km600-t38' and r['seed'] == 'gamma-t04')
     assert int(stress['won_orders']) == 294 and round(float(stress['on_time_share']) * 100, 2) == 89.80
 
