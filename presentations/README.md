@@ -46,11 +46,10 @@ Start with the answer, keep one claim and its evidence on a slide, and give each
 
 ## Remaining presentation work
 
-The current ten-slide deck has terminology and speaker-note updates, not a full redesign to satisfy every judging suggestion. Its reader notes open with the Gamma result. The visible title, iteration and all-run slides retain the current design. Beta and Gamma group their major decisions on a slide. Gamma's four yellow decision headings and compact matched-week results now share slide 8; the last two slides are reserved for Delta.
+The current ten-slide deck has terminology and speaker-note updates, not a full redesign to satisfy every judging suggestion. Its reader notes open with the released Delta result. The visible title, iteration and all-run slides retain the current design. Beta and Gamma group their major decisions on a slide. Gamma's four yellow decision headings and compact matched-week results share slide 8. Slides 9 and 10 now show the released Delta's measured results and its capacity/intake decisions, using the merged release at `cae1e58b8ce3234260328f78dcf2283cd2ebced7` as the source.
 
-- Complete the last two Delta slides: slide 9 is reserved for verified results and slide 10 for the next iteration and its changes
 - Add the actual **final result** when available; do not substitute practice or test-final results
-- Add the **best verified ranking-round result**, checking later rounds before calling any snapshot the best. The deleted slide comparing two older Beta rounds is not restored
+- Recheck the **latest verified ranking-round result** before submission. Slide 9 now includes Delta round 9: €75,763.55 across five ranked weeks. Its 21:34:23 UTC standings snapshot was still an open round, so its rank is not final
 - Record any demonstrated restart, slow-network and live-clock behaviour separately; the Gamma practice test alone establishes none of these
 - The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 700M token figure is supplied by the presenter, not audited by simulation logs
 - Keep Beta's small historical fee/trust tests separate. Do not add their gains or describe them as Gamma effects
@@ -61,6 +60,8 @@ A ranking round sums five secret weeks and every week must meet the delivery min
 ## Evidence sources
 
 Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 6's notes below. They are historical comparisons, not new experiments.
+
+The released Delta evidence is in [Delta results](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md), [round 9](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md) and [the released settings](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json), pinned to the merged source. The €1,664/week headline compares Delta with **Early Delta**, not Gamma; its 19 weeks combine eleven screening weeks and eight fresh weeks. The fresh-eight-week gain alone is €1,389.22/week. All 19 ranked, but mean on-time share fell from 96.9% to 95.7%. The official €75,763.55 round total is separate from those practice comparisons.
 
 The private prototype-story journal is not included in this presentation bundle.
 
@@ -91,7 +92,7 @@ These match the notes embedded in the HTML.
 
 ### Slide 1: Cheap-Drive
 
-Cheap-Drive quotes dealer requests and posts gigs with fees for freelance drivers. Our main result so far is Gamma: 20.21% more gross margin than Beta on the same eight new practice weeks, with both systems ranked in all eight. The ideas behind that result are fee timing, pricing earned dealer trust, reading dealer notes and combining compatible cars in a gig. The final result is still to be added; practice results are not the final.
+Cheap-Drive quotes dealer requests and posts gigs with fees for freelance drivers. Our main result is the released Delta: €1,663.82 more gross margin per week than Early Delta on the same 19 practice weeks, with all 19 ranked, including eight new weeks tested after selection. The official round-9 total is €75,763.55 with five of five weeks ranked. Delta pairs dispatch capacity repairs with a higher request-win target; its mean on-time share is lower than Early Delta's, so qualification headroom remains a risk. Earlier slides explain fee timing, dealer trust, reading notes and combining cars. The final result is still to be added; practice results are not the final.
 
 Use the challenge's words throughout: a dealer sends a request; when our quote wins, we have an order; we post its car in a gig, choose the fee and aim to deliver by the deadline. A gig is work for a driver, not the request or the order itself. All money shown is simulated euros.
 
@@ -201,12 +202,30 @@ The compact table displays worst-week on-time share, not the mean weekly share: 
 
 ### Slide 9: Delta in production
 
-This is an unfinished Delta placeholder, not a measured claim. Replace it with Delta's implemented idea, why it was tried, and its gross margin and on-time share with and without the change on the same weeks. Use dealer, request, gig, fee, typical fee and deadline where applicable. Explain what did not work and what would break the selected system.
+The effect: released Delta earned €1,663.82 more gross margin per week than Early Delta on the same 19 level-8 practice weeks. It was ahead in 17 of 19 weeks, and all 19 Delta weeks ranked. This is the capacity combination versus Early Delta, not versus Gamma. Early Delta is the former note-fix and rescue-window model, now saved as models/delta-early.json.
 
-Before submission, add the actual final result and the best verified ranking-round result, as the judging guidance requests. Identify the model, level, gross margin, on-time share, number of ranked weeks and source date for each. Keep practice results, ranking rounds and the final separate. Do not label an older snapshot as the best round without checking later rounds. The deck currently has ten slides, within the official 5–10 guidance, so replace or combine content rather than silently appending more slides.
+The eleven screening weeks, delta-f1-s01..s11, gained €1,863.53/week with 10 positive weeks. After the 42% arm was chosen, eight previously unseen weeks, delta-f2-s01..s08, gained €1,389.22/week with seven positive weeks and all eight ranked. The headline rounds the pooled 19-week gain to €1,664; it is not the fresh-eight-week result alone. Early Delta won about 257 orders/week versus Delta's 342 on these paired weeks. Mean on-time share fell from 96.9% to 95.7%; Delta's lowest week was 91.1%, against Early Delta's 93.7%. Both policies qualified on every week, but Delta has less service headroom. Do not imply that the profit gain improved on-time delivery.
 
-Source: https://spread.bahnexpress.com/judging. See README.md beside this presentation for the glossary and preparation notes.
+Separate official evidence: Delta's five level-8 ranking-round-9 weeks total €75,763.55 gross margin, 1,798 won orders and 96.72% on time, with all five ranked. The lowest week was 93.58%. The slide rounds the total to €75,764. Public snapshot: 14 November 2026, 21:34:23 UTC, rank 31 of 52 ranked teams while the round was still open. The ranking runs used the settings now named Delta, from code 589daf7ad8b17d6c2402bb45f7cab7856cd777b9. The public feed verifies results, while the model provenance comes from the ranking-run handoff. This is a ranking round, not the actual final; it must not be compared causally with Gamma's round 7 or Early Delta's round 8 because the secret weeks differ. Do not present the open-round rank as a final standing.
+
+The actual final result still needs to be added when available. The older Test Final 2 result was produced before this capacity model and must not be presented as its measured effect. The all-run graph remains the explicitly frozen 20:11 UTC development snapshot; it includes candidate experiments, not only the released Delta.
+
+Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json.
 
 ### Slide 10: Delta: the next iteration
 
-Reserved for Delta's implemented changes and why we tried them. Explain the actual request, gig, fee or deadline rule with a simple decision or diagram, connect it to the measured effects on the preceding slide. This slide deliberately has no model claims or invented results yet. Delta results must compare the same weeks against frozen Gamma, and distinguish ordinary practice, test finals, ranking rounds and the actual final. The previous Gamma results are now included on slide 8. See the reader notes beside the presentation for the remaining submission requirements.
+The idea: use capacity freed by dispatch repairs to win more dealer requests. The released Delta retains Early Delta's bounded note corrections and rescue-window handling, then enables wider gig windows, private-delivery rescue, extended pairing and a 42% request-win target instead of 30%. It uses the same dealer, request, gig, fee, typical fee and deadline concepts as earlier slides.
+
+Why: the capacity audit of eleven Early Delta weeks found about 433 gigs posted and 141 expiring unbooked per week. A more reliable gig posting does not automatically win more work while the price learner keeps the same request-win target. We therefore tested dispatch capacity and intake together, rather than assuming an isolated repair would create the full profit gain.
+
+The idea: offer wider gig windows when the order allows them, while preserving readiness, recurring dealer hours and fixed private pickup slots. Rescue overdue private deliveries within the challenge's rules. These enable delta_wide_windows and delta_private_delivery_rescue, alongside the existing delta_rescue_windows and delta_note_fixes. Do not describe private pickup appointments as freely extendable.
+
+The idea: pair compatible cars across a wider area. The extended profile permits up to 90 km of transfer and 720 minutes of combined driving; it still means sequential car movements by one driver, not simultaneous transport. Pair fees and fallback handling remain part of the inherited system. Removing extended pairing made the exposed difficult week unranked at 89.1%, so it stayed in the chosen combination.
+
+The idea: raise the request-win target from 30% to 42% so the quote learner seeks more work. The effect of the complete combination is the preceding slide's +€1,663.82/week on 19 paired weeks, with about 342 orders/week instead of 257. On the eleven f1 weeks, expired-gig events fell from roughly 141/week for Early Delta to 25/week for this combination. These are event counts on the f1 cohort, not independent orders or an isolated effect of wider windows. The eight fresh f2 weeks confirmed a +€1,389.22/week gain. Do not add an assumed gain for each switch to the measured combined result.
+
+What did not work: the EV charging-rule change lost €200/week across four weeks and remains off. Capacity switches at a 30% win target barely changed orders won. Raising the target to 50% or 55% failed the 90% delivery minimum on one of eleven screening weeks; 46% left only 90.2% on the weakest week. A backlog brake gave up about €190/week across 19 weeks without improving the fresh difficult weeks, so it was excluded. Broad learner, lane and conditional-option pricing experiments did not establish a reliable replacement. These failures explain why we selected 42% and kept the remaining controls.
+
+Limits: mean on time is lower than Early Delta's, and the weakest practice week has only about 1.1 percentage points of headroom above 90%. Nineteen paired practice weeks and one five-week ranking round do not guarantee qualification in the actual final. Runtime/restart repairs have their own engineering evidence; these economic measurements do not establish universal recovery or latency guarantees. Before submission, add the actual final outcome and recheck the latest verified ranking-round result.
+
+Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-capacity-levers.md; https://spread.bahnexpress.com/judging.
