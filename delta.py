@@ -1,10 +1,11 @@
-"""Opt-in Delta correctness experiments; supported Gamma remains unchanged."""
+"""Opt-in Delta experiments; supported Gamma remains unchanged."""
 from __future__ import annotations
 
 from dataclasses import replace
 import re
 
 from gamma import GammaCoreDesk, GammaSettings
+from delta_b1 import DeltaB1Mixin, validate_b1
 from gamma_notes import GammaNotesMixin, visit_window
 from gamma_pairs import DriverSideMixin, _split_settings
 from notes import parse_note
@@ -107,8 +108,9 @@ class DeltaNotesMixin(GammaNotesMixin):
         return stops
 
 
-def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0, **settings):
-    class DeltaDesk(DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
+def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
+               delta_b1="off", **settings):
+    class DeltaDesk(DeltaB1Mixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
 
         def fees_for(self, order, cars):
@@ -121,5 +123,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
             return super().repost(gig_id)
 
     base, driver = _split_settings(GammaSettings, settings)
+    validate_b1(delta_b1, base, driver, note_fixes=delta_note_fixes, rescue_windows=delta_rescue_windows)
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver,
-                     delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows)
+                     delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
+                     delta_b1=delta_b1)
