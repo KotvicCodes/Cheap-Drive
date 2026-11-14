@@ -52,6 +52,7 @@ PAIRED_OLD = list(csv.DictReader((ROOT / 'data/per-seed-comparisons.csv').open()
 CHART_ALL = Image.open(ROOT / 'assets/all-run-margins.png').convert('RGB')
 CHART_STAGES = Image.open(ROOT / 'assets/learning-stages.png').convert('RGB')
 REPORT = Image.open(REPO / 'docs/screenshots/week-overview.png').convert('RGB')
+LOGO_BADGE = Image.open(ROOT / 'assets/cheap-drive-badge.png').convert('RGBA')
 
 
 def clamp(x, a=0, b=1): return max(a, min(b, x))
@@ -411,8 +412,10 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
 def hero(t):
     im = base_canvas('juicy').copy()
     finland_map(im, t, (950, 64, 1840, 1016), zoom_south=False, bg=CARD, border='#E05500')
-    enter(im, 'Move cars,', 80, 340, 132, t, .05, color=INK, weight=700)
-    enter(im, 'Win margins', 80, 505, 132, t, .18, color=INK, weight=700)
+    im.paste(LOGO_BADGE, (80, 96), LOGO_BADGE)
+    enter(im, 'Cheap-Drive', 80, 272, 124, t, .02, color='#231A14', weight=700)
+    enter(im, 'Move cars,', 80, 548, 114, t, .12, color=INK, weight=700)
+    enter(im, 'Win margins', 80, 692, 114, t, .22, color=INK, weight=700)
     return im
 
 
