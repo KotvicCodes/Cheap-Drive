@@ -44,7 +44,7 @@ There are 3,052 booking events including bookings again after drops/no-shows.
 expiry for at least one carried leg. Of 2,859 legs ever booked, 1,720 (60.2%)
 first book on their original post, 837 (29.3%) after expiry, and 302 after other
 reposting. Pair posts number 283; pair booking events number 155; 308 distinct
-orders (10.8% of win events) enter a booked pair. This does not assert that
+orders (10.7% of win events) enter a booked pair. This does not assert that
 every booked pair eventually completes as a pair.
 
 Declines: 855 insufficient option slack (77.7/week), 304 route too long
@@ -93,8 +93,8 @@ The clock below is the *posting* hour, across the complete delivery tail.
 | 21 | 18 | 15 | 121 |
 | 22 | 3 | 3 | 8 |
 
-No posts occurred at 02–05 or 23. 1,262 of the 4,765 pickup stops have windows
-shorter than three hours. 64 of the 78 service failures involve at least one
+No posts occurred at 02–05 or 23. Across 4,765 posts, 1,262 pickup-stop windows
+are shorter than three hours. 64 of the 78 service failures involve at least one
 expired gig; only four involve a recorded visit failure. All three undelivered
 orders have expiries and zero bookings. Seventeen service failures start with
 a pickup window shorter than three hours. These are associations, not proof
