@@ -917,6 +917,21 @@ const button = (text, fn, cls = '') => { const b = N('button', text, cls); b.typ
 const icon = paths => { const s = svg('svg', {viewBox: '0 0 16 16', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}); for (const d of paths) s.append(svg('path', {d})); return s; };
 const pre = value => N('pre', typeof value === 'string' ? value : JSON.stringify(value, null, 2));
 const details = (label, value, open = false) => { const d = N('details', null, 'raw'); d.open = open; return add(d, N('summary', label), pre(value)); };
+const PLACE_NAMES = {
+  helsinki: 'Helsinki', espoo: 'Espoo', vantaa: 'Vantaa', porvoo: 'Porvoo', kotka: 'Kotka',
+  salo: 'Salo', turku: 'Turku', raisio: 'Raisio', hyvinkaa: 'Hyvinkää', hameenlinna: 'Hämeenlinna',
+  lahti: 'Lahti', kouvola: 'Kouvola', lappeenranta: 'Lappeenranta', rauma: 'Rauma', pori: 'Pori',
+  lempaala: 'Lempäälä', tampere: 'Tampere', mikkeli: 'Mikkeli', savonlinna: 'Savonlinna',
+  jyvaskyla: 'Jyväskylä', joensuu: 'Joensuu', seinajoki: 'Seinäjoki', kuopio: 'Kuopio',
+  vaasa: 'Vaasa', kokkola: 'Kokkola', ylivieska: 'Ylivieska', kajaani: 'Kajaani',
+  oulu: 'Oulu', kemi: 'Kemi', rovaniemi: 'Rovaniemi', sodankyla: 'Sodankylä', ivalo: 'Ivalo'
+};
+function placeName(id) {
+  if (!id) return '';
+  const s = String(id);
+  if (PLACE_NAMES[s.toLowerCase()]) return PLACE_NAMES[s.toLowerCase()];
+  return s.replace(/(^|[-_\s])([a-z])/g, (_, sep, ch) => (sep === '_' ? ' ' : sep) + ch.toUpperCase());
+}
 const FI_FIRST = ['Kimi', 'Valtteri', 'Mika', 'Matti', 'Pekka', 'Teemu', 'Jari', 'Sanna', 'Aino', 'Juha', 'Sami', 'Olli', 'Tuomas', 'Heikki', 'Kalle', 'Roope', 'Antti', 'Ville', 'Jukka', 'Aleksi', 'Veikko', 'Tapio', 'Paavo', 'Eero', 'Timo', 'Lasse', 'Onni', 'Matias', 'Ilkka', 'Risto', 'Laura', 'Emilia'];
 const FI_LAST = ['Virtanen', 'Korhonen', 'Mäkinen', 'Nieminen', 'Hämäläinen', 'Laine', 'Heikkinen', 'Koskinen', 'Järvinen', 'Lehtonen', 'Lehtinen', 'Saarinen', 'Salminen', 'Heinonen', 'Niemi', 'Heikkilä', 'Kinnunen', 'Salonen', 'Turunen', 'Salo', 'Laitinen', 'Rantanen', 'Karjalainen', 'Jokinen', 'Mattila', 'Savolainen', 'Lahtinen', 'Ahonen', 'Ojala', 'Väisänen', 'Hiltunen', 'Miettinen', 'Aaltonen', 'Kallio', 'Hakala'];
 const SV_FIRST = ['Henrik', 'Erik', 'Johan', 'Anders', 'Oskar', 'Lukas', 'Filip', 'Astrid', 'Freja', 'Emil'];
@@ -965,7 +980,7 @@ const eventSummary = row => {
   const v = eventOf(row);
   if (row.action) return row.status + (row.result?.reason ? ': ' + row.result.reason : '') + (v.prices ? ' · ' + Object.entries(v.prices).map(([k, n]) => human(k) + ' ' + fmt(n)).join(', ') : '');
   if (v.line) return fmt(v.line.cents) + ' · ' + human(v.line.kind) + ' · ' + (v.line.detail || '');
-  return v.message?.text || v.reason || v.text || (v.leg !== undefined ? `Leg ${v.leg + 1} · ${v.placeId || ''}` : '') || (v.feeCents !== undefined ? fmt(v.feeCents) : '') || v.request?.note?.text || v.order?.option || '';
+  return v.message?.text || v.reason || v.text || (v.leg !== undefined ? `Leg ${v.leg + 1} · ${placeName(v.placeId)}` : '') || (v.feeCents !== undefined ? fmt(v.feeCents) : '') || v.request?.note?.text || v.order?.option || '';
 };
 const color = name => `var(--${name})`;
 
@@ -1387,11 +1402,11 @@ function configure(id) {
   if (id === 'timeline' || id === 'incidents') { currentRows = id === 'incidents' ? incidentRows : D.timeline; columns = colsTimeline; return; }
   if (id === 'orders') { currentRows = D.orders; columns = [col('id', 'Order', x => x.id, x => entityButton('order', x.id)), col('at', 'First seen', firstAt, x => whenCell(firstAt(x))), col('dealer', 'Dealer', x => (x.data.request || x.data.order)?.dealerId, x => (x.data.request || x.data.order)?.dealerId ? N('span', (x.data.request || x.data.order).dealerId, 'mono') : N('span', 'Not captured', 'unavail')), col('route', 'Route', x => route(x), x => N('span', route(x)), 'wrap'), col('outcome', 'Outcome', x => x.data.outcome, x => badge(x.data.outcome, x.data.outcome === 'won' ? 'good' : x.data.outcome === 'lost' ? '' : x.data.outcome === 'cancelled' ? 'warn' : 'plain')), col('quote', 'Quote', x => x.data.quoteStatus, x => { const q = x.data.quoteStatus, e = N('span', {'accepted quote observed': 'Observed', 'no accepted quote captured': 'Not captured', 'unquoted (reveal)': 'Unquoted (reveal)'}[q] || q, q === 'accepted quote observed' ? '' : 'unavail'); e.title = q; return e; }), col('price', 'Won price', x => x.data.order?.priceCents, x => x.data.order?.priceCents === undefined ? N('span', 'Unavailable', 'unavail') : moneyCell(x.data.order.priceCents), 'numeric'), col('net', 'Direct net', x => x.directNetCents, x => moneyCell(x.directNetCents), 'numeric')]; return; }
   if (id === 'gigs') { currentRows = D.gigs; columns = [col('id', 'Gig', x => x.id, x => entityButton('gig', x.id)), col('at', 'First seen', firstAt, x => whenCell(firstAt(x))), col('status', 'State', x => x.data.lastObservedStatus, x => badge(x.data.lastObservedStatus || x.data.snapshot?.status || 'not captured')), col('orders', 'Orders', x => x.related.join(), x => refCell('order', x.related)), col('stops', 'Stops', gigStops, x => num(gigStops(x)), 'numeric'), col('views', 'Views', x => x.viewsCount ?? activity(x).filter(e => e.kind === 'gig_viewed').length, x => num(x.viewsCount ?? activity(x).filter(e => e.kind === 'gig_viewed').length), 'numeric'), col('net', 'Gig net', gigNet, x => moneyCell(gigNet(x)), 'numeric')]; return; }
-  if (id === 'drivers') { currentRows = D.drivers; columns = [col('id', 'Driver', x => x.id, x => entityButton('driver', x.id)), col('at', 'First seen', firstAt, x => whenCell(firstAt(x))), col('home', 'Home', x => x.data.profile?.homePlaceId, x => x.data.profile?.homePlaceId || N('span', 'Unavailable', 'unavail')), col('rating', 'Rating', x => x.data.profile?.rating, x => x.data.profile?.rating ?? N('span', 'Unavailable', 'unavail'), 'numeric'), ...['gig_viewed', 'gig_booked', 'gig_dropped', 'no_show'].map(k => col(k, human(k), x => x.counts?.[k] ?? activity(x).filter(e => e.kind === k).length, x => num(x.counts?.[k] ?? activity(x).filter(e => e.kind === k).length), 'numeric'))]; return; }
+  if (id === 'drivers') { currentRows = D.drivers; columns = [col('id', 'Driver', x => x.id, x => entityButton('driver', x.id)), col('at', 'First seen', firstAt, x => whenCell(firstAt(x))), col('home', 'Home', x => placeName(x.data.profile?.homePlaceId), x => x.data.profile?.homePlaceId ? placeName(x.data.profile.homePlaceId) : N('span', 'Unavailable', 'unavail')), col('rating', 'Rating', x => x.data.profile?.rating, x => x.data.profile?.rating ?? N('span', 'Unavailable', 'unavail'), 'numeric'), ...['gig_viewed', 'gig_booked', 'gig_dropped', 'no_show'].map(k => col(k, human(k), x => x.counts?.[k] ?? activity(x).filter(e => e.kind === k).length, x => num(x.counts?.[k] ?? activity(x).filter(e => e.kind === k).length), 'numeric'))]; return; }
   if (id === 'ledger') { currentRows = D.ledger; columns = [col('at', 'World time', x => x.at, x => whenCell(x.at)), col('kind', 'Kind', x => x.kind, x => badge(x.kind, x.kind === 'revenue' ? 'good' : '')), col('cents', 'Amount', x => x.cents, x => moneyCell(x.cents, true), 'numeric'), col('order', 'Order', x => x.orderId, x => x.orderId ? entityButton('order', x.orderId) : N('span', 'Not assigned', 'unavail')), col('gig', 'Gig', x => x.gigId, x => x.gigId ? entityButton('gig', x.gigId) : N('span', 'Not captured', 'unavail')), col('detail', 'Detail', x => x.detail, x => N('span', x.detail || ''), 'wrap'), col('sourceLine', 'Source', x => x.sourceLine, x => lineButton(x.sourceLine))]; return; }
   if (id === 'source') { currentRows = D.records; columns = [col('line', 'Line', x => x.line, x => lineButton(x.line)), col('offset', 'Offset', x => x.offset, x => num(x.offset), 'numeric'), col('length', 'Bytes', x => x.length, x => num(x.length), 'numeric'), col('kind', 'Type', x => x.value?.type || 'unknown', x => badge(x.value?.type || 'unknown', 'info')), col('error', 'State', x => x.error || '', x => x.error ? badge(x.error, 'warn') : badge('parsed', 'good')), col('fields', 'Fields', x => JSON.stringify(Object.keys(x.value || {})), x => N('span', x.value && typeof x.value === 'object' ? Object.keys(x.value).join(', ') : typeof x.value), 'wrap')]; }
 }
-function route(o) { return arr((o.data.order || o.data.request)?.legs).map(l => (l?.pickup?.placeId || '?') + ' → ' + (l?.delivery?.placeId || '?')).join(' · ') || 'Route unavailable'; }
+function route(o) { return arr((o.data.order || o.data.request)?.legs).map(l => (placeName(l?.pickup?.placeId) || '?') + ' → ' + (placeName(l?.delivery?.placeId) || '?')).join(' · ') || 'Route unavailable'; }
 function rowRefs(row) { if (active === 'orders') return entityRefs('order', row); if (active === 'gigs') return entityRefs('gig', row); if (active === 'drivers') return entityRefs('driver', row); if (active === 'ledger') return {order: row.orderId ? [row.orderId] : [], gig: row.gigId ? [row.gigId] : [], driver: []}; return row.refs || {order: [], gig: [], driver: []}; }
 function rowTimes(row) { return ['orders', 'gigs', 'drivers'].includes(active) ? activity(row).map(e => e.at) : [row.at ?? row.value?.at]; }
 function rowFirst(row) { if (!firstTimes.has(row)) firstTimes.set(row, rowTimes(row).find(Number.isInteger) ?? null); return firstTimes.get(row); }
@@ -1568,7 +1583,7 @@ function entityDetail(kind, id) {
     const grid = N('div', null, 'detail-grid');
     legs.forEach((value, i) => {
       const leg = value || {}, p = section('Leg ' + (i + 1)), le = acts.filter(x => x.event?.leg === i);
-      p.append(add(N('div', null, 'leg-route'), N('span', leg.pickup?.placeId || '?'), N('span', '→', 'arrow'), N('span', leg.delivery?.placeId || '?')));
+      p.append(add(N('div', null, 'leg-route'), N('span', placeName(leg.pickup?.placeId) || '?'), N('span', '→', 'arrow'), N('span', placeName(leg.delivery?.placeId) || '?')));
       facts(p, [['Pickup window', time(leg.pickup?.window?.from) + ' to ' + time(leg.pickup?.window?.to)], ['Delivery window', time(leg.delivery?.window?.from) + ' to ' + time(leg.delivery?.window?.to)], ['Pickups', le.filter(e => e.kind === 'picked_up').map(e => time(e.at)).join(', ') || 'Not captured'], ['Deliveries', le.filter(e => e.kind === 'delivered').map(e => time(e.at)).join(', ') || 'Not captured'], ['Delivered at', time(arr(order.deliveredAt)[i])]]);
       p.append(details('Leg payload', leg)); grid.append(p);
     });
@@ -1582,7 +1597,7 @@ function entityDetail(kind, id) {
     const carried = section('Orders carried'); carried.append(refCell('order', entity.related)); body.append(carried);
     if (Array.isArray(post.stops) && post.stops.length) {
       const st = section('Stops');
-      st.append(miniTable(['#', 'Kind', 'Order', 'Leg', 'Place'], post.stops.map((x, i) => [num(i + 1), human(x?.kind), identity(x?.orderId) ? entityButton('order', x.orderId) : 'Not captured', Number.isInteger(x?.leg) ? num(x.leg + 1) : 'Not captured', x?.placeId || 'Not captured'])));
+      st.append(miniTable(['#', 'Kind', 'Order', 'Leg', 'Place'], post.stops.map((x, i) => [num(i + 1), human(x?.kind), identity(x?.orderId) ? entityButton('order', x.orderId) : 'Not captured', Number.isInteger(x?.leg) ? num(x.leg + 1) : 'Not captured', placeName(x?.placeId) || 'Not captured'])));
       body.append(st);
     }
     body.append(details('Stops, windows, audience and original fee schedule', post, true));
@@ -1590,7 +1605,7 @@ function entityDetail(kind, id) {
   } else {
     const profile = data.profile, gigs = [...new Set(acts.flatMap(x => x.refs.gig))];
     add(crumbs, badge(profile ? 'roster profile captured' : 'no roster profile', profile ? 'good' : 'plain'));
-    body.append(stats([['Activity', num(acts.length)], ['Gigs', num(gigs.length)], ['Rating', profile?.rating ?? 'Unavailable'], ['Home', profile?.homePlaceId || 'Unavailable'], ['First seen', time(firstAt(entity))]]));
+    body.append(stats([['Activity', num(acts.length)], ['Gigs', num(gigs.length)], ['Rating', profile?.rating ?? 'Unavailable'], ['Home', placeName(profile?.homePlaceId) || 'Unavailable'], ['First seen', time(firstAt(entity))]]));
     const info = section('Driver facts'); body.append(info);
     facts(info, [['Activity', num(acts.length)], ['Roster profile', profile ? 'Captured' : 'Unavailable']]);
     if (profile) body.append(details('Captured driver profile', profile, true));
@@ -1917,7 +1932,7 @@ function mapView(map) {
           svg('rect', {x: -8.5, y: -4.8, width: 17, height: 9.6, rx: 3.2, class: 'car-body'}),
           svg('rect', {x: -1.8, y: -3.5, width: 5.8, height: 7, rx: 1.4, class: 'car-glass'})
         );
-        carG.addEventListener('pointermove', evt => showTip(evt, `${driverName(tr.driverId)} · ${tr.orderId}`, [[`${tr.from} → ${tr.to}`, Math.round(p * 100) + '%'], ['Mode', tr.paired ? '2-car paired gig' : 'Single car']]));
+        carG.addEventListener('pointermove', evt => showTip(evt, `${driverName(tr.driverId)} · ${tr.orderId}`, [[`${placeName(tr.from)} → ${placeName(tr.to)}`, Math.round(p * 100) + '%'], ['Mode', tr.paired ? '2-car paired gig' : 'Single car']]));
         carG.addEventListener('pointerleave', hideTip);
         carG.addEventListener('click', () => { hideTip(); openDetail(() => entityDetail('order', tr.orderId)); });
         replayGroup.append(carG);
@@ -1932,7 +1947,7 @@ function mapView(map) {
         const p = Math.round(((simMin - tr.t0) / Math.max(1, tr.t1 - tr.t0)) * 100);
         const item = N('button', null, 'active-car-item'); item.type = 'button';
         const top = add(N('div', null, 'ac-top'), N('strong', driverName(tr.driverId)), N('span', tr.paired ? '2-car' : tr.orderId, 'ac-tag' + (tr.paired ? ' paired' : '')));
-        const routeRow = add(N('div', null, 'ac-route'), N('span', `${tr.from} → ${tr.to}`), N('span', p + '%', 'mono'));
+        const routeRow = add(N('div', null, 'ac-route'), N('span', `${placeName(tr.from)} → ${placeName(tr.to)}`), N('span', p + '%', 'mono'));
         const bar = N('div', null, 'ac-bar'), fill = N('div', null, 'ac-fill' + (tr.paired ? ' paired' : ''));
         fill.style.width = p + '%'; bar.append(fill);
         add(item, top, routeRow, bar);
