@@ -55,6 +55,13 @@ class DeltaNoteTests(unittest.TestCase):
                      'Manual car without plates; collect before 14:00'):
             self.assertEqual(parse_delta_note(text, 540), parse_note(text, 540))
 
+    def test_negated_typos_do_not_override_the_affirmative_date(self):
+        for text in ('Ready Saturday (not Friay) at 13:00',
+                     'Klar lördag (inte Friay) kl 13:00'):
+            self.assertEqual(parse_delta_note(text, 540).ready_at, 5 * DAY + 780)
+        facts = parse_delta_note('Valmis pe klo 11 (ei huoomenna)', 540)
+        self.assertEqual(facts.ready_at, 4 * DAY + 660)
+
 
 class DeltaRescueTests(unittest.TestCase):
     def place(self, *, day=1, private=False):
