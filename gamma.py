@@ -61,6 +61,10 @@ class GammaSettings:
     within_3_days_bps: int = 10000
     short_km: int = 50
     short_bps: int = 10000
+    short_fee_km: int = 45  # independent of the quote discount's short_km
+    short_opening_fee_bps: int = 0  # zero leaves the existing fee floor unchanged
+    premium_opening_fee_bps: int = 0
+    premium_min_slack_minutes: int = 0
     quote_options: str = "all"
     markup_scope: str = "global"
     freeze_day_drop_bps: int = 0
@@ -120,6 +124,9 @@ class GammaSettings:
             raise ValueError("opening_fee_bps must be positive and <= fee_cap_bps; fee_steps must be >= 1")
         if not 0 < self.long_opening_fee_bps <= self.fee_cap_bps:
             raise ValueError("long_opening_fee_bps must be positive and <= fee_cap_bps")
+        for name in ("short_opening_fee_bps", "premium_opening_fee_bps"):
+            if getattr(self, name) > self.fee_cap_bps:
+                raise ValueError(f"{name} must be <= fee_cap_bps; use 0 for no override")
         for name in ("long_markup_bps", "same_day_bps", "next_day_bps", "within_3_days_bps", "short_bps"):
             if getattr(self, name) == 0:
                 raise ValueError(f"{name} must be positive")
@@ -221,7 +228,8 @@ class GammaDesk(BetaDesk):
                 mode = "caution"
         if mode != self.brake_mode:
             previous, self.brake_mode = self.brake_mode, mode
-            if mode != "normal":
+            severity = {"normal": 0, "caution": 1, "brake": 2}
+            if severity[mode] > severity[previous]:
                 self.bump_markups(s.brake_bump_bps if mode == "brake" else s.brake_caution_bump_bps)
             self.journal.record("gamma_brake", at=self.now, **{"from": previous, "to": mode}, **inputs)
         return {"mode": mode, **inputs}
@@ -250,6 +258,9 @@ class GammaDesk(BetaDesk):
     def is_long_route(self, km):
         return bool(self.settings.max_km and self.settings.max_km < km <= self.settings.long_max_km)
 
+    def is_premium(self, request):
+        return any(leg["car"]["premium"] for leg in request["legs"])
+
     def orders_without_driver(self):
         # Missing posts and partially booked split trade-ins still need a driver.
         return {identity for identity, order in self.orders.items()
@@ -268,13 +279,17 @@ class GammaDesk(BetaDesk):
             return [], "trade-in"
         if s.max_km and km > s.max_km and not self.is_long_route(km):
             return [], "route too long"
-        if ((self.brake_mode != "normal" and s.brake_blocks_long and self.is_long_route(km))
+        if ((self.brake_mode == "brake" and s.brake_blocks_long and self.is_long_route(km))
                 or (self.brake_mode == "brake" and s.brake_max_km and km > s.brake_max_km)):
             return [], "on-time brake"
         options = [o for o in request["options"] if self.slack(request, o) >= (
             s.same_day_min_slack_minutes if o["kind"] == "same_day" else s.min_slack_minutes)]
         if not options:
             return [], "no option leaves a driver enough time"
+        if s.premium_min_slack_minutes and self.is_premium(request):
+            options = [o for o in options if self.slack(request, o) >= s.premium_min_slack_minutes]
+            if not options:
+                return [], "premium slack"
         if s.trust_guard and request["dealerId"] in self.big_dealers and trust >= 10:
             options = [o for o in options if self.slack(request, o) >= 720]
             if not options:
@@ -417,8 +432,13 @@ class GammaDesk(BetaDesk):
     # ---- fee hooks and books ----
 
     def opening_fee_for(self, order):
-        return (self.settings.long_opening_fee_bps if self.is_long_route(self.route_km(self.requests[order["id"]]))
-                else self.settings.opening_fee_bps)
+        s = self.settings
+        km = self.route_km(self.requests[order["id"]])
+        # Segment floors combine by maximum, including configurable overlaps.
+        return max(s.opening_fee_bps,
+                   s.long_opening_fee_bps if self.is_long_route(km) else 0,
+                   s.short_opening_fee_bps if km < s.short_fee_km else 0,
+                   s.premium_opening_fee_bps if self.is_premium(order) else 0)
 
     def fees_for(self, order, cars):
         fee = self.requests[order["id"]]["referenceFeeCents"] * cars / len(order["legs"])

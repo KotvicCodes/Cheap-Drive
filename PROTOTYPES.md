@@ -187,7 +187,7 @@ time, and keeps every trace and reveal under ignored `runs/`. `scripts/board.py`
 plays ranking runs. Results, the rejected variants and the limits are in
 [docs/research/beta-results.md](docs/research/beta-results.md).
 
-## Gamma
+## Gamma (experimental)
 
 Gamma is Beta plus guarded long routes. Beta refuses every route over 500 km;
 Gamma admits some of the valuable longer work without reopening it all. The
@@ -229,3 +229,6 @@ positive on all eight, with all weeks ranked. Its worst on-time share was
 92.975%, below the roadmap's 93% safety target. This is a modest step, not a
 route to the top ten. The held-out check, rejected variants and reproduction
 plan are in [docs/research/gamma-results.md](docs/research/gamma-results.md).
+The completed held-out check ranked only seven of eight weeks: the worst was
+89.956% on time. Neither tested brake repaired it. Beta remains the ranking
+model until a revised candidate passes qualification.

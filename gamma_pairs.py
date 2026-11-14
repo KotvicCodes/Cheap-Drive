@@ -25,7 +25,10 @@ class DriverSideSettings:
     pair_max_drive_minutes: int = 300
     pair_arrival_allowance_minutes: int = 180
     pair_spare_minutes: int = 60
-    pair_fee_bps: int = 8000
+    pair_max_idle_minutes: int = 60
+    pair_fee_bps: int = 7200
+    pair_rescue_fee_bps: int = 7800
+    pair_rescue_flat_minutes: int = 60
     pair_with_waiting: int = 1
     pair_split_minutes: int = 60
     pair_once: int = 1
@@ -41,7 +44,7 @@ class DriverSideSettings:
                 raise ValueError(f"{name} must be 0 or 1")
         if not 0 < self.pair_max_drive_minutes <= 720:
             raise ValueError("pair_max_drive_minutes must be between 1 and 720")
-        for name in ("review_fee_bps", "pair_fee_bps", "pair_split_minutes"):
+        for name in ("review_fee_bps", "pair_fee_bps", "pair_rescue_fee_bps", "pair_split_minutes"):
             if getattr(self, name) == 0:
                 raise ValueError(f"{name} must be positive")
 
@@ -57,6 +60,7 @@ class _Pair:
     latest_safe: int
     typical: int
     posted_at: int
+    fee_policy: str = "fresh"
     waiting_withdrawn: bool = False
     gig_id: str | None = None
     active: bool = True
@@ -113,8 +117,10 @@ class DriverSideMixin:
         self._started: set[str] = set()
         self._skip_logged: set[str] = set()
         super().__init__(*args, **kwargs)
-        if driver_settings.pairs and driver_settings.pair_fee_bps > self._fee_cap():
-            raise ValueError("pair_fee_bps must be <= the base fee_cap_bps")
+        if driver_settings.pairs:
+            for name in ("pair_fee_bps", "pair_rescue_fee_bps"):
+                if getattr(driver_settings, name) > self._fee_cap():
+                    raise ValueError(f"{name} must be <= the base fee_cap_bps")
         self._busy = 0
         if driver_settings.pairs:
             # dispatch.play_model owns the clock. Limit its ordinary advance to
@@ -226,6 +232,28 @@ class DriverSideMixin:
     def _pair_error(self, phase, **details):
         self.journal.record("gamma_pair_error", at=self.now, phase=phase, **details)
 
+    def _pair_schedule(self, typical, last_pickup, rescue):
+        """A new gig starts a new fee clock; singles keep their fallback age."""
+        s = self.driver_settings
+        opening = s.pair_rescue_fee_bps if rescue else s.pair_fee_bps
+        schedule = (self._review_schedule if s.fee_shape == "review" else self._ramp_schedule)(
+            typical, opening, self.now, last_pickup)
+        if not rescue or not s.pair_rescue_flat_minutes:
+            return schedule
+        # Hold the rescue opening even when an old single or a nearby cap
+        # would have started at a higher fee. Merge delayed steps to keep
+        # timestamps distinct and fees nondecreasing.
+        result = [{"at": self.now, "feeCents": max(1, int(typical * opening / 10000 + 0.5))}]
+        for step in schedule:
+            if step["feeCents"] <= result[-1]["feeCents"]:
+                continue
+            at = max(step["at"], self.now + s.pair_rescue_flat_minutes)
+            if at == result[-1]["at"]:
+                result[-1]["feeCents"] = step["feeCents"]
+            else:
+                result.append({**step, "at": at})
+        return result
+
     def _live_pairs(self):
         return [p for p in [*self._pairs.values(), *self._pending_pairs.values()] if p.active]
 
@@ -300,19 +328,22 @@ class DriverSideMixin:
                 # pickup -> delivery leg, just as the starter flags the pickup.
                 if stops[index].get("withPlates"):
                     minute += 30
-                minute = _next_open(place, max(minute, low), high)
+                arrived = minute
+                minute = _next_open(place, max(arrived, low), high)
                 if minute is None or minute > high:
-                    return None
+                    return None, "windows"
+                if index == 2 and minute - arrived > s.pair_max_idle_minutes:
+                    return None, "idle_too_long"
                 order = orders[index // 2]
                 if index % 2 and minute > order["deadline"] - spare:
-                    return None
+                    return None, "windows"
                 if stops[index].get("withCharging"):
                     minute += 40
-            return minute
+            return minute, None
 
-        finish = forward(self.now + s.pair_arrival_allowance_minutes, s.pair_spare_minutes)
+        finish, reason = forward(self.now + s.pair_arrival_allowance_minutes, s.pair_spare_minutes)
         if finish is None:
-            return None, "windows"
+            return None, reason
 
         def latest(spare):
             minute = float("inf")
@@ -335,13 +366,12 @@ class DriverSideMixin:
         if last is None or safe is None:
             return None, "windows"
         typical = sum(self.requests[o["id"]]["referenceFeeCents"] for o in orders)
-        # Both cars retain their first posting age, including a waiting partner.
-        first_at = min(self.first_posted.get(o["id"], self.now) for o in orders)
-        schedule = (self._review_schedule if s.fee_shape == "review" else self._ramp_schedule)(
-            typical, s.pair_fee_bps, first_at, last)
+        rescue = any(self.gigs_of(o["id"]) for o in orders)
+        schedule = self._pair_schedule(typical, last, rescue)
         action = dict(type="post", stops=stops, audience=audience, schedule=schedule)
         return _Pair(tuple(o["id"] for o in orders), action, transfer["km"], drive,
-                     finish, last, safe, typical, self.now), None
+                     finish, last, safe, typical, self.now,
+                     fee_policy="rescue" if rescue else "fresh"), None
 
     def _try_pair(self, order):
         if not self._eligible(order):
@@ -611,6 +641,7 @@ class DriverSideMixin:
                                             transferKm=pair.transfer_km, driveMinutes=pair.drive_minutes,
                                             typicalFeeCents=pair.typical,
                                             openingFeeCents=pair.action["schedule"][0]["feeCents"],
+                                            feePolicy=pair.fee_policy,
                                             waitingWithdrawn=pair.waiting_withdrawn)
                     else:
                         pair.active = False
