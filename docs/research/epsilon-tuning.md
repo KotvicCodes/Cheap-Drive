@@ -181,3 +181,17 @@ separate readiness, bounded/invalid text and validation.
 | Guard routes above 420 km, cap 6, slack 1200 | Pending (4 planned) | — | — | — | Queued |
 | Guard routes above 400 km, cap 6, slack 1080 | Pending (4 planned) | — | — | — | Queued |
 | Finnish closed-after note repair | Pending (4 planned) | — | — | — | Queued |
+
+Prepared selective rescue-pair guards, independently default off:
+`delta_pair_max_wait_minutes=240` leaves aged waiting singles on their existing
+gig instead of resetting them into a one-hour pair trial;
+`delta_pair_min_slack_minutes=600` protects waiting singles whose latest legal
+pickup opportunity is near. Fresh/unposted orders retain ordinary eligibility.
+The existing planner, fees and confirmed withdrawal behavior stay inherited.
+Four unit tests cover inclusive boundaries, note deadlines, booked exclusion,
+neutral behavior and strict validation.
+
+| Additional hypothesis | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Rescue-pair waiting age ≤240 min | Pending (4 planned) | — | — | — | Queued |
+| Rescue-pair remaining pickup slack ≥600 min | Pending (4 planned) | — | — | — | Queued |
