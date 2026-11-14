@@ -5,11 +5,11 @@ import io
 import json
 import unittest
 
-from beta import BetaDesk, WARNING
+from models.beta import BetaDesk, WARNING
 from demo import sample_request
 from dispatch import Journal
-from gamma_notes import make_gamma_notes, make_gamma_notes_pairs, visit_window
-from notes import NoteFacts, parse_note
+from models.gamma_notes import make_gamma_notes, make_gamma_notes_pairs, visit_window
+from models.notes import NoteFacts, parse_note
 from spread.starter import DAY, Retry
 from tests.test_alpha import MarketWorld
 

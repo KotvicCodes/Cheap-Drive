@@ -40,6 +40,7 @@ class ModelPackageTests(unittest.TestCase):
         code = '''
 import importlib, pickle, sys
 from unittest.mock import patch
+import models  # registers the legacy import aliases; there are no root shim files
 name, first = sys.argv[1:]
 a = importlib.import_module(first)
 b = importlib.import_module(name if first.startswith('models.') else 'models.' + name)

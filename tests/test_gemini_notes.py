@@ -8,11 +8,11 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from gemini_notes import (
+from models.gemini_notes import (
     ABSOLUTE, DAY, PROMPT, VERSION, InvalidExtraction, build_prompt, cache_key,
     gemini_response_text, response_schema, select_cached, tighten, validate_response,
 )
-from notes import NoteFacts
+from models.notes import NoteFacts
 from scripts.benchmark_gemini_notes import benchmark, main
 
 

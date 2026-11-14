@@ -16,7 +16,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from delta import make_delta
+from models.delta import make_delta
 from dispatch import Journal
 
 
