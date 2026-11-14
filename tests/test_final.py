@@ -1,5 +1,6 @@
 import io
 import unittest
+from unittest.mock import patch
 
 from capture import Journal
 from dispatch import JournalDesk
@@ -202,6 +203,63 @@ class HistoryFenceTests(unittest.TestCase):
                 return [dict(seq=0, at=99), dict(seq=1, at=100), dict(seq=2, at=101)]
         self.assertEqual(final.full_history(World(), through=100),
                          [dict(seq=0, at=99), dict(seq=1, at=100)])
+
+
+class PacerTests(unittest.TestCase):
+    def exercise(self, latency):
+        class Clock:
+            now = 0.0
+            def monotonic(self):
+                return self.now
+            def sleep(self, seconds):
+                self.now += seconds
+
+        clock = Clock()
+        class World:
+            now = 0
+            ticks = []
+            answered = False
+            def snapshot(self):
+                return dict(now=self.now, endsAt=20)
+            def advance(self, *, to):
+                self.ticks.append((clock.now, to - self.now))
+                # A request born at 2, due at 17, becomes visible only after
+                # this atomic advance. The simulated consumer answers at once.
+                if self.now < 2 <= to:
+                    self.answered = to < 17
+                self.now = to
+                clock.now += latency
+                return dict(now=to)
+
+        world = World()
+        with patch.object(final, 'time', clock):
+            pacer = final.Pacer(world, 9)
+            pacer.run()
+        self.assertIsNone(pacer.error)
+        self.assertEqual(world.now, 20)
+        self.assertTrue(world.answered, 'request expired inside a catch-up advance')
+        return world.ticks
+
+    def test_slow_advance_never_skips_a_request_response_window(self):
+        # A 3-second HTTP stall used to cause a 27-minute atomic catch-up,
+        # creating AND expiring a request before the stream could answer it.
+        ticks = self.exercise(3)
+        self.assertEqual([step for _, step in ticks], [1] * 20)
+
+    def test_fast_transport_keeps_the_requested_pace(self):
+        ticks = self.exercise(.01)
+        for (before, _), (after, _) in zip(ticks, ticks[1:]):
+            self.assertAlmostEqual(after - before, 1 / 9)
+
+    def test_slow_transport_does_not_build_a_catch_up_budget(self):
+        ticks = self.exercise(.5)
+        self.assertTrue(all(after - before >= .5 - 1e-9
+                            for (before, _), (after, _) in zip(ticks, ticks[1:])))
+
+    def test_invalid_paces_are_rejected_before_reading_a_world(self):
+        for pace in (0, -1, float('inf'), float('nan')):
+            with self.subTest(pace=pace), self.assertRaises(ValueError):
+                final.Pacer(None, pace)
 
 
 if __name__ == "__main__":
