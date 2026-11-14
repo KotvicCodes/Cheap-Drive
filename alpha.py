@@ -75,6 +75,9 @@ class AlphaDesk(JournalDesk):
     cannot all count the same estimated capacity. No real driver is assigned.
     """
 
+    # Losses update bookkeeping, with no actions until the next decision event.
+    passive_wake_events = JournalDesk.passive_wake_events
+
     def __init__(self, world: World, level: int, now: int, journal: Journal,
                  settings: AlphaSettings = AlphaSettings()):
         super().__init__(world, level, now, journal)
@@ -85,12 +88,19 @@ class AlphaDesk(JournalDesk):
         self.quoted_options: dict[str, set[str]] = {}
         self.gig_drivers: dict[str, str] = {}
         self.positions: dict[str, tuple[str, int]] = {}
-        # play_model wraps the SDK world in CapturedWorld, which already journals
-        # the initial map, roster and snapshot; read the same public data directly.
+        # Reuse the initial public reads already captured by play_model.
         source = getattr(world, "world", world)
-        self.roads = {(road["from"], road["to"]): road for road in source.client.map()["roads"]}
-        self.drivers = {driver["id"]: driver for driver in source.roster()}
-        snapshot = source.snapshot()
+        roads = getattr(world, "initial_map", None)
+        roster = getattr(world, "initial_roster", None)
+        snapshot = getattr(world, "initial_snapshot", None)
+        if roads is None:
+            roads = source.client.map()
+        if roster is None:
+            roster = source.roster()
+        if snapshot is None:
+            snapshot = source.snapshot()
+        self.roads = {(road["from"], road["to"]): road for road in roads["roads"]}
+        self.drivers = {driver["id"]: driver for driver in roster}
         for position in snapshot["driverPositions"]:
             self.positions[position["driverId"]] = (position["placeId"], now)
         for gig in snapshot["gigs"]:

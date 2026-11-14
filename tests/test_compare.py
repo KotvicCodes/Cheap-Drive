@@ -38,6 +38,11 @@ class PracticeClient:
         return world
 
 
+class FailingClient(PracticeClient):
+    def create(self, **kwargs):
+        raise RuntimeError("private fixture error")
+
+
 class ComparisonTests(unittest.TestCase):
     def setUp(self):
         cache = ROOT / ".cache" / "tmp"
@@ -123,6 +128,127 @@ class ComparisonTests(unittest.TestCase):
             self.run_suite([8], ["seed"])
         self.assertEqual(sentinel.read_text(), "keep me")
         self.assertEqual(self.client.calls, [])
+
+    def test_resume_reuses_complete_weeks_and_retains_failed_attempts(self):
+        from dispatch import play_model
+        calls = 0
+
+        def fail_second(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise RuntimeError("fixture failure")
+            return play_model(*args, **kwargs)
+
+        with patch("compare.play_model", side_effect=fail_second), self.assertRaises(RuntimeError):
+            self.run_suite([8], ["seed"])
+        before = json.loads((self.output / "results.json").read_text())
+        complete_trace = self.output / before["runs"][0]["trace"]
+        trace_bytes = complete_trace.read_bytes()
+        self.run_suite([8], ["seed"], resume=True)
+        after = json.loads((self.output / "results.json").read_text())
+        self.assertEqual(len(self.client.calls), 3)
+        self.assertEqual(trace_bytes, complete_trace.read_bytes())
+        self.assertEqual(after["runs"][1]["attempts"][0]["world_id"], before["runs"][1]["world_id"])
+        self.assertNotEqual(after["runs"][1]["trace"], before["runs"][1]["trace"])
+        self.assertTrue((self.output / before["runs"][1]["trace"]).exists())
+        self.run_suite([8], ["seed"], resume=True)
+        self.assertEqual(len(self.client.calls), 3)
+
+    def test_resume_rejects_changed_clock_model_code_and_missing_trace(self):
+        self.run_suite([8], ["seed"])
+        with self.assertRaisesRegex(ValueError, "identical"):
+            self.run_suite([8], ["seed"], resume=True, fast=True)
+        self.models[0].spec["settings"]["dealer_price"] = "999"
+        with self.assertRaisesRegex(ValueError, "identical"):
+            self.run_suite([8], ["seed"], resume=True)
+        self.models[0] = load_model(ROOT / "models/fixed.json")
+        with patch("compare.code_revision", return_value={"commit": "different", "dirty": False}):
+            with self.assertRaisesRegex(ValueError, "identical"):
+                self.run_suite([8], ["seed"], resume=True)
+        next(self.output.glob("*.jsonl")).unlink()
+        with self.assertRaisesRegex(ValueError, "trace is missing"):
+            self.run_suite([8], ["seed"], resume=True)
+
+    def test_spawned_workers_capture_all_paired_results(self):
+        self.run_suite([8], ["one", "two"], workers=2, fast=True, client_factory=PracticeClient)
+        results = json.loads((self.output / "results.json").read_text())
+        self.assertEqual(results["status"], "complete")
+        self.assertEqual(len(results["runs"]), 4)
+        self.assertTrue(all(run["status"] == "complete" for run in results["runs"]))
+        self.assertTrue(all(run["seconds"] >= 0 for run in results["runs"]))
+        self.assertEqual(len(list(self.output.glob("*.jsonl"))), 4)
+
+    def test_worker_failure_checkpoints_without_starting_queued_worlds(self):
+        with self.assertRaisesRegex(RuntimeError, "worker failed"):
+            self.run_suite([8], ["one", "two"], workers=2, client_factory=FailingClient)
+        text = (self.output / "results.json").read_text()
+        results = json.loads(text)
+        self.assertEqual(results["status"], "failed")
+        self.assertEqual([run["status"] for run in results["runs"]], ["failed", "failed", "pending", "pending"])
+        self.assertNotIn("private fixture error", text)
+
+    def test_occupied_slots_do_not_create_or_delete_worlds(self):
+        from unittest.mock import Mock
+        client = Mock()
+        client.url, client.compression = "https://example.test", True
+        client.worlds.return_value = [{"ended": False, "kind": "practice"}] * 8
+        with self.assertRaisesRegex(RuntimeError, "slots are occupied"):
+            run_comparison(client, self.models, [8], ["seed"], self.output, workers=8)
+        client.create.assert_not_called()
+
+    def test_workers_outside_team_limit_are_rejected(self):
+        for workers in (0, 9, True, 1.5):
+            with self.subTest(workers=workers), self.assertRaises(ValueError):
+                self.run_suite([8], ["seed"], workers=workers)
+        self.assertFalse(self.output.exists())
+
+    def test_running_workers_receive_interrupt_and_checkpoint_before_return(self):
+        from concurrent.futures import wait
+        interrupted = False
+
+        def interrupt_once(*args, **kwargs):
+            nonlocal interrupted
+            if not interrupted:
+                interrupted = True
+                raise KeyboardInterrupt
+            return wait(*args, **kwargs)
+
+        with patch("compare.wait", side_effect=interrupt_once), self.assertRaises(KeyboardInterrupt):
+            self.run_suite([8], ["one", "two"], workers=2, client_factory=PracticeClient)
+        results = json.loads((self.output / "results.json").read_text())
+        self.assertEqual(results["status"], "failed")
+        self.assertEqual([run["status"] for run in results["runs"]], ["failed", "failed", "pending", "pending"])
+
+    def test_concurrent_resume_controller_is_rejected_by_output_lock(self):
+        from dispatch import play_model
+
+        def attempt_concurrent_resume(*args, **kwargs):
+            with self.assertRaisesRegex(ValueError, "another runner"):
+                self.run_suite([8], ["seed"], resume=True)
+            return play_model(*args, **kwargs)
+
+        with patch("compare.play_model", side_effect=attempt_concurrent_resume):
+            self.run_suite([8], ["seed"])
+
+    def test_requested_workers_are_reduced_to_free_team_slots(self):
+        class LimitedClient:
+            def __init__(self):
+                self.calls = []
+
+            def worlds(self):
+                return [{"kind": "practice", "ended": False}] * 7
+
+            def create(self, **kwargs):
+                self.calls.append(kwargs)
+                return PracticeWorld(f"limited-{len(self.calls)}")
+
+        client = LimitedClient()
+        with redirect_stdout(self.stdout), redirect_stderr(self.stderr):
+            run_comparison(client, self.models, [8], ["seed"], self.output, workers=8)
+        results = json.loads((self.output / "results.json").read_text())
+        self.assertEqual(results["workers"], 1)
+        self.assertEqual(len(client.calls), 2)
 
     def test_model_settings_and_custom_factory(self):
         spec_path = self.directory / "model.json"

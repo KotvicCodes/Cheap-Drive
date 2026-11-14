@@ -68,7 +68,7 @@ jobs:
           else
             levels=("$PRACTICE_LEVEL")
           fi
-          .venv/bin/python compare.py run --levels "${levels[@]}" --seeds "$PRACTICE_SEED" --output runs/comparison
+          .venv/bin/python compare.py run --levels "${levels[@]}" --seeds "$PRACTICE_SEED" --workers 8 --output runs/comparison
       - name: Add leaderboard to run summary
         if: ${{ always() }}
         run: |
