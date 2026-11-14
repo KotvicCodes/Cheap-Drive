@@ -179,6 +179,92 @@ class DeltaFactoryTests(unittest.TestCase):
                     make_delta(PairWorld(), 8, 540, Journal(io.StringIO()), **{name: value})
 
 
+class DeltaPairingTests(unittest.TestCase):
+    def desk(self, profile='off', **settings):
+        return make_delta(PairWorld(), 8, 600, Journal(io.StringIO()),
+                          pairs=1, delta_pairing=profile, **settings)
+
+    def orders(self, desk, minutes=180, transfer_km=45):
+        first = pair_order(desk, 'one', 'a', 'b', deadline=6000)
+        second = pair_order(desk, 'two', 'c', 'd', deadline=6000)
+        for a, b in (('a', 'b'), ('c', 'd')):
+            desk.roads[a, b] = {'km': minutes, 'minutes': minutes}
+        desk.roads['b', 'c'] = {'km': transfer_km, 'minutes': 60}
+        return first, second
+
+    def test_explicit_off_preserves_actions_timers_and_journal(self):
+        outcomes = []
+        for settings in ({}, {'delta_pairing': 'off'}):
+            world, stream = LossWorld(), io.StringIO()
+            with redirect_stdout(io.StringIO()):
+                score = play_model(world, 8, Journal(stream),
+                                   lambda w, l, n, j: make_delta(w, l, n, j, pairs=1,
+                                       delta_note_fixes=1, delta_rescue_windows=1, **settings))
+            outcomes.append((world.sent, world.calls, score, stream.getvalue()))
+        self.assertEqual(*outcomes)
+
+    def test_regional_allows_route_rejected_by_original_distance_and_drive_limits(self):
+        baseline = self.desk()
+        first, second = self.orders(baseline)
+        self.assertEqual(baseline._plan(first, second)[1], 'transfer_too_far')
+        regional = self.desk('regional', delta_note_fixes=1, delta_rescue_windows=1)
+        first, second = self.orders(regional)
+        plan, reason = regional._plan(first, second)
+        self.assertIsNone(reason)
+        self.assertEqual(plan.drive_minutes, 420)
+        self.assertEqual(plan.transfer_km, 45)
+        self.assertEqual(regional.driver_settings.pair_arrival_allowance_minutes, 180)
+        self.assertEqual(regional.driver_settings.pair_spare_minutes, 60)
+        self.assertEqual(regional.driver_settings.pair_split_minutes, 60)
+
+    def test_extended_accepts_legal_long_pair_and_rejects_over_twelve_hours(self):
+        regional = self.desk('regional')
+        first, second = self.orders(regional, minutes=270, transfer_km=75)
+        self.assertEqual(regional._plan(first, second)[1], 'transfer_too_far')
+        extended = self.desk('extended')
+        first, second = self.orders(extended, minutes=270, transfer_km=75)
+        plan, reason = extended._plan(first, second)
+        self.assertIsNone(reason)
+        self.assertEqual(plan.drive_minutes, 600)
+        extended.roads['a', 'b']['minutes'] = 391
+        self.assertEqual(extended._plan(first, second)[1], 'drive_too_long')
+
+    def test_wider_limits_keep_window_and_audience_safety_checks(self):
+        desk = self.desk('extended', delta_note_fixes=1, delta_rescue_windows=1)
+        first, second = self.orders(desk)
+        first['deadline'] = 700
+        self.assertEqual(desk._plan(first, second)[1], 'windows')
+        first['deadline'] = 6000
+        first['legs'][0]['car']['premium'] = True
+        desk.world.initial_roster[0]['rating'] = 4.0
+        self.assertEqual(desk._plan(first, second)[1], 'audience')
+
+    def test_regional_posts_pair_and_retains_timed_fallback(self):
+        desk = self.desk('regional', delta_note_fixes=1, delta_rescue_windows=1)
+        first, second = self.orders(desk)
+        for order in (first, second):
+            desk.handle(dict(seq=len(desk.orders), at=desk.now, kind='order_won', order=order))
+        actions, desk.outbox = desk.outbox, []
+        self.assertEqual(len(actions), 1)
+        self.assertEqual(len(actions[0]['stops']), 4)
+        desk.read_results(actions, desk.world.act(actions))
+        self.assertEqual(desk.next_pair_wake(), 660)
+        desk.now = 660
+        desk.poll_driver_side()
+        self.assertEqual(len(desk.outbox), 2)
+        self.assertTrue(all(len(action['stops']) == 2 for action in desk.outbox))
+
+    def test_profile_validation_and_gamma_defaults_are_unchanged(self):
+        for value in (None, True, 1, [], 'wide'):
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'delta_pairing'):
+                self.desk(value)
+        with self.assertRaisesRegex(ValueError, 'pairs=1'):
+            make_delta(PairWorld(), 8, 600, Journal(io.StringIO()), delta_pairing='regional')
+        gamma = make_gamma_notes_pairs(PairWorld(), 8, 600, Journal(io.StringIO()), pairs=1)
+        self.assertEqual((gamma.driver_settings.pair_transfer_km,
+                          gamma.driver_settings.pair_max_drive_minutes), (30, 300))
+
+
 class DeltaB1Tests(unittest.TestCase):
     def desk(self, mode="fastest_learning_only", *, factory=make_delta, level=8, **settings):
         stream = io.StringIO()
