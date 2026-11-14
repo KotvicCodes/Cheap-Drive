@@ -7,8 +7,8 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-> **Final is close — as of 14 November 2026, 12:00 Helsinki (UTC+2).**
-> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, about 20 hours away; lasts about 34 minutes.
+> **Final is close — as of 14 November 2026, 15:20 Helsinki (UTC+2).**
+> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, about 17 hours away; lasts about 34 minutes.
 > Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
 > Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
 > Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
@@ -17,20 +17,20 @@ A Python dispatcher for the Spread challenge, using the official client.
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. Round 5 ("Saturday 09:00"), level 8:
-**41st of 65 ranked teams**, €50,541; all five ranked, 95.5–98.7% on time.
-Runs: €7,872 / €12,396 / €9,653 / €12,804 / €7,816. House best (organisers):
-€50,660; tenth place about €71k; leaders €77–79k.
-Round 6 ("Saturday 12:00"): current; we have not played it.
+Our public team is **Guardians of the Moonlight**. Round 6 ("Saturday 12:00"), level 8:
+**45th of 58 ranked teams**, €59,529; all five ranked, 96.1–99.2% on time.
+Runs: €12,273 / €13,501 / €9,191 / €12,596 / €11,968. House best (organisers):
+€77,560; tenth place about €91k; leaders €99–110k. (Round 5, "Saturday 09:00":
+41st of 65, €50,541.) Round 7 ("Saturday 15:00"): current; we have not played it.
 
-![Round 5 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round5-totals.svg)
-![Our five round-5 margins versus leader Juhus](docs/screenshots/round5-runs.svg)
+![Round 6 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round6-totals.svg)
+![Our five round-6 margins versus leader Juhus](docs/screenshots/round6-runs.svg)
 
-*Charts: 14 November 2026, retrieved 10:13:44 UTC. Exact cents in charts; research notes' whole euros in prose.*
+*Charts: 14 November 2026, retrieved 13:20:20 UTC. Exact cents in charts; research notes' whole euros in prose.*
 
-![Public leaderboard: round 6, Saturday 12:00, level 8](docs/screenshots/leaderboard-round6.png)
+![Public leaderboard: round 7, Saturday 15:00, level 8](docs/screenshots/leaderboard-round7.png)
 
-*Real public-page screenshot, 14 November 2026, 10:14 UTC: only round 6 is shown; our round-5 row is unavailable.*
+*Real public-page screenshot, 14 November 2026, 13:18 UTC: only round 7 is shown; our round-6 row is unavailable.*
 
 ## Current model: Beta
 
@@ -51,12 +51,13 @@ Fixed €100 quotes / €150 driver fees and the official starter are pre-Alpha 
 | --- | --- | --- | --- | --- |
 | Alpha, its six seeds | about €6,200 | 6 of 6 | 91.2% / 95.0% | 297 |
 | Beta, eight seeds | €10,786 | 8 of 8 | 93.9% / 96.2% | 246 |
-| Leading teams, ranking round 5 | about €14–15k | 5 of 5 | 92–99% | 350–450 |
+| Leading teams, ranking round 6 | about €18–22k | 5 of 5 | 93–99% | 430–470 |
 
 Alpha and Beta used **different seeds**, not a paired test.
-Round 5's five runs totalled **€50,541**, all ranked: **41st of 65**, against about
-€71k for tenth place. Reaching the final's top ten needs roughly **40% more margin**;
-the gap is order volume (Beta about 250 orders/week versus the leaders' 350–450).
+Round 6's five runs totalled **€59,529**, all ranked: **45th of 58**, against about
+€91k for tenth place (round 5: **€50,541**, **41st of 65**, tenth about €71k).
+Reaching the final's top ten needs roughly **40–50% more margin**;
+the gap is order volume (Beta about 250 orders/week versus the leaders' 350–470).
 Settings were chosen on these eight seeds; generalisation is uncertain.
 Details: [Beta results](docs/research/beta-results.md), [Alpha results](docs/research/alpha-results.md).
 
