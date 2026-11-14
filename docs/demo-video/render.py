@@ -11,7 +11,7 @@ import imageio_ffmpeg
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 OUT = REPO / 'runs/demo-video'
-W, H, FPS, DURATION = 1920, 1080, 30, 60
+W, H, FPS, DURATION = 1920, 1080, 30, 54
 
 # Juicy yellow-orange, golden marigold, and sunlit citrus palette (zero brown/taupe/umber).
 INK = '#141416'          # Crisp neutral carbon ink for typography & vehicle silhouettes
@@ -36,8 +36,7 @@ SCENES = [
     (26, 34),
     (34, 41),
     (41, 49),
-    (49, 55),
-    (55, 60),
+    (49, 54),
 ]
 
 GRAPH = json.loads((ROOT / 'data/graph-data.json').read_text())
@@ -842,11 +841,11 @@ def ending(t):
     return im
 
 
-FUNCS = [hero, evolution, dispatcher, observability, experiments, failure, gain, result, ending]
+FUNCS = [hero, evolution, dispatcher, observability, experiments, failure, gain, ending]
 
 
 def frame(t):
-    idx = next((i for i, (a, b) in enumerate(SCENES) if a <= t < b), 8)
+    idx = next((i for i, (a, b) in enumerate(SCENES) if a <= t < b), 7)
     a, b = SCENES[idx]
     im = FUNCS[idx](t - a)
     dt = t - a
@@ -854,7 +853,7 @@ def frame(t):
         xx = round(W * ease(dt / .30))
         prev = FUNCS[idx - 1](SCENES[idx - 1][1] - SCENES[idx - 1][0] + dt)
         im.paste(prev.crop((xx, 0, W, H)), (xx, 0))
-        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 8] else INK)
+        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 7] else INK)
     return im
 
 
@@ -916,7 +915,7 @@ def soundtrack(path):
                 noise = rng.standard_normal(len(ts))
                 noise = np.diff(np.r_[0, noise]) * np.exp(-ts * 95)
                 add(start + j * (beat_sec / 2), noise, .012 if j % 2 else .006, (-1 if j % 2 else 1) * .3)
-    for cut in [5, 13, 20, 26, 34, 41, 49, 55]:
+    for cut in [5, 13, 20, 26, 34, 41, 49]:
         ts = np.arange(round(sr * 0.7)) / sr
         noise = rng.standard_normal(len(ts))
         noise = np.convolve(noise, np.ones(12) / 12, mode='same')
@@ -934,7 +933,7 @@ def soundtrack(path):
 
 
 def stills(out):
-    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 28.5, 32.0, 38.0, 45.0, 52.0, 57.5]
+    times = [2.2, 6.5, 9.5, 11.8, 15.0, 18.2, 23.0, 28.5, 32.0, 38.0, 45.0, 51.5]
     thumbs = []
     for p in out.glob('frame-*.png'):
         p.unlink()

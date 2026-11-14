@@ -27,9 +27,5 @@ Tuning is not validation: pushing volume failed gamma-t04 at 89.80%, and Gamma E
 Revised Gamma passed all 8 fresh confirmation weeks (v09–v16), adding +€2,031/week (+20.21%) while raising worst on-time to 96.95%.
 
 8
-00:00:49,100 --> 00:00:54,800
-Across two saved five-week official Beta ranking rounds, all 10 weeks qualified: €50,541.26 in Round 5 and €59,528.62 in Round 6.
-
-9
-00:00:55,100 --> 00:00:59,800
+00:00:49,100 --> 00:00:53,800
 Win the right work. Deliver it.

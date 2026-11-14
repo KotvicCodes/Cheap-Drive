@@ -22,19 +22,18 @@ runs/demo-video/.venv/bin/python docs/demo-video/render.py
 
 Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path` overrides it. The final file is `cheap-drive-demo.mp4`. Still mode writes full-resolution review frames, a contact sheet, and a poster. Draft mode writes a 540p, 15 fps MP4. Rendering makes no simulator requests and needs no credentials or network access. `imageio-ffmpeg` supplies the encoder.
 
-## Film timeline (60s)
+## Film timeline (54s)
 
 | Time | Scene |
 | --- | --- |
-| 00:00–00:05 | Move cars. Make margin. Animated route network. |
+| 00:00–00:05 | Move cars. Make margin. Full Finland map with 30 simulator towns. |
 | 00:05–00:13 | 1,187 runs: Graphical `Alpha → Beta → Gamma → Delta` iteration pipeline (`677`, `278`, `208`, `22+ LIVE`) with run-volume matrices and rising margin trajectory. |
 | 00:13–00:20 | 2×2 Dispatch Bento: Screen, Quote, Escalate fee (`0.80× → 1.50×`), Qualify (`≥ 90%`). |
 | 00:20–00:26 | Observability: Real offline HTML report screenshot with scrolling details. |
 | 00:26–00:34 | 1,155 completed practice runs across 6 model stages (`Baseline`, `Alpha`, `Beta Early`, `Beta Late`, `Gamma Early`, `Gamma Late`). |
 | 00:34–00:41 | Tuning vs. validation: Stress seed `gamma-t04` (`89.80%` OT) and why Gamma Early failed its first fresh holdout (`gamma-h07` at `89.956%` OT, `7/8 qualified`). |
 | 00:41–00:49 | Gamma Late confirmed on 8 untouched weeks (`v09–v16`): `+€2,031/week (+20.21%)`, `8/8 positive`, `8/8 qualified`, worst on-time `96.95%`. |
-| 00:49–00:55 | Ten official ranking weeks (`10/10 qualified`): Round 5 (`€50,541.26`) and Round 6 (`€59,528.62`). |
-| 00:55–01:00 | Highway close (`Win the right work. Deliver it.`). |
+| 00:49–00:54 | Highway close (`Win the right work. Deliver it.`). |
 
 ## Evidence and limits
 
