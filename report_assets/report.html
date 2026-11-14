@@ -3,44 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="color-scheme" content="light dark">
-<title>Cheap-Drive | Week analysis</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141413'/%3E%3Cpath d='M5 20.5h22l-2.6-7.2A3 3 0 0 0 21.6 11H10.4a3 3 0 0 0-2.8 2.3L5 20.5Z' fill='%23FF6200'/%3E%3Ccircle cx='10.5' cy='21' r='3.2' fill='%23FFD000'/%3E%3Ccircle cx='21.5' cy='21' r='3.2' fill='%23FFD000'/%3E%3C/svg%3E">
+<title>Cheap-Drive</title>
 <style>/* REPORT_CSS */</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to report</a>
 <aside class="sidebar">
-  <div class="brand"><div class="brand-icon"><!-- BRAND --></div><div><strong>Cheap-Drive</strong><span>Week analysis</span></div></div>
+  <div class="brand"><div class="brand-icon"><!-- BRAND --></div><div><strong>Cheap-Drive</strong></div></div>
   <div class="run-card" id="run-card"></div>
   <nav id="nav" aria-label="Report sections"></nav>
   <div class="side-bottom">
-    <div class="nav-group">Exports</div>
-    <button id="export-source" type="button">↓ Original JSONL <small>exact bytes</small></button>
-    <button id="export-model" type="button">↓ Complete analysis JSON</button>
-    <div class="offline"><span class="dot" aria-hidden="true"></span>Offline · private by design</div>
-    <p id="version"></p>
+    <div class="export-row">
+      <button id="export-source" type="button">↓ JSONL</button>
+      <button id="export-model" type="button">↓ JSON</button>
+    </div>
+    <div class="offline" hidden><span class="dot" aria-hidden="true"></span>Offline</div>
+    <p id="version" hidden></p>
   </div>
 </aside>
 <main id="main" tabindex="-1">
+  <div id="demo-bar" class="demo-bar" hidden></div>
   <header class="topbar">
-    <div><div class="eyebrow" id="run-label"></div><h1 id="title">Week overview</h1><p id="subtitle"></p></div>
+    <div><div class="eyebrow" id="run-label" hidden></div><h1 id="title">Overview</h1><p id="subtitle" hidden></p></div>
     <div class="top-actions"><span id="mode" class="badge lg"></span><button id="theme-toggle" class="theme-toggle" type="button"></button></div>
   </header>
-  <div id="integrity-banner" class="integrity-banner"></div>
+  <div id="integrity-banner" class="integrity-banner" hidden></div>
   <section id="overview"></section>
   <section id="workspace" hidden>
     <div id="section-intro" class="section-intro"></div>
     <form id="filters" class="filters" role="search" autocomplete="off">
       <div class="filter-main">
-        <label class="search"><span class="lbl">Search all captured fields</span><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><input id="search" type="search" placeholder="Search order, gig, driver, note, reason…"><kbd aria-hidden="true">/</kbd></label>
+        <label class="search"><span class="lbl">Search all captured fields</span><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><input id="search" type="search" placeholder="Search order, gig, driver, note…"><kbd aria-hidden="true">/</kbd></label>
         <button id="filters-toggle" class="filters-toggle" type="button" aria-expanded="false" aria-controls="filter-grid">Filters</button>
         <button id="reset" type="button">Reset</button>
       </div>
       <div class="filter-grid" id="filter-grid">
-        <label>World day<select id="day"><option value="">All days</option></select></label>
-        <label>From clock<input id="from" type="time" aria-label="From clock time each day"></label>
-        <label>To clock<input id="to" type="time" aria-label="To clock time each day"></label>
+        <label>Day<select id="day"><option value="">All days</option></select></label>
+        <label>From<input id="from" type="time" aria-label="From clock time each day"></label>
+        <label>To<input id="to" type="time" aria-label="To clock time each day"></label>
         <label>Kind<select id="kind"><option value="">All kinds</option></select></label>
         <label>State<select id="state"><option value="">All states</option></select></label>
       </div>
@@ -49,18 +52,18 @@
     <div id="distribution" class="distribution"></div>
     <div class="table-toolbar">
       <div><strong id="row-count" aria-live="polite"></strong><span id="sort-info"></span></div>
-      <div><label>Rows per page <select id="page-size"><option>50</option><option>100</option><option>250</option></select></label><button id="export-filtered" type="button">↓ Export filtered rows</button></div>
+      <div><label>Rows <select id="page-size"><option>50</option><option>100</option><option>250</option></select></label><button id="export-filtered" type="button">↓ Export</button></div>
     </div>
     <div class="table-wrap"><table id="table"><thead></thead><tbody></tbody></table></div>
-    <div id="empty" class="empty" hidden><strong>No matching records</strong><p>Try resetting the filters. Missing capture is described in Source &amp; integrity.</p></div>
+    <div id="empty" class="empty" hidden><strong>No matching records</strong><p>Reset filters to see all rows.</p></div>
     <div class="pagination">
       <span id="page-info"></span>
-      <div><button id="first" type="button" aria-label="First page">«</button><button id="prev" type="button">‹ Previous</button><label>Page <input id="page-number" type="number" min="1" value="1"></label><span id="page-total"></span><button id="next" type="button">Next ›</button><button id="last" type="button" aria-label="Last page">»</button></div>
+      <div><button id="first" type="button" aria-label="First page">«</button><button id="prev" type="button">‹ Prev</button><label>Page <input id="page-number" type="number" min="1" value="1"></label><span id="page-total"></span><button id="next" type="button">Next ›</button><button id="last" type="button" aria-label="Last page">»</button></div>
     </div>
-    <p class="muted" id="filter-help">Filters match captured data. Clock bounds apply within each selected day, inclusively.</p>
+    <p class="muted" id="filter-help" hidden></p>
   </section>
   <section id="captures" hidden></section>
-  <footer>Amounts are recorded game euros. Times are world minutes from Monday 00:00, not wall-clock dates. This report makes no network requests.</footer>
+  <footer hidden></footer>
 </main>
 <dialog id="detail" aria-labelledby="detail-title">
   <div class="dialog-top">

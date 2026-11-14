@@ -5,7 +5,7 @@
 # Cheap-Drive
 
 A Python dispatcher for the Spread challenge, using the official client.
-[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
+[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard) · [Live analytics demo](https://kotviccodes.github.io/Cheap-Drive/)
 
 > **Final is close — as of 14 November 2026, 15:20 Helsinki (UTC+2).**
 > Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, lasts about 34 minutes.
@@ -161,6 +161,9 @@ python scripts/board.py models/gamma.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
+
+# Multi-run interactive analytics demo bundle.
+python scripts/build_demo.py
 ```
 
 `compare.py run`: `--workers` defaults to 1 (1–8), capped at
