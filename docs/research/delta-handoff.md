@@ -4,6 +4,17 @@ Gamma passed its frozen confirmation; its settings and acceptance gates are in
 [Gamma recovery results](gamma-recovery-results.md). Use the selected Gamma as
 Delta's fixed baseline. Do not revise Gamma using confirmation outcomes.
 
+## Development status
+
+Repository cleanup is the first Delta groundwork. It does not introduce a Delta
+factory or model configuration, change Gamma's selected settings, or establish
+new qualification results. Alpha, Beta and Gamma remain supported baselines.
+The experiments below remain proposals for strategy discussion before coding.
+
+Challenge rules and final integration requirements are consolidated in
+[challenge constraints](../challenge.md); setup, run limits, event dates and
+reporting commands are in the [operational reference](../reference.md).
+
 ## First experiments
 
 Four proposed settings-only arms were parked before launch when Gamma was

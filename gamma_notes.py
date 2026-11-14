@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from gamma import GammaCoreDesk, GammaSettings
-from notes import NoteFacts, parse_note
+from notes import parse_note
 from spread.starter import DAY, Retry
 from beta import WARNING
 
