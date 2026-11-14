@@ -865,8 +865,28 @@ const button = (text, fn, cls = '') => { const b = N('button', text, cls); b.typ
 const icon = paths => { const s = svg('svg', {viewBox: '0 0 16 16', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}); for (const d of paths) s.append(svg('path', {d})); return s; };
 const pre = value => N('pre', typeof value === 'string' ? value : JSON.stringify(value, null, 2));
 const details = (label, value, open = false) => { const d = N('details', null, 'raw'); d.open = open; return add(d, N('summary', label), pre(value)); };
+const FI_FIRST = ['Kimi', 'Valtteri', 'Mika', 'Matti', 'Pekka', 'Teemu', 'Jari', 'Sanna', 'Aino', 'Juha', 'Sami', 'Olli', 'Tuomas', 'Heikki', 'Kalle', 'Roope', 'Antti', 'Ville', 'Jukka', 'Aleksi', 'Veikko', 'Tapio', 'Paavo', 'Eero', 'Timo', 'Lasse', 'Onni', 'Matias', 'Ilkka', 'Risto', 'Laura', 'Emilia'];
+const FI_LAST = ['Virtanen', 'Korhonen', 'Mäkinen', 'Nieminen', 'Hämäläinen', 'Laine', 'Heikkinen', 'Koskinen', 'Järvinen', 'Lehtonen', 'Lehtinen', 'Saarinen', 'Salminen', 'Heinonen', 'Niemi', 'Heikkilä', 'Kinnunen', 'Salonen', 'Turunen', 'Salo', 'Laitinen', 'Rantanen', 'Karjalainen', 'Jokinen', 'Mattila', 'Savolainen', 'Lahtinen', 'Ahonen', 'Ojala', 'Väisänen', 'Hiltunen', 'Miettinen', 'Aaltonen', 'Kallio', 'Hakala'];
+const SV_FIRST = ['Henrik', 'Erik', 'Johan', 'Anders', 'Oskar', 'Lukas', 'Filip', 'Astrid', 'Freja', 'Emil'];
+const SV_LAST = ['Lindqvist', 'Lindström', 'Nyman', 'Blomqvist', 'Sundqvist', 'Bergström', 'Holmström', 'Ekström', 'Sjöblom', 'Karlsson', 'Granlund', 'Forsberg'];
+function driverName(id) {
+  const s = String(id || '');
+  const m = s.match(/(\d+)$/);
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  const idx = m ? Number(m[1]) : Math.abs(h);
+  if (idx % 5 === 3) {
+    const k = Math.floor(idx / 5);
+    return SV_FIRST[k % SV_FIRST.length] + ' ' + SV_LAST[(k * 5 + Math.floor(k / SV_FIRST.length)) % SV_LAST.length];
+  }
+  return FI_FIRST[idx % FI_FIRST.length] + ' ' + FI_LAST[(idx * 7 + Math.floor(idx / FI_FIRST.length)) % FI_LAST.length];
+}
 const lineButton = line => button('L' + line, () => openDetail(() => rawDetail(line)), 'link mono');
-const entityButton = (kind, id) => button(id, () => openDetail(() => entityDetail(kind, id)), 'link id');
+const entityButton = (kind, id) => {
+  const b = button(kind === 'driver' ? driverName(id) : id, () => openDetail(() => entityDetail(kind, id)), 'link id');
+  if (kind === 'driver') b.title = id;
+  return b;
+};
 const refCell = (kind, ids) => {
   const list = add(N('div', null, 'cell-stack'), ids.length ? ids.map(id => entityButton(kind, id)) : N('span', 'Not captured', 'unavail'));
   if (ids.length <= 4) return list;
@@ -1302,7 +1322,8 @@ const entityRefs = (kind, e) => ({order: kind === 'order' ? [e.id] : (kind === '
 function searchText(row) {
   const key = active + ':' + (row.id ?? row.line ?? row.sourceLine);
   if (cache.has(key)) return cache.get(key);
-  const data = active === 'orders' || active === 'gigs' || active === 'drivers' ? {entity: row, activity: activity(row).map(payload)} : active === 'source' ? {...row, original: sliceRecordText(row)} : row;
+  const extra = active === 'drivers' ? driverName(row.id) : (row.refs?.driver || []).map(driverName).join(' ');
+  const data = active === 'orders' || active === 'gigs' || active === 'drivers' ? {entity: row, extra, activity: activity(row).map(payload)} : active === 'source' ? {...row, original: sliceRecordText(row)} : {...row, extra};
   const s = JSON.stringify(data).toLowerCase(); cache.set(key, s); return s;
 }
 const col = (key, title, value, render, cls = '') => ({key, title, value, render, cls});
@@ -1354,7 +1375,7 @@ function applyFilters() {
     if (kind && rowKind(row) !== kind) return false; if (state && rowState(row) !== state) return false;
     if (q && !searchText(row).includes(q)) return false;
     const refs = rowRefs(row);
-    for (const type of ['order', 'gig', 'driver']) { const v = $(type + '-filter').value.trim().toLowerCase(); if (v && !refs[type].some(id => id.toLowerCase().includes(v))) return false; }
+    for (const type of ['order', 'gig', 'driver']) { const v = $(type + '-filter').value.trim().toLowerCase(); if (v && !refs[type].some(id => id.toLowerCase().includes(v) || (type === 'driver' && driverName(id).toLowerCase().includes(v)))) return false; }
     if (day !== '' || from !== null || to !== null) {
       if (!rowTimes(row).some(at => { if (!Number.isInteger(at)) return false; if (day !== '' && Math.floor(at / 1440) !== Number(day)) return false; const clock = ((at % 1440) + 1440) % 1440; return from !== null && to !== null && from > to ? clock >= from || clock <= to : (from === null || clock >= from) && (to === null || clock <= to); })) return false;
     }
@@ -1477,7 +1498,7 @@ function miniTable(head, rows) {
 }
 function entityDetail(kind, id) {
   const entity = lookup[kind].get(id); if (!entity) return;
-  const body = showDialog({order: 'Order', gig: 'Gig', driver: 'Driver'}[kind], id), data = entity.data, acts = activity(entity), crumbs = $('detail-crumbs');
+  const body = showDialog({order: 'Order', gig: 'Gig', driver: 'Driver'}[kind], kind === 'driver' ? driverName(id) : id), data = entity.data, acts = activity(entity), crumbs = $('detail-crumbs');
   if (kind === 'order') {
     const request = data.request || {}, order = data.order || {}, legs = arr(order.legs || request.legs);
     add(crumbs, badge(data.outcome, data.outcome === 'won' ? 'good' : data.outcome === 'cancelled' ? 'warn' : ''), badge(data.quoteStatus, 'plain'));
