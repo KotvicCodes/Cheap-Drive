@@ -64,6 +64,19 @@ lost €1,712.68/week. Adding notes and segments to those controls lost
 ranked 3/3. Town caps improved service but sacrificed margin on this sample;
 the proposed universal €1,800–2,400 profit gain is not established.
 
+The completed four-seed supply screen (`gamma-v01` … `gamma-v04`) also argues
+against selecting those controls:
+
+| Supply arm | Gain / week versus Beta | Ranked | Worst on time |
+| --- | ---: | ---: | ---: |
+| Scaling only | +€561.31 | 3/4 | 88.768% |
+| Scaling + town caps and sparse-town floor | −€757.66 | 4/4 | 90.769% |
+| Above + notes and segments | −€753.12 | 4/4 | 92.188% |
+| Above + corrected pairs | +€179.79 | 4/4 | 94.819% |
+
+The same four seeds with notes + pairs + segments and supply controls disabled
+gained €1,846.53/week. These supply diagnostics did not alter the frozen selection.
+
 ## Frozen confirmation plan
 
 Selection was frozen at 13:58 UTC, before any candidate result on `gamma-v09`
@@ -101,7 +114,37 @@ reproduce its score and ledger using the final code with supply controls off.
 No settings may be changed using these confirmation outcomes. A failed gate
 leaves Beta as the ranking model.
 
-Confirmation is in progress. No revised Gamma configuration is promoted yet.
+## Confirmation verdict
+
+**Passed all frozen gates.** `models/gamma.json` now selects the note/pair/segment
+configuration above; brakes and supply controls stay disabled.
+
+| Model | Margin / week | Ranked | Worst / mean on time | Orders / week |
+| --- | ---: | ---: | ---: | ---: |
+| Beta | €10,047.87 | 8/8 | 93.671% / 95.692% | 241.625 |
+| Gamma | €12,078.71 | 8/8 | 96.947% / 98.062% | 256.250 |
+
+Mean paired gain is **€2,030.845/week (+20.21%)**, positive on **8/8** seeds.
+Long-route lateness is **1/148 (0.676%)**, including one undelivered long order.
+Across all routes, 40/2,050 orders were late, including 12 undelivered orders.
+The final-code repeat matched score, ledger, events, visit failures and rejections.
+
+| Seed | Beta margin | Gamma margin | Gain | Gamma on time |
+| --- | ---: | ---: | ---: | ---: |
+| `gamma-v09` | €10,982.60 | €13,013.17 | +€2,030.57 | 97.119% |
+| `gamma-v10` | €7,809.27 | €10,349.11 | +€2,539.84 | 97.692% |
+| `gamma-v11` | €13,243.86 | €14,130.65 | +€886.79 | 98.162% |
+| `gamma-v12` | €10,822.78 | €13,453.38 | +€2,630.60 | 97.398% |
+| `gamma-v13` | €6,896.33 | €8,546.16 | +€1,649.83 | 99.190% |
+| `gamma-v14` | €11,067.42 | €13,495.76 | +€2,428.34 | 98.795% |
+| `gamma-v15` | €10,979.91 | €12,842.54 | +€1,862.63 | 96.947% |
+| `gamma-v16` | €8,580.77 | €10,798.93 | +€2,218.16 | 99.194% |
+
+A practice-server restart returned HTTP 502 and interrupted active worlds.
+Incomplete attempts were discarded and rerun on the same seeds with unchanged
+code and settings; no candidate was retuned. Confirmation had 22 failed-visit
+events across 11 unique orders, so the remaining parser limitations still matter.
+Further settings experiments were parked before launch for [Delta](delta-handoff.md).
 
 ## Limits and verification
 
@@ -116,5 +159,17 @@ market or final clocks. The runner maintains up to eight unfinished practice
 worlds and refills slots as jobs finish. Running jobs use immutable source
 copies; raw traces, reveals, job records and credentials remain git-ignored.
 
-The implementation passes 226 offline tests on Python 3.9 and 3.14; GitHub
-checks also pass on Python 3.12. Historical Beta is unchanged.
+The implementation passes 226 offline tests on Python 3.9 and 3.14. GitHub CI
+covers Python 3.9, 3.12 and 3.14. Historical Beta is unchanged.
+
+To reproduce a paired comparison with the selected configuration, load practice
+credentials and run from the repository root:
+
+```bash
+python compare.py run --model-a models/beta.json --model-b models/gamma.json \
+  --levels 8 --seeds gamma-v09 gamma-v10 gamma-v11 gamma-v12 \
+    gamma-v13 gamma-v14 gamma-v15 gamma-v16 \
+  --workers 8 --fast --output runs/gamma/reproduce-confirmation
+```
+
+Those seeds are now exposed. Delta must reserve new seeds for its own confirmation.

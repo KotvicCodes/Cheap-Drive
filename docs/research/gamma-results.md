@@ -5,6 +5,10 @@ eight seeds (`gamma-t01` … `gamma-t08`). Gamma is Beta plus **guarded long
 routes**; see [PROTOTYPES.md](../../PROTOTYPES.md). The earlier
 [roadmap](gamma-roadmap.md) records proposals, not measured gains.
 
+The selected Gamma now uses the qualified note/pair/segment configuration in
+[recovery results](gamma-recovery-results.md). The tuning and first held-out
+sections below describe the original guarded-route candidate.
+
 ## Headline: eight tuning seeds
 
 | Model | Margin / week | Weeks ranked | On time, worst / mean | Orders / week |
@@ -37,8 +41,9 @@ the candidate to 90.0% hides the failure; the server returned `ranked=false`.
 Follow-up checks on that same failed seed also failed with the default brake
 (88.889%) and earlier warning thresholds (88.177%). Beta with the brake ranked
 at 91.089%, but earned less than unchanged Beta. These targeted follow-ups
-are diagnostic tests, not fresh held-out confirmation. Round 6 therefore uses
-unchanged Beta. The guarded 700 km model must not be promoted on this evidence.
+are diagnostic tests, not fresh held-out confirmation. Round 6 therefore used
+unchanged Beta. This original guarded-700 configuration failed qualification;
+the separate recovery report evaluates its replacement.
 <!-- /H1 -->
 
 ## Recovery work and ranking round 6
@@ -57,7 +62,8 @@ results above used the old code and do not establish gains from these fixes.
 
 Optional segment controls can set opening floors of 1.10 for routes below 45 km
 and 1.05 for premium cars, a 10-hour premium slack floor, and an 8% short-route
-quote discount. These are neutral by default and remain under live evaluation.
+quote discount. These are neutral by default in code and enabled in the selected
+Gamma configuration after fresh confirmation.
 The short and premium segments overlap; their late-order shares cannot be added.
 
 At this checkpoint, 226 offline tests pass on Python 3.9 and 3.14. The revised
@@ -67,9 +73,11 @@ Beta, with 94.574% worst on time. Settings were frozen before starting fresh
 confirmation on `gamma-v09` … `gamma-v16`. See the
 [recovery experiment report](gamma-recovery-results.md) for policy comparisons,
 the exact candidate and acceptance gates. Saved-source snapshots keep running
-experiments independent of later edits. No revised candidate is promoted yet.
+experiments independent of later edits. The candidate subsequently passed all
+eight fresh weeks, gaining €2,030.845/week, with 96.947% worst on time;
+`models/gamma.json` now selects that note/pair/segment configuration.
 
-## Note corrections under live evaluation
+## Note corrections
 
 `gamma_notes:make_gamma_notes` applies parsed readiness, release times, real
 pickup/delivery hours and explicit delivery promises to quote slack, stop
@@ -93,7 +101,7 @@ is explicit. After a missed promise, already-won orders can receive physically
 valid late rescue windows. No feasible window within the 14-day rescue horizon
 is journaled explicitly instead of submitting an invalid stop.
 
-## Roster supply controls under live evaluation
+## Roster supply controls
 
 Optional `supply_scale=1` reads the initial captured roster and selects normal
 win targets of 29% / 35% / 38% at roster sizes below 710 / below 810 / at least
@@ -113,8 +121,8 @@ The historical audit does not establish the proposed profit or qualification
 gains. All 24 audited Beta baseline weeks ranked, including four with fewer than
 700 drivers; sparse pickups accounted for 41 of 228 distinct late-refund orders.
 A large roster alone does not establish a profitable market. Live experiments
-therefore separate supply scaling from town caps and test both the three known
-weak weeks and the new screening seeds before fresh confirmation.
+separated supply scaling from town caps on the three known weak weeks and new
+screening seeds. Neither policy was selected; see the recovery report's results.
 
 ## What was kept, and why
 
@@ -130,7 +138,7 @@ The guarded 600 km trial gained €930/week on 7 of 8 seeds; guarded 700 km gain
 €1,232 on all eight. That was the only change kept. It is the first half of
 roadmap step 4; direct offers were not run.
 
-`models/gamma.json` uses `gamma:make_gamma`, with Beta's `win_target_bps=3000`,
+The original guarded-route candidate used `gamma:make_gamma`, with Beta's `win_target_bps=3000`,
 `opening_fee_bps=8000`, `max_km=500`, plus `long_max_km=700`. Defaults supply
 `long_options="next_day,within_3_days"`, `long_min_slack_minutes=1440`,
 `long_open_cap=3`, `long_opening_fee_bps=10000`. At `long_max_km=500`, the
