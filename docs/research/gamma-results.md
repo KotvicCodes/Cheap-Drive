@@ -60,11 +60,37 @@ and 1.05 for premium cars, a 10-hour premium slack floor, and an 8% short-route
 quote discount. These are neutral by default and remain under live evaluation.
 The short and premium segments overlap; their late-order shares cannot be added.
 
-At this checkpoint, 185 offline tests pass on Python 3.9 and 3.14. Fresh Beta
+At this checkpoint, 206 offline tests pass on Python 3.9 and 3.14. Fresh Beta
 baselines and four candidate arms are running on `gamma-v01` … `gamma-v08`.
 `gamma-v09` … `gamma-v16` are reserved for confirmation after settings are
-chosen. Note parsing and its integration are still being implemented separately.
+chosen. Note parsing and its integration are implemented in `notes.py` and `gamma_notes.py`;
+five note-aware arms have joined the live queue. The saved-source snapshots keep
+running experiments independent of later edits.
 No revised candidate has been qualified or promoted yet.
+
+## Note corrections under live evaluation
+
+`gamma_notes:make_gamma_notes` applies parsed readiness, release times, real
+pickup/delivery hours and explicit delivery promises to quote slack, stop
+windows and fee escalation. `gamma_notes:make_gamma_notes_pairs` combines the
+same constraints with the pair policy. Historical Beta remains unchanged.
+
+Dates anchor to request arrival; pickup and delivery clauses have independent
+scope. Expired gigs move to a valid later business-day window rather than
+removing closing hours. Fee caps follow the last physically feasible pickup.
+The offline audit (`python scripts/audit_notes.py <trace> ...`) finds a relevant
+constraint for all 39 unique failed-visit orders in the original tuning traces:
+27 readiness/release, 11 closed-site, and one manual-licence case. Those traces
+also confirm 17 of 93 late-refund orders arrived before the nominal order
+deadline, consistent with tighter promises and windows. Parsing coverage does
+not prove that every failed visit or late refund is preventable.
+
+The reader uses a bounded Finnish/Swedish/English vocabulary. It does not
+translate arbitrary prose or parse every date spelling. Bare word hours one
+through seven use the dispatch vocabulary's afternoon convention unless AM/PM
+is explicit. After a missed promise, already-won orders can receive physically
+valid late rescue windows. No feasible window within the 14-day rescue horizon
+is journaled explicitly instead of submitting an invalid stop.
 
 ## What was kept, and why
 
