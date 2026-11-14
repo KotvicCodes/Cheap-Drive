@@ -1781,7 +1781,7 @@ function capturedContext() {
   }
   root.append(grid);
   if (mapRecord && Array.isArray(mapRecord.places)) {
-    const panel = section('Finland replay');
+    const panel = N('section', null, 'panel');
     panel.append(mapView(mapRecord)); root.append(panel);
   }
 }
@@ -1802,7 +1802,7 @@ function mapView(map) {
   const trips = isFinland ? extractRunTrips(byId) : [];
   const total = p => { const c = act.get(p.id); return c ? c.pickups + c.deliveries : 0 }, maxAct = Math.max(1, ...places.map(total));
 
-  const allLats = [...places.map(p => p.lat), ...(isFinland ? FINLAND_BORDER.slice(0, 18).map(b => b[0]).concat([67.2]) : [])];
+  const allLats = [...places.map(p => p.lat), ...(isFinland ? FINLAND_BORDER.map(b => b[0]) : [])];
   const allLons = [...places.map(p => p.lon), ...(isFinland ? FINLAND_BORDER.map(b => b[1]) : [])];
   const midLat = places.reduce((s, p) => s + p.lat, 0) / places.length, k = Math.cos(midLat * Math.PI / 180);
   const minLat = Math.min(...allLats), maxLat = Math.max(...allLats), minLon = Math.min(...allLons), maxLon = Math.max(...allLons);
@@ -1814,12 +1814,20 @@ function mapView(map) {
 
   const layout = N('div', null, 'map-layout'), left = N('div'), right = N('div', null, 'map-side');
   const replayBar = N('div', null, 'replay-bar');
-  const playBtn = button(playing ? '⏸ Pause' : '▶ Play', () => {
+  const setPlayLabel = label => {
+    clear(playBtn);
+    const ic = svg('svg', {viewBox: '0 0 14 14', width: 12, height: 12, fill: 'currentColor', 'aria-hidden': 'true'});
+    if (playing) ic.append(svg('rect', {x: 2.2, y: 2, width: 3.2, height: 10, rx: 1}), svg('rect', {x: 8.6, y: 2, width: 3.2, height: 10, rx: 1}));
+    else ic.append(svg('path', {d: 'M3 1.8l9 5.2-9 5.2V1.8z'}));
+    add(playBtn, ic, N('span', label));
+  };
+  const playBtn = button('', () => {
     if (simMin >= maxMin) simMin = minMin;
     playing = !playing;
-    playBtn.textContent = playing ? '⏸ Pause' : '▶ Play';
+    setPlayLabel(playing ? 'Pause' : 'Play');
     if (playing) { lastTs = performance.now(); rafId = requestAnimationFrame(tick); }
   }, 'replay-play');
+  setPlayLabel(playing ? 'Pause' : 'Play');
   const slider = N('input', null, 'replay-slider');
   slider.type = 'range'; slider.min = String(minMin); slider.max = String(maxMin); slider.step = '1'; slider.value = String(simMin);
   slider.setAttribute('aria-label', 'Simulation world minute');
@@ -1930,7 +1938,7 @@ function mapView(map) {
     if (simMin >= maxMin) {
       simMin = maxMin;
       playing = false;
-      playBtn.textContent = '▶ Replay';
+      setPlayLabel('Replay');
       renderFrame();
       return;
     }
@@ -1994,7 +2002,7 @@ const titles = {
   incidents: ['Incidents', ''],
   ledger: ['Financial ledger', ''],
   source: ['Source & integrity', ''],
-  captures: ['Captured context', '']
+  captures: ['Map', '']
 };
 function navigate(id, preset) {
   if (stopReplay && id !== 'captures') { stopReplay(); stopReplay = null; }
