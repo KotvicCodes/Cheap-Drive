@@ -21,43 +21,50 @@ weeks. [Delta results](docs/research/delta-results.md) ·
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. **Gamma completed all five
-level-8 runs in round 7 ("Saturday 15:00", 14 November 2026, Helsinki time).**
-At 2026-11-14 15:05:59 UTC, we are **#32 of 45 ranked teams**, with
-**€66,880.48 total gross margin** and **96.75% on time**
+Our public team is **Guardians of the Moonlight**. **Delta completed all five
+level-8 runs in round 8 ("Saturday 18:00", 14 November 2026, Helsinki time).**
+At 2026-11-14 17:53:55 UTC, we are **#37 of 58 ranked teams**, with
+**€55,639.62 total gross margin** and **96.96% on time**
 on the official board. All five weeks qualified; the worst week was
-91.35% on time (90% required in every week).
-The round stays open until 18:00 Helsinki (16:00 UTC), so positions can change.
+95.90% on time (90% required in every week).
+This is a snapshot of the current round; positions can change.
 
-| Gamma run | Gross margin | On time | Orders won | Ranked |
+| Delta run | Gross margin | On time | Orders won | Ranked |
 | --- | ---: | ---: | ---: | :---: |
-| 1 | €14,924.75 | 97.52% | 282 | Yes |
-| 2 | €13,563.36 | 99.22% | 255 | Yes |
-| 3 | €9,385.40 | 91.35% | 289 | Yes |
-| 4 | €12,867.62 | 97.87% | 282 | Yes |
-| 5 | €16,139.35 | 98.18% | 275 | Yes |
-| **Total** | **€66,880.48** | **96.75%** | **1383** | **5 / 5** |
+| 1 | €11,250.74 | 95.90% | 244 | Yes |
+| 2 | €14,659.69 | 98.07% | 259 | Yes |
+| 3 | €11,197.75 | 96.75% | 246 | Yes |
+| 4 | €8,822.73 | 96.50% | 257 | Yes |
+| 5 | €9,708.71 | 97.52% | 242 | Yes |
+| **Total** | **€55,639.62** | **96.96%** | **1248** | **5 / 5** |
 
-Leader **source-exp**: €92,830.32; tenth place:
-€82,653.03 (we are €15,772.55 behind).
-Organisers' **House best**: €64,249.30.
+Leader **Juhus**: €94,444.61; tenth place:
+**hakunamaTATA**, €73,352.77 (we are €17,713.15 behind).
+Organisers' **House best**: €58,677.10.
 House teams have no public rank and are excluded from the ranked-team count.
 
-![Round 7 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round7-totals.svg)
-![Gamma's five round-7 margins versus the round leader](docs/screenshots/round7-runs.svg)
+![Round 8 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round8-totals.svg)
+![Delta's five round-8 margins versus the round leader](docs/screenshots/round8-runs.svg)
 
-*Charts generated from the official public leaderboard, retrieved 2026-11-14 15:05:59 UTC.
+*Charts generated from the official public leaderboard, retrieved 2026-11-14 17:53:55 UTC.
 Exact cents are retained; the public page rounds margins to whole euros.*
 
-![Public leaderboard: round 7, Saturday 15:00, level 8, leading teams](docs/screenshots/leaderboard-round7.png)
-![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Gamma runs](docs/screenshots/leaderboard-round7-team.png)
+![Public leaderboard: round 8, Saturday 18:00, level 8, leading teams](docs/screenshots/leaderboard-round8.png)
+![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Delta runs](docs/screenshots/leaderboard-round8-team.png)
 
-*Real public-page screenshots captured after all five Gamma runs on
-14 November 2026, 15:07 UTC (17:07 Helsinki). The first shows the round and leaders; the second shows our
-ranked row and nearby teams. [Run and snapshot details](docs/research/gamma-board-round7.md).*
+*Real public-page screenshots captured on 14 November 2026 at 17:53:55 UTC
+(leaders) and 17:53:26 UTC (our row), after all five Delta runs.
+[Run and snapshot details](docs/research/delta-board-round8.md).*
 
-Previous round: unchanged **Beta** finished round 6 ("Saturday 12:00")
-**45th of 58 ranked teams**, €59,528.62, with all five weeks qualified.
+At **2026-11-14 17:53:35 UTC**, the public final feed was **scheduled** for
+`2026-11-14T18:00:00.000Z` (20:00 Helsinki), with no teams displayed.
+The test final had not started: our team, margin, on-time share and rank were
+not yet present, so there is no final-result screenshot.
+
+Previous round: **Gamma** finished round 7 ("Saturday 15:00")
+**41st of 62 ranked teams**, €66,880.48, 96.75% on time,
+with all five weeks qualified (closed-round data retrieved 2026-11-14 17:53:55 UTC).
+[Earlier round-7 snapshot and evidence](docs/research/gamma-board-round7.md).
 The rounds use different secret weeks, so their totals are not a paired model comparison.
 
 ## Schedule & Run Limits (Official Rules)
