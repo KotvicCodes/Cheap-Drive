@@ -50,7 +50,7 @@ Delta until a complete confirmation passes.
 | Earlier projected brake: 450/650 bps | 4 | −€1.50 | 1/4 | 90.81% | Rejected: service floor |
 | 350/600 brake with immediate 3%/6% markup bumps | 4 | +€143.97 | 2/4 | 90.65% | Rejected: service floor |
 | 350/600 brake with targets 3000/2600 | 4 | −€106.72 | 1/4 | 90.97% | Rejected: service and margin |
-| Remaining pickup-opportunity brake, 360 min horizon | Pending | — | — | — | Implemented; offline validation |
+| Remaining pickup-opportunity brake, 360 min horizon | 4 | +€50.40 | 2/4 | 92.31% | Not advanced: 2/4-order version has better screen margin and floor |
 
 The pickup-opportunity brake counts only orders still needing a driver and
 uses the existing note-aware backward route planner to find their latest
@@ -166,21 +166,21 @@ separate readiness, bounded/invalid text and validation.
 
 | Additional hypothesis | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Pickup-opportunity brake, 180 min horizon | Pending (4 planned) | — | — | — | Screen in flight |
-| Pickup-opportunity brake, 360 min horizon, thresholds 2/4 | Pending (4 planned) | — | — | — | Screen in flight |
-| Pickup-opportunity brake, 720 min horizon | Pending (4 planned) | — | — | — | Screen in flight |
-| Require matching pair driver audiences | Pending (4 planned) | — | — | — | Screen in flight |
-| English negative pickup-closing repair | Pending (4 planned) | — | — | — | Screen in flight |
+| Pickup-opportunity brake, 180 min horizon | 4 | −€31.65 | 1/4 | 92.13% | Not advanced: weaker screen margin and floor |
+| Pickup-opportunity brake, 360 min horizon, thresholds 2/4 | 4 | +€78.34 | 3/4 | 92.81% | Survived screen; remaining 15 paired weeks in flight |
+| Pickup-opportunity brake, 720 min horizon | 4 | −€416.89 | 1/4 | 92.14% | Rejected: screen cost and weaker floor |
+| Require matching pair driver audiences | 4 | +€7.59 | 1/4 | 90.63% | Rejected: service floor |
+| English negative pickup-closing repair | 4 | €0.00 | 0/4 | 91.12% | No effect in screen; not selected |
 | Wide pickup cushion 20 min | Pending (4 planned) | — | — | — | Screen in flight |
 | Wide pickup cushion 30 min | Pending (4 planned) | — | — | — | Screen in flight |
 | Count map self roads in pair planning | Pending (4 planned) | — | — | — | Screen in flight |
 | Pairable waiting-order quote factor 9800 bps | Pending (4 planned) | — | — | — | Queued |
 | Pairable waiting-order quote factor 9500 bps | Pending (4 planned) | — | — | — | Queued |
-| Premium service slack 1440 min | Pending (4 planned) | — | — | — | Queued |
-| Premium service slack 2880 min | Pending (4 planned) | — | — | — | Queued |
-| Guard routes above 420 km, cap 6, slack 1200 | Pending (4 planned) | — | — | — | Queued |
-| Guard routes above 400 km, cap 6, slack 1080 | Pending (4 planned) | — | — | — | Queued |
-| Finnish closed-after note repair | Pending (4 planned) | — | — | — | Queued |
+| Premium service slack 1440 min | Pending (4 planned) | — | — | — | Screen in flight |
+| Premium service slack 2880 min | Pending (4 planned) | — | — | — | Screen in flight |
+| Guard routes above 420 km, cap 6, slack 1200 | Pending (4 planned) | — | — | — | Screen in flight |
+| Guard routes above 400 km, cap 6, slack 1080 | Pending (4 planned) | — | — | — | Screen in flight |
+| Finnish closed-after note repair | Pending (4 planned) | — | — | — | Screen in flight |
 
 Prepared selective rescue-pair guards, independently default off:
 `delta_pair_max_wait_minutes=240` leaves aged waiting singles on their existing
@@ -195,3 +195,13 @@ neutral behavior and strict validation.
 | --- | ---: | ---: | ---: | ---: | --- |
 | Rescue-pair waiting age ≤240 min | Pending (4 planned) | — | — | — | Screen in flight |
 | Rescue-pair remaining pickup slack ≥600 min | Pending (4 planned) | — | — | — | Screen in flight |
+
+
+At 23:50 UTC the completed pickup-opportunity screens selected the 360-minute,
+2/4-order variant for full-cohort extension; this is selection for further
+measurement, not promotion. The other opportunity variants were not extended
+because the selected screen arm had both higher mean margin and a higher
+observed floor. Eight previously reserved fresh Delta references started on
+one worker; fresh reference outcomes will not be used to tune candidate settings.
+The candidate itself must still pass its complete 19-week comparison and
+fresh paired confirmation.
