@@ -495,7 +495,7 @@ h1 { font-size: 30px; letter-spacing: -.035em; line-height: 1.1; margin: 0; font
 #table tbody tr:hover td { background: var(--surface-2); }
 #table tbody tr.clickable { cursor: pointer; }
 #table td.wrap { white-space: normal; min-width: 180px; line-height: 1.45; color: var(--ink-2); }
-#table .numeric { text-align: right; font-family: var(--mono); font-size: 12px; }
+#table td.numeric { text-align: right; font-family: var(--mono); font-size: 12px; }
 #table td.narrow { white-space: normal; min-width: 120px; max-width: 170px; }
 #table td.mono, .mono { font-family: var(--mono); font-size: 12px; }
 .when { white-space: nowrap; }
