@@ -29,14 +29,15 @@ GOLD_LINE = '#FFBE4F'    # Golden-orange structural border on cream scenes
 DANGER = '#E5383B'       # Crisp crimson for failed qualification / deadline warnings
 
 SCENES = [
-    (0, 6),
-    (6, 15),
-    (15, 22),
-    (22, 30),
-    (30, 38),
-    (38, 47),
-    (47, 54),
-    (54, 60),
+    (0, 5),
+    (5, 13),
+    (13, 20),
+    (20, 26),
+    (26, 34),
+    (34, 41),
+    (41, 49),
+    (49, 55),
+    (55, 60),
 ]
 
 GRAPH = json.loads((ROOT / 'data/graph-data.json').read_text())
@@ -125,7 +126,7 @@ def badge(im, text, x, y, color=INK, bg=MARIGOLD, border=None, size=22, mono=Fal
     return w
 
 
-def enter(im, text, x, y, size, t, delay=0, color=INK, weight=600, mono=False, span=0.40):
+def enter(im, text, x, y, size, t, delay=0, color=INK, weight=600, mono=False, span=0.38):
     p = ease((t - delay) / span)
     if p <= 0:
         return
@@ -228,16 +229,126 @@ def hero(t):
     im = base_canvas('juicy').copy()
     network(im, t, (820, 100, 1840, 980), bg=CREAM, border='#E05500')
     enter(im, 'Move cars.', 80, 210, 142, t, .05, color=INK, weight=700)
-    enter(im, 'Make', 80, 368, 142, t, .18, color=INK, weight=700)
-    enter(im, 'margin.', 80, 526, 142, t, .30, color=INK, weight=700)
-    if t > .6:
+    enter(im, 'Make', 80, 368, 142, t, .16, color=INK, weight=700)
+    enter(im, 'margin.', 80, 526, 142, t, .26, color=INK, weight=700)
+    if t > .45:
         steps = ['1. Screen', '2. Quote', '3. Escalate', '4. Deliver']
         xx = 84
-        active_step = min(3, int((t - .6) / 1.1))
+        active_step = min(3, int((t - .45) / 0.95))
         for i, s in enumerate(steps):
             is_act = i == active_step
             w = badge(im, s, xx, 780, color=SUNBURST if is_act else INK, bg=INK if is_act else CARD, border=None if is_act else '#E05500', size=22)
             xx += w + 14
+    return im
+
+
+def evolution(t):
+    """Graphical Alpha -> Beta -> Gamma -> Delta iteration pipeline and total run counter."""
+    im = base_canvas('sunburst').copy()
+    total_runs = round(1187 * ease(t / 0.9))
+    enter(im, f'{total_runs:,} runs.', 80, 82, 92, t, 0.05, color=INK, weight=700)
+
+    # Top-right graphical Alpha -> Beta -> Gamma -> Delta chain
+    chain_names = ['Alpha', 'Beta', 'Gamma', 'Delta']
+    chain_x = 1045
+    for i, nm in enumerate(chain_names):
+        bx = chain_x + i * 205
+        act = t >= i * 1.4
+        bg_c = ORANGE if (act and i == 2) else (INK if act else APRICOT)
+        fg_c = CARD if (act and i == 2) else (SUNBURST if act else MUTED_INK)
+        rect(im, (bx, 106, bx + 148, 160), bg_c, outline=ORANGE if act else GOLD_LINE, r=12, width=3 if act else 2)
+        txt(im, nm, bx + 74, 133, 24, fg_c, weight=700, anchor='mm')
+        if i < 3:
+            ax1, ax2 = bx + 154, bx + 199
+            line(im, [(ax1, 133), (ax2, 133)], ORANGE if act else GOLD_LINE, 4)
+            line(im, [(ax2 - 11, 123), (ax2, 133), (ax2 - 11, 143)], ORANGE if act else GOLD_LINE, 4)
+
+    # 4 prototype columns: (num_tag, name, runs, dots_count, margin_eur, tag, accent_col)
+    protos = [
+        ('01', 'Alpha', 677, 68, 5476, 'Route + scarcity', MARIGOLD),
+        ('02', 'Beta', 278, 28, 10048, 'Trust + fee ramp', MANGO),
+        ('03', 'Gamma', 208, 21, 12079, 'Notes + pairs', ORANGE),
+        ('04', 'Delta', 22, 6, 12313, 'Rescue + ablation', INK),
+    ]
+
+    curve_pts = []
+    for i, (num_tag, name, r_cnt, n_dots, mgn, tag, col) in enumerate(protos):
+        cx = 80 + i * 448
+        cw = 416
+        cy, cy2 = 228, 976
+        appear = ease((t - 0.15 - i * 0.25) / 0.55)
+        is_focus = int(clamp(t / 1.8, 0, 3.99)) == i
+        is_gamma = i == 2
+        is_delta = i == 3
+
+        rect(im, (cx, cy, cx + cw, cy2), CARD, None, r=20)
+        hdr_bg = ORANGE if is_gamma else (INK if is_delta else APRICOT)
+        hdr_fg = CARD if is_gamma else (SUNBURST if is_delta else INK)
+        rect(im, (cx, cy, cx + cw, cy + 92), hdr_bg, None, r=20)
+        rect(im, (cx, cy + 70, cx + cw, cy + 92), hdr_bg, None, r=0)
+        rect(im, (cx, cy, cx + cw, cy2), None, ORANGE if (is_focus or is_gamma) else GOLD_LINE, r=20, width=4 if (is_focus or is_gamma) else 2)
+
+        # Stage number & Name
+        circle(im, cx + 48, cy + 46, 26, INK if not is_delta else ORANGE)
+        txt(im, num_tag, cx + 48, cy + 46, 22, SUNBURST if not is_delta else CARD, mono=True, weight=700, anchor='mm')
+        txt(im, name, cx + 90, cy + 28, 34, hdr_fg, 700)
+        if is_delta:
+            badge(im, 'LIVE', cx + cw - 112, cy + 23, color=INK, bg=SUNBURST, size=18)
+
+        # Big run count & visual dot-matrix meter (each dot = ~10 runs)
+        cnt_now = round(r_cnt * appear)
+        txt(im, f'{cnt_now}', cx + 28, cy + 114, 82, ORANGE if is_gamma else INK, 700)
+        txt(im, 'runs', cx + 28 + font(82, 700).getbbox(f'{cnt_now}')[2] + 14, cy + 156, 26, MUTED_INK, 650)
+
+        # Graphical dot grid representing run volume
+        gx0, gy0 = cx + 30, cy + 232
+        for d_idx in range(70):
+            dx = gx0 + (d_idx % 10) * 36
+            dy = gy0 + (d_idx // 10) * 28
+            active_dot = d_idx < round(n_dots * appear)
+            circle(
+                im,
+                dx,
+                dy,
+                8 if active_dot else 4,
+                (ORANGE if is_gamma else (SUNBURST if is_delta else col)) if active_dot else '#F7E6C4',
+                outline=INK if (active_dot and is_delta) else None,
+                width=2 if (active_dot and is_delta) else 0,
+            )
+
+        # Strategy tag pill
+        badge(im, tag, cx + 28, cy + 442, color=CARD if is_gamma else INK, bg=ORANGE if is_gamma else APRICOT, size=20)
+
+        # Rising weekly margin bar at bottom of card
+        bar_base = cy2 - 32
+        max_h = 195
+        bh = max_h * (mgn / 13500.0) * appear
+        by = bar_base - bh
+        rect(im, (cx + 28, bar_base - max_h, cx + cw - 28, bar_base), '#FFF3D6', outline=GOLD_LINE, r=10)
+        rect(im, (cx + 28, by, cx + cw - 28, bar_base), ORANGE if is_gamma else (INK if is_delta else col), r=10)
+        if is_delta and appear > 0.2:
+            rect(im, (cx + 28, by, cx + cw - 28, min(bar_base, by + 12)), SUNBURST, r=4)
+        lbl_mgn = f'€{mgn / 1000:.1f}k / wk' if not is_delta else '+€234 A1'
+        if appear > 0.35:
+            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD if (is_gamma or is_delta) else INK, mono=True, weight=700, anchor='ma')
+        curve_pts.append((cx + cw / 2, by))
+
+        # Arrow connector between cards
+        if i < 3:
+            ax = cx + cw + 16
+            ay = cy + 360
+            circle(im, ax, ay, 14, ORANGE if appear > 0.8 else APRICOT)
+            line(im, [(ax - 5, ay - 6), (ax + 5, ay), (ax - 5, ay + 6)], CARD if appear > 0.8 else MUTED_INK, 3)
+
+    # Trajectory curve & climbing car across the 4 prototypes
+    if len(curve_pts) > 1 and t > 0.8:
+        p_car = clamp((t - 0.8) / 5.5)
+        path_partial(im, curve_pts, p_car, INK, 5, glow=SUNBURST)
+        q = route_point(curve_pts, p_car)
+        ahead = route_point(curve_pts, min(p_car + 0.01, 1.0))
+        heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
+        car(im, *q, color=ORANGE, scale=1.15, angle=heading)
+
     return im
 
 
@@ -246,7 +357,7 @@ def dispatcher(t):
     im = base_canvas('citrus').copy()
     enter(im, 'Four dispatch rules.', 80, 96, 82, t, 0.05, color=INK, weight=700)
 
-    phase = min(3, int(t / 2.1))
+    phase = min(3, int(t / 1.65))
 
     cards = [
         (80, 236, '1. Screen', [
@@ -281,7 +392,7 @@ def dispatcher(t):
         txt(im, title, cx + 24, cy + 16, 26, hdr_fg, 700)
 
         if i == 2:
-            p_ramp = smooth(clamp((t - 1.8) / 4.2))
+            p_ramp = smooth(clamp((t - 1.2) / 3.4))
             val = mix(0.80, 1.50, p_ramp)
             txt(im, f'{val:.2f}×', cx + 28, cy + 96, 92, ORANGE, 700)
             ry = cy + 242
@@ -309,11 +420,11 @@ def observability(t):
     enter(im, 'inspectable.', 80, 262, 80, t, 0.18, color=INK, weight=700)
     for i, (n, s) in enumerate([('1', 'Capture stream'), ('2', 'Reconcile ledger'), ('3', 'Spot failure')]):
         yy = 470 + i * 116
-        if t > .3 + i * .15:
+        if t > .25 + i * .14:
             circle(im, 104, yy + 20, 21, INK, outline=SUNBURST, width=2)
             txt(im, n, 104, yy + 20, 22, SUNBURST, weight=700, anchor='mm')
-        enter(im, s, 146, yy - 2, 34, t, .3 + i * .15, color=INK, weight=650)
-    crop_top = mix(0., 370., smooth((t - 0.6) / 5.6))
+        enter(im, s, 146, yy - 2, 34, t, .25 + i * .14, color=INK, weight=650)
+    crop_top = mix(0., 370., smooth((t - 0.4) / 4.8))
     viewport = Image.new('RGB', (1280, 910), '#0C0D0F')
     viewport.paste(REPORT.crop((0, 0, 1280, 194)), (0, 0))
     viewport.paste(REPORT.resize((1280, 716), Image.Resampling.BICUBIC, box=(0., 194 + crop_top, 1280., 910 + crop_top)), (0, 194))
@@ -330,7 +441,6 @@ def observability(t):
 @lru_cache(maxsize=1)
 def graph_all_small():
     tinted = ImageChops.multiply(CHART_ALL, Image.new('RGB', CHART_ALL.size, CREAM)).resize((1790, 868), Image.Resampling.LANCZOS)
-    # Mask embedded matplotlib header/subtitle and bottom footnotes
     rect(tinted, (0, 0, 1790, 145), CREAM)
     rect(tinted, (0, 765, 1790, 868), CREAM)
     return tinted
@@ -339,7 +449,6 @@ def graph_all_small():
 @lru_cache(maxsize=1)
 def graph_stages_small():
     tinted = ImageChops.multiply(CHART_STAGES, Image.new('RGB', CHART_STAGES.size, CARD)).resize((910, 680), Image.Resampling.LANCZOS)
-    # Mask embedded matplotlib title/subtitle and bottom footnotes
     rect(tinted, (0, 0, 910, 92), CARD)
     rect(tinted, (0, 608, 910, 680), CARD)
     return tinted
@@ -358,8 +467,8 @@ def experiments(t):
         (4, 'Gamma Early · 123'),
         (5, 'Gamma Late · 85'),
     ]
-    if t > 0.5:
-        frac = clamp((t - 0.5) / 6.6)
+    if t > 0.4:
+        frac = clamp((t - 0.4) / 6.8)
         pos = mix(0.0, 4.0, smooth(frac))
         col = 1.0 + pos
         stage_idx = min(4, int(pos + 0.5))
@@ -417,7 +526,7 @@ def failure(t):
     # Right panel: The 4-panel learning-stages.png chart (header & footnotes masked)
     rect(im, (915, 236, 1840, 966), CARD, outline=GOLD_LINE, r=18, width=2)
     im.paste(graph_stages_small(), (922, 240))
-    if t < 4.0:
+    if t < 3.4:
         rect(im, (1405, 382, 1822, 574), None, DANGER, r=8, width=4)
     else:
         rect(im, (1405, 656, 1822, 848), None, ORANGE, r=8, width=4)
@@ -506,7 +615,7 @@ def result(t):
         line(im, [(rx + 36, base_y), (rx + 824, base_y)], GOLD_LINE, 2)
         for j, w in enumerate(runs_list):
             bx = rx + 38 + j * 158
-            p = ease((t - 0.30 - j * 0.14) / 0.65)
+            p = ease((t - 0.25 - j * 0.12) / 0.55)
             v = w['score']['marginCents'] / 100.0
             bh = 280 * (v / 14500.0) * p
             rect(im, (bx, base_y - bh, bx + 132, base_y), bar_col, outline=ORANGE if not is_r6 else None, r=6)
@@ -541,19 +650,19 @@ def ending(t):
     return im
 
 
-FUNCS = [hero, dispatcher, observability, experiments, failure, gain, result, ending]
+FUNCS = [hero, evolution, dispatcher, observability, experiments, failure, gain, result, ending]
 
 
 def frame(t):
-    idx = next((i for i, (a, b) in enumerate(SCENES) if a <= t < b), 7)
+    idx = next((i for i, (a, b) in enumerate(SCENES) if a <= t < b), 8)
     a, b = SCENES[idx]
     im = FUNCS[idx](t - a)
     dt = t - a
-    if idx and dt < .32:
-        xx = round(W * ease(dt / .32))
+    if idx and dt < .30:
+        xx = round(W * ease(dt / .30))
         prev = FUNCS[idx - 1](SCENES[idx - 1][1] - SCENES[idx - 1][0] + dt)
         im.paste(prev.crop((xx, 0, W, H)), (xx, 0))
-        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 2, 7] else INK)
+        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 8] else INK)
     return im
 
 
@@ -615,7 +724,7 @@ def soundtrack(path):
                 noise = rng.standard_normal(len(ts))
                 noise = np.diff(np.r_[0, noise]) * np.exp(-ts * 95)
                 add(start + j * (beat_sec / 2), noise, .012 if j % 2 else .006, (-1 if j % 2 else 1) * .3)
-    for cut in [6, 15, 22, 30, 38, 47, 54]:
+    for cut in [5, 13, 20, 26, 34, 41, 49, 55]:
         ts = np.arange(round(sr * 0.7)) / sr
         noise = rng.standard_normal(len(ts))
         noise = np.convolve(noise, np.ones(12) / 12, mode='same')
@@ -633,7 +742,7 @@ def soundtrack(path):
 
 
 def stills(out):
-    times = [2.5, 7.2, 10.5, 13.8, 18.5, 24.5, 28.0, 32.5, 36.5, 43.5, 51.0, 57.5]
+    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 28.5, 32.0, 38.0, 45.0, 52.0, 57.5]
     thumbs = []
     for p in out.glob('frame-*.png'):
         p.unlink()
@@ -647,7 +756,7 @@ def stills(out):
         sheet.paste(thumb, ((i % 3) * 640, (i // 3) * 360))
     sheet.save(out / 'contact-sheet.jpg', quality=93)
     sheet.save(ROOT / 'assets/contact-sheet.jpg', quality=93)
-    poster = frame(2.5)
+    poster = frame(10.5)
     poster.save(out / 'poster.png')
     poster.save(ROOT / 'assets/poster.png')
 

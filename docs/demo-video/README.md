@@ -26,14 +26,15 @@ Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path
 
 | Time | Scene |
 | --- | --- |
-| 00:00–00:06 | Move cars. Make margin. Animated route network (`1,165 scored worlds / 58 scenarios`). |
-| 00:06–00:15 | 2×2 Dispatch Bento: Screen, Quote, Escalate fee (`0.80× → 1.50×`), Guard 90% qualification. |
-| 00:15–00:22 | Observability: Real offline HTML report screenshot with scrolling details. |
-| 00:22–00:30 | 1,155 completed practice runs across 6 model stages (`Baseline`, `Alpha`, `Beta Early`, `Beta Late`, `Gamma Early`, `Gamma Late`). |
-| 00:30–00:38 | Tuning vs. validation: Stress seed `gamma-t04` (`89.80%` OT) and why Gamma Early failed its first fresh holdout (`gamma-h07` at `89.956%` OT, `7/8 qualified`). |
-| 00:38–00:47 | Gamma Late confirmed on 8 untouched weeks (`v09–v16`): `+€2,031/week (+20.21%)`, `8/8 positive`, `8/8 qualified`, worst on-time `93.67% → 96.95%`. |
-| 00:47–00:54 | Ten official ranking weeks (`10/10 qualified`): Round 5 (`€50,541.26`) and Round 6 (`€59,528.62`). |
-| 00:54–01:00 | Brand close on the highway (`Gamma confirmed: +€2,031/wk on v09–v16`). |
+| 00:00–00:05 | Move cars. Make margin. Animated route network. |
+| 00:05–00:13 | 1,187 runs: Graphical `Alpha → Beta → Gamma → Delta` iteration pipeline (`677`, `278`, `208`, `22+ LIVE`) with run-volume matrices and rising margin trajectory. |
+| 00:13–00:20 | 2×2 Dispatch Bento: Screen, Quote, Escalate fee (`0.80× → 1.50×`), Qualify (`≥ 90%`). |
+| 00:20–00:26 | Observability: Real offline HTML report screenshot with scrolling details. |
+| 00:26–00:34 | 1,155 completed practice runs across 6 model stages (`Baseline`, `Alpha`, `Beta Early`, `Beta Late`, `Gamma Early`, `Gamma Late`). |
+| 00:34–00:41 | Tuning vs. validation: Stress seed `gamma-t04` (`89.80%` OT) and why Gamma Early failed its first fresh holdout (`gamma-h07` at `89.956%` OT, `7/8 qualified`). |
+| 00:41–00:49 | Gamma Late confirmed on 8 untouched weeks (`v09–v16`): `+€2,031/week (+20.21%)`, `8/8 positive`, `8/8 qualified`, worst on-time `96.95%`. |
+| 00:49–00:55 | Ten official ranking weeks (`10/10 qualified`): Round 5 (`€50,541.26`) and Round 6 (`€59,528.62`). |
+| 00:55–01:00 | Highway close (`Win the right work. Deliver it.`). |
 
 ## Evidence and limits
 

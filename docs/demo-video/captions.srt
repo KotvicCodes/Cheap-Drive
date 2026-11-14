@@ -1,31 +1,35 @@
 1
-00:00:00,200 --> 00:00:05,800
-Cheap-Drive: a vehicle-transfer dispatcher tested across 1,165 scored simulator worlds.
+00:00:00,200 --> 00:00:04,800
+Move cars. Make margin.
 
 2
-00:00:06,100 --> 00:00:14,800
-Every request runs through four rules: screen slack and distance, price by trust, escalate driver pay before warnings, and protect the 90% on-time gate.
+00:00:05,100 --> 00:00:12,800
+1,187 simulator runs across four model generations: Alpha (677), Beta (278), Gamma (208), and live Delta (22+).
 
 3
-00:00:15,100 --> 00:00:21,800
-Every run produces an inspectable offline HTML report reconciling the event stream, financial ledger, and delivery incidents.
+00:00:13,100 --> 00:00:19,800
+Four dispatch rules: screen slack and distance, price by trust, escalate driver pay before warnings, and guard the 90% on-time gate.
 
 4
-00:00:22,100 --> 00:00:29,800
-We kept all 1,155 completed practice runs across six model stages—Baseline, Alpha, Beta Early, Beta Late, Gamma Early, and Gamma Late—including failed experiments.
+00:00:20,100 --> 00:00:25,800
+Every run produces an inspectable offline HTML report reconciling the event stream, financial ledger, and delivery incidents.
 
 5
-00:00:30,100 --> 00:00:37,800
-Tuning is not validation: pushing volume failed gamma-t04 at 89.80%, and Gamma Early's long-route candidate failed its first fresh holdout at 89.956% on time.
+00:00:26,100 --> 00:00:33,800
+All 1,155 completed practice runs across six stages—including failed experiments—remain in the record.
 
 6
-00:00:38,100 --> 00:00:46,800
-Revised Gamma—combining notes, repaired pairs, and segment controls—passed all 8 fresh confirmation weeks (v09–v16), adding +€2,031/week (+20.21%) while raising worst on-time to 96.95%.
+00:00:34,100 --> 00:00:40,800
+Tuning is not validation: pushing volume failed gamma-t04 at 89.80%, and Gamma Early failed its first fresh holdout at 89.956% on time.
 
 7
-00:00:47,100 --> 00:00:53,800
-Across two saved five-week official Beta ranking rounds, all 10 weeks qualified: €50,541.26 in Round 5 and €59,528.62 in Round 6.
+00:00:41,100 --> 00:00:48,800
+Revised Gamma passed all 8 fresh confirmation weeks (v09–v16), adding +€2,031/week (+20.21%) while raising worst on-time to 96.95%.
 
 8
-00:00:54,100 --> 00:00:59,800
-Cheap-Drive: win the right work, deliver it reliably.
+00:00:49,100 --> 00:00:54,800
+Across two saved five-week official Beta ranking rounds, all 10 weeks qualified: €50,541.26 in Round 5 and €59,528.62 in Round 6.
+
+9
+00:00:55,100 --> 00:00:59,800
+Win the right work. Deliver it.

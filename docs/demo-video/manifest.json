@@ -1,23 +1,23 @@
 {
   "README.md": {
-    "bytes": 5075,
-    "sha256": "b0b88da6075d8c5046de0387bc9c608b0a26f760c55151f5eac0a76f2d8c0110"
+    "bytes": 5184,
+    "sha256": "13c2b01bffb92b7196b8caa87f6caa200256043af9c7df634b62eaf8a9666a1a"
   },
   "requirements.txt": {
     "bytes": 50,
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 32123,
-    "sha256": "d01bbabdc4df18efd320dc8f8146b4042db95a8db8b977d68674481caba57ad5"
+    "bytes": 37360,
+    "sha256": "a478a649cdf3b60ebded85f2be866612cbfef6891709c90e77211571d73df5a8"
   },
   "captions.vtt": {
-    "bytes": 1331,
-    "sha256": "3e8a5314798d99c2afc8bda7a05ef10532ef0cdf6674476b85b287ae11a4c60d"
+    "bytes": 1226,
+    "sha256": "a62ceda5b876420d1d2d538f17fa11d8d92cc5e19686994f2805617a42f1f06b"
   },
   "captions.srt": {
-    "bytes": 1339,
-    "sha256": "db71300a6ed8e0c62bf73253df55495e1fbbedd170823beb7edbc465554f945e"
+    "bytes": 1236,
+    "sha256": "3d2ab785b7293cad7e3917d3e1cf5f55cc305097fe79b16670abf42ff097b8d1"
   },
   "data/graph-data.json": {
     "bytes": 526287,
@@ -80,12 +80,12 @@
     "sha256": "7c004ffecce341d28c72a51ab9b6b20c5543a5bfdd938739598c6d049acc91fa"
   },
   "assets/poster.png": {
-    "bytes": 123095,
-    "sha256": "0c1965735910938c9a80d16824116e7f3c40b067314d1310a78cae88ab894e47"
+    "bytes": 104930,
+    "sha256": "5b1dad52012e1ece9ab475263dd031387be794f8aa7299fae805f0ca4b33f209"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 528013,
-    "sha256": "b6c79f55918ea05534181ed55322c38c7525e4f2c67c28936dd9aefb06093833"
+    "bytes": 557577,
+    "sha256": "368254395bb3ba0e5dd359f5ad3f2a6b0a7ffd40eb5d4731509f9e1915c94033"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
