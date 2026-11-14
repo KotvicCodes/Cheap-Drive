@@ -15,7 +15,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from notes import parse_note
+from models.notes import parse_note
 
 
 def audit(paths):

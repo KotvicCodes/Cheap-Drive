@@ -7,7 +7,6 @@ from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from contextlib import redirect_stdout
 from dataclasses import dataclass
 from datetime import datetime, timezone
-import importlib
 import inspect
 import json
 import logging
@@ -24,6 +23,7 @@ from performance import PracticeClient as Client
 
 from dispatch import DeskFactory, FixedDesk, FixedPrices, Journal, JournalDesk, euro_cents, play_model
 from leaderboard import render_markdown
+from models import persisted_factory_name, resolve_factory
 
 
 def fixed(world, level, now, journal, *, dealer_price="100", driver_fee="150"):
@@ -63,8 +63,7 @@ def model_from_spec(spec, path="model") -> Model:
     elif name == "starter":
         factory = JournalDesk
     elif isinstance(name, str) and ":" in name:
-        module, attribute = name.split(":", 1)
-        factory = getattr(importlib.import_module(module), attribute)
+        factory = resolve_factory(name)
     else:
         raise ValueError(f"{path}: factory must be fixed, starter, or module:callable")
     inspect.signature(factory).bind(None, None, None, None, **settings)
@@ -75,6 +74,11 @@ def model_from_spec(spec, path="model") -> Model:
             raise TypeError("model factories must return a JournalDesk subclass so diagnostics are captured")
         return desk
 
+    # Persist the original identity so final/recovery can reuse saved state.
+    # Leave the caller's spec and JSON files in their supplied spelling.
+    persisted_name = persisted_factory_name(name)
+    if persisted_name != name:
+        spec = {**spec, "factory": persisted_name}
     return Model(spec, make_desk)
 
 

@@ -1,0 +1,116 @@
+{
+  "schema": "delta-b1-screen/v1",
+  "factory": "delta:make_delta",
+  "level": 8,
+  "fast": true,
+  "seeds": [
+    "delta-r1-s01",
+    "delta-r1-s02",
+    "delta-r1-s03",
+    "delta-r1-s04",
+    "delta-r1-s05",
+    "delta-r1-s06",
+    "delta-r1-s07",
+    "delta-r1-s08"
+  ],
+  "pilot_seed": "delta-r1-s01",
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 3000,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 600
+  },
+  "variants": {
+    "neutral": {
+      "delta_b1": "off"
+    },
+    "fastest-learning-only": {
+      "delta_b1": "fastest_learning_only"
+    },
+    "fastest-learning-only-skipped-9200": {
+      "delta_b1": "fastest_learning_only_skipped_9200"
+    },
+    "split-skipped-tracker": {
+      "delta_b1": "split_skipped_tracker"
+    }
+  },
+  "candidate_sources": [
+    "delta.py",
+    "delta_b1.py"
+  ],
+  "candidate_sha256": {
+    "delta.py": "bc25f51b00de790e9dc489013d489df9b0606dc06b0c494c0ee24e55a16be372",
+    "delta_b1.py": "80936c8822fb9df6e406e7d9b6ae3ade20c831a28d3d7145f0370d601485d0ab"
+  },
+  "integration_sha": "7e1913d25a7571cb08506308c5cea8c6f3110d4c",
+  "gates": {
+    "minimum_on_time_share": 0.93,
+    "ranked": true,
+    "pilot_exact_neutral_parity": true,
+    "pilot_lifecycle_integrity": true,
+    "manual_review_before_remaining_seeds": true,
+    "automatic_confirmation": false
+  },
+  "hypotheses": {
+    "fastest-learning-only": "Skipped-fastest losses bias the common markup downward; exclude their feedback.",
+    "fastest-learning-only-skipped-9200": "Excluding skipped-fastest feedback plus one exact 9200 bps price factor improves this cohort.",
+    "split-skipped-tracker": "Separate Gamma learners prevent skipped-fastest feedback from moving fastest-present prices."
+  },
+  "executable": true,
+  "purpose": "Independent B1 screen with unchanged merged Gamma; no selection or confirmation from pilot.",
+  "baseline_manifest": "gamma-baseline.json",
+  "frozen_control": {
+    "factory": "gamma_notes:make_gamma_notes_pairs",
+    "git_commit": "0eb4e3efc7b49c17a29aa05e9249e7ab45db710d",
+    "baseline_manifest_sha256": "02819ac79f131fbe807575a4605033d83639b8c21a007b99570e176afa506f3b",
+    "identity_gate": "Exact s01 operational trace parity vs retained B frozenGamma, removing only worldId; includes actions/times, receipts, events, ledger, score, initial/end snapshots.",
+    "later_policy": "Reuse retained exact B controls only; Gamma was blocked on s03. Never create remaining B controls or restart blocked B arms. Missing later controls prevent qualification.",
+    "available_retained_seeds": [
+      "delta-r1-s01",
+      "delta-r1-s02",
+      "delta-r1-s03",
+      "delta-r1-s04"
+    ]
+  },
+  "private_execution": {
+    "runner": "runs/delta-research/run_b1_frozen.py",
+    "runner_sha256": "8733e65f7b4663c56020f30bf7901e4fe0eec9b0cf2d6f4535c5fd4eabd95d94",
+    "plan": "runs/delta-research/b1-frozen-plan.json",
+    "plan_sha256": "31432d1dccb7e5f473215a12d956bfed1940acade293dd5f3f2c0cd346f12a65",
+    "pilot_output": "runs/delta/r1/b1-pilot-20261114T1604Z",
+    "gate": "Remaining candidates require completed pilot review.json with ready_for_remaining_candidates true; no new neutral worlds after pilot."
+  },
+  "live_validation": {
+    "pilot_review": "runs/delta/r1/b1-pilot-20261114T1604Z/review.json",
+    "pilot_review_sha256": "db19d7be6157cb8236452fa2c62c0157010021d1d7305827ec1cf74a8ee4def9",
+    "pilot_manifest_sha256": "4a88e1b8fac1df98603d8929eaf22ce2a20b1fdd662fec632f4cdb4a1f612086",
+    "neutral_exact_operational_rows": 5347,
+    "all_four_ranked_and_on_time_at_least_93_percent": true,
+    "all_four_lifecycle_and_pricing_integrity": true,
+    "all_terminal_pending_empty": true,
+    "combined_offline_tests_passed": 271,
+    "economic_selection": false,
+    "confirmation_released": false
+  },
+  "reference_completion_addendum": {
+    "supersedes": "frozen_control.later_policy evaluation coverage restriction only; live candidate snapshot/plan unchanged",
+    "seeds": [
+      "delta-r1-s05",
+      "delta-r1-s06",
+      "delta-r1-s07",
+      "delta-r1-s08"
+    ],
+    "factory": "gamma_notes:make_gamma_notes_pairs",
+    "git_commit": "0eb4e3efc7b49c17a29aa05e9249e7ab45db710d",
+    "role": "Diagnostic fixed controls, never candidate promotion",
+    "private_plan": "runs/delta-research/gamma-reference-completion-plan.json",
+    "policy": "Complete missing paired references regardless of reference on-time score; no restart of failed owned worlds or unsafe candidate settings; retain all reference outcomes and candidate gates"
+  }
+}

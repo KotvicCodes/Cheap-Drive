@@ -22,11 +22,16 @@ class UnsafeSource(ValueError):
     pass
 
 
-def credentials(value):
+def credentials(value, *, objects_checked=False):
+    # JSON's object_pairs_hook visits children before their parents. Those
+    # objects (including overwritten duplicate values) have already been
+    # checked there; revisit only lists and scalar strings in that path.
     if isinstance(value, dict):
+        if objects_checked:
+            return False
         return any(SECRET_KEY.fullmatch(k) or credentials(v) for k, v in value.items())
     if isinstance(value, list):
-        return any(credentials(v) for v in value)
+        return any(credentials(v, objects_checked=objects_checked) for v in value)
     return isinstance(value, str) and bool(SECRET_TEXT.search(value))
 
 
@@ -90,7 +95,10 @@ def load_source(source: bytes):
         sensitive_key = False
         for raw_key in raw_keys:
             try:
-                sensitive_key = sensitive_key or bool(SECRET_KEY.fullmatch(json.loads('"' + raw_key + '"')))
+                # Plain printable keys are already decoded. Keep JSON's
+                # validation for escapes and malformed control characters.
+                key = json.loads('"' + raw_key + '"') if '\\' in raw_key or not raw_key.isprintable() else raw_key
+                sensitive_key = sensitive_key or bool(SECRET_KEY.fullmatch(key))
             except (ValueError, TypeError):
                 pass
         if sensitive_key or SECRET_TEXT.search(scan):
@@ -104,14 +112,14 @@ def load_source(source: bytes):
             def pairs(items):
                 result = {}
                 for key, value in items:
-                    if SECRET_KEY.fullmatch(key) or credentials(value):
+                    if SECRET_KEY.fullmatch(key) or credentials(value, objects_checked=True):
                         raise UnsafeSource('Credential-bearing input is refused. The original source has not been modified.')
                     if key in result:
                         duplicate_keys.append(True)
                     result[key] = value
                 return result
             value = json.loads(text, parse_constant=invalid_constant, parse_float=finite_float, object_pairs_hook=pairs)
-            if credentials(value):
+            if credentials(value, objects_checked=True):
                 raise UnsafeSource('Credential-bearing input is refused. The original source has not been modified.')
             record['value'] = value
             if duplicate_keys:
