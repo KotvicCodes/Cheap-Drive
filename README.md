@@ -14,6 +14,18 @@ Cheap-Drive is a project dedicated to tackling the Bahn Express challenge at [sp
 
 Our implementation uses **Python** and the official Spread client. See [AI overview.md](AI%20overview.md) for observations, priorities and project decisions.
 
+## Prototype conventions
+
+New prototypes use Greek letters in order: **Alpha, Beta, Gamma, Delta**, and so on. The fixed-price model and official starter remain the pre-Alpha baselines. See [PROTOTYPES.md](PROTOTYPES.md) for the naming sequence, discussion workflow and the Alpha specification.
+
+The evolving prototype story lives locally in `prototype-story/STORY.md`. The entire `prototype-story/` directory is gitignored; it must stay out of commits and PRs. Prototype code, configurations and technical documentation are intended for PRs after discussion and explicit approval to publish.
+
+Compare Alpha with the official starter on shared practice seeds:
+
+```bash
+python compare.py run --model-a models/alpha.json --model-b models/starter.json --levels 8 --seeds cheap-drive-eval-1
+```
+
 ## Current approach
 
 We are prioritizing a working prototype and strategy experiments. **We do not optimize compute time or compute cost at this stage; we will address that later.**

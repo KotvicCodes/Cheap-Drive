@@ -1,0 +1,15 @@
+{
+  "name": "Alpha conservative",
+  "factory": "alpha:make_alpha",
+  "settings": {
+    "distance_cents_per_km": 70,
+    "pickup_cents_per_km": 50,
+    "scarcity_cents": 8000,
+    "initial_margin_bps": 3500,
+    "min_margin_bps": 1500,
+    "max_margin_bps": 6000,
+    "feedback_step_bps": 300,
+    "min_margin_cents": 2000,
+    "nearby_km": 50
+  }
+}
