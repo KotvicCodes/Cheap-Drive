@@ -75,5 +75,134 @@ class FinalTests(unittest.TestCase):
             final.LiveWorld(FakeWorld(), Journal(io.StringIO())).advance(by=1)
 
 
+class BackgroundReadTests(unittest.TestCase):
+    def test_blocked_clock_and_daily_score_do_not_delay_stream_quotes(self):
+        import threading
+        clock_entered, score_entered, release = threading.Event(), threading.Event(), threading.Event()
+
+        def clock():
+            clock_entered.set()
+            release.wait(5)
+            return 2000
+
+        def score():
+            score_entered.set()
+            release.wait(5)
+            return world.score()
+
+        class BusyWorld(FakeWorld):
+            def snapshot(self):
+                return {**super().snapshot(), 'endsAt': 2000}
+
+            def stream(self, **kwargs):
+                self_outer.assertTrue(clock_entered.wait(1))
+                for seq, at in enumerate((1441, 1442, 2000)):
+                    if seq == 1:
+                        self_outer.assertTrue(score_entered.wait(1))
+                        self_outer.assertFalse(release.is_set())
+                    yield dict(seq=seq, at=at, kind='price_request',
+                               request=dict(id=f'r{seq}', options=[dict(kind='standard', listPriceCents=5000)]))
+                    self_outer.assertEqual(len(self.acted), seq + 1)
+
+        self_outer, world = self, BusyWorld()
+        reads = final.BackgroundReads(clock, score)
+        try:
+            result = final.play_live(world, 8, Journal(io.StringIO()), factory,
+                                     clock=clock, reads=reads)
+            self.assertEqual(len(world.acted), 3)
+            self.assertFalse(release.is_set())
+            self.assertEqual(result['wonOrders'], 0)
+        finally:
+            release.set()
+            reads.close()
+            for thread in reads.threads:
+                thread.join(timeout=1)
+
+    def test_failed_score_is_optional_and_clock_never_moves_backwards(self):
+        import threading
+        seen = threading.Event()
+        def unavailable():
+            seen.set()
+            raise Unreachable(0, 'offline read')
+        reads = final.BackgroundReads(lambda: 120, unavailable)
+        try:
+            reads.request_score(0, 1440)
+            self.assertTrue(seen.wait(1))
+            for thread in reads.threads:
+                if thread.name == 'final-clock':
+                    self.assertGreaterEqual(reads.latest, 120)
+            # Wait for exactly this queued result, without a timing-based sleep.
+            result = reads.results.get(timeout=1)
+            reads.results.put(result)
+            journal = Journal(io.StringIO())
+            reads.drain(journal)
+            self.assertIn('daily_score_unavailable', journal.output.getvalue())
+        finally:
+            reads.close()
+
+
+class RehearsalTests(unittest.TestCase):
+    def test_same_seed_resumes_unfinished_world_after_process_restart(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        class Client:
+            created = 0
+            def create(self, **kwargs):
+                self.created += 1
+                world = FakeWorld()
+                world.id = f'offline-{self.created}'
+                self.saved = world
+                return world
+            def world(self, identity):
+                self_outer.assertEqual(identity, self.saved.id)
+                return self.saved
+        self_outer, client = self, Client()
+        with TemporaryDirectory() as directory:
+            out = Path(directory)
+            first = final.rehearsal_world(client, out, 'seed', {'name': 'Delta'})
+            again = final.rehearsal_world(client, out, 'seed', {'name': 'Delta'})
+            self.assertIs(first, again)
+            self.assertEqual(client.created, 1)
+
+            first.now = 200
+            fresh = final.rehearsal_world(client, out, 'seed', {'name': 'Delta'})
+            self.assertNotEqual(first.id, fresh.id)
+
+    def test_outage_while_resuming_never_creates_a_replacement_world(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        class Client:
+            created = 0
+            def create(self, **kwargs):
+                self.created += 1
+                world = FakeWorld(); world.id = 'offline'
+                return world
+            def world(self, identity):
+                class Down:
+                    def snapshot(self):
+                        raise Unreachable(0, 'fixture outage')
+                return Down()
+        client = Client()
+        with TemporaryDirectory() as directory:
+            out = Path(directory)
+            final.rehearsal_world(client, out, 'seed', {})
+            with self.assertRaises(Unreachable):
+                final.rehearsal_world(client, out, 'seed', {})
+            self.assertEqual(client.created, 1)
+
+
+class HistoryFenceTests(unittest.TestCase):
+    def test_history_stops_at_snapshot_cut_and_leaves_future_events_for_stream(self):
+        class World:
+            calls = 0
+            def events(self, after=-1):
+                self.calls += 1
+                if self.calls > 1:
+                    raise AssertionError('followed a continuously growing stream past the snapshot')
+                return [dict(seq=0, at=99), dict(seq=1, at=100), dict(seq=2, at=101)]
+        self.assertEqual(final.full_history(World(), through=100),
+                         [dict(seq=0, at=99), dict(seq=1, at=100)])
+
+
 if __name__ == "__main__":
     unittest.main()
