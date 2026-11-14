@@ -76,3 +76,33 @@ not independently verified evidence here. They motivate tests rather than set
 expected gains. Learner and lane screens remain separate before an optional
 four-arm interaction screen. Existing safety and final eligibility gates,
 development seeds and untouched confirmation are unchanged.
+
+## Private-pickup admission follow-up
+
+The newly proposed B7 screen isolates single-leg private pickups rejected by
+minimum slack. A private pickup's fixed window can cap note-aware slack below
+Gamma's 480-minute threshold even for next-day delivery. A 240-minute threshold,
+known initial-roster near30≥5 and an opening fee floor of 10000 bps are proposed
+only for this cohort. Require a feasible route within the unchanged private
+slot; the roster count is a home-location proxy, not live driver availability.
+Audit coverage and freeze parameters before release. Test alone against Gamma;
+retain service gates and inspect the newly admitted cohort separately.
+
+The follow-up's counts do not yet reproduce with the exact completed files:
+they give 160.625 total declines/week, 78.625 no-time declines/week, including
+38.375 with `hours: null` pickups (before a single-leg/feasibility/supply gate).
+Those private menus break down as next-day 16.375/week, same-day+next-day 10.625,
+next-day+within-three-days 4, all three 3.6875, same-day-only 3.6875. These are
+request counts, not addressable profitable wins. Exact-five-hub inbound
+membership gives 146.75 competitive quotes/week and 9.24% wins, rather than the
+reported 199 and 11.7%; the older eight-origin-exclusion cohort gives 104.6 and
+10.0%. Keep those cohort/file-selection differences unresolved until matched;
+they do not invalidate the mechanism or establish an expected gain. The
+aggregate audit is retained in [the follow-up record](plans/delta/private-admission-evidence-audit.json).
+
+For any additive lane model, explicitly clamp the new lane offset to ≥0 at
+<60 km. In the multiplicative staged arms this means a new lane factor ≥1 on
+those trips, preserving the separate Gamma segment experiment.
+
+Do not adopt the suggested combined 35% target/cap-5 jump or the waterfall's
+euro-per-leak estimates. Existing B/D staging and economic gates are unchanged.

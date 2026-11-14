@@ -2,7 +2,7 @@
   "schema": "delta-research-stage-spec/v1",
   "executable": false,
   "baseline_manifest": "gamma-baseline.json",
-  "order": "After A/B, before C; each stage requires review; B6 conditional",
+  "order": "After A/B, before C: B1-B5, conditional B6, then B7; each stage requires review",
   "seeds": [
     "delta-r1-s01",
     "delta-r1-s02",
@@ -15,7 +15,7 @@
   ],
   "scope": "Frozen Gamma control; Delta-only candidates; other Gamma settings fixed",
   "gates": "delta-testing-plan.md existing safety and pre-E gates, unchanged",
-  "independent_completed_worlds": 136,
+  "independent_completed_worlds": 152,
   "conditional_completed_worlds": 32,
   "stages": [
     {
@@ -114,6 +114,28 @@
         "freeze one learner and one lane arm before combination",
         "validated executable snapshot"
       ]
+    },
+    {
+      "id": "B7",
+      "worlds": 16,
+      "arms": [
+        "gamma",
+        "private-slack-240-near30-5-opening-10000"
+      ],
+      "proposed_parameters": {
+        "private_min_slack_minutes": 240,
+        "private_min_near30": 5,
+        "private_opening_floor_bps": 10000
+      },
+      "executable": false,
+      "requires": [
+        "A/B and B1-B5 review; B6 completed or explicitly skipped",
+        "offline exact-decline replay and feasible route within original private window",
+        "freeze observable initial-roster near30>=5; unknown supply rejects relaxation",
+        "Delta-only hook limited to original no-time declines; no other guard changes",
+        "neutral parity, private window/fee clock regressions, validated executable snapshot"
+      ],
+      "scope": "Single-leg private pickups only; preserve readiness, fixed pickup slot, route/long/premium/option guards, trust and Gamma quote prices; newly admitted work opening floor >=10000 bps; no rescue extension; no live availability claim"
     }
   ]
 }
