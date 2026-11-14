@@ -154,6 +154,31 @@ class AlphaTests(unittest.TestCase):
         # H->T, T->H repositioning, H->T: all driving between stops counts.
         self.assertEqual(self.desk.route_distance(request), (600, 540))
 
+    def test_multi_option_reservation_fits_every_quoted_option(self):
+        options = sample_request()['options'] + [{'kind': 'next_day', 'deadline': 2640, 'listPriceCents': 30000}]
+        lists = {'same_day': [(30, 'driver-0')], 'next_day': [(10, 'driver-1'), (30, 'driver-0')]}
+        self.desk.candidates = lambda request, option: lists[option['kind']]
+        self.quote('shared', options=options)
+        self.assertEqual(self.desk.reservations['shared'], 'driver-0')
+        lists['next_day'] = [(5, 'driver-2'), (10, 'driver-1')]
+        self.quote('disjoint', options=options)
+        self.assertEqual(self.desk.reservations['disjoint'], 'driver-0')
+
+    def test_booking_by_another_reserved_driver_moves_that_reservation(self):
+        first = self.quote('first')
+        self.win(first)
+        self.desk.send()  # the demo world knows one request, so quote the second afterwards
+        self.quote('second')
+        estimated, displaced = self.desk.reservations['first'], self.desk.reservations['second']
+        self.assertNotEqual(estimated, displaced)
+        gig_id = next(iter(self.desk.posts))
+        self.desk.handle({'seq': 3, 'at': 560, 'kind': 'gig_booked', 'gigId': gig_id,
+                          'driverId': displaced, 'feeCents': 12000})
+        self.assertNotIn('first', self.desk.reservations)
+        self.assertEqual(self.desk.reservations['second'], estimated)
+        busy = set(self.desk.gig_drivers.values()) | set(self.desk.reservations.values())
+        self.assertEqual(busy, {estimated, displaced})
+
     def test_expired_and_duplicate_requests_do_not_queue_quotes(self):
         request = self.quote('one')
         self.desk.quote(request)

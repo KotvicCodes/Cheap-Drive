@@ -160,13 +160,13 @@ class AlphaDesk(JournalDesk):
                 nearby = sum(km <= settings.nearby_km for km, _ in candidates)
                 price, cost = quote_cents(request["referenceFeeCents"], distance, pickup_km, nearby, margin, settings)
                 prices[option["kind"]] = price
-                options.append((pickup_km, driver_id))
+                options.append(candidates)
                 self.journal.record("alpha_quote", at=self.now, requestId=request["id"],
                                     dealerId=request["dealerId"], option=option["kind"],
                                     routeKm=distance, pickupKm=pickup_km, nearbyDrivers=nearby,
                                     estimatedCostCents=cost, marginBps=margin, priceCents=price)
         if prices:
-            self.reservations[request["id"]] = min(options)[1]
+            self.reservations[request["id"]] = self.reservation_for(options)
             self.pending_quotes[request["id"]] = request["dealerId"]
         else:
             # Losing a quote avoids the goodwill cost of silence. It is not
@@ -176,6 +176,19 @@ class AlphaDesk(JournalDesk):
             self.journal.record("alpha_decline", at=self.now, requestId=request["id"],
                                 reason="no estimated feasible unreserved driver or combined route too long")
         self.outbox.append({"type": "quote", "requestId": request["id"], "prices": prices})
+
+    @staticmethod
+    def reservation_for(options):
+        """Reserve one estimated driver able to perform whichever option the dealer picks.
+
+        Prefer the closest driver feasible for every quoted option; otherwise
+        hold the best driver of the most constrained option, which the others
+        are least likely to need.
+        """
+        common = set.intersection(*({driver for _, driver in candidates} for candidates in options))
+        if common:
+            return min((km, driver) for candidates in options for km, driver in candidates if driver in common)[1]
+        return min(options, key=len)[0][1]
 
     def read_results(self, actions: list[Action], results: list[ActionResult]) -> None:
         super().read_results(actions, results)
@@ -187,9 +200,16 @@ class AlphaDesk(JournalDesk):
     def handle(self, event: DeskEvent) -> None:
         kind = event["kind"]
         if kind in ("gig_booked", "gig_started"):
-            self.gig_drivers[event["gigId"]] = event["driverId"]
-            for stop in self.posts.get(event["gigId"], {}).get("stops", []):
-                self.reservations.pop(stop["orderId"], None)
+            booked = self.gig_drivers[event["gigId"]] = event["driverId"]
+            freed = [self.reservations.pop(stop["orderId"])
+                     for stop in self.posts.get(event["gigId"], {}).get("stops", [])
+                     if stop["orderId"] in self.reservations]
+            freed = [driver for driver in dict.fromkeys(freed) if driver != booked]
+            # Bookings are authoritative. If another quote's estimate relied on the
+            # driver who actually booked, move it to the estimate this booking freed.
+            for order_id, driver in list(self.reservations.items()):
+                if driver == booked and freed:
+                    self.reservations[order_id] = freed.pop()
         elif kind in ("gig_dropped", "no_show"):
             self.gig_drivers.pop(event["gigId"], None)
         elif kind in ("picked_up", "delivered"):
