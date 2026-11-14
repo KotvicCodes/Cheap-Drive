@@ -51,7 +51,7 @@ The current ten-slide deck has terminology and speaker-note updates, not a full 
 - Add the actual **final result** when available; do not substitute practice or test-final results
 - Recheck the **latest verified ranking-round result** before submission. Slide 9 now includes Delta round 9: €75,763.55 across five ranked weeks. Its 21:34:23 UTC standings snapshot was still an open round, so its rank is not final
 - Record any demonstrated restart, slow-network and live-clock behaviour separately; the Gamma practice test alone establishes none of these
-- The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 700M token figure is supplied by the presenter, not audited by simulation logs
+- The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 1B token figure is supplied by the presenter, not audited by simulation logs
 - Keep Beta's small historical fee/trust tests separate. Do not add their gains or describe them as Gamma effects
 - Keep chart footnotes off the graphs, as requested; their context belongs in these notes
 
@@ -67,7 +67,7 @@ The private prototype-story journal is not included in this presentation bundle.
 
 ## Current run-count snapshot
 
-**1,492 completed practice runs**, updated 2026-11-14 20:11 UTC (337 more than the previous chart). Counts are deduplicated by server world ID, with final-score evidence. Two completed timed practice rehearsals count as practice worlds, with restarts deduplicated. Official ranking runs (20 saved worlds), the live test final (1 saved world), demos and 135 identified worlds without final-score evidence are excluded. Practice covers **87 seed-and-level scenarios**, so repeated trials are correlated. No simulation was launched for this refresh.
+**1,685 completed practice runs**, updated 2026-11-14 22:53 UTC (193 more than the previous 1,492-run chart). Counts are deduplicated by server world ID, with final-score evidence. Three completed timed practice rehearsals count as practice worlds, with restarts deduplicated. Official ranking runs (20 saved worlds), the live test final (1 saved world), demos and 139 identified worlds without final-score evidence are excluded. Practice covers **87 seed-and-level scenarios**, so repeated trials are correlated. All 193 new counted worlds have terminal trace evidence, and the audit found no score conflicts. No simulation was launched for this refresh.
 
 | Model stage | Completed practice runs |
 | --- | ---: |
@@ -75,8 +75,8 @@ The private prototype-story journal is not included in this presentation bundle.
 | Alpha | 677 |
 | Beta | 268 |
 | Gamma | 242 |
-| Delta | 303 |
-| **Total** | **1,492** |
+| Delta | 496 |
+| **Total** | **1,685** |
 
 Early and late versions are combined into Beta and Gamma. Gamma controls run during Delta development remain in Gamma; Delta experiments are combined into one category. Original stage membership is retained in run-data.json for comparison. Category averages include unranked weeks and are descriptive, not same-week component effects. The historical Beta and Gamma comparisons retain their original weeks.
 
@@ -84,7 +84,7 @@ Early and late versions are combined into Beta and Gamma. Gamma controls run dur
 - [Frozen scores and group membership](run-data.json)
 - [Replot script](plot-runs.py): run `python3 presentations/plot-runs.py` with Matplotlib installed to regenerate the standalone chart files
 
-The HTML embeds the same PNG for offline use. Regenerating standalone files does not replace the HTML image automatically. The local detailed audit is under git-ignored `runs/presentation-refresh-20261114T201118Z/`. The token total shown on slide 3 is **700M**, as supplied by the presenter.
+The HTML embeds the same PNG for offline use. Regenerating standalone files does not replace the HTML image automatically. The local detailed audit is under git-ignored `runs/presentation-refresh-20261114T225305Z/`. The token total shown on slide 3 is **1B**, as supplied by the presenter.
 
 ## Reader notes
 
@@ -110,13 +110,11 @@ Sources: https://spread.bahnexpress.com/judging; https://spread.bahnexpress.com/
 
 ### Slide 3: Prototype. Test. Loop. Repeat.
 
-Why we tested: one profitable practice week can hide a delivery failure on another week. We compared changes on the same weeks, then reserved new weeks to test the chosen Gamma without changing it.
+Why we tested: one profitable practice week can hide a delivery failure on another week. We compared changes on the same weeks, then reserved new weeks to test the chosen Gamma and Delta without changing their settings.
 
-The updated count is 1,492 completed practice runs at the 2026-11-14 20:11 UTC saved-file snapshot, 337 more than the previous snapshot. It includes two completed timed practice rehearsals; restarting a world does not add another run. We deduplicate by world ID and require a completed result or terminal trace score. The 20 saved official ranking worlds, one test-final world, synthetic demos and 135 identified worlds without final-score evidence are excluded from this practice total.
+The updated count is 1,685 completed practice runs at the 2026-11-14 22:53 UTC saved-file snapshot, 193 more than the previous 1,492-run snapshot. It includes three completed timed practice rehearsals; restarting a world does not add another run. We deduplicate by world ID and require a completed result or terminal trace score. The 20 saved official ranking worlds, one test-final world, synthetic demos and 139 identified worlds without final-score evidence are excluded from this practice total. All 193 newly counted worlds have terminal trace evidence; no simulation was launched for the refresh.
 
-Those 1,492 runs cover 87 seed-and-level scenarios with repeated configurations; they are not 1,492 independent unseen weeks. Counts show development effort, not the effect of an idea. The four model generations remain Alpha, Beta, Gamma and Delta. We report 700M tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality.
-
-Judging connection: Robust means results on weeks the system has never seen, as well as surviving restarts, a slow network and surprises. The Gamma comparison establishes the former on eight new ordinary-practice weeks. Adding subsequent runs to this inventory does not establish restart or live-clock resilience for that historical Gamma result.
+Those 1,685 runs cover 87 seed-and-level scenarios with repeated configurations; they are not 1,685 independent unseen weeks. Counts show development effort, not the effect of an idea. The four model generations remain Alpha, Beta, Gamma and Delta. We report 1B tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality.
 
 ### Slide 4: Alpha: formula tuned by gradient descent
 
@@ -128,15 +126,13 @@ The effect shown here is a descriptive gross-margin range of roughly €0–9k p
 
 Sources: ../docs/research/alpha-results.md; ../PROTOTYPES.md; ../alpha.py.
 
-### Slide 5: 1,492 practice runs
+### Slide 5: 1,685 practice runs
 
-This chart shows gross margin in euros for all 1,492 completed practice runs in the 2026-11-14 20:11 UTC snapshot. Each dot is one server world, deduplicated across traces and summaries. Blue dots marked qualified meet the week's ranking conditions; red crosses marked disqualified do not. The pitch-black plus in each category is its arithmetic mean gross margin, including unranked runs.
+This chart shows gross margin in euros for all 1,685 completed practice runs in the 2026-11-14 22:53 UTC snapshot. Each dot is one server world, deduplicated across traces and summaries. Blue dots marked qualified meet the week's ranking conditions; red crosses marked disqualified do not. The pitch-black plus in each category is its arithmetic mean gross margin, including unranked runs.
 
-Categories: Baseline 2, Alpha 677, Beta 268, Gamma 242, Delta 303. Early and late versions are combined within each model family. These total 1,492 runs across 87 seed-and-level scenarios. Unchanged Gamma controls tested during Delta development belong to Gamma. Delta experiments are combined into one category. Two completed timed practice rehearsals are included; official ranking worlds and the live test final are separate. Repeated seeds and changing settings make observations correlated. Horizontal jitter separates marks visually; it is not elapsed time. Comparing category averages does not measure an idea's effect on the same weeks.
+Categories: Baseline 2, Alpha 677, Beta 268, Gamma 242, Delta 496. Early and late versions are combined within each model family. These total 1,685 runs across 87 seed-and-level scenarios. Unchanged Gamma controls tested during Delta development belong to Gamma. Delta experiments are combined into one category. Three completed timed practice rehearsals are included; official ranking worlds and the live test final are separate. Repeated seeds and changing settings make observations correlated. Horizontal jitter separates marks visually; it is not elapsed time. Comparing category averages does not measure an idea's effect on the same weeks.
 
-Use ranked and not ranked when speaking about the delivery minimum. Qualified and disqualified in the existing legend are shorthand for week-level conditions; they do not mean we reached the final's top ten.
-
-Source: run-data.json beside the presentation. all-run-margins.png and all-run-margins.pdf are inspectable copies; plot-runs.py reproduces them. The historical matched Beta/Gamma experiments on later slides retain their original cohorts.
+The 193 added worlds all belong to Delta experiments, taking Delta from 303 to 496 runs; they include rejected alternatives as well as selected models. The all-run chart is a development inventory, not a test of the released configuration alone. Delta's historical paired practice and ranking-round results retain their own frozen evidence on slide 9.
 
 ### Slide 6: Beta: two decisions that paid off
 
@@ -208,7 +204,7 @@ The eleven screening weeks, delta-f1-s01..s11, gained €1,863.53/week with 10 p
 
 Separate official evidence: Delta's five level-8 ranking-round-9 weeks total €75,763.55 gross margin, 1,798 won orders and 96.72% on time, with all five ranked. The lowest week was 93.58%. The slide rounds the total to €75,764. Public snapshot: 14 November 2026, 21:34:23 UTC, rank 31 of 52 ranked teams while the round was still open. The ranking runs used the settings now named Delta, from code 589daf7ad8b17d6c2402bb45f7cab7856cd777b9. The public feed verifies results, while the model provenance comes from the ranking-run handoff. This is a ranking round, not the actual final; it must not be compared causally with Gamma's round 7 or Early Delta's round 8 because the secret weeks differ. Do not present the open-round rank as a final standing.
 
-The actual final result still needs to be added when available. The older Test Final 2 result was produced before this capacity model and must not be presented as its measured effect. The all-run graph remains the explicitly frozen 20:11 UTC development snapshot; it includes candidate experiments, not only the released Delta.
+The actual final result still needs to be added when available. The older Test Final 2 result was produced before this capacity model and must not be presented as its measured effect. The all-run graph remains the explicitly frozen 22:53 UTC development snapshot; it includes candidate experiments, not only the released Delta.
 
 Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json.
 
