@@ -56,16 +56,30 @@ Exact cents are retained; the public page rounds margins to whole euros.*
 (leaders) and 17:53:26 UTC (our row), after all five Delta runs.
 [Run and snapshot details](docs/research/delta-board-round8.md).*
 
-At **2026-11-14 17:53:35 UTC**, the public final feed was **scheduled** for
-`2026-11-14T18:00:00.000Z` (20:00 Helsinki), with no teams displayed.
-The test final had not started: our team, margin, on-time share and rank were
-not yet present, so there is no final-result screenshot.
-
 Previous round: **Gamma** finished round 7 ("Saturday 15:00")
 **41st of 62 ranked teams**, €66,880.48, 96.75% on time,
 with all five weeks qualified (closed-round data retrieved 2026-11-14 17:53:55 UTC).
 [Earlier round-7 snapshot and evidence](docs/research/gamma-board-round7.md).
 The rounds use different secret weeks, so their totals are not a paired model comparison.
+
+### Test final
+
+In the test final on **14 November 2026, 20:00 Helsinki (18:00 UTC)**,
+**Delta via `final.py`** finished **#42 of 75 ranked teams**, with
+**€12,816.67 gross margin**, **99.61% on time** and **256 orders won**.
+The public final feed, retrieved **2026-11-14 18:40:38 UTC**, reports leader
+**Juhus at €19,592.05** and tenth-place **Team Moonshot at €16,622.58**.
+
+The run was interrupted: during a server restart the connection dropped twice
+around Friday of the simulated week, the runner rebuilt its desk on Saturday,
+and no further orders were won after that, so the result understates a clean run.
+
+![Public test final: The final heading, ended status and leading teams](docs/screenshots/test-final-2-leaders.png)
+![Public test final: Guardians of the Moonlight at rank 42 and neighbouring teams](docs/screenshots/test-final-2-team.png)
+
+*Real public-page screenshots captured on 14 November 2026 at 18:41:23 UTC
+(leaders) and 18:41:39 UTC (our row); the page rounds euros and percentages.
+[Exact figures and interruption details](docs/research/delta-test-final-2.md).*
 
 ## Schedule & Run Limits (Official Rules)
 
