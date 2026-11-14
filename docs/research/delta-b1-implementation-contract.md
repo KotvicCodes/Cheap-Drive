@@ -1,7 +1,7 @@
 # Delta B1 implementation contract
 
 This is an offline implementation specification, not an executable sweep or
-evidence of an economic improvement. Frozen `gamma.py` and `models/gamma.json`
+evidence of an economic improvement. Frozen `models/gamma.py` and `models/gamma.json`
 remain unchanged. No worlds are needed to exercise these contracts.
 
 Use factory `delta:make_delta`, retaining the settings in `models/gamma.json`,

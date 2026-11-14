@@ -232,6 +232,27 @@ To compare two fixed-price variants, copy [models/fixed.json](../models/fixed.js
 
 For a future strategy, set `factory` to `your_module:your_factory`. The factory receives `(world, level, now, journal, **settings)` and must return a subclass of `dispatch.JournalDesk` (or `FixedDesk`), calling the inherited `handle` and `read_results` methods so diagnostics remain complete. `JournalDesk` is the official starter with logging; it adds no pricing changes. Factories are trusted local Python code imported from the project/Python path. Both models use the same practice clock and wake events. Keep credentials in the environment, outside model JSON.
 
+### Model package compatibility
+
+Model implementations live in the Python package `models/`, next to the JSON
+configs. New configs use factories such as `models.delta:make_delta` and
+`models.gamma_notes:make_gamma_notes_pairs`. Both the comparison loader and
+`scripts/sweep.py` also accept the old `delta:make_delta` spelling; saved plans,
+queues and historical journals do not need rewriting.
+
+The eleven one-line modules at the repository root are compatibility aliases.
+For example, `import gamma` and `import models.gamma` return the same module,
+including the same classes and monkeypatches. Old pickled module/class names
+resolve through these aliases. Keeping a root entry point for each old name
+lets a bare legacy import work before anything imports `models`, including
+from an extracted `git archive`; no installation or startup hook is needed.
+
+`load_model` and `model_from_spec` retain the old factory spelling in the
+returned `Model.spec` for these relocated modules. This keeps checkpoint and
+quote-receipt comparisons, and rehearsal identity hashes, identical to those
+written before the move. The source JSON keeps its new spelling. The `fixed`
+and `starter` factory names and factories from other packages are unchanged.
+
 Regenerate the report later without a team key or new simulations:
 
 ```bash
