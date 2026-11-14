@@ -600,5 +600,16 @@ class DeltaB1Tests(unittest.TestCase):
         self.desk('off', delta_note_fixes=1, delta_rescue_windows=1, capacity_valve=1, learn_bps=400)
 
 
+class DeltaModelConfigTests(unittest.TestCase):
+    def test_selected_delta_is_gamma_plus_the_two_repairs(self):
+        from compare import load_model
+        root = Path(__file__).resolve().parents[1]
+        delta = load_model(root / 'models/delta.json').spec
+        gamma = json.loads((root / 'models/gamma.json').read_text())['settings']
+        self.assertEqual(delta['factory'], 'delta:make_delta')
+        self.assertEqual(delta['settings'],
+                         {**gamma, 'delta_note_fixes': 1, 'delta_rescue_windows': 1})
+
+
 if __name__ == '__main__':
     unittest.main()
