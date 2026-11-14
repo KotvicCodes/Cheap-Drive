@@ -29,7 +29,7 @@ Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path
 
 | Time | Scene |
 | --- | --- |
-| 00:00–00:05 | Move cars. Make margin. Full Finland map with 30 simulator towns. |
+| 00:00–00:05 | Move cars, Win margins. Full Finland map with 30 simulator towns. |
 | 00:05–00:13 | 1,187 runs: Graphical `Alpha → Beta → Gamma → Delta` iteration pipeline (`677`, `278`, `208`, `22+ LIVE`) with run-volume matrices and rising margin trajectory. |
 | 00:13–00:20 | 2×2 Dispatch Bento: Screen, Quote, Escalate fee (`0.80× → 1.50×`), Qualify (`≥ 90%`). |
 | 00:20–00:26 | Observability: Real offline HTML report screenshot with scrolling details. |
