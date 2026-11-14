@@ -432,20 +432,24 @@ def evolution(t):
     total_runs = round(1187 * ease(t / 0.9))
     enter(im, f'{total_runs:,} runs.', 80, 82, 92, t, 0.05, color=INK, weight=700)
 
+    p_car = clamp((t - 0.6) / 5.8)
+    focus_idx = min(3, round(p_car * 3))
+
     # Top-right graphical Alpha -> Beta -> Gamma -> Delta chain
     chain_names = ['Alpha', 'Beta', 'Gamma', 'Delta']
     chain_x = 1045
     for i, nm in enumerate(chain_names):
         bx = chain_x + i * 205
-        act = t >= i * 1.4
-        bg_c = ORANGE if (act and i == 2) else (INK if act else APRICOT)
-        fg_c = CARD if (act and i == 2) else (SUNBURST if act else MUTED_INK)
-        rect(im, (bx, 106, bx + 148, 160), bg_c, outline=ORANGE if act else GOLD_LINE, r=12, width=3 if act else 2)
+        act = i <= focus_idx
+        is_cur = i == focus_idx
+        bg_c = ORANGE if is_cur else (INK if act else APRICOT)
+        fg_c = CARD if is_cur else (SUNBURST if act else MUTED_INK)
+        rect(im, (bx, 106, bx + 148, 160), bg_c, outline=ORANGE if is_cur else GOLD_LINE, r=12, width=3 if is_cur else 2)
         txt(im, nm, bx + 74, 133, 24, fg_c, weight=700, anchor='mm')
         if i < 3:
             ax1, ax2 = bx + 154, bx + 199
-            line(im, [(ax1, 133), (ax2, 133)], ORANGE if act else GOLD_LINE, 4)
-            line(im, [(ax2 - 11, 123), (ax2, 133), (ax2 - 11, 143)], ORANGE if act else GOLD_LINE, 4)
+            line(im, [(ax1, 133), (ax2, 133)], ORANGE if i < focus_idx else GOLD_LINE, 4)
+            line(im, [(ax2 - 11, 123), (ax2, 133), (ax2 - 11, 143)], ORANGE if i < focus_idx else GOLD_LINE, 4)
 
     # 4 prototype columns: (num_tag, name, runs, dots_count, margin_eur, tag, accent_col)
     protos = [
@@ -461,16 +465,16 @@ def evolution(t):
         cw = 416
         cy, cy2 = 228, 976
         appear = ease((t - 0.15 - i * 0.25) / 0.55)
-        is_focus = int(clamp(t / 1.8, 0, 3.99)) == i
+        is_focus = i == focus_idx
         is_gamma = i == 2
         is_delta = i == 3
 
         rect(im, (cx, cy, cx + cw, cy2), CARD, None, r=20)
-        hdr_bg = ORANGE if is_gamma else (INK if is_delta else APRICOT)
-        hdr_fg = CARD if is_gamma else (SUNBURST if is_delta else INK)
+        hdr_bg = ORANGE if is_focus else (INK if is_delta else (MARIGOLD if i < focus_idx else APRICOT))
+        hdr_fg = CARD if is_focus else (SUNBURST if is_delta else INK)
         rect(im, (cx, cy, cx + cw, cy + 92), hdr_bg, None, r=20)
         rect(im, (cx, cy + 70, cx + cw, cy + 92), hdr_bg, None, r=0)
-        rect(im, (cx, cy, cx + cw, cy2), None, ORANGE if (is_focus or is_gamma) else GOLD_LINE, r=20, width=4 if (is_focus or is_gamma) else 2)
+        rect(im, (cx, cy, cx + cw, cy2), None, ORANGE if is_focus else GOLD_LINE, r=20, width=5 if is_focus else 2)
 
         # Stage number & Name
         circle(im, cx + 48, cy + 46, 26, INK if not is_delta else ORANGE)
@@ -525,8 +529,7 @@ def evolution(t):
             line(im, [(ax - 5, ay - 6), (ax + 5, ay), (ax - 5, ay + 6)], CARD if appear > 0.8 else MUTED_INK, 3)
 
     # Trajectory curve & climbing car across the 4 prototypes
-    if len(curve_pts) > 1 and t > 0.8:
-        p_car = clamp((t - 0.8) / 5.5)
+    if len(curve_pts) > 1 and t > 0.6:
         path_partial(im, curve_pts, p_car, INK, 5, glow=SUNBURST)
         q = route_point(curve_pts, p_car)
         ahead = route_point(curve_pts, min(p_car + 0.01, 1.0))
