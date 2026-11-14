@@ -44,6 +44,7 @@ def probe(path, settings):
     intents, seen, active_pairs = {}, set(), {}
     counts, reasons, connections = Counter(), defaultdict(Counter), defaultdict(set)
     lengths = defaultdict(list)
+    admission = Counter()
 
     def detach(gig):
         for legs in desk.leg_gigs.values():
@@ -107,6 +108,13 @@ def probe(path, settings):
         elif kind == 'gamma_pair_split':
             active_pairs.pop(row['gigId'], None)
             desk._split_orders.update(row['orders'])
+        elif kind == 'beta_decline' and row['reason'] == 'no option leaves a driver enough time':
+            request = desk.requests[row['requestId']]
+            slack = max(desk.slack(request, option) for option in request['options'])
+            admission['declines'] += 1
+            admission['no_feasible_route'] += slack < 0
+            for minutes in (60, 120, 180, 240, 360):
+                admission['at_least_' + str(minutes)] += slack >= minutes
         elif kind == 'gamma_pair_skip':
             desk.now = row['at']
             paired = {o for gig, orders in active_pairs.items() for o in orders
@@ -135,7 +143,7 @@ def probe(path, settings):
                     lengths[profile].append(best.drive_minutes)
             desk.driver_settings = base
     return dict(counts=counts, uniqueFeasiblePairs={k: len(v) for k, v in connections.items()},
-                reasons=reasons, driveMinutes=lengths)
+                reasons=reasons, driveMinutes=lengths, admissionSlack=admission)
 
 
 def main():
