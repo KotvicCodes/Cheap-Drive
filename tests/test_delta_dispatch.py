@@ -130,6 +130,14 @@ class DeltaPrivateDeliveryTests(SwitchContract, unittest.TestCase):
         desk.post(order, [0])
         self.assertEqual(desk.outbox[0]['stops'][1]['window'], {'from': 810, 'to': 870})
 
+    def test_private_delivery_can_use_the_30_minute_grace_before_deadline(self):
+        desk, order = desk_and_order(now=700, deadline=780, delta_private_delivery_rescue=1,
+                                    delta_rescue_windows=1)
+        order['legs'][0]['delivery'].update(privateAddress=True, window={'from': 690, 'to': 750})
+        desk.post(order, [0])
+        self.assertEqual(desk.outbox[0]['stops'][1]['window'], {'from': 770, 'to': 780})
+        self.assertEqual(order['deadline'], 780)
+
     def test_private_pickup_never_extends_with_either_rescue_setting(self):
         for rescue in (0, 1):
             desk, order = desk_and_order(now=801, delta_private_delivery_rescue=1,
@@ -252,6 +260,38 @@ class DeltaWideWindowTests(SwitchContract, unittest.TestCase):
             results.append(desk._plan(first, second))
         self.assertIsNone(results[0][0])
         self.assertIsNotNone(results[1][0])
+
+    def test_sequential_legs_keep_repositioning_plates_and_charge(self):
+        desk, order = desk_and_order(delta_wide_windows=1, hours=HOURS, delta_ev_rule=1,
+                                    km=201, deadline=DAY + 1080)
+        second = deepcopy(order['legs'][0])
+        second['pickup']['placeId'], second['delivery']['placeId'] = 'c', 'd'
+        second['car'].update(electric=False, chargePercent=None)
+        order['legs'].append(second)
+        facts = NoteFacts(plates=True)
+        stops = desk._post_windows(order, [0, 1], facts, Retry())
+        self.assertEqual(stops[0]['window']['from'], 630)
+        self.assertEqual(stops[1]['window']['from'], 700)
+        self.assertEqual(stops[2]['window']['from'], 760)  # 30 reposition + 30 plates
+        self.assertEqual(stops[3]['window']['from'], 790)
+        self.assertTrue(stops[0]['withCharging'])
+        self.assertFalse(stops[2]['withCharging'])
+
+
+class DeltaDispatchCombinationTests(unittest.TestCase):
+    def test_all_32_note_rescue_and_new_switch_combinations_construct_and_post(self):
+        from itertools import product
+        names = ('delta_note_fixes', 'delta_rescue_windows', 'delta_ev_rule',
+                 'delta_private_delivery_rescue', 'delta_wide_windows')
+        for values in product((0, 1), repeat=len(names)):
+            switches = dict(zip(names, values))
+            with self.subTest(switches=switches):
+                desk, order = desk_and_order(hours=HOURS, **switches)
+                desk.post(order, [0])
+                self.assertEqual(len(desk.outbox), 1)
+                pickup, delivery = desk.outbox[0]['stops']
+                self.assertEqual(pickup['withCharging'], not switches['delta_ev_rule'])
+                self.assertLessEqual(delivery['window']['to'], order['deadline'])
 
 
 if __name__ == '__main__':

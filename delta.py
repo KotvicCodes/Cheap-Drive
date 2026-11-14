@@ -39,7 +39,7 @@ def rescue_window(place, kind, facts, low, high, *, private_delivery=False):
 
     A future absolute end can already be unreachable after the site closes.
     Search the requested horizon if its strict intersection has no open minute.
-    Readiness, recurring calendars and private booked slots remain constraints.
+    Readiness, recurring calendars and private pickup slots remain constraints.
     """
     window = visit_window(place, kind, facts, low, high)
     if window is not None or (place.get('privateAddress') and
