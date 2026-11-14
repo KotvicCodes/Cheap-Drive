@@ -225,9 +225,159 @@ def network(im, t, box=(820, 100, 1840, 980), active=True, bg=CARD, border=GOLD_
     return pts
 
 
+# Accurate (lat, lon) outline of the entirety of Finland (Hanko to Kilpisjärvi & Nuorgam)
+FINLAND_BORDER = [
+    (59.82, 22.96), (60.05, 22.30), (60.45, 21.55), (60.85, 21.20), (61.48, 21.45),
+    (62.25, 21.30), (63.10, 21.15), (63.55, 22.15), (63.90, 22.95), (64.25, 23.70),
+    (64.68, 24.40), (65.01, 25.25), (65.35, 25.20), (65.75, 24.45), (65.82, 24.15),
+    (66.40, 23.65), (66.85, 23.90), (67.35, 23.60), (67.95, 23.60), (68.35, 22.90),
+    (68.48, 22.20), (68.70, 21.50), (69.05, 20.55), (69.30, 21.25), (69.00, 22.10),
+    (68.65, 22.80), (68.75, 23.80), (68.90, 25.10), (69.45, 25.80), (69.95, 26.80),
+    (70.09, 27.88), (69.70, 29.15), (69.05, 28.90), (68.85, 28.45), (68.40, 28.50),
+    (68.00, 29.30), (67.70, 29.90), (66.95, 29.05), (66.15, 29.95), (65.45, 29.85),
+    (64.80, 30.10), (64.10, 30.45), (63.30, 31.10), (62.67, 31.58), (62.05, 30.65),
+    (61.55, 29.60), (61.10, 28.80), (60.55, 27.78), (60.45, 26.90), (60.35, 26.10),
+    (60.15, 25.10), (59.98, 24.40), (59.82, 22.96),
+]
+
+# All 30 simulator places + northern Lapland waypoints so routes cover the entirety of Finland
+FINLAND_PLACES = {
+    'helsinki': (60.1699, 24.9384, 'Helsinki', True),
+    'espoo': (60.2055, 24.6559, 'Espoo', False),
+    'vantaa': (60.2934, 25.0378, 'Vantaa', False),
+    'porvoo': (60.3932, 25.6650, 'Porvoo', False),
+    'kotka': (60.4664, 26.9458, 'Kotka', False),
+    'salo': (60.3833, 23.1333, 'Salo', False),
+    'turku': (60.4518, 22.2666, 'Turku', True),
+    'raisio': (60.4859, 22.1689, 'Raisio', False),
+    'hyvinkaa': (60.6311, 24.8616, 'Hyvinkää', False),
+    'hameenlinna': (60.9959, 24.4643, 'Hämeenlinna', False),
+    'lahti': (60.9827, 25.6612, 'Lahti', False),
+    'kouvola': (60.8679, 26.7042, 'Kouvola', False),
+    'lappeenranta': (61.0587, 28.1887, 'Lappeenranta', False),
+    'rauma': (61.1287, 21.5113, 'Rauma', False),
+    'pori': (61.4851, 21.7975, 'Pori', False),
+    'lempaala': (61.3139, 23.7529, 'Lempäälä', False),
+    'tampere': (61.4978, 23.7610, 'Tampere', True),
+    'mikkeli': (61.6886, 27.2723, 'Mikkeli', False),
+    'savonlinna': (61.8699, 28.8799, 'Savonlinna', False),
+    'jyvaskyla': (62.2426, 25.7473, 'Jyväskylä', True),
+    'joensuu': (62.6010, 29.7636, 'Joensuu', True),
+    'seinajoki': (62.7903, 22.8403, 'Seinäjoki', False),
+    'kuopio': (62.8924, 27.6770, 'Kuopio', True),
+    'vaasa': (63.0951, 21.6165, 'Vaasa', True),
+    'kokkola': (63.8385, 23.1307, 'Kokkola', False),
+    'ylivieska': (64.0731, 24.5395, 'Ylivieska', False),
+    'kajaani': (64.2273, 27.7285, 'Kajaani', False),
+    'oulu': (65.0121, 25.4651, 'Oulu', True),
+    'kemi': (65.7364, 24.5637, 'Kemi', False),
+    'rovaniemi': (66.5039, 25.7294, 'Rovaniemi', True),
+    'sodankyla': (67.4160, 26.5890, 'Sodankylä', False),
+    'kittila': (67.6547, 24.9074, 'Kittilä', False),
+    'ivalo': (68.6576, 27.5397, 'Ivalo', True),
+    'kilpisjarvi': (69.0489, 20.7958, 'Kilpisjärvi', False),
+}
+
+FINLAND_ROADS = [
+    ('helsinki', 'espoo'), ('espoo', 'salo'), ('salo', 'turku'), ('turku', 'raisio'),
+    ('raisio', 'rauma'), ('rauma', 'pori'), ('pori', 'vaasa'), ('vaasa', 'kokkola'),
+    ('kokkola', 'ylivieska'), ('ylivieska', 'oulu'), ('oulu', 'kemi'), ('kemi', 'rovaniemi'),
+    ('helsinki', 'vantaa'), ('vantaa', 'hyvinkaa'), ('hyvinkaa', 'hameenlinna'),
+    ('hameenlinna', 'lempaala'), ('lempaala', 'tampere'), ('tampere', 'pori'),
+    ('tampere', 'seinajoki'), ('seinajoki', 'vaasa'), ('seinajoki', 'kokkola'),
+    ('tampere', 'jyvaskyla'), ('helsinki', 'lahti'), ('lahti', 'jyvaskyla'),
+    ('jyvaskyla', 'ylivieska'), ('jyvaskyla', 'oulu'), ('jyvaskyla', 'kuopio'),
+    ('helsinki', 'porvoo'), ('porvoo', 'kotka'), ('kotka', 'kouvola'), ('lahti', 'kouvola'),
+    ('kouvola', 'mikkeli'), ('mikkeli', 'kuopio'), ('kuopio', 'kajaani'), ('kajaani', 'oulu'),
+    ('kouvola', 'lappeenranta'), ('lappeenranta', 'savonlinna'), ('savonlinna', 'joensuu'),
+    ('lappeenranta', 'joensuu'), ('joensuu', 'kuopio'), ('joensuu', 'kajaani'),
+    ('rovaniemi', 'sodankyla'), ('sodankyla', 'ivalo'), ('rovaniemi', 'kittila'),
+    ('kittila', 'kilpisjarvi'), ('kemi', 'kittila'),
+]
+
+FINLAND_CORRIDORS = [
+    ['helsinki', 'hyvinkaa', 'hameenlinna', 'tampere', 'jyvaskyla', 'oulu', 'kemi', 'rovaniemi', 'sodankyla', 'ivalo'],
+    ['turku', 'rauma', 'pori', 'vaasa', 'kokkola', 'ylivieska', 'oulu'],
+    ['helsinki', 'lahti', 'kouvola', 'mikkeli', 'kuopio', 'kajaani', 'oulu', 'rovaniemi', 'kittila', 'kilpisjarvi'],
+    ['helsinki', 'porvoo', 'kotka', 'kouvola', 'lappeenranta', 'joensuu', 'kuopio'],
+]
+
+
+def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, border=GOLD_LINE):
+    x, y, x2, y2 = box
+    rect(im, box, bg, outline=border, r=20, width=2)
+    w, h = x2 - x, y2 - y
+
+    # Background grid dots
+    for gx in range(int(x) + 34, int(x2) - 20, 48):
+        for gy in range(int(y) + 34, int(y2) - 20, 48):
+            circle(im, gx, gy, 1, '#FFD480')
+
+    min_lat, max_lat = (59.65, 65.40) if zoom_south else (59.65, 70.25)
+    min_lon, max_lon = (20.80, 30.50) if zoom_south else (20.10, 31.80)
+    k = math.cos(math.radians(64.0))
+    span_x = (max_lon - min_lon) * k
+    span_y = max_lat - min_lat
+    pad = 28
+    scale = min((w - 2 * pad) / span_x, (h - 2 * pad) / span_y)
+    ox = x + (w - span_x * scale) / 2
+    oy = y + (h - span_y * scale) / 2
+
+    def proj(lat, lon):
+        return (ox + (lon - min_lon) * k * scale, y2 - (oy - y) - (lat - min_lat) * scale)
+
+    # Clip drawing to the map card interior
+    map_layer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(map_layer)
+    poly_pts = [(round(px), round(py)) for lat, lon in FINLAND_BORDER for px, py in [proj(lat, lon)]]
+    d.polygon(poly_pts, fill='#FFE5A3', outline=MANGO, width=3)
+
+    # Crop map_layer to card bounds and composite
+    cropped = map_layer.crop((x + 4, y + 4, x2 - 4, y2 - 4))
+    im.paste(cropped, (x + 4, y + 4), cropped)
+
+    def in_box(pt):
+        return (x + 16) <= pt[0] <= (x2 - 16) and (y + 16) <= pt[1] <= (y2 - 16)
+
+    # Road network across Finland
+    for u, v in FINLAND_ROADS:
+        pu = proj(*FINLAND_PLACES[u][:2])
+        pv = proj(*FINLAND_PLACES[v][:2])
+        if in_box(pu) and in_box(pv):
+            line(im, [pu, pv], '#FFC266', 2)
+
+    # Animated highway corridors spanning Finland
+    corridors = FINLAND_CORRIDORS[:2] if zoom_south else FINLAND_CORRIDORS
+    for c_idx, corr in enumerate(corridors):
+        pts = [proj(*FINLAND_PLACES[pid][:2]) for pid in corr if in_box(proj(*FINLAND_PLACES[pid][:2]))]
+        if len(pts) > 1:
+            is_primary = c_idx == 0
+            path_partial(im, pts, ease((t + 0.3 * c_idx) / 1.4), ORANGE if is_primary else MARIGOLD, 6 if is_primary else 4, glow='#FFE066' if is_primary else None)
+            # Fleet cars travelling along each Finnish corridor
+            for car_k in range(2 if is_primary else 1):
+                p = (t * (0.20 + 0.03 * c_idx) + car_k * 0.48 + c_idx * 0.21) % 1.0
+                if 0.03 < p < 0.97 and p <= ease((t + 0.3 * c_idx) / 1.4):
+                    q = route_point(pts, p)
+                    ahead = route_point(pts, min(p + 0.005, 1.0))
+                    heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
+                    car(im, *q, color=INK if (c_idx + car_k) % 2 == 0 else ORANGE, scale=0.82, angle=heading)
+
+    # Plot all 30 simulator towns + Lapland hubs
+    for pid, (lat, lon, name, is_major) in FINLAND_PLACES.items():
+        pt = proj(lat, lon)
+        if not in_box(pt):
+            continue
+        circle(im, *pt, 6 if is_major else 4, CARD, ORANGE if is_major else MANGO, 3 if is_major else 2)
+        if is_major:
+            circle(im, *pt, 11 + 7 * ((t * 0.85 + hash(pid) % 7 * 0.14) % 1), None, MARIGOLD, 2)
+            lx_off = -12 if pid in ('vaasa', 'turku') else 12
+            anc = 'rm' if pid in ('vaasa', 'turku') else 'lm'
+            txt(im, name, pt[0] + lx_off, pt[1], 17, INK, weight=700, anchor=anc)
+
+
 def hero(t):
     im = base_canvas('juicy').copy()
-    network(im, t, (820, 100, 1840, 980), bg=CREAM, border='#E05500')
+    finland_map(im, t, (950, 64, 1840, 1016), zoom_south=False, bg=CARD, border='#E05500')
     enter(im, 'Move cars.', 80, 210, 142, t, .05, color=INK, weight=700)
     enter(im, 'Make', 80, 368, 142, t, .16, color=INK, weight=700)
     enter(im, 'margin.', 80, 526, 142, t, .26, color=INK, weight=700)
@@ -756,7 +906,7 @@ def stills(out):
         sheet.paste(thumb, ((i % 3) * 640, (i // 3) * 360))
     sheet.save(out / 'contact-sheet.jpg', quality=93)
     sheet.save(ROOT / 'assets/contact-sheet.jpg', quality=93)
-    poster = frame(10.5)
+    poster = frame(2.2)
     poster.save(out / 'poster.png')
     poster.save(ROOT / 'assets/poster.png')
 
