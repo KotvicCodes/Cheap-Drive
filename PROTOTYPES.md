@@ -186,3 +186,46 @@ does not teach the markup.
 time, and keeps every trace and reveal under ignored `runs/`. `scripts/board.py`
 plays ranking runs. Results, the rejected variants and the limits are in
 [docs/research/beta-results.md](docs/research/beta-results.md).
+
+## Gamma
+
+Gamma is Beta plus guarded long routes. Beta refuses every route over 500 km;
+Gamma admits some of the valuable longer work without reopening it all. The
+other pricing and dispatch experiments remain in the code, off by default.
+
+### The rule
+
+Quote routes over 500 km and up to 700 km only when all three hold:
+
+- The option is `next_day` or `within_3_days`, never `same_day`.
+- The driver has at least 24 hours from the dealer's decision to the last
+  feasible pickup.
+- Fewer than three of our long orders are still without a driver.
+
+Long gigs open at 1.0 × the typical fee instead of 0.8 ×. Beta's fee ramp and
+rescue still apply. This is the admission and opening-fee half of roadmap step 4;
+it sends no direct offers.
+
+### Settings and what stays Beta's
+
+[models/gamma.json](models/gamma.json) uses factory `gamma:make_gamma` and
+`win_target_bps=3000`, `opening_fee_bps=8000`, `max_km=500`, `long_max_km=700`.
+Defaults supply `long_options="next_day,within_3_days"`,
+`long_min_slack_minutes=1440`, `long_open_cap=3`, `long_opening_fee_bps=10000`.
+With `long_max_km=500` (the effective dataclass default), Gamma reproduces Beta
+to the cent; eight live paired seeds confirmed identical scores and ledgers.
+Omitting it follows `max_km`, including sweep overrides.
+
+The global markup, 30% win target, dealer trust charge, eight-hour minimum on
+shorter routes, trade-in refusal, notes, posting and rescue stay Beta's. Tables,
+trust building and guard, capacity valve, option/distance pricing, on-time brake,
+stale-gig fee review and two-car pairs are documented experiments, not enabled
+in this model. Review and pairs use `gamma_pairs:make_gamma_pairs` when tested.
+
+### Evaluation
+
+On eight shared tuning seeds Gamma gained €1,232/week (+10.93%) over Beta,
+positive on all eight, with all weeks ranked. Its worst on-time share was
+92.975%, below the roadmap's 93% safety target. This is a modest step, not a
+route to the top ten. The held-out check, rejected variants and reproduction
+plan are in [docs/research/gamma-results.md](docs/research/gamma-results.md).
