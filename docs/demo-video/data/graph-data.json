@@ -1,14 +1,14 @@
 {
-  "snapshot_at": "2026-11-14T11:59:59.699338+00:00",
+  "snapshot_at": "2026-11-14T14:25:00.913992+00:00",
   "summary": {
-    "snapshot_at": "2026-11-14T11:59:59.699338+00:00",
-    "scan_completed_at": "2026-11-14T12:00:07.696489+00:00",
-    "completed_total": 1027,
-    "completed_practice": 1022,
-    "completed_official": 5,
-    "incomplete_worlds": 68,
-    "synthetic_demo_files": 4,
-    "distinct_practice_level_seed_scenarios": 34,
+    "snapshot_at": "2026-11-14T14:25:00.913992+00:00",
+    "scan_completed_at": "2026-11-14T14:25:20.679136+00:00",
+    "completed_total": 1165,
+    "completed_practice": 1155,
+    "completed_official": 10,
+    "incomplete_worlds": 76,
+    "synthetic_demo_files": 7,
+    "distinct_practice_level_seed_scenarios": 58,
     "completed_by_family": {
       "Alpha initial": 3,
       "Alpha main": 659,
@@ -21,16 +21,28 @@
       "Beta s5": 32,
       "Beta s6": 64,
       "Fixed baseline": 2,
+      "Gamma h1": 16,
+      "Gamma q1": 3,
+      "Gamma q2": 2,
+      "Gamma recovery beta-validation": 16,
+      "Gamma recovery confirmation": 8,
+      "Gamma recovery parity": 1,
+      "Gamma recovery screen": 4,
+      "Gamma recovery screen-fixed": 16,
+      "Gamma recovery screen-notes": 25,
+      "Gamma recovery screen-supply": 16,
+      "Gamma recovery stress-pairs": 3,
+      "Gamma recovery stress-supply": 12,
       "Gamma t1 (Beta sweep)": 40,
       "Gamma t2": 72,
-      "Gamma t3": 35,
-      "Official ranking": 5
+      "Gamma t3": 46,
+      "Official ranking": 10
     },
-    "endpoint_verified": 349,
+    "endpoint_verified": 487,
     "score_conflicts": 0,
-    "added_completed_since_old_snapshot": 147,
-    "previous_snapshot_at": "2026-11-14T10:07:13.767005+00:00",
-    "previous_practice_count": 875,
+    "added_completed_since_old_snapshot": 138,
+    "previous_snapshot_at": "2026-11-14T11:59:59.699338+00:00",
+    "previous_practice_count": 1022,
     "method": "Unique world IDs, final-score evidence only. Each file read only up to its initially inventoried length. Scan is a bounded file snapshot, not an atomic freeze of running jobs; later writes are excluded. Daily scores, demos and incomplete worlds excluded; official ranking worlds kept separately."
   },
   "runs": [
@@ -14910,6 +14922,2080 @@
       }
     },
     {
+      "world_id": "w8a67adce8803e9bf0501",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1094946,
+        "revenueCents": 2502069,
+        "marginShare": 0.43761622880903767,
+        "wonOrders": 219,
+        "onTimeShare": 0.9634703196347032,
+        "undeliveredShare": 0.0045662100456621,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w301756343589fd81e680",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1206573,
+        "revenueCents": 3090381,
+        "marginShare": 0.39042855880876826,
+        "wonOrders": 234,
+        "onTimeShare": 0.9401709401709402,
+        "undeliveredShare": 0.004273504273504274,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "we24476130620df6c560c",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1112097,
+        "revenueCents": 2809106,
+        "marginShare": 0.3958900091345788,
+        "wonOrders": 256,
+        "onTimeShare": 0.9609375,
+        "undeliveredShare": 0.00390625,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "weebdf04b2eed968b088a",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1157964,
+        "revenueCents": 3215389,
+        "marginShare": 0.3601318534087166,
+        "wonOrders": 269,
+        "onTimeShare": 0.9479553903345725,
+        "undeliveredShare": 0.0037174721189591076,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w06f7ff71e36dabb90942",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 757530,
+        "revenueCents": 2288466,
+        "marginShare": 0.33102086725343527,
+        "wonOrders": 205,
+        "onTimeShare": 0.9512195121951219,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w5a1f1a3e5b5e03f60949",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 849054,
+        "revenueCents": 2737378,
+        "marginShare": 0.31017053545400014,
+        "wonOrders": 225,
+        "onTimeShare": 0.96,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w95b97007a6883635de76",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 766159,
+        "revenueCents": 2192587,
+        "marginShare": 0.3494315162864689,
+        "wonOrders": 217,
+        "onTimeShare": 0.9539170506912442,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6a1a5caa226424dbabe7",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 875429,
+        "revenueCents": 2730021,
+        "marginShare": 0.32066749669691186,
+        "wonOrders": 234,
+        "onTimeShare": 0.9572649572649573,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w096995242b4cbab3421e",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h05",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 800441,
+        "revenueCents": 2534100,
+        "marginShare": 0.31586796101179904,
+        "wonOrders": 237,
+        "onTimeShare": 0.9915611814345991,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "web45c539272025deb753",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h05",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 992297,
+        "revenueCents": 3159676,
+        "marginShare": 0.31405023806238364,
+        "wonOrders": 258,
+        "onTimeShare": 0.9883720930232558,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w87412f3df41b84f8d445",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h06",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1055227,
+        "revenueCents": 2764965,
+        "marginShare": 0.38164208226867247,
+        "wonOrders": 239,
+        "onTimeShare": 0.9539748953974896,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8cef9fd755906fa81fd7",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h06",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1170493,
+        "revenueCents": 3395845,
+        "marginShare": 0.3446838710247376,
+        "wonOrders": 263,
+        "onTimeShare": 0.9239543726235742,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w9c63b936245403800f9b",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 865679,
+        "revenueCents": 2435389,
+        "marginShare": 0.35545820400765543,
+        "wonOrders": 217,
+        "onTimeShare": 0.9170506912442397,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wa3aa0e8663f0c05f8fa9",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 796054,
+        "revenueCents": 2818674,
+        "marginShare": 0.28242145065374713,
+        "wonOrders": 229,
+        "onTimeShare": 0.8995633187772926,
+        "undeliveredShare": 0,
+        "ranked": false
+      }
+    },
+    {
+      "world_id": "wef8e26c85ee0f66c021f",
+      "family": "Gamma h1",
+      "label": "beta",
+      "seed": "gamma-h08",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1189792,
+        "revenueCents": 3071451,
+        "marginShare": 0.3873713108234512,
+        "wonOrders": 240,
+        "onTimeShare": 0.9291666666666667,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w63d89efe39aa01e1b986",
+      "family": "Gamma h1",
+      "label": "long700g",
+      "seed": "gamma-h08",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1258362,
+        "revenueCents": 3553561,
+        "marginShare": 0.354112958803859,
+        "wonOrders": 260,
+        "onTimeShare": 0.9307692307692308,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wb0bade218261ffc631ab",
+      "family": "Gamma q1",
+      "label": "g700-brake",
+      "seed": "gamma-h06",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1015792,
+        "revenueCents": 2745269,
+        "marginShare": 0.3700154702508206,
+        "wonOrders": 226,
+        "onTimeShare": 0.9513274336283186,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wc93c5a21455465587904",
+      "family": "Gamma q1",
+      "label": "g700-brake",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 727271,
+        "revenueCents": 2547087,
+        "marginShare": 0.28553049032090383,
+        "wonOrders": 207,
+        "onTimeShare": 0.8888888888888888,
+        "undeliveredShare": 0,
+        "ranked": false
+      }
+    },
+    {
+      "world_id": "w89e352df7eec94558ffb",
+      "family": "Gamma q1",
+      "label": "g700-brake",
+      "seed": "gamma-t04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1044026,
+        "revenueCents": 2877059,
+        "marginShare": 0.3628795933625275,
+        "wonOrders": 235,
+        "onTimeShare": 0.9531914893617022,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wdd43fda6d70956bfe185",
+      "family": "Gamma q2",
+      "label": "beta-brake",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 844591,
+        "revenueCents": 2292800,
+        "marginShare": 0.36836662595952546,
+        "wonOrders": 202,
+        "onTimeShare": 0.9108910891089109,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wf2d4f88c60005cf72464",
+      "family": "Gamma q2",
+      "label": "g700-brake-early",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 690819,
+        "revenueCents": 2450790,
+        "marginShare": 0.28187604813141887,
+        "wonOrders": 203,
+        "onTimeShare": 0.8817733990147784,
+        "undeliveredShare": 0,
+        "ranked": false
+      }
+    },
+    {
+      "world_id": "we9df0cffbdeff594dcfa",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1468515,
+        "revenueCents": 3217894,
+        "marginShare": 0.45635903482215384,
+        "wonOrders": 249,
+        "onTimeShare": 0.9799196787148594,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wb176dd87f1bee2f35882",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1241078,
+        "revenueCents": 2951869,
+        "marginShare": 0.420438034343665,
+        "wonOrders": 241,
+        "onTimeShare": 0.946058091286307,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6804cc82e77d2e1bbabb",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 843351,
+        "revenueCents": 2298558,
+        "marginShare": 0.36690438092055977,
+        "wonOrders": 225,
+        "onTimeShare": 0.96,
+        "undeliveredShare": 0.0044444444444444444,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w32443293824fe086a246",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 852946,
+        "revenueCents": 2664838,
+        "marginShare": 0.3200742409107045,
+        "wonOrders": 246,
+        "onTimeShare": 0.9471544715447154,
+        "undeliveredShare": 0.0040650406504065045,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w39c661ee85e599299d1a",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v05",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1418000,
+        "revenueCents": 3149877,
+        "marginShare": 0.4501763084717276,
+        "wonOrders": 259,
+        "onTimeShare": 0.9845559845559846,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd6b7867110ce23fa3aef",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v06",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1323525,
+        "revenueCents": 3270071,
+        "marginShare": 0.4047389185127785,
+        "wonOrders": 244,
+        "onTimeShare": 0.9631147540983607,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w9d0c9e87864a3a3dada7",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v07",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1324724,
+        "revenueCents": 2924749,
+        "marginShare": 0.4529359613423237,
+        "wonOrders": 241,
+        "onTimeShare": 0.9626556016597511,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w7241c6e29585b550a567",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v08",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 956925,
+        "revenueCents": 2321988,
+        "marginShare": 0.41211453289164285,
+        "wonOrders": 262,
+        "onTimeShare": 0.9770992366412213,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w9cb70ff3409566ec873b",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v09",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1098260,
+        "revenueCents": 2722315,
+        "marginShare": 0.40342869947085475,
+        "wonOrders": 240,
+        "onTimeShare": 0.9416666666666667,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1bf2888bec8758f88087",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v10",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 780927,
+        "revenueCents": 2459895,
+        "marginShare": 0.31746355027348727,
+        "wonOrders": 235,
+        "onTimeShare": 0.9574468085106383,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w09b07487fe22b8b8cc08",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v11",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1324386,
+        "revenueCents": 3133419,
+        "marginShare": 0.42266482714249193,
+        "wonOrders": 260,
+        "onTimeShare": 0.9846153846153847,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1f6a0f5e55829f0aaa03",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v12",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1082278,
+        "revenueCents": 2845239,
+        "marginShare": 0.3803821049830963,
+        "wonOrders": 256,
+        "onTimeShare": 0.953125,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w71880c247346396bfaf7",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v13",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 689633,
+        "revenueCents": 2239279,
+        "marginShare": 0.3079710031666443,
+        "wonOrders": 236,
+        "onTimeShare": 0.9788135593220338,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w0baf55033dd9e1877675",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v14",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1106742,
+        "revenueCents": 3037573,
+        "marginShare": 0.36435074975975884,
+        "wonOrders": 237,
+        "onTimeShare": 0.9367088607594937,
+        "undeliveredShare": 0.004219409282700422,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w0f0aacd95fc028fb4a4c",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v15",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1097991,
+        "revenueCents": 2768478,
+        "marginShare": 0.3966045603396523,
+        "wonOrders": 244,
+        "onTimeShare": 0.9385245901639344,
+        "undeliveredShare": 0.004098360655737705,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wbce425a1155ed0c931db",
+      "family": "Gamma recovery beta-validation",
+      "label": "beta",
+      "seed": "gamma-v16",
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 858077,
+        "revenueCents": 2246391,
+        "marginShare": 0.3819802518795704,
+        "wonOrders": 225,
+        "onTimeShare": 0.9644444444444444,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wa99420bbc84ac3e3b183",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v09",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1301317,
+        "revenueCents": 2906819,
+        "marginShare": 0.4476773407632192,
+        "wonOrders": 243,
+        "onTimeShare": 0.9711934156378601,
+        "undeliveredShare": 0.00823045267489712,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w22751da6cf88d6f52d10",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v10",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1034911,
+        "revenueCents": 2833667,
+        "marginShare": 0.36521969589228376,
+        "wonOrders": 260,
+        "onTimeShare": 0.9769230769230769,
+        "undeliveredShare": 0.011538461538461539,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w82d6ec8daaff95ce81b6",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v11",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1413065,
+        "revenueCents": 3526590,
+        "marginShare": 0.40068876733615194,
+        "wonOrders": 272,
+        "onTimeShare": 0.9816176470588235,
+        "undeliveredShare": 0.011029411764705883,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd18b81b614a15a7fa1ea",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v12",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1345338,
+        "revenueCents": 3141668,
+        "marginShare": 0.4282241153425505,
+        "wonOrders": 269,
+        "onTimeShare": 0.9739776951672863,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1c2d74b51a687149bdf5",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v13",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 854616,
+        "revenueCents": 2479767,
+        "marginShare": 0.3446356048773937,
+        "wonOrders": 247,
+        "onTimeShare": 0.9919028340080972,
+        "undeliveredShare": 0.004048582995951417,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd5afbc7c55acca3f4414",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v14",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1349576,
+        "revenueCents": 3308567,
+        "marginShare": 0.40790348208151744,
+        "wonOrders": 249,
+        "onTimeShare": 0.9879518072289156,
+        "undeliveredShare": 0.004016064257028112,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w585817d0c951ac08c018",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v15",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1284254,
+        "revenueCents": 3114963,
+        "marginShare": 0.41228547497995965,
+        "wonOrders": 262,
+        "onTimeShare": 0.9694656488549618,
+        "undeliveredShare": 0.007633587786259542,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wced9cac035322d9e8244",
+      "family": "Gamma recovery confirmation",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v16",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1079893,
+        "revenueCents": 2734198,
+        "marginShare": 0.394957863329576,
+        "wonOrders": 248,
+        "onTimeShare": 0.9919354838709677,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w95299ed87102e0bdf3b1",
+      "family": "Gamma recovery parity",
+      "label": "notes-pairs-segments-parity",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1016480,
+        "revenueCents": 2885371,
+        "marginShare": 0.3522874528093614,
+        "wonOrders": 258,
+        "onTimeShare": 0.9457364341085271,
+        "undeliveredShare": 0.031007751937984496,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "we822d6a354605e7c1063",
+      "family": "Gamma recovery screen",
+      "label": "cap1",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 857369,
+        "revenueCents": 2702465,
+        "marginShare": 0.31725443252734076,
+        "wonOrders": 225,
+        "onTimeShare": 0.9066666666666666,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8541cb69ec4e290f84b7",
+      "family": "Gamma recovery screen",
+      "label": "cap1-fee110",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 847111,
+        "revenueCents": 2717434,
+        "marginShare": 0.3117319500676005,
+        "wonOrders": 229,
+        "onTimeShare": 0.9170305676855895,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd924a1c0300a57f5b091",
+      "family": "Gamma recovery screen",
+      "label": "fee120",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 800603,
+        "revenueCents": 2905437,
+        "marginShare": 0.27555338491249337,
+        "wonOrders": 234,
+        "onTimeShare": 0.8931623931623932,
+        "undeliveredShare": 0,
+        "ranked": false
+      }
+    },
+    {
+      "world_id": "w7a88c0cd1889b3d481fa",
+      "family": "Gamma recovery screen",
+      "label": "slack2880",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 944134,
+        "revenueCents": 2827416,
+        "marginShare": 0.33392114920478627,
+        "wonOrders": 228,
+        "onTimeShare": 0.9210526315789473,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w5cbad8ed1829f83a66f2",
+      "family": "Gamma recovery screen-fixed",
+      "label": "brake38-fixed",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1542385,
+        "revenueCents": 4117528,
+        "marginShare": 0.3745900452893095,
+        "wonOrders": 311,
+        "onTimeShare": 0.954983922829582,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w46fac92ce92af5a9f83c",
+      "family": "Gamma recovery screen-fixed",
+      "label": "guard2880",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1531553,
+        "revenueCents": 3613765,
+        "marginShare": 0.4238109008195054,
+        "wonOrders": 261,
+        "onTimeShare": 0.9770114942528736,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w54f17472568a8d285557",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1574298,
+        "revenueCents": 3836905,
+        "marginShare": 0.41030413836151797,
+        "wonOrders": 274,
+        "onTimeShare": 0.9635036496350365,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wa4119bb2b4e7e4554f78",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments-guard2880",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1556403,
+        "revenueCents": 3592623,
+        "marginShare": 0.43322191056506626,
+        "wonOrders": 265,
+        "onTimeShare": 0.969811320754717,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wa06c291b0dc629cfbb89",
+      "family": "Gamma recovery screen-fixed",
+      "label": "brake38-fixed",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 917323,
+        "revenueCents": 2676650,
+        "marginShare": 0.34271309285861057,
+        "wonOrders": 216,
+        "onTimeShare": 0.9027777777777778,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wfc543381a7586c27669e",
+      "family": "Gamma recovery screen-fixed",
+      "label": "guard2880",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1212499,
+        "revenueCents": 3182940,
+        "marginShare": 0.3809368068515272,
+        "wonOrders": 252,
+        "onTimeShare": 0.9365079365079365,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wbecf6b50d667b9a2456f",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1212005,
+        "revenueCents": 3216711,
+        "marginShare": 0.3767839261904473,
+        "wonOrders": 254,
+        "onTimeShare": 0.9251968503937008,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8812839f7345d031f57b",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments-guard2880",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1128808,
+        "revenueCents": 3119401,
+        "marginShare": 0.36186690970477986,
+        "wonOrders": 253,
+        "onTimeShare": 0.9288537549407114,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w5ccae082efc9044a6844",
+      "family": "Gamma recovery screen-fixed",
+      "label": "brake38-fixed",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1104266,
+        "revenueCents": 3328366,
+        "marginShare": 0.3317742099276342,
+        "wonOrders": 291,
+        "onTimeShare": 0.9450171821305842,
+        "undeliveredShare": 0.003436426116838488,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6e0a38dfa182f75fc239",
+      "family": "Gamma recovery screen-fixed",
+      "label": "guard2880",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 948533,
+        "revenueCents": 2833833,
+        "marginShare": 0.3347173245565282,
+        "wonOrders": 243,
+        "onTimeShare": 0.9547325102880658,
+        "undeliveredShare": 0.00411522633744856,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w80cb83ba60811a1679a3",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1031794,
+        "revenueCents": 2965004,
+        "marginShare": 0.3479907615638967,
+        "wonOrders": 251,
+        "onTimeShare": 0.952191235059761,
+        "undeliveredShare": 0.00398406374501992,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wcda24402e09fb02963f3",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments-guard2880",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 966326,
+        "revenueCents": 2788356,
+        "marginShare": 0.3465576131598691,
+        "wonOrders": 246,
+        "onTimeShare": 0.959349593495935,
+        "undeliveredShare": 0.0040650406504065045,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wf1025be70ebe888dc983",
+      "family": "Gamma recovery screen-fixed",
+      "label": "brake38-fixed",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 709961,
+        "revenueCents": 2498921,
+        "marginShare": 0.2841070205900867,
+        "wonOrders": 219,
+        "onTimeShare": 0.9223744292237442,
+        "undeliveredShare": 0.0045662100456621,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd37a1c08a74f13c121e6",
+      "family": "Gamma recovery screen-fixed",
+      "label": "guard2880",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1021561,
+        "revenueCents": 3148722,
+        "marginShare": 0.32443670797231383,
+        "wonOrders": 259,
+        "onTimeShare": 0.9420849420849421,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6b4f329cb76324580715",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 907271,
+        "revenueCents": 3087722,
+        "marginShare": 0.2938318281244231,
+        "wonOrders": 265,
+        "onTimeShare": 0.9169811320754717,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8648b6cb296085ecd57c",
+      "family": "Gamma recovery screen-fixed",
+      "label": "segments-guard2880",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 970318,
+        "revenueCents": 2926259,
+        "marginShare": 0.3315899242001477,
+        "wonOrders": 258,
+        "onTimeShare": 0.9457364341085271,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w5a143f4fd0ddc507f242",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-long700",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1619535,
+        "revenueCents": 3661971,
+        "marginShare": 0.4422577349738706,
+        "wonOrders": 260,
+        "onTimeShare": 0.9807692307692307,
+        "undeliveredShare": 0.015384615384615385,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w7bdc752e1a8a5e72f012",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-only",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1431786,
+        "revenueCents": 3129112,
+        "marginShare": 0.4575694318388092,
+        "wonOrders": 244,
+        "onTimeShare": 0.9795081967213115,
+        "undeliveredShare": 0.00819672131147541,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wde93cea699719b05c746",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1806672,
+        "revenueCents": 3816941,
+        "marginShare": 0.473329820922042,
+        "wonOrders": 265,
+        "onTimeShare": 0.9924528301886792,
+        "undeliveredShare": 0.0037735849056603774,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6542caeeed980519bc5a",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1479330,
+        "revenueCents": 3518996,
+        "marginShare": 0.4203841095585218,
+        "wonOrders": 257,
+        "onTimeShare": 0.9766536964980544,
+        "undeliveredShare": 0.01556420233463035,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd95da1a7915a0eb43c7a",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments-guard2880",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1601021,
+        "revenueCents": 3683715,
+        "marginShare": 0.43462129942191513,
+        "wonOrders": 262,
+        "onTimeShare": 0.9847328244274809,
+        "undeliveredShare": 0.007633587786259542,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w4d6d43fd5c4e8724077f",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-long700",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 851913,
+        "revenueCents": 2843999,
+        "marginShare": 0.29954757368058144,
+        "wonOrders": 237,
+        "onTimeShare": 0.9240506329113924,
+        "undeliveredShare": 0.029535864978902954,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w34f8e3e4224876ed2b63",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-only",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1109960,
+        "revenueCents": 2817835,
+        "marginShare": 0.3939052499525345,
+        "wonOrders": 238,
+        "onTimeShare": 0.957983193277311,
+        "undeliveredShare": 0.025210084033613446,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wdc81c747df93cf2fa0d4",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1149849,
+        "revenueCents": 3097847,
+        "marginShare": 0.37117682054665707,
+        "wonOrders": 248,
+        "onTimeShare": 0.9596774193548387,
+        "undeliveredShare": 0.024193548387096774,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w5f91744f9274b8ab5730",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1145062,
+        "revenueCents": 3046862,
+        "marginShare": 0.37581682399793626,
+        "wonOrders": 247,
+        "onTimeShare": 0.951417004048583,
+        "undeliveredShare": 0.024291497975708502,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wb1ed8c962cfff1741344",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments-guard2880",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1035933,
+        "revenueCents": 3035987,
+        "marginShare": 0.34121786423986666,
+        "wonOrders": 252,
+        "onTimeShare": 0.9484126984126984,
+        "undeliveredShare": 0.031746031746031744,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w58f4e16f5d2f4fa6cf63",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-long700",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1089382,
+        "revenueCents": 2892915,
+        "marginShare": 0.37656896244791155,
+        "wonOrders": 240,
+        "onTimeShare": 0.9875,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6193eea955f11cd6b898",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-only",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 941885,
+        "revenueCents": 2331035,
+        "marginShare": 0.40406300205702617,
+        "wonOrders": 220,
+        "onTimeShare": 0.9818181818181818,
+        "undeliveredShare": 0.004545454545454545,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "we27414b7dc5d5d98b4e7",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1171499,
+        "revenueCents": 2922688,
+        "marginShare": 0.40082930507806513,
+        "wonOrders": 244,
+        "onTimeShare": 0.9959016393442623,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w95081d320f38f5fd64de",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1085025,
+        "revenueCents": 2826391,
+        "marginShare": 0.3838906223519676,
+        "wonOrders": 242,
+        "onTimeShare": 0.9793388429752066,
+        "undeliveredShare": 0.004132231404958678,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w3dfa13840e8c34a80e2f",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments-guard2880",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1000588,
+        "revenueCents": 2610950,
+        "marginShare": 0.3832275608494992,
+        "wonOrders": 235,
+        "onTimeShare": 0.9702127659574468,
+        "undeliveredShare": 0.01276595744680851,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w142adb9cad3a43b1cfc6",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-long700",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 918895,
+        "revenueCents": 3063951,
+        "marginShare": 0.2999052530539816,
+        "wonOrders": 258,
+        "onTimeShare": 0.937984496124031,
+        "undeliveredShare": 0.03875968992248062,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w04fbf9a68a0a0fe0b2ea",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-only",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 877868,
+        "revenueCents": 2597692,
+        "marginShare": 0.3379415265551112,
+        "wonOrders": 242,
+        "onTimeShare": 0.9380165289256198,
+        "undeliveredShare": 0.028925619834710745,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8b062a9cbfbeb4892c11",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1016480,
+        "revenueCents": 2885371,
+        "marginShare": 0.3522874528093614,
+        "wonOrders": 258,
+        "onTimeShare": 0.9457364341085271,
+        "undeliveredShare": 0.031007751937984496,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wab21357444f4ba7e0183",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 953985,
+        "revenueCents": 2903936,
+        "marginShare": 0.32851447139330897,
+        "wonOrders": 258,
+        "onTimeShare": 0.9496124031007752,
+        "undeliveredShare": 0.03488372093023256,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8f9cefcf10ae4eda5360",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-segments-guard2880",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1003092,
+        "revenueCents": 2842209,
+        "marginShare": 0.35292689594607574,
+        "wonOrders": 254,
+        "onTimeShare": 0.952755905511811,
+        "undeliveredShare": 0.027559055118110236,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd79ef13f52bdad98231f",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-only",
+      "seed": "gamma-v05",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1366011,
+        "revenueCents": 3081226,
+        "marginShare": 0.44333359513388504,
+        "wonOrders": 257,
+        "onTimeShare": 0.9844357976653697,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wc8c37d11852133ef4d34",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v05",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1417586,
+        "revenueCents": 3296785,
+        "marginShare": 0.4299904300705081,
+        "wonOrders": 271,
+        "onTimeShare": 0.974169741697417,
+        "undeliveredShare": 0.0036900369003690036,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd5ac90fa84ee2a31b875",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v06",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1459353,
+        "revenueCents": 3797875,
+        "marginShare": 0.3842551426784715,
+        "wonOrders": 263,
+        "onTimeShare": 0.9809885931558935,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w92c9d1fe521feeca1a85",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v07",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1619050,
+        "revenueCents": 3350205,
+        "marginShare": 0.48326893428909573,
+        "wonOrders": 259,
+        "onTimeShare": 0.972972972972973,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w66a6cf8335a20a0d2672",
+      "family": "Gamma recovery screen-notes",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-v08",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1057337,
+        "revenueCents": 2382417,
+        "marginShare": 0.4438085356174003,
+        "wonOrders": 272,
+        "onTimeShare": 0.9816176470588235,
+        "undeliveredShare": 0.003676470588235294,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w8faee59dd4eeca0a528d",
+      "family": "Gamma recovery screen-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1636573,
+        "revenueCents": 3696129,
+        "marginShare": 0.44278027092669114,
+        "wonOrders": 281,
+        "onTimeShare": 0.9857651245551602,
+        "undeliveredShare": 0.0035587188612099642,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wfdaf362f29c741404764",
+      "family": "Gamma recovery screen-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1745813,
+        "revenueCents": 3859225,
+        "marginShare": 0.45237398700516296,
+        "wonOrders": 284,
+        "onTimeShare": 0.9929577464788732,
+        "undeliveredShare": 0.0035211267605633804,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6ba431c6ae95ea17f2f1",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-only",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1579356,
+        "revenueCents": 4281020,
+        "marginShare": 0.36892049091104456,
+        "wonOrders": 328,
+        "onTimeShare": 0.9573170731707317,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wba45a4017f208b2ec437",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-towns",
+      "seed": "gamma-v01",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1609747,
+        "revenueCents": 3993893,
+        "marginShare": 0.40305210980865036,
+        "wonOrders": 295,
+        "onTimeShare": 0.9796610169491525,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1bbcefc1a92231efb94f",
+      "family": "Gamma recovery screen-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 950731,
+        "revenueCents": 2580385,
+        "marginShare": 0.368445406402533,
+        "wonOrders": 236,
+        "onTimeShare": 0.940677966101695,
+        "undeliveredShare": 0.012711864406779662,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w830b1b99ffb0269c30db",
+      "family": "Gamma recovery screen-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1052521,
+        "revenueCents": 2580897,
+        "marginShare": 0.4078120901376537,
+        "wonOrders": 236,
+        "onTimeShare": 0.9576271186440678,
+        "undeliveredShare": 0.00847457627118644,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w4eb0a8cec8694fbeeecd",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-only",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1039774,
+        "revenueCents": 3395819,
+        "marginShare": 0.30619240895937033,
+        "wonOrders": 276,
+        "onTimeShare": 0.8876811594202898,
+        "undeliveredShare": 0,
+        "ranked": false
+      }
+    },
+    {
+      "world_id": "w2b1a7baf9bb750a9c6fc",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-towns",
+      "seed": "gamma-v02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 948283,
+        "revenueCents": 2771789,
+        "marginShare": 0.34211947590527275,
+        "wonOrders": 237,
+        "onTimeShare": 0.9240506329113924,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w5087b60849f0279b1546",
+      "family": "Gamma recovery screen-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 910680,
+        "revenueCents": 2450313,
+        "marginShare": 0.37165864116135366,
+        "wonOrders": 233,
+        "onTimeShare": 0.9742489270386266,
+        "undeliveredShare": 0.012875536480686695,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w32e018f95264e0b0d3a3",
+      "family": "Gamma recovery screen-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 989722,
+        "revenueCents": 2583043,
+        "marginShare": 0.38316125592953737,
+        "wonOrders": 238,
+        "onTimeShare": 0.9873949579831933,
+        "undeliveredShare": 0.004201680672268907,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w59385c93b4eda1e4a2a0",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-only",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1127073,
+        "revenueCents": 3305069,
+        "marginShare": 0.341013455392308,
+        "wonOrders": 284,
+        "onTimeShare": 0.9577464788732394,
+        "undeliveredShare": 0.0035211267605633804,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w3d2ee3f78b19929b7a93",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-towns",
+      "seed": "gamma-v03",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 917686,
+        "revenueCents": 2752545,
+        "marginShare": 0.3333954576582763,
+        "wonOrders": 240,
+        "onTimeShare": 0.9625,
+        "undeliveredShare": 0.004166666666666667,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w2eb96c71c832f51dcf25",
+      "family": "Gamma recovery screen-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 606657,
+        "revenueCents": 1865845,
+        "marginShare": 0.32513794018259823,
+        "wonOrders": 192,
+        "onTimeShare": 0.921875,
+        "undeliveredShare": 0.046875,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w202897957df991184a76",
+      "family": "Gamma recovery screen-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 689750,
+        "revenueCents": 1914311,
+        "marginShare": 0.3603124048286825,
+        "wonOrders": 193,
+        "onTimeShare": 0.9481865284974094,
+        "undeliveredShare": 0.04145077720207254,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w48e3883bcd70790bfdfb",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-only",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 884210,
+        "revenueCents": 2595710,
+        "marginShare": 0.3406428299001044,
+        "wonOrders": 240,
+        "onTimeShare": 0.9333333333333333,
+        "undeliveredShare": 0.004166666666666667,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "waecea17c13b50716c0e6",
+      "family": "Gamma recovery screen-supply",
+      "label": "supply-towns",
+      "seed": "gamma-v04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 627108,
+        "revenueCents": 2066884,
+        "marginShare": 0.3034074481199719,
+        "wonOrders": 195,
+        "onTimeShare": 0.9076923076923077,
+        "undeliveredShare": 0.005128205128205128,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w99fb6b4d934b653708b7",
+      "family": "Gamma recovery stress-pairs",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 829748,
+        "revenueCents": 2652701,
+        "marginShare": 0.3127936393886835,
+        "wonOrders": 227,
+        "onTimeShare": 0.9427312775330396,
+        "undeliveredShare": 0.030837004405286344,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wd39939963d62e43d499c",
+      "family": "Gamma recovery stress-pairs",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-t02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1355491,
+        "revenueCents": 3411938,
+        "marginShare": 0.3972789071782664,
+        "wonOrders": 269,
+        "onTimeShare": 0.9628252788104089,
+        "undeliveredShare": 0.011152416356877323,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w399d742119b6a53a4123",
+      "family": "Gamma recovery stress-pairs",
+      "label": "notes-pairs-segments",
+      "seed": "gamma-t04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1005280,
+        "revenueCents": 2756339,
+        "marginShare": 0.3647156608820613,
+        "wonOrders": 234,
+        "onTimeShare": 0.9615384615384616,
+        "undeliveredShare": 0.017094017094017096,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w175858675bcce33f9250",
+      "family": "Gamma recovery stress-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 726208,
+        "revenueCents": 2165946,
+        "marginShare": 0.33528444384116685,
+        "wonOrders": 190,
+        "onTimeShare": 0.9631578947368421,
+        "undeliveredShare": 0.021052631578947368,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w89841da53c7073cba99d",
+      "family": "Gamma recovery stress-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 868287,
+        "revenueCents": 2279130,
+        "marginShare": 0.3809730028563531,
+        "wonOrders": 192,
+        "onTimeShare": 0.9739583333333334,
+        "undeliveredShare": 0.005208333333333333,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w262cff3a928fa9c170c3",
+      "family": "Gamma recovery stress-supply",
+      "label": "supply-only",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 821090,
+        "revenueCents": 2584082,
+        "marginShare": 0.3177492045531063,
+        "wonOrders": 217,
+        "onTimeShare": 0.9078341013824884,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w9eaec42c6afa0ec408e1",
+      "family": "Gamma recovery stress-supply",
+      "label": "supply-towns",
+      "seed": "gamma-h07",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 661818,
+        "revenueCents": 2252479,
+        "marginShare": 0.29381761161813275,
+        "wonOrders": 193,
+        "onTimeShare": 0.927461139896373,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wbcee1c7e78f1b98c65da",
+      "family": "Gamma recovery stress-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-t02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 1030436,
+        "revenueCents": 2533192,
+        "marginShare": 0.40677374632479496,
+        "wonOrders": 216,
+        "onTimeShare": 0.9814814814814815,
+        "undeliveredShare": 0.013888888888888888,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w927931e6577e4d839e50",
+      "family": "Gamma recovery stress-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-t02",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 1040263,
+        "revenueCents": 2506983,
+        "marginShare": 0.4149461723513881,
+        "wonOrders": 215,
+        "onTimeShare": 0.9813953488372092,
+        "undeliveredShare": 0.009302325581395349,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w14568ed3f6a39a073309",
+      "family": "Gamma recovery stress-supply",
+      "label": "supply-only",
+      "seed": "gamma-t02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 1059651,
+        "revenueCents": 3137732,
+        "marginShare": 0.3377123986369773,
+        "wonOrders": 256,
+        "onTimeShare": 0.93359375,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w9cf74ca7c4bdb19a4f4d",
+      "family": "Gamma recovery stress-supply",
+      "label": "supply-towns",
+      "seed": "gamma-t02",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 977634,
+        "revenueCents": 2588947,
+        "marginShare": 0.3776183907974941,
+        "wonOrders": 215,
+        "onTimeShare": 0.9627906976744186,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w2658afa7b975a90d06d6",
+      "family": "Gamma recovery stress-supply",
+      "label": "notes-supply-towns",
+      "seed": "gamma-t04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes",
+      "score": {
+        "marginCents": 943070,
+        "revenueCents": 2208934,
+        "marginShare": 0.42693443987009116,
+        "wonOrders": 201,
+        "onTimeShare": 0.9850746268656716,
+        "undeliveredShare": 0.004975124378109453,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w6a5237eafd361d689140",
+      "family": "Gamma recovery stress-supply",
+      "label": "pairs-notes-supply-towns",
+      "seed": "gamma-t04",
+      "level": 8,
+      "factory": "gamma_notes:make_gamma_notes_pairs",
+      "score": {
+        "marginCents": 818653,
+        "revenueCents": 2161153,
+        "marginShare": 0.37880381444534467,
+        "wonOrders": 200,
+        "onTimeShare": 0.97,
+        "undeliveredShare": 0.02,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wfc45fd54a2a1999398f4",
+      "family": "Gamma recovery stress-supply",
+      "label": "supply-only",
+      "seed": "gamma-t04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 915961,
+        "revenueCents": 2535823,
+        "marginShare": 0.3612085701565133,
+        "wonOrders": 230,
+        "onTimeShare": 0.9391304347826087,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w3b251feff8d2fb16aaa5",
+      "family": "Gamma recovery stress-supply",
+      "label": "supply-towns",
+      "seed": "gamma-t04",
+      "level": 8,
+      "factory": "gamma:make_gamma",
+      "score": {
+        "marginCents": 807473,
+        "revenueCents": 2209973,
+        "marginShare": 0.3653768620702606,
+        "wonOrders": 201,
+        "onTimeShare": 0.9552238805970149,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
       "world_id": "wca35e58de6305040d2c6",
       "family": "Gamma t1 (Beta sweep)",
       "label": "beta",
@@ -17358,6 +19444,23 @@
       }
     },
     {
+      "world_id": "we80c6b64fde19235b333",
+      "family": "Gamma t3",
+      "label": "all",
+      "seed": "gamma-t05",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1521877,
+        "revenueCents": 3862237,
+        "marginShare": 0.3940402932290276,
+        "wonOrders": 335,
+        "onTimeShare": 0.9731343283582089,
+        "undeliveredShare": 0.0029850746268656717,
+        "ranked": true
+      }
+    },
+    {
       "world_id": "w0dcfcae06fd37c9e9f44",
       "family": "Gamma t3",
       "label": "g700t38-brake",
@@ -17370,6 +19473,23 @@
         "marginShare": 0.38072978925857504,
         "wonOrders": 320,
         "onTimeShare": 0.953125,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wfef6ce7dda2d186c6ac9",
+      "family": "Gamma t3",
+      "label": "g700t38-brake-early",
+      "seed": "gamma-t05",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1439998,
+        "revenueCents": 3744595,
+        "marginShare": 0.38455373678595417,
+        "wonOrders": 315,
+        "onTimeShare": 0.9619047619047619,
         "undeliveredShare": 0,
         "ranked": true
       }
@@ -17392,6 +19512,40 @@
       }
     },
     {
+      "world_id": "wf52ebf5c169d87a44e7e",
+      "family": "Gamma t3",
+      "label": "k600t38-brake",
+      "seed": "gamma-t05",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1631554,
+        "revenueCents": 3823283,
+        "marginShare": 0.42674162493333606,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w28da85a9fb8612a2eada",
+      "family": "Gamma t3",
+      "label": "pairs",
+      "seed": "gamma-t05",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1328414,
+        "revenueCents": 2829472,
+        "marginShare": 0.4694918345189491,
+        "wonOrders": 267,
+        "onTimeShare": 0.9887640449438202,
+        "undeliveredShare": 0.003745318352059925,
+        "ranked": true
+      }
+    },
+    {
       "world_id": "w3174a466a51e5a647dee",
       "family": "Gamma t3",
       "label": "review",
@@ -17404,6 +19558,125 @@
         "marginShare": 0.4372451708070233,
         "wonOrders": 267,
         "onTimeShare": 0.9737827715355806,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w0905784e9ef3cfab08ea",
+      "family": "Gamma t3",
+      "label": "review-pairs",
+      "seed": "gamma-t05",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1333741,
+        "revenueCents": 2842520,
+        "marginShare": 0.46921077072456835,
+        "wonOrders": 267,
+        "onTimeShare": 0.9962546816479401,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "we5cf930767cff7c06ac0",
+      "family": "Gamma t3",
+      "label": "g700t38-brake",
+      "seed": "gamma-t06",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1170901,
+        "revenueCents": 3195761,
+        "marginShare": 0.366391917292939,
+        "wonOrders": 291,
+        "onTimeShare": 0.9656357388316151,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wa0c396deecd08b043392",
+      "family": "Gamma t3",
+      "label": "g700t38-brake-early",
+      "seed": "gamma-t06",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1094178,
+        "revenueCents": 2984184,
+        "marginShare": 0.36665902638711284,
+        "wonOrders": 275,
+        "onTimeShare": 0.9636363636363636,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1965c9ef32dc0972819e",
+      "family": "Gamma t3",
+      "label": "g700t42-brake",
+      "seed": "gamma-t06",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1164526,
+        "revenueCents": 3270348,
+        "marginShare": 0.35608626360252793,
+        "wonOrders": 301,
+        "onTimeShare": 0.9601328903654485,
+        "undeliveredShare": 0.0033222591362126247,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w407e76424a5fec3cd86c",
+      "family": "Gamma t3",
+      "label": "k600t38-brake",
+      "seed": "gamma-t06",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1405628,
+        "revenueCents": 3801756,
+        "marginShare": 0.369731250506345,
+        "wonOrders": 316,
+        "onTimeShare": 0.9588607594936709,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w4b053b419f8835beafcc",
+      "family": "Gamma t3",
+      "label": "review",
+      "seed": "gamma-t06",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1189442,
+        "revenueCents": 2825581,
+        "marginShare": 0.4209548407920353,
+        "wonOrders": 254,
+        "onTimeShare": 0.9803149606299213,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1ed25ac59ac024c2200d",
+      "family": "Gamma t3",
+      "label": "k600t38-brake",
+      "seed": "gamma-t07",
+      "level": 8,
+      "factory": "gamma_pairs:make_gamma_pairs",
+      "score": {
+        "marginCents": 1819735,
+        "revenueCents": 4142012,
+        "marginShare": 0.4393360038551313,
+        "wonOrders": 319,
+        "onTimeShare": 0.9623824451410659,
         "undeliveredShare": 0,
         "ranked": true
       }
@@ -17489,6 +19762,91 @@
         "marginShare": 0.29445041104229536,
         "wonOrders": 244,
         "onTimeShare": 0.9549180327868853,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "wcc7c35c6d410a3098328",
+      "family": "Official ranking",
+      "label": "20261114T123711Z-level8-wcc7c35c6d410a3098328.jsonl",
+      "seed": null,
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1227277,
+        "revenueCents": 3113536,
+        "marginShare": 0.3941746618635532,
+        "wonOrders": 255,
+        "onTimeShare": 0.9686274509803922,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w1f1105b31b22d15b93b8",
+      "family": "Official ranking",
+      "label": "20261114T124436Z-level8-w1f1105b31b22d15b93b8.jsonl",
+      "seed": null,
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1350054,
+        "revenueCents": 3242480,
+        "marginShare": 0.41636463447731364,
+        "wonOrders": 257,
+        "onTimeShare": 0.9610894941634242,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w0f9b1f1d44f4651f2e01",
+      "family": "Official ranking",
+      "label": "20261114T124758Z-level8-w0f9b1f1d44f4651f2e01.jsonl",
+      "seed": null,
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 919130,
+        "revenueCents": 2560046,
+        "marginShare": 0.35902870495295786,
+        "wonOrders": 236,
+        "onTimeShare": 0.9830508474576272,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w4a1946132fed2315abfd",
+      "family": "Official ranking",
+      "label": "20261114T125156Z-level8-w4a1946132fed2315abfd.jsonl",
+      "seed": null,
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1259582,
+        "revenueCents": 2842711,
+        "marginShare": 0.4430918232630753,
+        "wonOrders": 244,
+        "onTimeShare": 0.9918032786885246,
+        "undeliveredShare": 0,
+        "ranked": true
+      }
+    },
+    {
+      "world_id": "w51f8e67125937ca33549",
+      "family": "Official ranking",
+      "label": "20261114T125520Z-level8-w51f8e67125937ca33549.jsonl",
+      "seed": null,
+      "level": 8,
+      "factory": "beta:make_beta",
+      "score": {
+        "marginCents": 1196819,
+        "revenueCents": 2992800,
+        "marginShare": 0.39989942528735634,
+        "wonOrders": 263,
+        "onTimeShare": 0.9657794676806084,
         "undeliveredShare": 0,
         "ranked": true
       }

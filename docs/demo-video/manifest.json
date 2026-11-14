@@ -1,27 +1,43 @@
 {
   "README.md": {
-    "bytes": 4846,
-    "sha256": "329159c028ac4b5c792c69c701fe35666cf74d348e88cd1d9a3ce19a353ae563"
+    "bytes": 5075,
+    "sha256": "b0b88da6075d8c5046de0387bc9c608b0a26f760c55151f5eac0a76f2d8c0110"
   },
   "requirements.txt": {
     "bytes": 50,
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 34314,
-    "sha256": "40d2a037b993131c97d5f2b385d78fee62b8153db2a9c26a71c09e5d837032c9"
+    "bytes": 38453,
+    "sha256": "d9261d75297a6fbd71123188170a7074c5ee3bf5123b6f2fc7579469e18a4ab3"
   },
   "captions.vtt": {
-    "bytes": 1970,
-    "sha256": "672417ff4c4bb1931de4d594e5270bc4a737f94fa72d5c78d3b6bcb9b9693ce3"
+    "bytes": 1331,
+    "sha256": "3e8a5314798d99c2afc8bda7a05ef10532ef0cdf6674476b85b287ae11a4c60d"
   },
   "captions.srt": {
-    "bytes": 1962,
-    "sha256": "c12b12e4710b9d06b10344b1e055379605f26af2ea1907cd4ff024e02bf48b3c"
+    "bytes": 1339,
+    "sha256": "db71300a6ed8e0c62bf73253df55495e1fbbedd170823beb7edbc465554f945e"
   },
   "data/graph-data.json": {
-    "bytes": 459165,
-    "sha256": "c2cec2d730b455d770a50639a367a3f5ca6cdf8f300fc17b65f8461dff992186"
+    "bytes": 526287,
+    "sha256": "e65bbdf9041d5ce22808444ab24602fb8d57bf8f4eff5aec9f06fb778e8c17e6"
+  },
+  "data/chart-data.json": {
+    "bytes": 28866,
+    "sha256": "39934db76593c96b448af87f24065ada275ca90dbe70ee9f6562113f8dc4953b"
+  },
+  "data/cohort-comparisons.csv": {
+    "bytes": 1163,
+    "sha256": "2b86341ff46dab35a8f90f3d9fd2758518757b04b534295402240f17264858cd"
+  },
+  "data/paired-weeks.csv": {
+    "bytes": 5230,
+    "sha256": "0baf34a5f347a30416c41dd09a2b60a0d7793a88ca51dbb1ed392a9e1cd2a91c"
+  },
+  "data/official-rounds.csv": {
+    "bytes": 186,
+    "sha256": "878b2f39e8b62c0a49599389a1937cbe46f1af33dead9ad6e1e4ed268a61e06e"
   },
   "data/official-five-weeks.csv": {
     "bytes": 312,
@@ -48,19 +64,31 @@
     "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
   },
   "assets/all-run-margins.png": {
-    "bytes": 342923,
-    "sha256": "94a89cde93f54433393f2fcaab79776626e036294f88bb6477cfdf3f3bfd7c4f"
+    "bytes": 311137,
+    "sha256": "59abd0b7dfc021d30675692bb3626bd187b27bee0c203442dfb36a53c3ef654c"
+  },
+  "assets/learning-stages.png": {
+    "bytes": 368953,
+    "sha256": "109b2bbd542a2b067219a061f2d23c767c9b98e8a492e16d53bc07ce3c5566f4"
+  },
+  "assets/gamma-confirmation.png": {
+    "bytes": 221035,
+    "sha256": "b432eb8fc4d4569f94563633dfa16232cc758bb30aa67e7311dd3f745178e5dd"
+  },
+  "assets/official-rounds.png": {
+    "bytes": 162339,
+    "sha256": "7c004ffecce341d28c72a51ab9b6b20c5543a5bfdd938739598c6d049acc91fa"
+  },
+  "assets/poster.png": {
+    "bytes": 160848,
+    "sha256": "c07c7e3395053b2a7dae3d8a2535277bf877f89f0569804f3f9968946b30fcf5"
+  },
+  "assets/contact-sheet.jpg": {
+    "bytes": 761956,
+    "sha256": "6865b705f859071cd26f78fbff488978e7bc0eaa2cb136c6bd72fa0a6f8d2306"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
     "sha256": "d3e3f873a5ea26a536ac74dcabf0aba8b5e7518f5382db913d9083186e2733eb"
-  },
-  "assets/poster.png": {
-    "bytes": 156142,
-    "sha256": "ba55d12bf54a2a2931e9493d7ba8fde435840d3570044d3ca651fa986cee338c"
-  },
-  "assets/contact-sheet.jpg": {
-    "bytes": 638541,
-    "sha256": "bfe68954bd726beef77d7f17887bcf2d4b31a6ada4012778b245f830b87f809d"
   }
 }

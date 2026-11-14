@@ -15,3 +15,7 @@
 ## Subagent and Delegation Model Policy
 
 - When delegating work or spawning subagents, use **Gemini models only** — specifically `google/gemini-4-argon` — unless the user explicitly specifies another model.
+
+## Draft PR Workflow
+
+- Every completed user command/iteration on this branch should be committed and pushed to the active Draft PR (`t3/event-demo-video-1`) so progress can be tracked over time. Do not add AI/model/tool `Co-Authored-By` or `Generated with` footers.
