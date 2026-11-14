@@ -71,8 +71,11 @@ The public final feed, retrieved **2026-11-14 18:40:38 UTC**, reports leader
 **Juhus at €19,592.05** and tenth-place **Team Moonshot at €16,622.58**.
 
 The run was interrupted: during a server restart the connection dropped twice
-around Friday of the simulated week, the runner rebuilt its desk on Saturday,
-and no further orders were won after that, so the result understates a clean run.
+around Friday of the simulated week (world minute 6871) and the runner rebuilt
+its desk on Saturday (minute 7849). Requests that arrived in that gap went
+unanswered; how many is not measured. After the rebuild the world sent no
+further price requests, so the flat order count from Saturday is not a quoting
+failure.
 
 ![Public test final: The final heading, ended status and leading teams](docs/screenshots/test-final-2-leaders.png)
 ![Public test final: Guardians of the Moonlight at rank 42 and neighbouring teams](docs/screenshots/test-final-2-team.png)
