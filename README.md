@@ -4,282 +4,149 @@
 
 # Cheap-Drive
 
-Cheap-Drive is a project dedicated to tackling the Bahn Express challenge at [spread.bahnexpress.com](https://spread.bahnexpress.com/how).
+A Python dispatcher for the Spread challenge, using the official client.
+[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-## Challenge resources
+> **Final is close — as of 14 November 2026, 12:00 Helsinki (UTC+2).**
+> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, about 20 hours away; lasts about 34 minutes.
+> Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
+> Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
+> Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
+> **Missing: Beta has only been played on practice clocks; there is no final-mode runner yet.**
+> [Schedule details](AI%20overview.md#event-deadlines-and-submission).
 
-- [How it works](https://spread.bahnexpress.com/how) ; challenge overview and instructions.
-- [Judging](https://spread.bahnexpress.com/judging) ; judging criteria for submissions.
-- [Leaderboard](https://spread.bahnexpress.com/leaderboard) ; challenge standings.
+## Standings
 
-Our implementation uses **Python** and the official Spread client. See [AI overview.md](AI%20overview.md) for observations, priorities and project decisions.
+Our public team is **Guardians of the Moonlight**. Round 5 ("Saturday 09:00"), level 8:
+**41st of 65 ranked teams**, €50,541; all five ranked, 95.5–98.7% on time.
+Runs: €7,872 / €12,396 / €9,653 / €12,804 / €7,816. House best (organisers):
+€50,660; tenth place about €71k; leaders €77–79k.
+Round 6 ("Saturday 12:00"): current; we have not played it.
 
-## Prototype conventions
+![Round 5 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round5-totals.svg)
+![Our five round-5 margins versus leader Juhus](docs/screenshots/round5-runs.svg)
 
-New prototypes use Greek letters in order: **Alpha, Beta, Gamma, Delta**, and so on. The fixed-price model and official starter remain the pre-Alpha baselines. See [PROTOTYPES.md](PROTOTYPES.md) for the naming sequence, discussion workflow and the Alpha specification.
+*Charts: 14 November 2026, retrieved 10:13:44 UTC. Exact cents in charts; research notes' whole euros in prose.*
 
-The evolving prototype story lives locally in `prototype-story/STORY.md`. The entire `prototype-story/` directory is gitignored; it must stay out of commits and PRs. Prototype code, configurations and technical documentation are intended for PRs after discussion and explicit approval to publish.
+![Public leaderboard: round 6, Saturday 12:00, level 8](docs/screenshots/leaderboard-round6.png)
 
-Beta is the current model: quotes at the list price times a markup that follows the market and dealer trust, and a driver fee that opens low and rises only as the deadline nears. See [docs/research/beta-results.md](docs/research/beta-results.md).
+*Real public-page screenshot, 14 November 2026, 10:14 UTC: only round 6 is shown; our round-5 row is unavailable.*
 
-```bash
-python scripts/sweep.py runs/beta/my-sweep plan.json   # a grid of settings on shared seeds, 8 worlds at a time
-python scripts/board.py models/beta.json --runs 5      # public ranking runs: cannot be taken back
-```
+## Current model: Beta
 
-Compare Alpha with the official starter on shared practice seeds:
+Each option's quote is its list price × a markup that follows the market to a
+30% win share, with 1% extra per on-time order delivered to that dealer (up to 25;
+a late order halves the count). Driver fees open at 0.8 × the typical fee and
+reach 1.5 × at the deadline warning; the starter's rescue fees apply afterwards.
+Beta declines trade-ins, routes over 500 km and options leaving a driver under
+8 hours from the dealer's decision to the last feasible pickup.
 
-```bash
-python compare.py run --model-a models/alpha.json --model-b models/starter.json --levels 8 --seeds cheap-drive-eval-1
-```
+Parameters in [models/beta.json](models/beta.json): `win_target_bps=3000`,
+`opening_fee_bps=8000`, `max_km=500`.
+Fixed €100 quotes / €150 driver fees and the official starter are pre-Alpha baselines.
 
-## Current approach
+## Results
 
-We are prioritizing strategy experiments and shorter feedback cycles on the official simulator. Use the fast practice options below when screening changes, then keep full captures for detailed analysis and validation.
+| Model / comparison | Margin / week | Weeks ranked | On time: worst / mean | Orders / week |
+| --- | --- | --- | --- | --- |
+| Alpha, its six seeds | about €6,200 | 6 of 6 | 91.2% / 95.0% | 297 |
+| Beta, eight seeds | €10,786 | 8 of 8 | 93.9% / 96.2% | 246 |
+| Leading teams, ranking round 5 | about €14–15k | 5 of 5 | 92–99% | 350–450 |
 
-The first prototype uses constant prices:
+Alpha and Beta used **different seeds**, not a paired test.
+Round 5's five runs totalled **€50,541**, all ranked: **41st of 65**, against about
+€71k for tenth place. Reaching the final's top ten needs roughly **40% more margin**;
+the gap is order volume (Beta about 250 orders/week versus the leaders' 350–450).
+Settings were chosen on these eight seeds; generalisation is uncertain.
+Details: [Beta results](docs/research/beta-results.md), [Alpha results](docs/research/alpha-results.md).
 
-- Quote **€100 per order** for every offered delivery option, regardless of distance or the reference prices.
-- Pay **€150 per car** to a driver. A combined two-car trade-in gig pays €300; each car posted separately pays €150.
-- Keep driver fees constant, including after deadline warnings. No automatic increases, direct offers or adaptive pricing.
+## What drove the changes
 
-Both amounts are configurable. These defaults demonstrate the API flow; they are not a recommended competitive policy.
+- List price ≈ driver cost away from the shortest routes; price each option from its own list.
+- The markup must find each week's market; a fixed markup won very different volumes across weeks.
+- Drivers learned to wait for fee raises. Open lower and spread the rise over the order's own time.
+- Long routes caused half the late orders; the 500 km limit made all eight weeks rank.
 
 ## Setup
 
-Python 3.9 or later is supported by the official kit. We use Python 3.12 for GitHub practice runs and check 3.9, 3.12 and 3.14 in CI. From the repository root, create a local environment and install the official client:
+Python 3.9+; GitHub practice uses 3.12, CI checks 3.9, 3.12 and 3.14.
 
 ```bash
 bash scripts/setup.sh
 source .venv/bin/activate
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests
 python dispatch.py --demo
 ```
 
-The setup command checks installed dependencies and verifies the kit's SHA-256 against `requirements.txt`. It uses Python's built-in `venv`, falling back to `uv` if installed when Python cannot bootstrap pip. If neither works, install your Python's venv support (for example, `python3-venv` on Debian/Ubuntu) or [uv](https://docs.astral.sh/uv/getting-started/installation/), then rerun it. Select a particular installed interpreter with `PYTHON=python3.12 bash scripts/setup.sh`. Setup and offline checks require no team key; installation requires network access to download the kit.
+Copy `.env.example` to git-ignored `.env`; set `SPREAD_KEY`
+(your team key) and optionally `SPREAD_URL` (default `https://spread.bahnexpress.com`),
+load it with `set -a; source .env; set +a`. The app does not load `.env` itself.
+**Keep the key out of git.** For Actions, add those names as repository secrets in
+**Settings → Secrets and variables → Actions**; secrets apply only to Actions.
+[Setup and GitHub workflow details](docs/reference.md#setup).
 
-For local live runs, optionally copy `.env.example` to `.env`, fill in the key locally and load it with `set -a; source .env; set +a`. The `.env` file is ignored by Git. GitHub secrets are available to Actions workflows; they do not automatically populate your local terminal.
+## Run
 
-## GitHub setup and practice runs
-
-The **Checks** workflow installs the kit, runs the offline tests and exercises the demo on each pull request and push to `main`. It needs no secrets.
-
-Add the following under [Settings → Secrets and variables → Actions → Repository secrets](https://github.com/KotvicCodes/Cheap-Drive/settings/secrets/actions):
-
-| Secret | Required | Value |
-| --- | --- | --- |
-| `SPREAD_KEY` | Yes, for live practice | Your team's key from the challenge registration page. |
-| `SPREAD_URL` | No | Server address; defaults to `https://spread.bahnexpress.com`. |
-
-After this workflow is merged to `main`, open **Actions → Practice comparison → Run workflow**. Select a level or `all` and a shared seed. The default runs both existing models at all eight levels on one seed: **16 ordinary practice weeks**. A single level runs two weeks.
-
-To verify credentials and live execution before merging a repository branch, add the **run-practice** label to its pull request. This runs both models at level 4 on seed `github-pr-smoke-1` (two ordinary practice weeks). Remove and reapply the label to request another run. Fork pull requests are excluded. Runs start only when manually dispatched or labeled; adding a secret or pushing a commit does not start practice.
-
-The workflow shows the leaderboard in its run summary and uploads `leaderboard.md`, `results.json` and the JSONL traces as a **practice-comparison** artifact retained for 14 days. Failed runs also upload any partial results and traces that were written. Download results before they expire. Practice weeks run concurrently using up to eight free team slots. Local runs and other users share the team's unfinished-world slots and rate limit; a suite refuses to create worlds when all slots are occupied. A forced cancellation or timeout may leave an unfinished world; check the world IDs in the traces if you need to clean one up.
-
-## Try it without a team key
+Run from the repository root with the environment activated; live runs need
+`SPREAD_KEY`. The team shares **8 unfinished practice-world slots**; completed weeks free slots. Keep traces and reports private under git-ignored `runs/`.
 
 ```bash
+# Offline scripted demo; synthetic score, no key.
 python dispatch.py --demo
-python dispatch.py --demo --dealer-price 400 --driver-fee 175
-```
 
-The demo feeds a scripted request, win, booking and delivery through our actual dispatch loop. It is **not the Spread simulator** and its score is synthetic. It shows how quotes, driver fees and delivery events connect without needing credentials or network access.
-
-## Play an actual practice week
-
-Create a team at [the challenge registration page](https://spread.bahnexpress.com/join), then set the server address and your team key:
-
-```bash
-export SPREAD_URL=https://spread.bahnexpress.com
-export SPREAD_KEY="<your team key>"
+# One fixed-price practice week.
 python dispatch.py --level 4 --seed cheap-drive-1
-```
 
-Change the fixed amounts in euros, with at most two decimal places:
+# Paired Beta / Alpha weeks on shared seeds.
+python compare.py run --model-a models/beta.json --model-b models/alpha.json \
+  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast --output runs/beta-vs-alpha
 
-```bash
-python dispatch.py --level 4 --seed cheap-drive-1 --dealer-price 350 --driver-fee 180
-```
+# Rebuild Markdown offline.
+python compare.py report runs/beta-vs-alpha/results.json
 
-Level 4 is the default because dealer quotes compete on price there. At levels 1–3 every quote wins at the first option's list price, so those levels cannot demonstrate the effect of changing our dealer price. Level 8 is available with `--level 8`, but scarcity and additional constraints make the constant-price baseline deliberately unsophisticated.
+# Sweep settings with plan.json below.
+python scripts/sweep.py runs/beta/check plan.json
 
-Each invocation creates an **ordinary practice world**, never a ranking run or a final. Completed worlds remain available for inspection and do not occupy unfinished-world slots. On an error or Ctrl-C, the runner **preserves its practice world by default** for debugging. An unfinished world may hold one of the team's eight unfinished-world slots. Inspect it before explicitly cleaning it up through the API. If you deliberately want this invocation's failed practice world deleted, pass `--delete-on-error`. This option does not affect completed worlds. A lost create response can leave a world whose ID the process never received.
+# Public ranking runs; qualify on private seeds first.
+python scripts/board.py models/beta.json --runs 5
 
-## Inspect a run
-
-The terminal shows requests, accepted quotes, posted driver fees, bookings, delivery events and the final score. Full events and action results are written as JSON lines under `runs/`. Use `--log runs/my-run.jsonl` to choose a fresh path; existing log files are not overwritten. All amounts inside API payloads and logs are integer cents, and times are integer world minutes.
-
-New runs capture:
-
-- `run`: world ID, seed, level and fixed prices. `mode=demo` always means synthetic data.
-- `snapshot`: initial and end state, including score and world `endsAt` when available.
-- `map`, `roster`, `reveal`: complete returned payloads when the SDK exposes them and the server permits access. Failed optional reads produce a sanitized `capability_unavailable` record.
-- `action_intent`: batch ID, world minute, method, parameters and actions, flushed and fsynced **before** each mutation call. This also captures sends made internally by the official starter. Large outboxes are split into calls of at most 50 actions so each return is journaled separately.
-- `advance_batch` and `act_result`: the full SDK return, flushed and fsynced **before** desk processing. A handler crash cannot discard later events in an already saved batch.
-- `daily_score`, `score`, `run_end`: recorded checkpoints and the loop reaching its known endpoint.
-
-Capture is at the pinned SDK boundary, not a packet recorder. The SDK can filter repeated event sequences and retry transport calls internally. A process crash before a completed journal write, disk failure, an interrupted response, or a lost server response can still leave missing information. An intent without its result means **unknown server outcome**, not a rejected action. Do not blindly replay it. The runner does not implement automatic resume or exactly-once delivery. HTTP headers, API keys and raw exception strings are not journaled; credential-shaped fields/text are redacted before capture.
-
-## Analyze an existing week offline
-
-```bash
-python week_report.py runs/my-run.jsonl
+# Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
 ```
 
-Open the generated HTML directly in your browser. No server, key, Spread installation, CDN, map tiles, telemetry or internet connection is needed. The report generator uses Python's standard library. Output files must be fresh; the CLI refuses to overwrite an existing report or input. The application version is in `VERSION` and appears in each report.
+`compare.py run`: `--workers` defaults to 1 (1–8), capped at
+observed free slots. `--fast` keeps events/actions but skips bookkeeping stops,
+daily scores and end roster/reveal. Repeat the same command with `--resume`
+to reuse completed weeks; code, configuration and output directory must match.
+Interrupted worlds are not resumed. [Fast-practice limits](docs/research/official-run-performance.md).
 
-The report includes financial and score charts, every observed request and quote, wins/losses, original notes and options, order/leg histories and windows, gigs/stops/fee changes, driver activity, incidents, the complete ledger, and a searchable raw explorer. Entity IDs open histories. Tables support sorting, pagination, text search, entity filters, world-day and clock filters, and exports of all filtered rows across pages. Clock ranges spanning midnight are supported. Entity-time filters match any captured activity for that entity. Overview charts always cover the full source. Days after Sunday retain distinct day numbers, including the delivery tail beyond the request week.
-
-The layout is built for a whole week at real volume. A provenance strip shows byte retention, line validity, endpoint verification and reconciliation status on every page. The overview adds a hoverable cumulative ledger chart, money in and out per world day, recorded score checkpoints and a day-by-hour request arrival heatmap; selecting a day or an hour opens the matching ledger or timeline rows. Explorer tables show active filters as removable chips, a per-day row distribution that also filters, the current sort and sticky dense headers. Any row opens its history in a side drawer that keeps back navigation between linked orders, gigs and drivers and groups activity by day. Press `/` to search. The report follows the system light or dark theme, with a manual toggle stored only in the browser. Previews are in [docs/screenshots](docs/screenshots/README.md).
-
-**Original source is preserved byte for byte inside the HTML**, with SHA-256 provenance and an exact JSONL download. Complete analysis JSON and filtered JSON downloads keep unknown fields. Invalid UTF-8, malformed/partial lines, blank lines and duplicate object keys stay inspectable through exact byte ranges. Displayed invalid UTF-8 uses replacement characters; the binary download does not. The generator refuses credential-shaped input rather than embedding secrets or silently deleting fields. If refused, keep the original privately and deliberately prepare a sanitized copy for reporting. Do not import arbitrary credential-bearing logs.
-
-The report reads both the older `run` / `event` / `action_result` / `daily_score` / `score` format and new batch captures. Exact duplicate event sequences count once in derived views while all original copies remain in raw records. Conflicting sequence payloads are shown and excluded from derived totals. Gaps, malformed records, pending intents and missing final observations lower confidence. A numerically matching ledger is not proof that a whole simulated week was captured. Only an end snapshot reaching `endsAt` verifies that endpoint. Missing map, roster and reveal are labeled unavailable. Missing quote records are not labeled unquoted unless a captured reveal confirms it.
-
-Reconciliation compares signed ledger totals with recorded final margin and revenue. Posted and booked fees are not charged a second time. Direct order net uses only ledger lines naming that order. Gig-only/shared and unattributed costs stay separate. Gig totals can overlap directly attributed order entries and must not be added to order totals. Reliability and ranking are displayed from the recorded score rather than reverse-engineered from incomplete observations.
-
-**Treat the HTML and its downloads as private run data**: they include the complete source, not just a dashboard. Keep them under ignored `runs/`. Share only deliberately. No real trace or generated real report belongs in a commit.
-
-The prototype subclasses the official starter's `Desk`, reusing its basic windows, retry, expiration and trade-in handling. The client is pinned because this starter class is an implementation detail rather than a guaranteed stable API. Notes still use the starter's limited keyword parser. This prototype does not yet add capacity selection, robust multilingual parsing, ranking mode or final mode.
-
-Keep the team key outside Git. The application reads environment variables directly; it does not automatically load `.env` files. Run traces and local environments are ignored by Git.
-
-## Compare two models across all levels
-
-Here, a **model** is a dispatch strategy plus its settings. With `SPREAD_KEY` set as above, one command compares our fixed-price model with the official starter:
-
-```bash
-python compare.py run
-```
-
-The default suite runs **both models at levels 1–8 on the same ten seeds**: 160 ordinary practice weeks, run sequentially. It prints a Markdown leaderboard to stdout and saves `leaderboard.md`, machine-readable `results.json`, and a JSONL trace per world in a fresh `runs/comparison-<time>/` directory. Progress goes to stderr, so stdout can also be redirected to a Markdown file. This uses actual Spread practice worlds, not the scripted offline demo or official ranking rounds.
-
-For a quick all-level comparison with one paired seed:
-
-```bash
-python compare.py run --seeds smoke-1 --output runs/smoke-comparison
-```
-
-For a short level-8 screening experiment, run paired seeds concurrently:
-
-```bash
-python compare.py run --model-a models/alpha.json --model-b models/starter.json \
-  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast \
-  --output runs/quick-screen
-```
-
-`--workers` defaults to 1 and accepts up to 8. Each worker has its own process,
-SDK connection and world; the requested count is reduced to the number of free
-team slots observed before starting. Other processes can still race for those
-slots. The server's team-wide rate limit remains in effect. GitHub practice
-comparisons request eight workers while keeping full captures.
-
-`--fast` removes HTTP stops for declared bookkeeping events, while retaining
-every event and the handler clock at the original stops. The built-in starter,
-fixed model and Alpha opt in; custom subclasses keep all wakes unless they
-explicitly declare `passive_wake_events` on their own class. Fast mode skips
-daily score reads and end roster/reveal downloads. It retains all actions,
-event batches, durable journaling, the final score and the endpoint snapshot.
-Use normal mode for complete diagnostics, or fetch a completed world's reveal
-later. A passive handler that queues actions stops the run instead of silently
-delaying them.
-
-The SDK wrapper requests gzip responses, reuses connections and caches only the
-public map. Alpha reuses the initial snapshot/map/roster already captured by
-the runner. Per-week `seconds` and transport `timing` in `results.json` show
-request counts, API/transport time, transferred bytes and observed rate limits.
-`--no-compression` allows a transport comparison. The wrapper retains the
-official SDK's request validation, rate-limit waiting and retry behavior.
-
-Measure public API latency from a candidate host without credentials or new
-practice worlds:
-
-```bash
-python performance.py --samples 8
-```
-
-The command alternates compressed and uncompressed map reads over a warm
-connection. It measures that host's network path, not the duration of a week.
-Moving the runner near the official server remains a useful next experiment
-when round-trip time dominates; more machines do not increase the team limit.
-
-For a focused experiment with explicit model definitions:
-
-```bash
-python compare.py run --model-a models/fixed.json --model-b models/starter.json \
-  --levels 4 8 --seeds validation-1 validation-2 validation-3 \
-  --output runs/fixed-vs-starter
-```
-
-The report includes:
-
-- Overall and per-level leaderboards: qualified weeks, mean gross margin, revenue, on-time share, undelivered share and won orders.
-- Paired wins and losses, plus margin, revenue and delivery-rate differences in a consistent **B − A** direction.
-- Signed ledger totals, deadline warnings, drops, no-shows, failed-visit reasons and rejected actions.
-- Suggested next experiments based on qualification failures, observed costs and the largest per-level margin gap. Level 8 gets its own recommendation because it is the final's difficulty.
-- Code revision, dirty-tree flag, exact configurations and seeds for reproduction; raw results retain individual scores, world IDs and trace paths.
-
-The comparison ranks **qualification count first, then mean gross margin across all sampled weeks**. It uses each world's official `ranked` flag; a high average delivery rate cannot hide failed weeks. Neither model is recommended if neither qualifies. Overall results cover the requested levels equally; use level 8 and separate held-out seeds when selecting the final strategy. Ten seeds are an initial comparison, not proof that a model will win on unseen weeks. Weekly delivery percentages are averaged per week, not pooled across orders.
-
-To compare two fixed-price variants, copy [models/fixed.json](models/fixed.json), give the copy a different `name`, and change its euro amounts:
+Minimal `plan.json` (fast by default; reruns skip completed weeks):
 
 ```json
-{
-  "name": "Fixed €350 / €180",
-  "factory": "fixed",
-  "settings": {"dealer_price": "350", "driver_fee": "180"}
-}
+{"factory":"beta:make_beta","level":8,"seeds":["beta-01"],
+ "variants":{"beta":{"win_target_bps":3000,"opening_fee_bps":8000,"max_km":500}}}
 ```
 
-For a future strategy, set `factory` to `your_module:your_factory`. The factory receives `(world, level, now, journal, **settings)` and must return a subclass of `dispatch.JournalDesk` (or `FixedDesk`), calling the inherited `handle` and `read_results` methods so diagnostics remain complete. `JournalDesk` is the official starter with logging; it adds no pricing changes. Factories are trusted local Python code imported from the project/Python path. Both models use the same practice clock and wake events. Keep credentials in the environment, outside model JSON.
+**Ranking runs are public and cannot be retried or taken back. All five runs
+of a round must reach 90% on time.** Stopping or deleting one still counts.
+Failed `dispatch.py` / `compare.py` worlds are preserved and may hold slots;
+`--delete-on-error` deletes this invocation's failed worlds.
+[Capture, reports, comparisons and workflow reference](docs/reference.md).
 
-Regenerate the report later without a team key or new simulations:
+## Prototype conventions
 
-```bash
-python compare.py report runs/fixed-vs-starter/results.json
-python compare.py report runs/fixed-vs-starter/results.json --output comparison.md
-```
-
-Existing output directories and report files are never overwritten during a new suite. Results are checkpointed after every run. On a worker failure the suite starts no more worlds and finishes those already running before reporting the failure. Ctrl-C requests that active workers stop between API calls. Failed worlds are preserved for debugging by default and may hold unfinished slots. Use `--delete-on-error` to opt into deleting only this invocation's failed worlds; completed worlds remain inspectable. Cleanup failures retain world IDs in results. A lost response can still leave an unknown world or outcome. Incomplete or mismatched pairs cannot produce a leaderboard.
-
-To continue a suite without replaying its completed weeks, repeat the same
-command and output directory with `--resume`. Code revision and Python source
-hashes, model settings, server, fast mode, levels and seeds must match. The
-worker count can change. Failed attempts receive fresh trace filenames, and
-their prior traces and world IDs remain in the checkpoint; resume does not
-delete or blindly replay an unfinished world. Only one controller can write a
-given output directory at a time (the output lock uses POSIX file locking).
-If code or selections change, use a fresh output directory.
+Use Greek-letter names in order: Alpha, Beta, Gamma, and so on; see [PROTOTYPES.md](PROTOTYPES.md).
+The private story lives in git-ignored `prototype-story/` and must never be committed.
 
 ## Checks
 
 ```bash
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests
 ```
 
-The standard-library suite covers dispatch behavior, capture-before-processing, starter-internal sends, lost responses, exact-byte preservation, unknown/malformed/partial records, duplicate/conflicting sequences, shared-cost reconciliation, incomplete runs, credential refusal and script injection.
-
-Optional browser checks exercise actual report controls, history drawer navigation, filter chips, day distribution and heatmap drilldown, theme switching, pagination, filters, sorting, exact source downloads, JSON exports, captured map rendering, XSS and mobile overflow using synthetic fixtures. They require a local Chromium installation managed by Playwright:
-
-```bash
-python -m pip install -r requirements-dev.txt
-# Keep all downloaded environments, caches and test artifacts inside this repository.
-export PLAYWRIGHT_BROWSERS_PATH="$PWD/.cache/browsers"
-export TMPDIR="$PWD/.cache/tmp"
-mkdir -p "$TMPDIR"
-python -m playwright install chromium
-python tests/check_browser.py
-# Optionally validate the known completed level-4 trace locally as well:
-python tests/check_browser.py --real-trace runs/<completed-level-4-trace>.jsonl
-```
-
-`tests/make_browser_fixture.py` also writes a clearly labeled synthetic report under ignored `.cache/`. `tests/browser_checks.js` and `tests/real_browser_checks.js` can be evaluated in that report through an existing browser automation session. No browser test starts a server or a simulator world.
-
-The checks cover exact currency parsing, constant prices across delivery options and deadline warnings, rejected trade-in splitting, manual-licence retry handling, action rejection logging and the offline request-to-ledger flow. Comparison tests use scripted worlds to verify all-level pairing, both models' traces, qualification-first ranking, delta signs, ties, incomplete-result rejection, output preservation, failed-world retention and opt-in failure/interrupt cleanup. They make no claims about simulator performance.
-
+Optional browser checks cover report controls, exports, security and mobile layout;
+[commands and coverage](docs/reference.md#checks). They start no server or simulator world.
 
 ## Project icon
 
-[The red-car SVG](assets/cheap-drive.svg) is the reusable project icon. It is a standalone vector with an accessible title and description.
+[The red-car SVG](assets/cheap-drive.svg) is the reusable project icon, with an accessible title and description.
