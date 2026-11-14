@@ -29,21 +29,44 @@ All event times are **Helsinki time (EET, UTC+2)**:
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. Round 6 ("Saturday 12:00"), level 8:
-**45th of 58 ranked teams**, €59,529; all five ranked, 96.1–99.2% on time.
-Runs: €12,273 / €13,501 / €9,191 / €12,596 / €11,968. House best (organisers):
-€77,560; tenth place about €91k; leaders €99–110k. (Round 5, "Saturday 09:00":
-41st of 65, €50,541.) Round 7 ("Saturday 15:00"): current; we have not played it.
-Unchanged Beta completed round 6 before 15:00 Helsinki, totalling €59,528.62.
+Our public team is **Guardians of the Moonlight**. **Gamma completed all five
+level-8 runs in round 7 ("Saturday 15:00", 14 November 2026, Helsinki time).**
+At 2026-11-14 15:05:59 UTC, we are **#32 of 45 ranked teams**, with
+**€66,880.48 total gross margin** and **96.75% on time**
+on the official board. All five weeks qualified; the worst week was
+91.35% on time (90% required in every week).
+The round stays open until 18:00 Helsinki (16:00 UTC), so positions can change.
 
-![Round 6 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round6-totals.svg)
-![Our five round-6 margins versus leader Juhus](docs/screenshots/round6-runs.svg)
+| Gamma run | Gross margin | On time | Orders won | Ranked |
+| --- | ---: | ---: | ---: | :---: |
+| 1 | €14,924.75 | 97.52% | 282 | Yes |
+| 2 | €13,563.36 | 99.22% | 255 | Yes |
+| 3 | €9,385.40 | 91.35% | 289 | Yes |
+| 4 | €12,867.62 | 97.87% | 282 | Yes |
+| 5 | €16,139.35 | 98.18% | 275 | Yes |
+| **Total** | **€66,880.48** | **96.75%** | **1383** | **5 / 5** |
 
-*Charts: 14 November 2026, retrieved 13:20:20 UTC. Exact cents in charts; research notes' whole euros in prose.*
+Leader **source-exp**: €92,830.32; tenth place:
+€82,653.03 (we are €15,772.55 behind).
+Organisers' **House best**: €64,249.30.
+House teams have no public rank and are excluded from the ranked-team count.
 
-![Public leaderboard: round 7, Saturday 15:00, level 8](docs/screenshots/leaderboard-round7.png)
+![Round 7 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round7-totals.svg)
+![Gamma's five round-7 margins versus the round leader](docs/screenshots/round7-runs.svg)
 
-*Real public-page screenshot, 14 November 2026, 13:18 UTC: only round 7 is shown; our round-6 row is unavailable.*
+*Charts generated from the official public leaderboard, retrieved 2026-11-14 15:05:59 UTC.
+Exact cents are retained; the public page rounds margins to whole euros.*
+
+![Public leaderboard: round 7, Saturday 15:00, level 8, leading teams](docs/screenshots/leaderboard-round7.png)
+![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Gamma runs](docs/screenshots/leaderboard-round7-team.png)
+
+*Real public-page screenshots captured after all five Gamma runs on
+14 November 2026, 15:07 UTC (17:07 Helsinki). The first shows the round and leaders; the second shows our
+ranked row and nearby teams. [Run and snapshot details](docs/research/gamma-board-round7.md).*
+
+Previous round: unchanged **Beta** finished round 6 ("Saturday 12:00")
+**45th of 58 ranked teams**, €59,528.62, with all five weeks qualified.
+The rounds use different secret weeks, so their totals are not a paired model comparison.
 
 ## Current model: Gamma
 
