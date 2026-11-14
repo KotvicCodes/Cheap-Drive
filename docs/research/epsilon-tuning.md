@@ -46,10 +46,10 @@ Delta until a complete confirmation passes.
 
 | Change against current Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Earlier projected brake: 350/600 bps | Pending (4 planned) | — | — | — | Screen in flight |
-| Earlier projected brake: 450/650 bps | Pending (4 planned) | — | — | — | Screen in flight |
-| 350/600 brake with immediate 3%/6% markup bumps | Pending (4 planned) | — | — | — | Screen in flight |
-| 350/600 brake with targets 3000/2600 | Pending (4 planned) | — | — | — | Screen in flight |
+| Earlier projected brake: 350/600 bps | 4 | +€35.64 | 2/4 | 91.72% | Survived screen; remaining 15 paired weeks in flight |
+| Earlier projected brake: 450/650 bps | 4 | −€1.50 | 1/4 | 90.81% | Rejected: service floor |
+| 350/600 brake with immediate 3%/6% markup bumps | 4 | +€143.97 | 2/4 | 90.65% | Rejected: service floor |
+| 350/600 brake with targets 3000/2600 | 4 | −€106.72 | 1/4 | 90.97% | Rejected: service and margin |
 | Remaining pickup-opportunity brake, 360 min horizon | Pending | — | — | — | Implemented; offline validation |
 
 The pickup-opportunity brake counts only orders still needing a driver and
@@ -193,5 +193,5 @@ neutral behavior and strict validation.
 
 | Additional hypothesis | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Rescue-pair waiting age ≤240 min | Pending (4 planned) | — | — | — | Queued |
-| Rescue-pair remaining pickup slack ≥600 min | Pending (4 planned) | — | — | — | Queued |
+| Rescue-pair waiting age ≤240 min | Pending (4 planned) | — | — | — | Screen in flight |
+| Rescue-pair remaining pickup slack ≥600 min | Pending (4 planned) | — | — | — | Screen in flight |
