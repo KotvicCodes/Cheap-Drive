@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic 60-second Cheap-Drive motion film. No simulator or network requests."""
+"""Deterministic 60-second motion film. No simulator or network requests."""
 from __future__ import annotations
 import argparse, csv, json, math, subprocess, wave
 from functools import lru_cache
@@ -142,21 +142,11 @@ def enter(im, text, x, y, size, t, delay=0, color=INK, weight=600, mono=False, s
 
 
 def chrome(im, idx, t, mode='juicy'):
-    if mode == 'juicy':
-        brand_fg, fg, rule, bar, dot = INK, JUICY_TEXT, '#E55A00', INK, CARD
-    else:
-        brand_fg, fg, rule, bar, dot = INK, MUTED_INK, GOLD_LINE, ORANGE, ORANGE
-
-    circle(im, 90, 58, 6, dot)
-    txt(im, 'Cheap-Drive', 108, 43, 23, brand_fg, 700)
-    txt(im, 'Guardians of the Moonlight', 1840, 45, 19, fg, 600, anchor='ra')
-    line(im, [(80, 91), (1840, 91)], rule)
-
-    txt(im, SCENES[idx][2], 80, 1008, 19, brand_fg, 600)
-    txt(im, 'Bahn / Spread challenge, Junction 2026', 960, 1008, 18, fg, 500, anchor='ma')
-    txt(im, f'{int(t):02d}s / {DURATION}s', 1840, 1009, 18, fg, mono=True, anchor='ra')
-    rect(im, (80, 1050, 1840, 1054), rule)
-    rect(im, (80, 1050, 80 + 1760 * clamp(t / DURATION), 1054), bar)
+    """Minimal team signature only—no side labels, no second timer, no Cheap-Drive header, no footnotes."""
+    if idx == 7:
+        return
+    fg = INK if mode == 'juicy' else MUTED_INK
+    txt(im, 'Guardians of the Moonlight', 80, 44, 20, fg, 650)
 
 
 def route_point(points, p):
@@ -244,13 +234,12 @@ def network(im, t, box=(860, 180, 1830, 900), active=True, bg=CARD, border=GOLD_
             ahead = route_point(r_path, min(p + .002, 1))
             heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
             car(im, *q, color=INK if i % 2 == 0 else ORANGE, scale=.85, angle=heading)
-    txt(im, 'Illustrative route network', x + 24, y2 - 34, 17, MUTED_INK, 500)
     return pts
 
 
 def hero(t):
     im = base_canvas('juicy').copy()
-    network(im, t, (820, 136, 1840, 945), bg=CREAM, border='#E05500')
+    network(im, t, (820, 120, 1840, 960), bg=CREAM, border='#E05500')
     enter(im, 'Move cars.', 80, 180, 130, t, .05, color=INK, weight=700)
     enter(im, 'Make', 80, 322, 130, t, .18, color=INK, weight=700)
     enter(im, 'margin.', 80, 464, 130, t, .30, color=INK, weight=700)
@@ -264,20 +253,19 @@ def hero(t):
             is_act = i == active_step
             w = badge(im, s, xx, 832, color=SUNBURST if is_act else INK, bg=INK if is_act else CARD, border=None if is_act else '#E05500', size=20)
             xx += w + 12
-    rect(im, (1295, 168, 1808, 244), APRICOT, GOLD_LINE, r=10, width=2)
-    circle(im, 1324, 206, 6, ORANGE)
-    txt(im, '1,165 scored worlds  /  58 scenarios', 1344, 192, 21, INK, 650)
+    rect(im, (1295, 154, 1808, 230), APRICOT, GOLD_LINE, r=10, width=2)
+    circle(im, 1324, 192, 6, ORANGE)
+    txt(im, '1,165 scored worlds  /  58 scenarios', 1344, 178, 21, INK, 650)
     return im
 
 
 def dispatcher(t):
     """Kinetic 2x2 Bento Grid showing all 4 dispatch rules in rapid succession."""
     im = base_canvas('citrus').copy()
-    enter(im, 'From request to road in four rules.', 80, 126, 70, t, 0.05, color=INK, weight=700)
-    enter(im, 'Transfer request: Helsinki to Tampere (178 km)  /  Beta & Gamma policy foundation', 84, 218, 26, t, 0.18, color=MUTED_INK, weight=500)
+    enter(im, 'From request to road in four rules.', 80, 114, 70, t, 0.05, color=INK, weight=700)
+    enter(im, 'Transfer request: Helsinki to Tampere (178 km)  /  Beta & Gamma policy foundation', 84, 206, 26, t, 0.18, color=MUTED_INK, weight=500)
 
     phase = min(3, int(t / 2.1))
-    q = clamp((t - phase * 2.1) / 1.8, 0, 1)
 
     cards = [
         (80, 286, '1. Screen the work', 'Admit only feasible routes', [
@@ -290,8 +278,8 @@ def dispatcher(t):
             ('Tomorrow / Later', 'Price individually'),
             ('Dealer trust', 'On-time cap at 25'),
         ]),
-        (80, 618, '3. Escalate driver fee', 'Ramp pay before deadline warning', []),
-        (565, 618, '4. Guard qualification', '90.0% on-time gate every week', [
+        (80, 628, '3. Escalate driver fee', 'Ramp pay before deadline warning', []),
+        (565, 628, '4. Guard qualification', '90.0% on-time gate every week', [
             ('Gig published', '0.80× opening offer'),
             ('Driver booked', 'Segment & pair checks'),
             ('Delivered on time', '≥ 90% required'),
@@ -299,7 +287,7 @@ def dispatcher(t):
     ]
 
     for i, (cx, cy, title, sub, rows) in enumerate(cards):
-        cw, ch = 465, 308
+        cw, ch = 465, 318
         active = i == phase
         done = i < phase
         rect(im, (cx, cy, cx + cw, cy + ch), CARD, None, r=16)
@@ -315,26 +303,25 @@ def dispatcher(t):
         if i == 2:
             p_ramp = smooth(clamp((t - 2.0) / 4.2))
             val = mix(0.80, 1.50, p_ramp)
-            txt(im, f'{val:.2f}×', cx + 24, cy + 94, 74, ORANGE, 700)
-            txt(im, 'typical fee', cx + 235, cy + 132, 22, MUTED_INK, 600)
-            ry = cy + 216
+            txt(im, f'{val:.2f}×', cx + 24, cy + 98, 74, ORANGE, 700)
+            txt(im, 'typical fee', cx + 235, cy + 136, 22, MUTED_INK, 600)
+            ry = cy + 222
             line(im, [(cx + 28, ry), (cx + cw - 28, ry)], GOLD_TRACK, 10)
             line(im, [(cx + 28, ry), (cx + 28 + (cw - 56) * p_ramp, ry)], ORANGE, 10)
             circle(im, cx + 28 + (cw - 56) * p_ramp, ry, 12, MARIGOLD, outline=ORANGE, width=3)
-            txt(im, '0.80× open', cx + 24, cy + 238, 17, MUTED_INK, mono=True)
-            txt(im, '1.50× at warning', cx + cw - 24, cy + 238, 17, ORANGE, mono=True, anchor='ra')
+            txt(im, '0.80× open', cx + 24, cy + 244, 17, MUTED_INK, mono=True)
+            txt(im, '1.50× at warning', cx + cw - 24, cy + 244, 17, ORANGE, mono=True, anchor='ra')
         else:
             for r_idx, (k, v) in enumerate(rows):
-                yy = cy + 102 + r_idx * 64
+                yy = cy + 106 + r_idx * 66
                 circle(im, cx + 30, yy + 15, 7, ORANGE if (active or done) else GOLD_TRACK)
                 txt(im, k, cx + 48, yy, 22, INK, 600)
                 txt(im, v, cx + cw - 22, yy + 2, 19, ORANGE if (active or done) else MUTED_INK, mono=True, weight=600, anchor='ra')
                 if r_idx < 2:
-                    line(im, [(cx + 22, yy + 48), (cx + cw - 22, yy + 48)], APRICOT)
+                    line(im, [(cx + 22, yy + 50), (cx + cw - 22, yy + 50)], APRICOT)
 
-    network(im, t + 2.0, (1055, 286, 1840, 926), bg=CARD, border=GOLD_LINE)
+    network(im, t + 2.0, (1055, 286, 1840, 946), bg=CARD, border=GOLD_LINE)
     badge(im, f'Active step: {cards[phase][2]}', 1085, 314, color=INK, bg=MARIGOLD, size=20)
-    txt(im, 'Illustrative replay: Beta & Gamma dispatch loop with compressed timing.', 84, 952, 19, MUTED_INK)
     return im
 
 
@@ -361,20 +348,23 @@ def observability(t):
     im.paste(crop, (755, 172))
     rect(im, (755, 172, 1843, 946), None, INK, r=10, width=3)
     badge(im, 'Real offline report (Fixed baseline, level 4)', 755, 114, color=SUNBURST, bg=INK, size=19)
-    txt(im, 'Tooling example; displayed scores come from the fixed baseline run.', 755, 958, 18, INK, 600)
     return im
 
 
 @lru_cache(maxsize=1)
 def graph_all_small():
-    tinted = ImageChops.multiply(CHART_ALL, Image.new('RGB', CHART_ALL.size, CREAM))
-    return tinted.resize((1790, 868), Image.Resampling.LANCZOS)
+    tinted = ImageChops.multiply(CHART_ALL, Image.new('RGB', CHART_ALL.size, CREAM)).resize((1790, 868), Image.Resampling.LANCZOS)
+    # Mask embedded bottom footnotes from the matplotlib export
+    rect(tinted, (0, 765, 1790, 868), CREAM)
+    return tinted
 
 
 @lru_cache(maxsize=1)
 def graph_stages_small():
-    tinted = ImageChops.multiply(CHART_STAGES, Image.new('RGB', CHART_STAGES.size, CARD))
-    return tinted.resize((910, 650), Image.Resampling.LANCZOS)
+    tinted = ImageChops.multiply(CHART_STAGES, Image.new('RGB', CHART_STAGES.size, CARD)).resize((910, 650), Image.Resampling.LANCZOS)
+    # Mask embedded bottom footnotes from the matplotlib export
+    rect(tinted, (0, 585, 910, 650), CARD)
+    return tinted
 
 
 def experiments(t):
@@ -382,11 +372,9 @@ def experiments(t):
     im = base_canvas('chart').copy()
     im.paste(graph_all_small(), (65, 112))
 
-    # Bottom-right live counter badge in open whitespace
     count = round(1155 * ease(t / 1.0))
     badge(im, f'{count:,} practice + 10 official = 1,165 scored worlds', 1255, 912, color=INK, bg=MARIGOLD, border=ORANGE, size=20)
 
-    # Scan across the 5 main experiment stages (Alpha -> Beta Early -> Beta Late -> Gamma Early -> Gamma Late)
     stages = [
         (1, 'Alpha stage: 677 runs (contextual pricing)'),
         (2, 'Beta Early: 64 runs (trust & fee ramp)'),
@@ -399,7 +387,6 @@ def experiments(t):
         pos = mix(0.0, 4.0, smooth(frac))
         col = 1.0 + pos
         stage_idx = min(4, int(pos + 0.5))
-        # Exact column math from replot.py: left=0.09, right=0.98, xlim=(-0.55, 5.55)
         cx = 65 + 1790 * (0.09 + 0.89 * (col + 0.55) / 6.10)
         hw = 1790 * (0.89 * 0.46 / 6.10)
         rect(im, (cx - hw, 112 + 868 * 0.19, cx + hw, 112 + 868 * 0.77), None, ORANGE, r=6, width=4)
@@ -411,8 +398,8 @@ def experiments(t):
 def failure(t):
     """Why tuning is not validation: stress failure + first Gamma holdout failure vs. 4-stage progression."""
     im = base_canvas('sunburst').copy()
-    enter(im, 'Tuning is not validation.', 80, 122, 74, t, 0.05, color=INK, weight=700)
-    enter(im, 'Pushing volume or long routes broke on fresh weeks until recovery controls were repaired.', 84, 214, 25, t, 0.18, color=MUTED_INK, weight=500)
+    enter(im, 'Tuning is not validation.', 80, 114, 74, t, 0.05, color=INK, weight=700)
+    enter(im, 'Pushing volume or long routes broke on fresh weeks until recovery controls were repaired.', 84, 206, 25, t, 0.18, color=MUTED_INK, weight=500)
 
     # Left top card: Stress seed gamma-t04 (232 vs 294 wins)
     rect(im, (80, 278, 885, 602), CARD, outline=GOLD_LINE, r=18, width=2)
@@ -456,48 +443,47 @@ def failure(t):
 
     # Right panel: The 4-panel learning-stages.png chart
     rect(im, (915, 278, 1840, 956), CARD, outline=GOLD_LINE, r=18, width=2)
-    im.paste(graph_stages_small(), (922, 290))
-    # Highlight top-right panel (failed holdout) then bottom-right panel (passed confirmation)
+    im.paste(graph_stages_small(), (922, 305))
     if t < 4.0:
-        rect(im, (1405, 420, 1822, 602), None, DANGER, r=8, width=4)
+        rect(im, (1405, 435, 1822, 617), None, DANGER, r=8, width=4)
     else:
-        rect(im, (1405, 682, 1822, 864), None, ORANGE, r=8, width=4)
+        rect(im, (1405, 697, 1822, 879), None, ORANGE, r=8, width=4)
     return im
 
 
 def gain(t):
     """Fresh Gamma confirmation on 8 unseen weeks (v09–v16): +€2,031/week (+20.21%), 8/8 qualified."""
     im = base_canvas('citrus').copy()
-    enter(im, 'Gamma confirmed on unseen weeks.', 80, 122, 72, t, 0.05, color=INK, weight=700)
-    enter(im, 'Notes + repaired pairs + segment controls  /  8 untouched confirmation seeds (gamma-v09…v16)', 84, 212, 25, t, 0.18, color=MUTED_INK, weight=500)
+    enter(im, 'Gamma confirmed on unseen weeks.', 80, 114, 72, t, 0.05, color=INK, weight=700)
+    enter(im, 'Notes + repaired pairs + segment controls  /  8 untouched confirmation seeds (gamma-v09…v16)', 84, 204, 25, t, 0.18, color=MUTED_INK, weight=500)
 
     p = ease((t - 0.25) / 1.1)
     txt(im, f'+€{2030.845 * p:,.0f}', 76, 288, 152, ORANGE, 700)
     txt(im, 'mean margin gain / week (+20.21%)', 84, 476, 30, INK, 650)
     txt(im, 'Beta €10,047.87  →  Gamma €12,078.71', 84, 522, 22, MUTED_INK, mono=True, weight=600)
 
-    badge(im, '8/8 weeks positive   ·   8/8 qualified', 84, 582, color=INK, bg=MARIGOLD, border=ORANGE, size=21)
-    badge(im, 'Worst on-time: 93.67% → 96.95%', 84, 638, color=CARD, bg=ORANGE, size=21)
+    badge(im, '8/8 weeks positive   ·   8/8 qualified', 84, 588, color=INK, bg=MARIGOLD, border=ORANGE, size=21)
+    badge(im, 'Worst on-time: 93.67% → 96.95%', 84, 646, color=CARD, bg=ORANGE, size=21)
 
-    rect(im, (84, 706, 730, 916), CARD, outline=GOLD_LINE, r=16, width=2)
-    txt(im, 'What changed in Gamma Late:', 110, 726, 22, INK, 700)
+    rect(im, (84, 718, 730, 946), CARD, outline=GOLD_LINE, r=16, width=2)
+    txt(im, 'What changed in Gamma Late:', 110, 742, 22, INK, 700)
     bullets = [
         '1. Note-aware admission & pricing adjustments',
         '2. Repaired driver-pair & capacity brake logic',
         '3. Segment-level fee & slack controls',
     ]
     for i, b_txt in enumerate(bullets):
-        txt(im, b_txt, 110, 768 + i * 42, 21, MUTED_INK, 600)
+        txt(im, b_txt, 110, 788 + i * 44, 21, MUTED_INK, 600)
 
     # Right panel: Paired 8-week margin bars (v09–v16) + On-Time Share (%) trajectory
-    rect(im, (765, 276, 1840, 916), CARD, outline=GOLD_LINE, r=18, width=2)
-    txt(im, 'Paired weekly margin (seeds v09–v16)', 800, 300, 23, INK, 700)
-    rect(im, (1325, 304, 1349, 322), GOLD_TRACK, r=3)
-    txt(im, 'Beta baseline', 1357, 300, 19, MUTED_INK, 600)
-    rect(im, (1515, 304, 1539, 322), ORANGE, r=3)
-    txt(im, 'Gamma Late (confirmed)', 1547, 300, 19, ORANGE, 700)
+    rect(im, (765, 276, 1840, 946), CARD, outline=GOLD_LINE, r=18, width=2)
+    txt(im, 'Paired weekly margin (seeds v09–v16)', 800, 304, 23, INK, 700)
+    rect(im, (1325, 308, 1349, 326), GOLD_TRACK, r=3)
+    txt(im, 'Beta baseline', 1357, 304, 19, MUTED_INK, 600)
+    rect(im, (1515, 308, 1539, 326), ORANGE, r=3)
+    txt(im, 'Gamma Late (confirmed)', 1547, 304, 19, ORANGE, 700)
 
-    base_y = 650
+    base_y = 665
     line(im, [(800, base_y), (1805, base_y)], GOLD_LINE, 2)
     ot_pts_beta = []
     ot_pts_gamma = []
@@ -514,19 +500,17 @@ def gain(t):
         if pp > 0.4:
             txt(im, f'+€{d_val:,.0f}', x + 44, base_y - max(bh, gh) - 28, 17, ORANGE, mono=True, weight=700, anchor='ma')
 
-        # Bottom sub-panel: On-time share (%) from 89% to 100%
         ot_b = float(r['baseline_on_time']) * 100
         ot_g = float(r['candidate_on_time']) * 100
         cx = x + 44
-        yb = 848 - 125 * ((ot_b - 89) / 11)
-        yg = 848 - 125 * ((ot_g - 89) / 11)
+        yb = 868 - 125 * ((ot_b - 89) / 11)
+        yg = 868 - 125 * ((ot_g - 89) / 11)
         ot_pts_beta.append((cx, yb))
         ot_pts_gamma.append((cx, yg))
-        txt(im, f'v{i + 9:02d}', cx, 864, 18, INK, mono=True, weight=600, anchor='ma')
+        txt(im, f'v{i + 9:02d}', cx, 884, 18, INK, mono=True, weight=600, anchor='ma')
 
-    # On-time trajectory sub-chart
-    txt(im, 'On-time delivery share (%) vs. 90% qualification gate', 800, 678, 19, MUTED_INK, 600)
-    gate_y = 848 - 125 * ((90 - 89) / 11)
+    txt(im, 'On-time delivery share (%) vs. 90% qualification gate', 800, 694, 19, MUTED_INK, 600)
+    gate_y = 868 - 125 * ((90 - 89) / 11)
     line(im, [(800, gate_y), (1805, gate_y)], DANGER, 2)
     txt(im, '90% gate', 1805, gate_y - 22, 16, DANGER, mono=True, weight=600, anchor='ra')
     if len(ot_pts_beta) > 1:
@@ -535,16 +519,14 @@ def gain(t):
         for (xb, yb), (xg, yg) in zip(ot_pts_beta, ot_pts_gamma):
             circle(im, xb, yb, 5, CARD, outline=MUTED_INK, width=2)
             circle(im, xg, yg, 6, ORANGE, outline=INK, width=2)
-
-    txt(im, 'Confirmation seeds v09–v16 were held out until candidate selection finished on v01–v08.', 84, 952, 20, MUTED_INK)
     return im
 
 
 def result(t):
     """Both saved 5-week official Beta ranking rounds: Round 5 (€50,541.26) & Round 6 (€59,528.62)."""
     im = base_canvas('sunburst').copy()
-    enter(im, 'Ten official ranking weeks. 10/10 qualified.', 80, 122, 72, t, 0.05, color=INK, weight=700)
-    enter(im, 'Two saved five-week official Beta ranking rounds  /  Every single week above 95.4% on-time', 84, 214, 25, t, 0.18, color=MUTED_INK, weight=600)
+    enter(im, 'Ten official ranking weeks. 10/10 qualified.', 80, 114, 72, t, 0.05, color=INK, weight=700)
+    enter(im, 'Two saved five-week official Beta ranking rounds  /  Every single week above 95.4% on-time', 84, 206, 25, t, 0.18, color=MUTED_INK, weight=600)
 
     rounds_ui = [
         (80, 'Round 5 — Beta (5 official weeks)', 50541.26, 10108.25, 95.49, ROUND5_RUNS, MARIGOLD, INK),
@@ -552,31 +534,29 @@ def result(t):
     ]
     for rx, title, tot, mean_v, worst_ot, runs_list, bar_col, hdr_fg in rounds_ui:
         is_r6 = rx > 500
-        rect(im, (rx, 276, rx + 860, 918), CARD, outline=ORANGE if is_r6 else GOLD_LINE, r=18, width=3 if is_r6 else 2)
-        badge(im, title, rx + 32, 304, color=hdr_fg, bg=ORANGE if is_r6 else MARIGOLD, size=20)
-        badge(im, '5/5 qualified', rx + 675, 304, color=INK, bg=APRICOT, border=GOLD_LINE, size=19)
+        rect(im, (rx, 276, rx + 860, 946), CARD, outline=ORANGE if is_r6 else GOLD_LINE, r=18, width=3 if is_r6 else 2)
+        badge(im, title, rx + 32, 308, color=hdr_fg, bg=ORANGE if is_r6 else MARIGOLD, size=20)
+        badge(im, '5/5 qualified', rx + 675, 308, color=INK, bg=APRICOT, border=GOLD_LINE, size=19)
 
         p_tot = ease((t - 0.25) / 1.1)
-        txt(im, f'€{tot * p_tot:,.2f}', rx + 32, 366, 98, ORANGE if is_r6 else INK, 700)
-        txt(im, f'Mean €{mean_v:,.2f}/week   ·   Worst on-time: {worst_ot:.2f}%', rx + 36, 492, 22, MUTED_INK, mono=True, weight=600)
+        txt(im, f'€{tot * p_tot:,.2f}', rx + 32, 374, 98, ORANGE if is_r6 else INK, 700)
+        txt(im, f'Mean €{mean_v:,.2f}/week   ·   Worst on-time: {worst_ot:.2f}%', rx + 36, 502, 22, MUTED_INK, mono=True, weight=600)
 
-        base_y = 818
+        base_y = 838
         line(im, [(rx + 32, base_y), (rx + 828, base_y)], GOLD_LINE, 2)
         for j, w in enumerate(runs_list):
             bx = rx + 36 + j * 158
             p = ease((t - 0.35 - j * 0.15) / 0.7)
             v = w['score']['marginCents'] / 100.0
             ot = w['score']['onTimeShare'] * 100.0
-            bh = 225 * (v / 14500.0) * p
+            bh = 230 * (v / 14500.0) * p
             rect(im, (bx, base_y - bh, bx + 132, base_y), bar_col, outline=ORANGE if not is_r6 else None, r=6)
             if is_r6 and p > 0.05:
                 rect(im, (bx, base_y - bh, bx + 132, min(base_y, base_y - bh + 8)), SUNBURST, r=3)
             if p > 0.3:
                 txt(im, f'€{v / 1000:.2f}k', bx + 66, base_y - bh - 30, 19, INK, mono=True, weight=700, anchor='ma')
-            txt(im, f'W{j + 1}', bx + 66, base_y + 14, 19, INK, 700, anchor='ma')
-            txt(im, f'{ot:.1f}%', bx + 66, base_y + 42, 17, ORANGE if is_r6 else MUTED_INK, mono=True, weight=600, anchor='ma')
-
-    txt(im, 'Saved official rounds use separate secret worlds; difference reflects world mix, not the new Gamma confirmation.', 84, 952, 20, MUTED_INK)
+            txt(im, f'W{j + 1}', bx + 66, base_y + 16, 19, INK, 700, anchor='ma')
+            txt(im, f'{ot:.1f}%', bx + 66, base_y + 46, 17, ORANGE if is_r6 else MUTED_INK, mono=True, weight=600, anchor='ma')
     return im
 
 
@@ -586,15 +566,15 @@ def ending(t):
     for offset in [-210, 0, 210]:
         line(road_layer, [(1160 + offset, 1080), (1600 + offset, 650), (1400 + offset, 350), (1830 + offset, -50)], ORANGE, 46)
     line(road_layer, [(1160, 1080), (1600, 650), (1400, 350), (1830, -50)], SUNBURST, 6)
-    im.paste(road_layer.crop((0, 108, W, 990)), (0, 108))
+    im.paste(road_layer, (0, 0))
 
-    enter(im, 'Cheap-', 80, 162, 182, t, .05, color=INK, weight=700)
-    enter(im, 'Drive.', 80, 352, 182, t, .18, color=INK, weight=700)
-    enter(im, 'Win the right work.', 88, 618, 50, t, .35, color=INK, weight=650)
-    enter(im, 'Deliver it reliably.', 88, 684, 50, t, .50, color=CARD, weight=650)
-    badge(im, 'Gamma confirmed: +€2,031/wk (+20.21%) on v09–v16', 90, 782, color=SUNBURST, bg=INK, size=22)
-    badge(im, 'Official Beta rounds: €50.5k & €59.5k (10/10 qualified)', 90, 836, color=INK, bg=CARD, border='#E05500', size=21)
-    txt(im, 'github.com/KotvicCodes/Cheap-Drive', 90, 916, 26, INK, mono=True, weight=600)
+    enter(im, 'Guardians', 80, 166, 132, t, .05, color=INK, weight=700)
+    enter(im, 'of the', 80, 304, 132, t, .16, color=INK, weight=700)
+    enter(im, 'Moonlight.', 80, 442, 132, t, .28, color=INK, weight=700)
+    enter(im, 'Win the right work.', 88, 636, 48, t, .42, color=INK, weight=650)
+    enter(im, 'Deliver it reliably.', 88, 700, 48, t, .55, color=CARD, weight=650)
+    badge(im, 'Gamma confirmed: +€2,031/wk (+20.21%) on v09–v16', 90, 796, color=SUNBURST, bg=INK, size=22)
+    badge(im, 'Official Beta rounds: €50.5k & €59.5k (10/10 qualified)', 90, 852, color=INK, bg=CARD, border='#E05500', size=21)
 
     road = [(1370, 1020), (1690, 650), (1490, 350), (1825, 15)]
     for idx_c, offset_p in enumerate([0.12, 0.54]):
@@ -617,8 +597,8 @@ def frame(t):
     if idx and dt < .32:
         xx = round(W * ease(dt / .32))
         prev = FUNCS[idx - 1](SCENES[idx - 1][1] - SCENES[idx - 1][0] + dt)
-        im.paste(prev.crop((xx, 108, W, 990)), (xx, 108))
-        rect(im, (max(0, xx - 12), 108, xx + 2, 990), ORANGE if idx not in [0, 2, 7] else INK)
+        im.paste(prev.crop((xx, 0, W, H)), (xx, 0))
+        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 2, 7] else INK)
     mode = 'juicy' if idx in [0, 2, 7] else 'light'
     chrome(im, idx, t, mode)
     return im
@@ -708,13 +688,10 @@ def stills(out):
         im = frame(t)
         im.save(out / f'frame-{i + 1:02d}-{t:04.1f}s.png')
         thumb = im.resize((640, 360), Image.Resampling.LANCZOS)
-        tile = Image.new('RGB', (640, 396), '#FF8800')
-        tile.paste(thumb, (0, 0))
-        txt(tile, f'{t:05.1f}s', 16, 366, 18, INK, mono=True, weight=600)
-        thumbs.append(tile)
-    sheet = Image.new('RGB', (1920, 1584), '#FF7700')
+        thumbs.append(thumb)
+    sheet = Image.new('RGB', (1920, 1440), '#FF7700')
     for i, thumb in enumerate(thumbs):
-        sheet.paste(thumb, ((i % 3) * 640, (i // 3) * 396))
+        sheet.paste(thumb, ((i % 3) * 640, (i // 3) * 360))
     sheet.save(out / 'contact-sheet.jpg', quality=93)
     sheet.save(ROOT / 'assets/contact-sheet.jpg', quality=93)
     poster = frame(2.5)
