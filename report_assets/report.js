@@ -401,9 +401,11 @@ function overview() {
 
   const isDemo = Boolean($('report-runs'));
   const row1 = N('div', null, 'grid');
-  const finance = section('Cumulative ledger', null, isDemo ? 'span-12' : 'span-8');
+  const finance = section('Cumulative ledger', null, isDemo ? 'span-7' : 'span-8');
   const series = [{label: 'Revenue', points: revPts, color: color('s-rev')}, {label: 'Costs & fees', points: costPts, color: color('s-cost')}, {label: 'Margin', points: netPts, color: color('s-net')}];
-  add(finance, lineChart({title: 'Cumulative ledger', series, height: 260}), legend(series.map(x => [x.label, x.color])));
+  add(finance, lineChart({title: 'Cumulative ledger', series, height: 240}), legend(series.map(x => [x.label, x.color])));
+  const daily = section('Daily flow', null, isDemo ? 'span-5' : 'span-7');
+  add(daily, dailyChart(dayRows, 240), legend([['Revenue', color('s-rev'), 'sq'], ['Costs & fees', color('s-cost'), 'sq'], ['Net', color('s-net')]]));
   const flow = section('Requests', null, 'span-4');
   flow.hidden = isDemo;
   const won = D.stats.order_won || 0, lost = D.stats.order_lost || 0, open = Math.max(0, requests - won - lost);
@@ -417,19 +419,22 @@ function overview() {
     kv.append(add(N('div'), s, N('b', num(value))));
   }
   flow.append(kv);
-  add(row1, finance, flow); root.append(row1);
+  if (isDemo) add(row1, finance, daily);
+  else add(row1, finance, flow);
+  root.append(row1);
 
   const row2 = N('div', null, 'grid');
-  const daily = section('Daily flow', null, 'span-6');
-  add(daily, dailyChart(dayRows), legend([['Revenue', color('s-rev'), 'sq'], ['Costs & fees', color('s-cost'), 'sq'], ['Net', color('s-net')]]));
-  const scores = section('Score', null, 'span-6');
+  row2.hidden = isDemo;
+  const scores = section('Score', null, 'span-5');
   const rawScorePoints = D.scores.filter(x => Number.isInteger(x.at) && Number.isFinite(x.score.marginCents)).map(x => [x.at, x.score.marginCents]);
   const scorePoints = rawScorePoints.length === 1 ? [[0, 0], ...rawScorePoints] : rawScorePoints;
   const scoreSeries = rawScorePoints.length === 1 && netPts.length > 1
     ? [{label: 'Ledger net', points: netPts, color: color('s-cost'), stepped: true, markers: false}, {label: 'Score', points: scorePoints, color: color('s-net'), stepped: false, markers: true}]
     : [{label: 'Score', points: scorePoints, color: color('s-net'), stepped: false, markers: true}];
   scores.append(lineChart({title: 'Recorded margin at score checkpoints', series: scoreSeries, height: 240, stepped: false, markers: true}), legend(scoreSeries.map(x => [x.label, x.color])));
-  add(row2, daily, scores); root.append(row2);
+  if (!isDemo) add(row2, daily, scores);
+  else add(row2, scores);
+  root.append(row2);
 
   const row3 = N('div', null, 'grid');
   row3.hidden = isDemo;
