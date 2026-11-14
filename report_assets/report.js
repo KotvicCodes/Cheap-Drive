@@ -151,7 +151,9 @@ function applyTheme(next) {
   theme = next;
   if (theme === 'system') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme = theme;
   const t = $('theme-toggle'); clear(t);
-  add(t, themeIcon(theme), N('span', {system: 'Auto', light: 'Light', dark: 'Dark'}[theme]));
+  add(t, themeIcon(theme));
+  const label = {system: 'Auto', light: 'Light', dark: 'Dark'}[theme];
+  t.title = `Theme: ${label}`;
   t.setAttribute('aria-label', `Color theme: ${theme}. Activate to switch.`);
   try { if (theme === 'system') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, theme); } catch (_) { /* storage unavailable */ }
 }
