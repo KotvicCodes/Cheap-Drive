@@ -65,3 +65,10 @@ exact audiences of the two proposed single gigs and reject mismatches before
 any withdrawal. Matching pairs retain the existing union, calendar checks,
 fees and fallback. Four unit tests cover neutral parity, accepted plans,
 manual/experienced mismatches and strict integer validation. No worlds yet.
+
+Prepared a separate default-off note repair, `delta_english_pickup_close=1`:
+standalone English “No pickups after 17:00” / “No collections after 17:00”
+becomes a pickup closing constraint, rather than ready-after 17:00. It works
+independently of Delta's earlier typo corrections. Four unit tests cover the
+specific bug, combined readiness, bounded matching and strict validation. A
+paired screen is required before selecting it.
