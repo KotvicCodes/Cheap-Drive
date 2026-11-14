@@ -239,9 +239,10 @@ and validation. Further experiments are reserved for [Delta](docs/research/delta
 
 ## Delta
 
-Delta development starts with repository cleanup and documentation consolidation.
-Gamma remains the selected qualified practice baseline; Alpha and Beta remain
-supported comparisons. No Delta strategy, model configuration or qualification
-result exists yet. Use the [Delta handoff](docs/research/delta-handoff.md) for
-proposed experiments and remaining note cases, and discuss the strategy before
-implementing prototype behavior.
+Delta started with repository cleanup and documentation consolidation. Gamma
+remains the selected qualified practice baseline; Alpha and Beta remain supported
+comparisons. The experimental `delta:make_delta` factory isolates bounded note
+corrections and rescue-window handling behind independent switches. Neither is
+selected by default, and no Delta model has qualified yet. See the
+[investigation results](docs/research/delta-results.md) and
+[testing plan](docs/research/delta-testing-plan.md) for evidence and next steps.

@@ -7,9 +7,10 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-**Delta development is starting with repository cleanup.** Strategy experiments
-and qualification are still ahead; use the [Delta handoff](docs/research/delta-handoff.md)
-for the next proposed work. Gamma remains the current qualified practice baseline.
+**Delta is under investigation.** Repository cleanup is complete; segment and
+correctness experiments are in progress. See the [Delta results](docs/research/delta-results.md)
+and [testing plan](docs/research/delta-testing-plan.md). Gamma remains the current
+qualified practice baseline until a successor passes fresh confirmation.
 
 The repository has **no final-mode runner**, and Alpha/Beta/Gamma have not been
 validated on final clocks. [Event schedule, run limits and submission](docs/reference.md#event-schedule-and-run-limits)
