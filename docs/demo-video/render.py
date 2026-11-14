@@ -169,10 +169,10 @@ def path_partial(im, points, p, color=ORANGE, width=5, glow=None):
         line(im, pts, color, width)
 
 
-def car(im, x, y, color=INK, scale=1, angle=0):
-    if angle:
+def car(im, x, y, color=INK, scale=1, angle=None):
+    if angle is not None:
         sprite = Image.new('RGBA', (int(64 * scale), int(64 * scale)))
-        car(sprite, 32 * scale, 32 * scale, color, scale)
+        car(sprite, 32 * scale, 32 * scale, color, scale, None)
         sprite = sprite.rotate(-angle, resample=Image.Resampling.BICUBIC, expand=True)
         im.paste(sprite, (round(x - sprite.width / 2), round(y - sprite.height / 2)), sprite)
         return
@@ -432,8 +432,8 @@ def evolution(t):
     total_runs = round(1187 * ease(t / 0.9))
     enter(im, f'{total_runs:,} runs', 80, 82, 92, t, 0.05, color=INK, weight=700)
 
-    p_car = clamp((t - 0.6) / 5.8)
-    focus_idx = min(3, round(p_car * 3))
+    p_car = clamp((t - 0.4) / 7.5)
+    focus_idx = min(3, int(p_car * 3.999))
 
     # Top-right graphical Alpha -> Beta -> Gamma -> Delta chain
     chain_names = ['Alpha', 'Beta', 'Gamma', 'Delta']
@@ -456,7 +456,7 @@ def evolution(t):
         ('01', 'Alpha', 677, 68, 5476, 'Route + scarcity', MARIGOLD),
         ('02', 'Beta', 278, 28, 10048, 'Trust + fee ramp', MANGO),
         ('03', 'Gamma', 208, 21, 12079, 'Notes + pairs', ORANGE),
-        ('04', 'Delta', 22, 6, 12313, 'Rescue + ablation', INK),
+        ('04', 'Delta', 22, 6, 12313, 'Rescue + ablation', MARIGOLD),
     ]
 
     curve_pts = []
@@ -464,28 +464,28 @@ def evolution(t):
         cx = 80 + i * 448
         cw = 416
         cy, cy2 = 228, 976
-        appear = ease((t - 0.15 - i * 0.25) / 0.55)
+        appear = ease((t - 0.15 - i * 0.20) / 0.50)
         is_focus = i == focus_idx
         is_gamma = i == 2
         is_delta = i == 3
 
         rect(im, (cx, cy, cx + cw, cy2), CARD, None, r=20)
-        hdr_bg = ORANGE if is_focus else (INK if is_delta else (MARIGOLD if i < focus_idx else APRICOT))
-        hdr_fg = CARD if is_focus else (SUNBURST if is_delta else INK)
+        hdr_bg = ORANGE if is_focus else (MARIGOLD if i < focus_idx else APRICOT)
+        hdr_fg = CARD if is_focus else INK
         rect(im, (cx, cy, cx + cw, cy + 92), hdr_bg, None, r=20)
         rect(im, (cx, cy + 70, cx + cw, cy + 92), hdr_bg, None, r=0)
         rect(im, (cx, cy, cx + cw, cy2), None, ORANGE if is_focus else GOLD_LINE, r=20, width=5 if is_focus else 2)
 
-        # Stage number & Name
-        circle(im, cx + 48, cy + 46, 26, INK if not is_delta else ORANGE)
-        txt(im, num_tag, cx + 48, cy + 46, 22, SUNBURST if not is_delta else CARD, mono=True, weight=700, anchor='mm')
+        # Stage number & Name (always high contrast against hdr_bg)
+        circle(im, cx + 48, cy + 46, 26, INK)
+        txt(im, num_tag, cx + 48, cy + 46, 22, SUNBURST, mono=True, weight=700, anchor='mm')
         txt(im, name, cx + 90, cy + 28, 34, hdr_fg, 700)
         if is_delta:
-            badge(im, 'LIVE', cx + cw - 112, cy + 23, color=INK, bg=SUNBURST, size=18)
+            badge(im, 'LIVE', cx + cw - 112, cy + 23, color=SUNBURST if is_focus else INK, bg=INK if is_focus else SUNBURST, size=18)
 
         # Big run count & visual dot-matrix meter (each dot = ~10 runs)
         cnt_now = round(r_cnt * appear)
-        txt(im, f'{cnt_now}', cx + 28, cy + 114, 82, ORANGE if is_gamma else INK, 700)
+        txt(im, f'{cnt_now}', cx + 28, cy + 114, 82, ORANGE if is_focus else INK, 700)
         txt(im, 'runs', cx + 28 + font(82, 700).getbbox(f'{cnt_now}')[2] + 14, cy + 156, 26, MUTED_INK, 650)
 
         # Graphical dot grid representing run volume
@@ -499,13 +499,13 @@ def evolution(t):
                 dx,
                 dy,
                 8 if active_dot else 4,
-                (ORANGE if is_gamma else (SUNBURST if is_delta else col)) if active_dot else '#F7E6C4',
-                outline=INK if (active_dot and is_delta) else None,
+                (ORANGE if is_gamma else col) if active_dot else '#F7E6C4',
+                outline=ORANGE if (active_dot and is_delta) else None,
                 width=2 if (active_dot and is_delta) else 0,
             )
 
         # Strategy tag pill
-        badge(im, tag, cx + 28, cy + 442, color=CARD if is_gamma else INK, bg=ORANGE if is_gamma else APRICOT, size=20)
+        badge(im, tag, cx + 28, cy + 442, color=CARD if is_focus else INK, bg=ORANGE if is_focus else APRICOT, size=20)
 
         # Rising weekly margin bar at bottom of card
         bar_base = cy2 - 32
@@ -513,27 +513,32 @@ def evolution(t):
         bh = max_h * (mgn / 13500.0) * appear
         by = bar_base - bh
         rect(im, (cx + 28, bar_base - max_h, cx + cw - 28, bar_base), '#FFF3D6', outline=GOLD_LINE, r=10)
-        rect(im, (cx + 28, by, cx + cw - 28, bar_base), ORANGE if is_gamma else (INK if is_delta else col), r=10)
-        if is_delta and appear > 0.2:
-            rect(im, (cx + 28, by, cx + cw - 28, min(bar_base, by + 12)), SUNBURST, r=4)
+        rect(im, (cx + 28, by, cx + cw - 28, bar_base), ORANGE if is_gamma else col, r=10)
         lbl_mgn = f'€{mgn / 1000:.1f}k / wk' if not is_delta else '+€234 A1'
         if appear > 0.35:
-            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD if (is_gamma or is_delta) else INK, mono=True, weight=700, anchor='ma')
+            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD if is_gamma else INK, mono=True, weight=700, anchor='ma')
+        if i == 0:
+            curve_pts.append((cx + 48, by + 10))
         curve_pts.append((cx + cw / 2, by))
+        if i == 3:
+            curve_pts.append((cx + cw - 48, by - 4))
 
         # Arrow connector between cards
         if i < 3:
             ax = cx + cw + 16
             ay = cy + 360
-            circle(im, ax, ay, 14, ORANGE if appear > 0.8 else APRICOT)
-            line(im, [(ax - 5, ay - 6), (ax + 5, ay), (ax - 5, ay + 6)], CARD if appear > 0.8 else MUTED_INK, 3)
+            circle(im, ax, ay, 14, ORANGE if i < focus_idx else APRICOT)
+            line(im, [(ax - 5, ay - 6), (ax + 5, ay), (ax - 5, ay + 6)], CARD if i < focus_idx else MUTED_INK, 3)
 
     # Trajectory curve & climbing car across the 4 prototypes
-    if len(curve_pts) > 1 and t > 0.6:
+    if len(curve_pts) > 1 and t > 0.4:
         path_partial(im, curve_pts, p_car, INK, 5, glow=SUNBURST)
         q = route_point(curve_pts, p_car)
-        ahead = route_point(curve_pts, min(p_car + 0.01, 1.0))
-        heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
+        p_prev = max(0.0, p_car - 0.01)
+        p_next = min(1.0, p_car + 0.01)
+        q0 = route_point(curve_pts, p_prev)
+        q1 = route_point(curve_pts, p_next)
+        heading = math.degrees(math.atan2(q1[1] - q0[1], q1[0] - q0[0]))
         car(im, *q, color=ORANGE, scale=1.15, angle=heading)
 
     return im

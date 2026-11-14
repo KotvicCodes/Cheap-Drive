@@ -8,8 +8,8 @@
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 46525,
-    "sha256": "1ec11dee04638caf9bf09010d9b91eabd9bf3135a657a93dc6243be4e57d4caf"
+    "bytes": 46587,
+    "sha256": "0147540c4ad4f994749f3321b31cce2aec966bfcbf16130b8e50a200ac03603f"
   },
   "captions.vtt": {
     "bytes": 1226,
@@ -80,12 +80,12 @@
     "sha256": "7c004ffecce341d28c72a51ab9b6b20c5543a5bfdd938739598c6d049acc91fa"
   },
   "assets/poster.png": {
-    "bytes": 145523,
-    "sha256": "b4eac2fcf463a88209f9e64ce7ae249c7b94ec302c9956a62222a941c8a604bf"
+    "bytes": 145634,
+    "sha256": "8526066b7c9a5984f1134b334ec33a06d6a2b53b657f22d3c0f2c9153233fb32"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 556787,
-    "sha256": "db7a98316b9573a2b62076d970683495cfac63575c8c36bc1eacb4f6f86cfa3f"
+    "bytes": 555785,
+    "sha256": "33b82d0a6cf7ec2d4d20f255a465cc4ba76ca525758027e3454152422a16193c"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
