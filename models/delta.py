@@ -9,6 +9,7 @@ from .delta_b1 import DeltaB1Mixin, validate_b1
 from .delta_lanes import DeltaLanesMixin, validate_lanes
 from .delta_option_spread import DeltaOptionSpreadMixin, validate_option_spread
 from .delta_service import DeltaServiceMixin
+from .delta_pair_quote import DeltaPairQuoteMixin
 from .gamma_notes import GammaNotesMixin, _daily_window, visit_window
 from .gamma_pairs import DriverSideMixin, _split_settings
 from .notes import NoteFacts, parse_note
@@ -224,7 +225,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_ev_rule=0, delta_private_delivery_rescue=0, delta_wide_windows=0,
                delta_english_pickup_close=0,
                delta_b1="off", delta_lanes="off", delta_option_spread="off",
-               delta_pairing="off", delta_pair_same_audience=0, delta_service_brake=0,
+               delta_pairing="off", delta_pair_same_audience=0, delta_pair_quote_bps=0,
+               delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
                delta_service_hard_orders=6, delta_service_target_bps=3000,
                delta_service_hard_target_bps=2400, **settings):
@@ -232,7 +234,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pairing must be off, regional or extended')
     if type(delta_pair_same_audience) is not int or delta_pair_same_audience not in (0, 1):
         raise ValueError('delta_pair_same_audience must be 0 or 1')
-    class DeltaDesk(DeltaServiceMixin, DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
+    class DeltaDesk(DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+                    DeltaB1Mixin, DeltaLanesMixin,
                     DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
 
@@ -272,6 +275,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
                      delta_wide_windows=delta_wide_windows,
                      delta_english_pickup_close=delta_english_pickup_close,
+                     delta_pair_quote_bps=delta_pair_quote_bps,
                      delta_service_brake=delta_service_brake,
                      delta_service_horizon_minutes=delta_service_horizon_minutes,
                      delta_service_soft_orders=delta_service_soft_orders,

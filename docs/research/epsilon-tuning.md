@@ -72,3 +72,16 @@ becomes a pickup closing constraint, rather than ready-after 17:00. It works
 independently of Delta's earlier typo corrections. Four unit tests cover the
 specific bug, combined readiness, bounded matching and strict validation. A
 paired screen is required before selecting it.
+
+Prepared pairing-aware quote discounts, default `delta_pair_quote_bps=0`:
+an enabled factor such as 9800 applies only if the ordinary pair planner finds
+a feasible route with an existing unbooked waiting gig. Prediction suppresses
+outbox-driven pair timers and never posts, withdraws or reserves the partner.
+Actual order admission, learner and final cent rounding remain inherited.
+This can prefer cheaper-to-serve requests but does not guarantee a future pair;
+multiple undecided requests may compete for the same partner. Five unit tests
+cover feasibility, booking exclusion, audience compatibility, no mutation,
+neutral behavior, rounding and validation. No practice results yet.
+
+Fresh confirmation seeds were reserved before outcomes:
+`epsilon-confirm-20261115-s01..s08`. They have not been played by this loop.
