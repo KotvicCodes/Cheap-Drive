@@ -20,6 +20,13 @@ New prototypes use Greek letters in order: **Alpha, Beta, Gamma, Delta**, and so
 
 The evolving prototype story lives locally in `prototype-story/STORY.md`. The entire `prototype-story/` directory is gitignored; it must stay out of commits and PRs. Prototype code, configurations and technical documentation are intended for PRs after discussion and explicit approval to publish.
 
+Beta is the current model: quotes at the list price times a markup that follows the market and dealer trust, and a driver fee that opens low and rises only as the deadline nears. See [docs/research/beta-results.md](docs/research/beta-results.md).
+
+```bash
+python scripts/sweep.py runs/beta/my-sweep plan.json   # a grid of settings on shared seeds, 8 worlds at a time
+python scripts/board.py models/beta.json --runs 5      # public ranking runs: cannot be taken back
+```
+
 Compare Alpha with the official starter on shared practice seeds:
 
 ```bash

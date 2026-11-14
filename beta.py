@@ -1,4 +1,4 @@
-"""Beta: list-anchored quotes that follow dealer trust, an owned driver fee, and a backlog valve."""
+"""Beta: a markup that follows the market and dealer trust, and a driver fee that pays for time only when time is short."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -9,66 +9,55 @@ from spread import World
 from spread.starter import DAY, HOUR, Retry, steep
 from spread.types import DeskEvent, FeeStep, Order, PriceRequest
 
-TRUST_CAP = 25  # rules: a dealer counts at most 25 on-time orders, 1% each
-LEARN, MARKUP_MIN, MARKUP_MAX = 0.02, 12_000.0, 20_000.0  # markup step per decided quote, and its bounds
+# Fixed by the rules or by design; the three tuned numbers are in BetaSettings.
+TRUST_CAP = 25                       # a dealer counts at most 25 on-time orders and accepts 1% more for each
+START_MARKUP = 15_000.0              # bps of the list price, before the first win or loss
+LEARN = 0.02                         # markup step per decided quote
+MARKUP_MIN, MARKUP_MAX = 12_000.0, 20_000.0
+MIN_SLACK = 8 * HOUR                 # a driver gets at least this long from the dealer's decision to the last pickup
+FEE_CAP, FEE_STEPS = 15_000, 8       # the fee reaches 1.5x the typical fee, in 8 steps, at the deadline warning
+WARNING = 3 * HOUR                   # deadline_close comes this long before the last pickup
 PLATES = re.compile(r"kilvet|kilpi|rekkar|plates|skylt")
 MANUAL = re.compile(r"manuaal|käsivaiht|manual|manuell")
 
 
 @dataclass(frozen=True)
 class BetaSettings:
-    """The three parameters of Beta, then experiment switches that default to the rules' or starter's values."""
-    markup_bps: int = 13_500        # quote = list price x markup x dealer trust, per option
-    opening_fee_bps: int = 10_000   # first driver fee as a share of the request's typical fee
-    max_waiting: int = 40           # stop competing while this many orders have no driver
-    trust_bps: int = 100            # price rise per counted on-time order; the rules say dealers accept 1%
-    fee_step_bps: int = 1_000       # hourly rise of the driver fee, as a share of the typical fee
-    fee_cap_bps: int = 15_000       # where the hourly rise stops
-    min_slack: int = 0              # minutes a driver must have, from the dealer's decision to the last pickup
-    ramp: int = 0                   # 1: spread the rise from posting to the deadline warning, not over 5 hours
-    trade_ins: int = 1              # 0: decline two-car requests
-    win_target_bps: int = 0         # above 0: move the markup until this share of quotes wins
-    short_km: int = 0               # above 0: routes shorter than this learn a markup of their own
-    short_target_bps: int = 0       # their win share; 0 uses win_target_bps
-    skip_premium: int = 0           # 1: decline premium cars
-    max_km: int = 0                 # above 0: decline longer routes
-    markup_max_bps: int = 20_000    # where the learned markup stops
-    skip_private: int = 0           # 1: decline private addresses
+    win_target_bps: int = 3_000    # share of quotes to win; the markup moves until the market gives it
+    opening_fee_bps: int = 8_000   # first driver fee, as a share of the request's typical fee
+    max_km: int = 500              # longest route to compete for; 0 for no limit
 
     def __post_init__(self):
         for name, value in vars(self).items():
             if type(value) is not int or value < 0:
                 raise ValueError(f"{name} must be a nonnegative integer")
-        if not self.markup_bps or not self.opening_fee_bps:
-            raise ValueError("markup_bps and opening_fee_bps must be positive")
+        if not 0 < self.win_target_bps < 10_000:
+            raise ValueError("win_target_bps must be between 1 and 9999")
+        if not 0 < self.opening_fee_bps <= FEE_CAP:
+            raise ValueError(f"opening_fee_bps must be between 1 and {FEE_CAP}")
 
 
 class BetaDesk(JournalDesk):
     """Posting, retries and deadline rescue stay the starter's; Beta owns the quote and the fee."""
 
+    # A lost quote moves the learned markup and queues no action, so fast practice
+    # can deliver it with the next decision event, still before that decision.
+    passive_wake_events = JournalDesk.passive_wake_events
+
     def __init__(self, world: World, level: int, now: int, journal: Journal,
                  settings: BetaSettings = BetaSettings()):
         super().__init__(world, level, now, journal)
         self.settings = settings
-        self.trust: dict[str, int] = {}     # dealer -> counted on-time orders, as the rules count them
-        self.dealers: dict[str, str] = {}   # order -> dealer
-        self.pending: dict[str, bool] = {}  # competitive quotes that the dealer has not decided -> short route
-        self.markup = {False: float(settings.markup_bps), True: float(settings.markup_bps)}  # by short route
-        source = getattr(world, "world", world)  # play_model wraps the SDK world
-        roads = source.client.map()["roads"]
-        self.roads = {(road["from"], road["to"]): road["minutes"] for road in roads}
-        self.km = {(road["from"], road["to"]): road["km"] for road in roads}
+        self.markup = START_MARKUP
+        self.trust: dict[str, int] = {}   # dealer -> counted on-time orders, as the rules count them
+        self.dealers: dict[str, str] = {}  # order -> dealer
+        self.pending: set[str] = set()    # competitive quotes that the dealer has not decided
+        roads = getattr(world, "initial_map", None)  # play_model has already read and journaled it
+        if roads is None:
+            roads = getattr(world, "world", world).client.map()
+        self.roads = {(road["from"], road["to"]): road for road in roads["roads"]}
 
     # ---- quotes ----
-
-    def waiting(self) -> int:
-        """Orders with a car that no driver holds, plus quotes that may still become such orders."""
-        count = len(self.pending)
-        for order_id, order in self.orders.items():
-            gigs = self.leg_gigs.get(order_id, {})
-            if any(done is None and gigs.get(leg) not in self.booked for leg, done in enumerate(order["deliveredAt"])):
-                count += 1
-        return count
 
     def quote(self, request: PriceRequest) -> None:
         if request["id"] in self.requests or self.now >= request["respondBy"]:
@@ -77,33 +66,29 @@ class BetaDesk(JournalDesk):
             super().quote(request)
             return
         self.requests[request["id"]] = request
-        settings = self.settings
-        waiting = self.waiting()
-        trust = self.trust.get(request["dealerId"], 0)
-        options = [option for option in request["options"] if self.slack(request, option) >= settings.min_slack]
         legs = request["legs"]
-        if len(legs) > 1 and not settings.trade_ins:
-            options = []
-        if settings.skip_premium and any(leg["car"]["premium"] for leg in legs):
-            options = []
-        if settings.skip_private and any(leg[stop]["privateAddress"] for leg in legs for stop in ("pickup", "delivery")):
-            options = []
-        route = sum(self.km[leg["pickup"]["placeId"], leg["delivery"]["placeId"]] for leg in legs)
-        if settings.max_km and route > settings.max_km:
-            options = []
-        short = route < settings.short_km
-        if waiting >= settings.max_waiting or not options:
-            # A losing quote costs nothing; silence costs goodwill.
+        route = sum(self.roads[leg["pickup"]["placeId"], leg["delivery"]["placeId"]]["km"] for leg in legs)
+        limit = self.settings.max_km
+        options = [option for option in request["options"] if self.slack(request, option) >= MIN_SLACK]
+        if len(legs) > 1:
+            reason, options = "trade-in", []
+        elif limit and route > limit:
+            reason, options = "route too long", []
+        else:
+            reason = "no option leaves a driver enough time"
+        if options:
+            trust = self.trust.get(request["dealerId"], 0)
+            factor = int(self.markup) * (100 + trust)  # bps x percent
+            prices = {option["kind"]: -(-option["listPriceCents"] * factor // 1_000_000) for option in options}
+            self.pending.add(request["id"])
+            self.journal.record("beta_quote", at=self.now, requestId=request["id"], dealerId=request["dealerId"],
+                                trust=trust, markupBps=int(self.markup), routeKm=route, prices=prices)
+        else:
+            # A losing quote costs nothing; silence costs goodwill. Ten times the list price is not a
+            # guaranteed loss, only a practical one.
             first = request["options"][0]
             prices = {first["kind"]: first["listPriceCents"] * 10}
-            self.journal.record("beta_decline", at=self.now, requestId=request["id"], waiting=waiting,
-                                reason="backlog" if options else "no option leaves a driver enough time")
-        else:
-            factor = int(self.markup[short]) * (10_000 + settings.trust_bps * trust)
-            prices = {option["kind"]: -(-option["listPriceCents"] * factor // 100_000_000) for option in options}
-            self.pending[request["id"]] = short
-            self.journal.record("beta_quote", at=self.now, requestId=request["id"], dealerId=request["dealerId"],
-                                trust=trust, waiting=waiting, markupBps=int(self.markup[short]), prices=prices)
+            self.journal.record("beta_decline", at=self.now, requestId=request["id"], routeKm=route, reason=reason)
         self.outbox.append({"type": "quote", "requestId": request["id"], "prices": prices})
 
     def slack(self, request: PriceRequest, option) -> int:
@@ -112,28 +97,41 @@ class BetaDesk(JournalDesk):
         for leg in reversed(request["legs"]):
             pickup, delivery = leg["pickup"], leg["delivery"]
             last = min(last, delivery["window"]["to"], closing(delivery, last))
-            last -= self.roads[pickup["placeId"], delivery["placeId"]]
+            last -= self.roads[pickup["placeId"], delivery["placeId"]]["minutes"]
             last = min(last, pickup["window"]["to"], closing(pickup, last))
             if last < pickup["window"]["from"]:
                 return -1
         return last - request["respondBy"]
 
+    def learn(self, request_id: str, won: bool) -> None:
+        """A win says the market is above our price, a loss that it is below. The steps cancel
+        when the share of wins equals the target, so the markup settles where the market gives it."""
+        if request_id in self.pending:
+            self.pending.discard(request_id)
+            target = self.settings.win_target_bps / 10_000
+            markup = self.markup * (1 + LEARN * (1 - target) if won else 1 - LEARN * target)
+            self.markup = min(MARKUP_MAX, max(MARKUP_MIN, markup))
+
     # ---- driver fees ----
 
     def fees_for(self, order: Order, cars: int) -> list[FeeStep]:
+        """Open below the typical fee, then rise evenly so the cap arrives with the deadline warning:
+        an order with a day to spare waits for a cheap driver, an order with hours to spare pays up."""
         fee = self.requests[order["id"]]["referenceFeeCents"] * cars / len(order["legs"])
         if order["id"] in self.urgent or self.level == 1:
             return steep(self.now, fee, self.level)
-        settings = self.settings
-        shares = [settings.opening_fee_bps]
-        while settings.fee_step_bps and shares[-1] < settings.fee_cap_bps and len(shares) < 48:
-            shares.append(min(settings.fee_cap_bps, shares[-1] + settings.fee_step_bps))
-        every = HOUR
-        if settings.ramp and len(shares) > 1:
-            # The warning comes 3 hours before the last pickup; the steep fees take over there.
-            every = max(HOUR, (order["lastPickupAt"] - 3 * HOUR - self.now) // (len(shares) - 1))
-        return [{"at": self.now + k * every, "feeCents": max(1, int(fee * share / 10_000 + 0.5))}
-                for k, share in enumerate(shares)]
+        opening = self.settings.opening_fee_bps
+        every = max(HOUR, (order["lastPickupAt"] - WARNING - self.now) // (FEE_STEPS - 1))
+        return [{"at": self.now + k * every,
+                 "feeCents": max(1, int(fee * (opening + (FEE_CAP - opening) * k / (FEE_STEPS - 1)) / 10_000 + 0.5))}
+                for k in range(FEE_STEPS)]
+
+    def post(self, order: Order, legs: list[int], retry: Retry = Retry()) -> None:
+        """Two notes that the starter does not read: a car without plates, and a manual gearbox."""
+        note = self.requests[order["id"]]["note"]
+        text = note["text"].lower() if note else ""
+        super().post(order, legs, Retry(retry.pickup_from, retry.manual_licence or bool(MANUAL.search(text)),
+                                        retry.plates or bool(PLATES.search(text))))
 
     # ---- books ----
 
@@ -154,27 +152,11 @@ class BetaDesk(JournalDesk):
                 self.trust[dealer] = max(0, self.trust.get(dealer, 0) - 1) // 2
         super().handle(event)
 
-    def learn(self, request_id: str, won: bool) -> None:
-        """A win says the market is above our price, a loss that it is below: step towards the target share."""
-        short = self.pending.pop(request_id, None)
-        settings = self.settings
-        target = (settings.short_target_bps if short and settings.short_target_bps else settings.win_target_bps) / 10_000
-        if short is not None and target:
-            markup = self.markup[short] * (1 + LEARN * (1 - target) if won else 1 - LEARN * target)
-            self.markup[short] = min(float(settings.markup_max_bps), max(MARKUP_MIN, markup))
-
-    def post(self, order: Order, legs: list[int], retry: Retry = Retry()) -> None:
-        """Two notes that the starter does not read: a car without plates, and a manual gearbox."""
-        note = self.requests[order["id"]]["note"]
-        text = note["text"].lower() if note else ""
-        super().post(order, legs, Retry(retry.pickup_from, retry.manual_licence or bool(MANUAL.search(text)),
-                                        retry.plates or bool(PLATES.search(text))))
-
     def read_results(self, actions, results) -> None:
         super().read_results(actions, results)
         for action, result in zip(actions, results):
             if action["type"] == "quote" and not result["ok"]:
-                self.pending.pop(action["requestId"], None)
+                self.pending.discard(action["requestId"])
 
 
 def closing(stop, minute: int) -> int:

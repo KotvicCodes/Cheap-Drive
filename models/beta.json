@@ -1,0 +1,9 @@
+{
+  "name": "Beta",
+  "factory": "beta:make_beta",
+  "settings": {
+    "win_target_bps": 3000,
+    "opening_fee_bps": 8000,
+    "max_km": 500
+  }
+}

@@ -3,7 +3,11 @@
     python scripts/sweep.py runs/beta/<name> plan.json
 
 plan.json: {"factory": "beta:make_beta", "level": 8, "seeds": [...],
-            "variants": {"label": {settings}, ...}}
+            "base": {settings shared by all}, "variants": {"label": {settings}, ...},
+            "fast": true}
+
+"fast" (the default) skips the stops at bookkeeping events and the daily score
+reads; every event, action and the end-of-week reveal are still saved.
 
 Each (variant, seed) is one ordinary practice world, never a ranking run. Up to
 eight play at once (the team's unfinished-world limit). Finished weeks are
@@ -35,8 +39,8 @@ EVENTS = ("price_request", "order_won", "gig_booked", "gig_dropped", "gig_expire
           "visit_failed", "no_show", "order_cancelled")
 
 
-def play_week(out, factory_name, level, seed, label, settings):
-    from spread import Client
+def play_week(out, factory_name, level, seed, label, settings, fast):
+    from performance import PracticeClient as Client
     from compare import MetricsJournal
     from dispatch import play_model
     logging.basicConfig(level=logging.ERROR)
@@ -55,9 +59,9 @@ def play_week(out, factory_name, level, seed, label, settings):
             with gzip.open(out / "traces" / f"{name}.jsonl.gz", "wt", encoding="utf-8") as stream:
                 journal = MetricsJournal(stream)
                 journal.record("run", worldId=world.id, level=level, seed=seed, factory=factory_name,
-                               settings=settings, tag=tag, attempt=attempt + 1)
+                               settings=settings, tag=tag, attempt=attempt + 1, fast=fast)
                 with redirect_stdout(io.StringIO()):
-                    score = play_model(world, level, journal, lambda w, l, n, j: factory(w, l, n, j, **settings))
+                    score = play_model(world, level, journal, lambda w, l, n, j: factory(w, l, n, j, **settings), fast=fast)
                 diag = journal.metrics()
             reveal_file = None
             for wait in (0, 5, 20):
@@ -140,7 +144,8 @@ def main():
     print(f"{len(jobs)} weeks to play, {len(done)} already done", flush=True)
     with cf.ProcessPoolExecutor(WORKERS) as pool:
         futures = {pool.submit(play_week, str(out), plan["factory"], plan["level"], seed, label,
-                               plan["variants"][label]): (label, seed) for label, seed in jobs}
+                               plan["variants"][label], bool(plan.get("fast", True))): (label, seed)
+                   for label, seed in jobs}
         for future in cf.as_completed(futures):
             label, seed = futures[future]
             row = {"label": label, "seed": seed, "settings": plan["variants"][label]}
