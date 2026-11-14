@@ -34,15 +34,16 @@ def parse_delta_note(note, arrived_at):
     return parse_note(text, arrived_at)
 
 
-def rescue_window(place, kind, facts, low, high):
-    """Prefer original promises; only dealer rescue may relax absolute ends.
+def rescue_window(place, kind, facts, low, high, *, private_delivery=False):
+    """Prefer original promises; keep private pickups inside their booked slot.
 
     A future absolute end can already be unreachable after the site closes.
     Search the requested horizon if its strict intersection has no open minute.
     Readiness, recurring calendars and private booked slots remain constraints.
     """
     window = visit_window(place, kind, facts, low, high)
-    if window is not None or place.get('privateAddress'):
+    if window is not None or (place.get('privateAddress') and
+                              (kind == 'pickup' or not private_delivery)):
         return window
     relaxed_place = {**place, 'window': {**place['window'], 'to': high}}
     relaxed_facts = replace(facts, **{'pickup_deadline' if kind == 'pickup' else 'deadline': None})
@@ -51,15 +52,17 @@ def rescue_window(place, kind, facts, low, high):
 
 class DeltaNotesMixin(GammaNotesMixin):
     def __init__(self, *args, delta_note_fixes=0, delta_rescue_windows=0,
-                 delta_ev_rule=0, **kwargs):
+                 delta_ev_rule=0, delta_private_delivery_rescue=0, **kwargs):
         for name, value in (('delta_note_fixes', delta_note_fixes),
                             ('delta_rescue_windows', delta_rescue_windows),
-                            ('delta_ev_rule', delta_ev_rule)):
+                            ('delta_ev_rule', delta_ev_rule),
+                            ('delta_private_delivery_rescue', delta_private_delivery_rescue)):
             if type(value) is not int or value not in (0, 1):
                 raise ValueError(name + ' must be 0 or 1')
         self.delta_note_fixes = delta_note_fixes
         self.delta_rescue_windows = delta_rescue_windows
         self.delta_ev_rule = delta_ev_rule
+        self.delta_private_delivery_rescue = delta_private_delivery_rescue
         super().__init__(*args, **kwargs)
 
     def _needs_charging(self, leg):
@@ -79,8 +82,14 @@ class DeltaNotesMixin(GammaNotesMixin):
             self._note_cache[key] = parse_delta_note(note, request['arrivedAt'])
         return self._note_cache[key]
 
+    def _dispatch_window(self, place, kind, facts, low, high):
+        if self.delta_rescue_windows or (self.delta_private_delivery_rescue and place.get('privateAddress')):
+            return rescue_window(place, kind, facts, low, high,
+                                 private_delivery=bool(self.delta_private_delivery_rescue))
+        return visit_window(place, kind, facts, low, high, rescue=True)
+
     def _post_windows(self, order, legs, facts, retry):
-        if not self.delta_rescue_windows:
+        if not (self.delta_rescue_windows or self.delta_private_delivery_rescue):
             return super()._post_windows(order, legs, facts, retry)
         # Retain Gamma's sequential route construction, using the repaired
         # window intersection for this experiment only. Fee policy is unchanged.
@@ -94,14 +103,14 @@ class DeltaNotesMixin(GammaNotesMixin):
             travel = self.roads[leg['pickup']['placeId'], leg['delivery']['placeId']]['minutes']
             charge = 40 if self._needs_charging(leg) else 0
             while start <= horizon:
-                pickup = rescue_window(leg['pickup'], 'pickup', facts, start, horizon)
+                pickup = self._dispatch_window(leg['pickup'], 'pickup', facts, start, horizon)
                 if pickup is None:
                     return None
                 earliest = pickup[0] + travel + charge
                 deadline = min(order['deadline'], facts.deadline if facts.deadline is not None else order['deadline'])
-                delivery = rescue_window(leg['delivery'], 'delivery', facts, earliest, deadline)
+                delivery = self._dispatch_window(leg['delivery'], 'delivery', facts, earliest, deadline)
                 if delivery is None:
-                    delivery = rescue_window(leg['delivery'], 'delivery', facts, earliest, horizon)
+                    delivery = self._dispatch_window(leg['delivery'], 'delivery', facts, earliest, horizon)
                 if delivery is not None:
                     end = min(pickup[1], delivery[1] - travel - charge)
                     if end >= pickup[0]:
@@ -121,7 +130,8 @@ class DeltaNotesMixin(GammaNotesMixin):
 
 
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
-               delta_ev_rule=0, delta_b1="off", delta_lanes="off",
+               delta_ev_rule=0, delta_private_delivery_rescue=0,
+               delta_b1="off", delta_lanes="off",
                delta_option_spread="off", **settings):
     class DeltaDesk(DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
                     DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
@@ -145,5 +155,6 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver,
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_ev_rule=delta_ev_rule,
+                     delta_private_delivery_rescue=delta_private_delivery_rescue,
                      delta_b1=delta_b1, delta_lanes=delta_lanes,
                      delta_option_spread=delta_option_spread)
