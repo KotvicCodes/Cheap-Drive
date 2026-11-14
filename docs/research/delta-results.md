@@ -160,16 +160,39 @@ timing, receipts, events, ledger, score and initial/end snapshots. See the
 [sanitized pilot record](plans/delta/b1-pilot-results.json). This is one seed's
 identity/economic pilot, not a selected gain or universal parity proof.
 
-The remaining three candidate arms on s02–s08 are running from the exact same
-reviewed source, settings and controller, with eight practice workers. Candidate
+The remaining candidate screen drained 14 additional worlds from the exact same
+reviewed source, settings and controller. All three arms missed 93% on time
+on s03, so subsequent scheduling stopped and owned work drained. Retain partial
+means as exploratory only; no learner arm advances. Candidate
 service/integrity stops remain in force and there is no automatic confirmation.
 The trust/review supplemental screen drained 15 worlds and stopped both
 candidate arms by its service guard; it did not select a model.
 
 Four frozen-Gamma s05–s08 references were never created because the original B
 controller incorrectly applied a candidate scheduling guard to the reference.
-A separate immutable reference-only completion is queued for free slots. This
+The separate immutable reference-only completion finished all four missing
+weeks with unchanged Gamma source/settings and reconciled ledgers. This
 completes paired measurements regardless of the fixed control's service score;
 it does not restart any unsafe candidate or change a promotion threshold.
-Preserve the earlier bad Gamma week in every report. Until all references and
-candidate weeks exist, partial paired gains cannot establish eight-seed uplift.
+Preserve the earlier bad Gamma week in every report. All eight Gamma references now exist. Stopped learner arms have fewer than
+eight candidate weeks, so partial paired gains cannot establish eight-seed uplift.
+
+## B2 lane and independent repair pilots
+
+The five directional-lane arms are implemented behind `delta_lanes`, default
+`off`, with exact 9100 inbound and 10400/10600 outbound factors, frozen five-hub
+and remote-destination cohorts, the explicit short-hop clamp, per-quote
+diagnostics and invalid-combination checks. Gamma retains admission, learning,
+fees and one final cent ceiling. The [technical contract](delta-b2-implementation-contract.md)
+and [frozen plan](plans/delta/b2-lanes.json) specify boundaries and composition.
+All 288 combined offline tests pass, including 17 lane-specific checks.
+
+A six-world s01 pilot (neutral plus five treatments) is running. Review exact
+neutral operational parity against retained frozen Gamma, quote-menu/factor and
+price integrity, full ledger reconciliation and service before remaining seeds.
+No economic gain or simulator equivalence is established by offline tests.
+Two independent s01 note-only and rescue-only pilots use the other available
+workers under the user's all-slots instruction. These combine with neither B1
+nor lanes; no correctness repair is assumed profitable. Eight newly owned
+ordinary-practice worlds were observed active after launch. Every other world
+remained untouched.

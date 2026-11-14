@@ -9,7 +9,8 @@ Delta code. No model has been promoted. A1 and A2 completed; eight-seed
 no-segments and premium-only gains remain
 below the final margin threshold. B intake drained after the service guard;
 independent trust/review screening has drained. The reviewed B1 learner
-pilot passed and its remaining candidate screen is running. Two additional diagnostic worlds on exposed
+pilot passed, then the larger learner screen stopped on its service guard.
+B2 lanes and independent note/rescue pilots are now running. Two additional diagnostic worlds on exposed
 `gamma-v01` checked neutral-factory parity and rescue.
 These add two completed worlds to the program budget below, without changing
 its selection or confirmation gates.
@@ -128,8 +129,9 @@ same-stage control and unchanged global intake target, segments, cap and repairs
 B7 alone isolates the specified private-pickup admission exception. Screen
 learner and lane effects separately before any combination. Their full specs and
 release prerequisites are in [the non-executable stage manifest](plans/delta/quote-fee-stages.json).
-Do not feed that manifest to `sweep.py`: B2–B4/B6/B7 still need Delta-only code
-and validated executable plans. B1 now has a [reviewed executable plan](plans/delta/b1-fastest-learning.json),
+Do not feed that manifest to `sweep.py`: B3/B4/B6/B7 still need Delta-only code
+and validated executable plans. B2 now has [isolated lane code and a frozen plan](plans/delta/b2-lanes.json),
+with remaining seeds gated on its neutral/parity pilot review. B1 now has a [reviewed executable plan](plans/delta/b1-fastest-learning.json),
 with a completed neutral/parity pilot and default-off implementation. Existing B5 settings need no strategy
 implementation and now run independently during B.
 
@@ -360,6 +362,7 @@ settings splitter. Saved score/ledger/segment reconciliations passed. Those
 initial checks did not run simulator weeks. Live A1 and pilot execution
 is recorded separately in the investigation results. The new B1–B7 manifest is
 a staged specification, not a validated executable sweep. B5 uses validated existing settings; B1 passed its implementation/pilot review.
-New B2–B4/B6/B7 hooks remain gated.
+B2 code/settings pass offline checks and its live pilot is running.
+New B3/B4/B6/B7 hooks remain gated.
 The separate Gemini offline prototype is not a live arm. No final-clock
 validation has run; no Delta is qualified.
