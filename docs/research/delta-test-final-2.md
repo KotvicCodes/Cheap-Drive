@@ -49,8 +49,11 @@ The runner observations supplied for this update record eight answers taking
 of the simulated week: a read timeout and a name-resolution failure.
 The runner rebuilt its desk on Saturday at **world minute 7849**, replaying
 **18,342 history events**; it handled **19,014 events in total**.
-No further orders were won after the rebuild, so this result understates a
-clean run; the margin cost is not quantified.
+A later trace audit found that the 1,171 events after the rebuild contained
+no price requests, quotes, wins or losses, so the flat order count from
+Saturday is not a quoting failure. Requests that arrived during the outage
+(minutes 6871–7849) went unanswered; their number and margin are not measured.
+See [the recovery work](final-rejoin-recovery.md).
 
 These interruption details come from the supplied runner observations, not
 the public standings feed. This update used only the public page, its script
