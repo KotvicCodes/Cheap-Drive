@@ -430,7 +430,7 @@ def evolution(t):
     """Graphical Alpha -> Beta -> Gamma -> Delta iteration pipeline and total run counter."""
     im = base_canvas('sunburst').copy()
     total_runs = round(1187 * ease(t / 0.9))
-    enter(im, f'{total_runs:,} runs.', 80, 82, 92, t, 0.05, color=INK, weight=700)
+    enter(im, f'{total_runs:,} runs', 80, 82, 92, t, 0.05, color=INK, weight=700)
 
     p_car = clamp((t - 0.6) / 5.8)
     focus_idx = min(3, round(p_car * 3))
@@ -542,7 +542,7 @@ def evolution(t):
 def dispatcher(t):
     """Kinetic 2x2 Bento Grid—zero subtitles, pure rules & live network."""
     im = base_canvas('citrus').copy()
-    enter(im, 'Four dispatch rules.', 80, 96, 82, t, 0.05, color=INK, weight=700)
+    enter(im, 'Four dispatch rules', 80, 96, 82, t, 0.05, color=INK, weight=700)
 
     phase = min(3, int(t / 1.65))
 
@@ -604,7 +604,7 @@ def dispatcher(t):
 def observability(t):
     im = base_canvas('juicy').copy()
     enter(im, 'Every decision,', 80, 164, 80, t, 0.05, color=INK, weight=700)
-    enter(im, 'inspectable.', 80, 262, 80, t, 0.18, color=INK, weight=700)
+    enter(im, 'inspectable', 80, 262, 80, t, 0.18, color=INK, weight=700)
     for i, (n, s) in enumerate([('1', 'Capture stream'), ('2', 'Reconcile ledger'), ('3', 'Spot failure')]):
         yy = 470 + i * 116
         if t > .25 + i * .14:
@@ -645,7 +645,7 @@ def experiments(t):
     """Clean 6-stage all-run margin search—headline + chart + stage scanner only."""
     im = base_canvas('chart').copy()
     im.paste(graph_all_small(), (65, 140))
-    enter(im, '1,155 practice runs.', 80, 96, 84, t, 0.05, color=INK, weight=700)
+    enter(im, '1,155 practice runs', 80, 96, 84, t, 0.05, color=INK, weight=700)
 
     stages = [
         (1, 'Alpha · 677'),
@@ -670,7 +670,7 @@ def experiments(t):
 def failure(t):
     """Holdout vs. confirmation—no subtitles, bold numbers & 4-panel chart."""
     im = base_canvas('sunburst').copy()
-    enter(im, 'Tuning is not validation.', 80, 96, 82, t, 0.05, color=INK, weight=700)
+    enter(im, 'Tuning is not validation', 80, 96, 82, t, 0.05, color=INK, weight=700)
 
     # Left top card: Stress seed gamma-t04
     rect(im, (80, 236, 885, 576), CARD, outline=GOLD_LINE, r=18, width=2)
@@ -723,7 +723,7 @@ def failure(t):
 def gain(t):
     """Fresh Gamma confirmation (v09–v16)—clean hero metric + paired 8-week chart."""
     im = base_canvas('citrus').copy()
-    enter(im, 'Gamma confirmed.', 80, 96, 84, t, 0.05, color=INK, weight=700)
+    enter(im, 'Gamma confirmed', 80, 96, 84, t, 0.05, color=INK, weight=700)
 
     p = ease((t - 0.2) / 1.0)
     txt(im, f'+€{2030.845 * p:,.0f}', 76, 268, 142, ORANGE, 700)
@@ -783,7 +783,7 @@ def gain(t):
 def result(t):
     """Both saved 5-week official ranking rounds—clean totals & bars, zero subtitles."""
     im = base_canvas('sunburst').copy()
-    enter(im, 'Ten official weeks. 10/10 qualified.', 80, 96, 80, t, 0.05, color=INK, weight=700)
+    enter(im, 'Ten official weeks — 10/10 qualified', 80, 96, 80, t, 0.05, color=INK, weight=700)
 
     rounds_ui = [
         (80, 'Round 5', 50541.26, ROUND5_RUNS, MARIGOLD, INK),
