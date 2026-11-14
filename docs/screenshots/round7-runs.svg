@@ -55,7 +55,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_1">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="142.56" y="356.741656" transform="rotate(-0 142.56 356.741656)">€0</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="142.56" y="356.741656" transform="rotate(-0 142.56 356.741656)">€0</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -70,7 +70,7 @@ L 262.910595 81.648
       </g>
      </g>
      <g id="text_2">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="262.910595" y="356.741656" transform="rotate(-0 262.910595 356.741656)">€5,000</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="262.910595" y="356.741656" transform="rotate(-0 262.910595 356.741656)">€5,000</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -85,7 +85,7 @@ L 383.26119 81.648
       </g>
      </g>
      <g id="text_3">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="383.26119" y="356.741656" transform="rotate(-0 383.26119 356.741656)">€10,000</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="383.26119" y="356.741656" transform="rotate(-0 383.26119 356.741656)">€10,000</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -100,7 +100,7 @@ L 503.611785 81.648
       </g>
      </g>
      <g id="text_4">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="503.611785" y="356.741656" transform="rotate(-0 503.611785 356.741656)">€15,000</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="503.611785" y="356.741656" transform="rotate(-0 503.611785 356.741656)">€15,000</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -115,7 +115,7 @@ L 623.962379 81.648
       </g>
      </g>
      <g id="text_5">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="623.962379" y="356.741656" transform="rotate(-0 623.962379 356.741656)">€20,000</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="623.962379" y="356.741656" transform="rotate(-0 623.962379 356.741656)">€20,000</text>
      </g>
     </g>
     <g id="xtick_6">
@@ -130,47 +130,47 @@ L 744.312974 81.648
       </g>
      </g>
      <g id="text_6">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="744.312974" y="356.741656" transform="rotate(-0 744.312974 356.741656)">€25,000</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="744.312974" y="356.741656" transform="rotate(-0 744.312974 356.741656)">€25,000</text>
      </g>
     </g>
     <g id="text_7">
-     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #172b40" x="463.32" y="370.742437" transform="rotate(-0 463.32 370.742437)">Gross margin per secret week</text>
+     <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #172b40" x="463.32" y="370.742437" transform="rotate(-0 463.32 370.742437)">Gross margin per secret week</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_13"/>
      <g id="text_8">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(105.844375 109.848803)">Run 1</text>
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(18.724063 121.851537)">Gamma 97.5% on time</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(105.844375 109.848803)">Run 1</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(18.724063 121.851537)">Gamma 97.5% on time</text>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_14"/>
      <g id="text_9">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(105.844375 160.021376)">Run 2</text>
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(18.724063 172.02411)">Gamma 99.2% on time</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(105.844375 160.021376)">Run 2</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(18.724063 172.02411)">Gamma 99.2% on time</text>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_15"/>
      <g id="text_10">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(105.844375 210.193949)">Run 3</text>
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(18.724063 222.196684)">Gamma 91.3% on time</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(105.844375 210.193949)">Run 3</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(18.724063 222.196684)">Gamma 91.3% on time</text>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_16"/>
      <g id="text_11">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(105.844375 260.366522)">Run 4</text>
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(18.724063 272.369257)">Gamma 97.9% on time</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(105.844375 260.366522)">Run 4</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(18.724063 272.369257)">Gamma 97.9% on time</text>
      </g>
     </g>
     <g id="ytick_5">
      <g id="line2d_17"/>
      <g id="text_12">
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(105.844375 310.539096)">Run 5</text>
-      <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #172b40" transform="translate(18.724063 322.54183)">Gamma 98.2% on time</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(105.844375 310.539096)">Run 5</text>
+      <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; fill: #172b40" transform="translate(18.724063 322.54183)">Gamma 98.2% on time</text>
      </g>
     </g>
    </g>
@@ -220,19 +220,19 @@ z
 " clip-path="url(#p0567522754)" style="fill: #1461b8"/>
    </g>
    <g id="text_13">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="506.133129" y="104.355955" transform="rotate(-0 506.133129 104.355955)">€14,924.75</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="506.133129" y="104.355955" transform="rotate(-0 506.133129 104.355955)">€14,924.75</text>
    </g>
    <g id="text_14">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="473.36431" y="154.528529" transform="rotate(-0 473.36431 154.528529)">€13,563.36</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="473.36431" y="154.528529" transform="rotate(-0 473.36431 154.528529)">€13,563.36</text>
    </g>
    <g id="text_15">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="372.800316" y="204.701102" transform="rotate(-0 372.800316 204.701102)">€9,385.40</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="372.800316" y="204.701102" transform="rotate(-0 372.800316 204.701102)">€9,385.40</text>
    </g>
    <g id="text_16">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="456.617766" y="254.873675" transform="rotate(-0 456.617766 254.873675)">€12,867.62</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="456.617766" y="254.873675" transform="rotate(-0 456.617766 254.873675)">€12,867.62</text>
    </g>
    <g id="text_17">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="535.368696" y="305.046248" transform="rotate(-0 535.368696 305.046248)">€16,139.35</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="535.368696" y="305.046248" transform="rotate(-0 535.368696 305.046248)">€16,139.35</text>
    </g>
    <g id="patch_9">
     <path d="M 142.56 112.554305
@@ -275,19 +275,19 @@ z
 " clip-path="url(#p0567522754)" style="fill: #62758a"/>
    </g>
    <g id="text_18">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="637.275562" y="123.421533" transform="rotate(-0 637.275562 123.421533)">€20,373.10</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="637.275562" y="123.421533" transform="rotate(-0 637.275562 123.421533)">€20,373.10</text>
    </g>
    <g id="text_19">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="613.777349" y="173.594106" transform="rotate(-0 613.777349 173.594106)">€19,396.86</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="613.777349" y="173.594106" transform="rotate(-0 613.777349 173.594106)">€19,396.86</text>
    </g>
    <g id="text_20">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="486.654145" y="223.76668" transform="rotate(-0 486.654145 223.76668)">€14,115.49</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="486.654145" y="223.76668" transform="rotate(-0 486.654145 223.76668)">€14,115.49</text>
    </g>
    <g id="text_21">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="545.207838" y="273.939253" transform="rotate(-0 545.207838 273.939253)">€16,548.12</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="545.207838" y="273.939253" transform="rotate(-0 545.207838 273.939253)">€16,548.12</text>
    </g>
    <g id="text_22">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="685.985058" y="324.111826" transform="rotate(-0 685.985058 324.111826)">€22,396.75</text>
+    <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="685.985058" y="324.111826" transform="rotate(-0 685.985058 324.111826)">€22,396.75</text>
    </g>
    <g id="legend_1">
     <g id="patch_14">
@@ -299,7 +299,7 @@ z
 " style="fill: #1461b8"/>
     </g>
     <g id="text_23">
-     <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="60.3864" y="68.780931" transform="rotate(-0 60.3864 68.780931)">Gamma / Guardians of the Moonlight (#32)</text>
+     <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="60.3864" y="68.780931" transform="rotate(-0 60.3864 68.780931)">Gamma / Guardians of the Moonlight (#32)</text>
     </g>
     <g id="patch_15">
      <path d="M 273.864994 68.780931
@@ -310,15 +310,15 @@ z
 " style="fill: #62758a"/>
     </g>
     <g id="text_24">
-     <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="299.064994" y="68.780931" transform="rotate(-0 299.064994 68.780931)">source-exp (#1)</text>
+     <text style="font-size: 9px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="299.064994" y="68.780931" transform="rotate(-0 299.064994 68.780931)">source-exp (#1)</text>
     </g>
    </g>
   </g>
   <g id="text_25">
-   <text style="font-weight: 700; font-size: 17px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="19.8" y="20.693344" transform="rotate(-0 19.8 20.693344)">Round 7: our five runs versus the leader</text>
+   <text style="font-weight: 700; font-size: 17px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="19.8" y="20.693344" transform="rotate(-0 19.8 20.693344)">Round 7: our five runs versus the leader</text>
   </g>
   <g id="text_26">
-   <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #172b40" x="19.8" y="34.992" transform="rotate(-0 19.8 34.992)">Level 8 · Saturday 15:00 · all five Gamma runs qualified · 2026-11-14 15:05:59 UTC</text>
+   <text style="font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-anchor: start; fill: #172b40" x="19.8" y="34.992" transform="rotate(-0 19.8 34.992)">Level 8 · Saturday 15:00 · all five Gamma runs qualified · 2026-11-14 15:05:59 UTC</text>
   </g>
  </g>
  <defs>
