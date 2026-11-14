@@ -41,7 +41,7 @@ function driverName(id) {
     const k = Math.floor(idx / 5);
     return SV_FIRST[k % SV_FIRST.length] + ' ' + SV_LAST[(k * 5 + Math.floor(k / SV_FIRST.length)) % SV_LAST.length];
   }
-  return FI_FIRST[idx % FI_FIRST.length] + ' ' + FI_LAST[(idx * 7 + Math.floor(idx / FI_FIRST.length)) % FI_LAST.length];
+  return FI_FIRST[idx % FI_FIRST.length] + ' ' + FI_LAST[(idx * 13 + Math.floor(idx / FI_FIRST.length)) % FI_LAST.length];
 }
 const lineButton = line => button('L' + line, () => openDetail(() => rawDetail(line)), 'link mono');
 const entityButton = (kind, id) => {
