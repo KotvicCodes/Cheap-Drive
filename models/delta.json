@@ -1,6 +1,6 @@
 {
   "name": "Delta",
-  "factory": "delta:make_delta",
+  "factory": "models.delta:make_delta",
   "settings": {
     "max_km": 500,
     "win_target_bps": 4200,

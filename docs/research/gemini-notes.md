@@ -72,12 +72,12 @@ There is no silent substitution of a similarly named Vertex AI offering.
 
 ## Contract and local use
 
-`gemini_notes.py` contains the extraction instruction, strict machine-readable
+`models/gemini_notes.py` contains the extraction instruction, strict machine-readable
 schema, prompt builder, cache identity, provider-neutral JSON validator and
 conservative merge. `scripts/benchmark_gemini_notes.py` reads local JSONL only:
 
 ```bash
-# This command needs only Python's standard library and notes.py.
+# This command needs only Python's standard library and models/notes.py.
 python3 scripts/benchmark_gemini_notes.py contract
 
 # The benchmark also uses the repository's existing pinned spread dependency.

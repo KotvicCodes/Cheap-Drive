@@ -20,7 +20,6 @@ from __future__ import annotations
 import concurrent.futures as cf
 from contextlib import redirect_stdout
 import gzip
-import importlib
 import io
 import json
 import logging
@@ -33,6 +32,9 @@ import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from models import resolve_factory
+
 WORKERS = int(os.environ.get("SWEEP_WORKERS", "8"))
 LEDGER = ("revenue", "driver_fee", "late_refund", "failed_visit", "release_fee", "waiting", "fine", "penalty")
 EVENTS = ("price_request", "order_won", "gig_booked", "gig_dropped", "gig_expired", "deadline_close",
@@ -45,8 +47,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     from dispatch import play_model
     logging.basicConfig(level=logging.ERROR)
     out = Path(out)
-    module, attribute = factory_name.split(":")
-    factory = getattr(importlib.import_module(module), attribute)
+    factory = resolve_factory(factory_name)
     client = Client(url=os.environ.get("SPREAD_URL") or "https://spread.bahnexpress.com")
     tag, last = f"{label}--{seed}", None
     for attempt in range(4):
