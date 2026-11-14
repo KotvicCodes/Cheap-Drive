@@ -25,12 +25,12 @@ Submission needs the team-page submission hash, a code link and a presentation
 (ideally 5–10 slides or a short video). Explain decisions with paired evidence,
 including failures and limits.
 
-**The repository has no final-mode runner.** `dispatch.py`, `compare.py` and
-`scripts/sweep.py` run ordinary practice; `scripts/board.py` runs public practice
-rankings. The official kit's final mode is not wired into these commands.
-[Final integration requirements](challenge.md#final-integration-requirements)
-still need implementation and test-final validation before any baseline is
-used on final clocks.
+**Final mode:** `python final.py models/<model>.json` waits for the (test) final
+and plays it from the live event stream; rerun the same command to rejoin after
+a crash. `--rehearse SEED` plays a paced level-8 practice world first.
+`dispatch.py`, `compare.py` and `scripts/sweep.py` run ordinary practice;
+`scripts/board.py` runs public practice rankings. A mid-week rejoin rebuilds
+orders and gigs from the server but not the learned price level or pair state.
 
 ## Setup
 

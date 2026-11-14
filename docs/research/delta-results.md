@@ -226,3 +226,42 @@ frozen executable snapshot and live review remain necessary; the inherited
 private-window limitation remains open. All new launches are held at the user's
 requested stopping point. Offline readiness establishes no service or economic
 qualification, and no Delta model has been selected.
+
+## Selection before the evening test final (14 November, 16:40–17:45 UTC)
+
+Delta and the live final runner (`final.py`) were merged into one branch; the
+combined offline suite passes (305 tests). Four unattended level-8 practice
+batches then tested the remaining candidates against existing frozen-Gamma
+references on the same seeds. All 29 candidate weeks ranked.
+
+| Candidate (change from Gamma) | Seeds | Mean margin vs Gamma/week | Positive / equal / negative weeks | Verdict |
+| --- | --- | ---: | --- | --- |
+| Premium only (no short controls) + note fixes | `delta-r1-s01..s08` | −€364 | 2 / 0 / 6 | Rejected |
+| Lanes, inbound 9100 / outbound 10400 | `delta-r1-s02..s08` | −€92 | 3 / 0 / 4 | Rejected |
+| Rescue windows + note fixes | `delta-r1-s02..s08` | +€118 | 4 / 2 / 1 | Selected |
+| Rescue windows + note fixes | `gamma-v02..v08` | +€633 | 5 / 2 / 0 | Selected |
+
+Premium only had gained €408/week on the `gamma-v` block it was screened on.
+On the `delta-r1` block, which played no part in choosing it, it lost €364/week,
+lowered on time in six weeks and left the hardest week at 90.5%. Over all 16
+weeks the two blocks cancel; the short-route controls stay as in Gamma.
+
+The lane arm's +€2,748 on `delta-r1-s01` did not repeat: the other seven
+weeks average −€92. With s01 the eight-week mean is +€263 on 4 positive weeks,
+which is within the week-to-week noise seen in every arm on that seed.
+
+Rescue windows with note fixes is the only candidate that held on both blocks.
+Including the two earlier rescue-only pilots (`delta-r1-s01` +€1,320,
+`gamma-v01` −€107), the 16 paired weeks average **+€405/week**: 10 positive,
+4 identical to Gamma, 2 negative (−€107 and −€186). On time moved by at most
+0.4 points down (five weeks) and 0.8 up; the worst week was 91.1% against
+Gamma's 91.4% on the same seed. The gain is concentrated: three weeks
+(+€2,750, +€1,320, +€1,054) carry 79% of it, as expected for a repair that only
+acts when an order has no postable window. Fourteen of these weeks were known
+seeds; the two blocks were not used to tune any parameter, since the repair
+has none.
+
+[models/delta.json](../../models/delta.json) is therefore Gamma's settings with
+`delta_note_fixes=1` and `delta_rescue_windows=1`. The €500/week gate in the
+testing plan is not met; Delta is selected as a correctness repair with a
+positive measured mean, not as a qualified uplift.
