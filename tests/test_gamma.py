@@ -480,11 +480,8 @@ class GammaTests(unittest.TestCase):
         self.assertEqual(record['optionFactors']['next_day'],
                          {'optionBps': 10000, 'shortBps': 10000, 'longBps': 10000, 'trustBuildBps': 9500})
 
-    def test_model_defaults_and_factory_run_offline_full_and_fast(self):
+    def test_selected_model_runs_offline_full_and_fast(self):
         model = load_model(ROOT / 'models' / 'gamma.json')
-        self.assertEqual(model.spec['settings'], {
-            'win_target_bps': 3000, 'opening_fee_bps': 8000, 'max_km': 500, 'long_max_km': 700,
-        })
         for fast in (False, True):
             world = MarketWorld()
             req = world.pending[0]['request']

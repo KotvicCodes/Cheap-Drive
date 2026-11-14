@@ -33,39 +33,43 @@ Round 6 ("Saturday 12:00"): **€59,528.62 with unchanged Beta**, all five ranke
 
 *Real public-page screenshot, 14 November 2026, 10:14 UTC: only round 6 is shown; our round-5 row is unavailable.*
 
-## Current model: Beta; Gamma remains experimental
+## Current model: Gamma
 
-Beta remains the ranking model: guarded 700 km Gamma failed one of eight
-held-out weeks (89.956% on time). See [Gamma results](docs/research/gamma-results.md).
-The [recovery experiments](docs/research/gamma-recovery-results.md) test corrected
-notes and pairs, segment fees, and roster controls; fresh confirmation is running.
+Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
+8/8 more profitable**, gaining **€2,031/week (+20.21%)**, with **96.95% worst
+on-time delivery**. See the [recovery results](docs/research/gamma-recovery-results.md)
+for the selection process, exact comparisons and remaining limits.
 
-The experimental Gamma keeps Beta's list-price markup, 30% win target, dealer trust charge and
-fee ramp. It adds guarded 500–700 km routes: `next_day` or `within_3_days` only,
-at least 24 hours from the dealer's decision to the last feasible pickup, and
-fewer than three long orders waiting for a driver. These gigs open at 1.0 × the
-typical fee; shorter work still opens at 0.8 ×. Trade-ins remain declined.
+[models/gamma.json](models/gamma.json) uses `gamma_notes:make_gamma_notes_pairs`:
+correct note dates/readiness and recurring business hours, guarded 500–700 km
+routes, short-route/premium-car fee controls, and two-car pairs. Fresh pairs
+open at 0.72 × summed reference fees; waiting-car rescue pairs open at 0.78 ×
+with a new 60-minute flat period. Pair idle wait at the second pickup is capped
+at 60 minutes. The brake, roster scaling and town caps remain disabled.
 
-[models/gamma.json](models/gamma.json): `gamma:make_gamma`,
-`win_target_bps=3000`, `opening_fee_bps=8000`, `max_km=500`, `long_max_km=700`.
-Fixed €100 quotes / €150 driver fees and the official starter are pre-Alpha baselines.
+Beta remains available in [models/beta.json](models/beta.json). The original
+notes-unaware guarded-700 candidate failed an earlier held-out week; it has
+been replaced in `models/gamma.json`, and its [historical results](docs/research/gamma-results.md)
+remain documented. Practice qualification does not validate final-clock integration.
 
 ## Results
 
-| Model / comparison | Margin / week | Weeks ranked | On time: worst / mean | Orders / week |
-| --- | --- | --- | --- | --- |
-| Alpha, its six seeds | about €6,200 | 6 of 6 | 91.2% / 95.0% | 297 |
-| Beta, eight Gamma tuning seeds | €11,269 | 8 of 8 | 92.7% / 96.3% | 244 |
-| Gamma, same eight seeds | €12,500 | 8 of 8 | 93.0% / 95.5% | 259 |
-| Leading teams, ranking round 5 | about €14–15k | 5 of 5 | 92–99% | 350–450 |
+Fresh confirmation on `gamma-v09` … `gamma-v16`, selected before any candidate
+outcome on those seeds. On-time means are means of weekly shares.
 
-Beta and Gamma above are paired on the same seeds; Alpha used different seeds.
-Gamma gained **€1,232/week (+10.93%)**, positive on all eight tuning seeds.
-Its worst week was 92.975% on time. Settings were chosen on these seeds; see the
-held-out check in [Gamma results](docs/research/gamma-results.md).
-This is a modest step, not a route to the top ten: round 6's tenth place averaged
-about €17.7k and 450 orders/week, against Gamma's €12.5k and 259.
-Earlier results: [Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
+| Model | Margin / week | Weeks ranked | On time: worst / mean | Orders / week |
+| --- | ---: | ---: | ---: | ---: |
+| Beta | €10,047.87 | 8 of 8 | 93.67% / 95.69% | 241.6 |
+| Gamma | €12,078.71 | 8 of 8 | 96.95% / 98.06% | 256.3 |
+
+Every paired week improved margin, by €886.79–€2,630.60. Only 1 of 148 won,
+noncancelled long-route orders was late (0.68%, including undelivered orders).
+Gamma also ranked on all eight screening weeks and three known difficult weeks;
+those are exposed diagnostics, separate from confirmation.
+
+Earlier results: [Gamma guarded-route research](docs/research/gamma-results.md),
+[Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
+Further model work is parked in the [Delta handoff](docs/research/delta-handoff.md).
 
 ## What drove the changes
 
@@ -104,18 +108,18 @@ python dispatch.py --demo
 # One fixed-price practice week.
 python dispatch.py --level 4 --seed cheap-drive-1
 
-# Paired Beta / Alpha weeks on shared seeds.
-python compare.py run --model-a models/beta.json --model-b models/alpha.json \
-  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast --output runs/beta-vs-alpha
+# Paired Beta / Gamma weeks on shared seeds.
+python compare.py run --model-a models/beta.json --model-b models/gamma.json \
+  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast --output runs/beta-vs-gamma
 
 # Rebuild Markdown offline.
-python compare.py report runs/beta-vs-alpha/results.json
+python compare.py report runs/beta-vs-gamma/results.json
 
 # Sweep settings with plan.json below.
 python scripts/sweep.py runs/gamma/check plan.json
 
 # Public ranking runs; qualify on private seeds first.
-python scripts/board.py models/beta.json --runs 5 --fast
+python scripts/board.py models/gamma.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html

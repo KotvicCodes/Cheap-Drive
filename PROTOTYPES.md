@@ -187,48 +187,51 @@ time, and keeps every trace and reveal under ignored `runs/`. `scripts/board.py`
 plays ranking runs. Results, the rejected variants and the limits are in
 [docs/research/beta-results.md](docs/research/beta-results.md).
 
-## Gamma (experimental)
+## Gamma
 
-Gamma is Beta plus guarded long routes. Beta refuses every route over 500 km;
-Gamma admits some of the valuable longer work without reopening it all. The
-other pricing and dispatch experiments remain in the code, off by default.
+The selected [models/gamma.json](models/gamma.json) uses
+`gamma_notes:make_gamma_notes_pairs`. It combines guarded long routes,
+note-aware dispatch, short/premium segment controls and corrected two-car pairs.
 
-### The rule
+### Admission and fees
 
-Quote routes over 500 km and up to 700 km only when all three hold:
+The global win target remains 30%. Routes above 500 km and up to 700 km require
+`next_day` or `within_3_days`, at least 24 hours of true pickup slack, and fewer
+than three long orders waiting for drivers. Long singles open at 1.0 × reference
+fees. Other normal singles open at 0.8 ×, with a 1.10 floor below 45 km and a
+1.05 floor for premium cars. Routes below 45 km receive an 8% quote discount;
+premium options require at least ten hours of slack. Floors combine by maximum.
 
-- The option is `next_day` or `within_3_days`, never `same_day`.
-- The driver has at least 24 hours from the dealer's decision to the last
-  feasible pickup.
-- Fewer than three of our long orders are still without a driver.
+The note-aware factory uses arrival-anchored readiness, release times, promises
+and independent pickup/delivery hours when quoting and posting. Expired windows
+roll to a valid business day instead of deleting closing hours. Fee ramps use
+the last feasible pickup. Plate, charging and manual-licence requirements survive
+reposting and pair planning. The bounded parser still misses some notes.
 
-Long gigs open at 1.0 × the typical fee instead of 0.8 ×. Beta's fee ramp and
-rescue still apply. This is the admission and opening-fee half of roadmap step 4;
-it sends no direct offers.
+Pairs combine two eligible single-leg orders. Fresh pairs open at 0.72 × summed
+reference fees; waiting-car rescue pairs open at 0.78 × with a new 60-minute flat
+period. Their fee clock starts at pair creation, while fallback singles retain
+their original age. Pair planning rejects more than 60 minutes of idle wait
+at the second pickup; 60 minutes is accepted. Transfer distance, total drive,
+service needs, audiences and visit windows retain their feasibility checks.
 
-### Settings and what stays Beta's
+### Optional experiments
 
-[models/gamma.json](models/gamma.json) uses factory `gamma:make_gamma` and
-`win_target_bps=3000`, `opening_fee_bps=8000`, `max_km=500`, `long_max_km=700`.
-Defaults supply `long_options="next_day,within_3_days"`,
-`long_min_slack_minutes=1440`, `long_open_cap=3`, `long_opening_fee_bps=10000`.
-With `long_max_km=500` (the effective dataclass default), Gamma reproduces Beta
-to the cent; eight live paired seeds confirmed identical scores and ledgers.
-Omitting it follows `max_km`, including sweep overrides.
-
-The global markup, 30% win target, dealer trust charge, eight-hour minimum on
-shorter routes, trade-in refusal, notes, posting and rescue stay Beta's. Tables,
-trust building and guard, capacity valve, option/distance pricing, on-time brake,
-stale-gig fee review and two-car pairs are documented experiments, not enabled
-in this model. Review and pairs use `gamma_pairs:make_gamma_pairs` when tested.
+Brake, roster scaling, town caps, tables, trust-building, capacity controls and
+stale-gig fee review remain disabled in the selected model. Neutral defaults
+preserve historical core behavior: `gamma:make_gamma` with no long corridor
+reproduces Beta. That core parity does not apply to the selected note/pair factory.
+The corrected brake arm and the proposed supply policies did not justify promotion.
 
 ### Evaluation
 
-On eight shared tuning seeds Gamma gained €1,232/week (+10.93%) over Beta,
-positive on all eight, with all weeks ranked. Its worst on-time share was
-92.975%, below the roadmap's 93% safety target. This is a modest step, not a
-route to the top ten. The held-out check, rejected variants and reproduction
-plan are in [docs/research/gamma-results.md](docs/research/gamma-results.md).
-The completed held-out check ranked only seven of eight weeks: the worst was
-89.956% on time. Neither tested brake repaired it. Beta remains the ranking
-model until a revised candidate passes qualification.
+The selected model ranked all eight screening weeks and all three known weak
+weeks, then passed a separate frozen eight-seed confirmation: **8/8 ranked,
+8/8 positive, +€2,030.845/week**, with 96.947% worst on time. Long-route lateness
+was 1/148 (0.68%). A repeat using final code reproduced score, ledger, events,
+visit failures and rejections exactly. See [recovery results](docs/research/gamma-recovery-results.md)
+for every paired week and the limits; the failed original guarded-700 candidate
+is documented in [historical Gamma results](docs/research/gamma-results.md).
+
+These are ordinary-practice results. Final clocks still require their own runner
+and validation. Further experiments are reserved for [Delta](docs/research/delta-handoff.md).
