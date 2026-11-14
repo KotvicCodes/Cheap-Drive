@@ -8,16 +8,16 @@
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 49014,
-    "sha256": "da34588f9966a14ff98ea3229a80ae78c71e0ed9153014bc2b5143f71511cfee"
+    "bytes": 47989,
+    "sha256": "0f57d1eeaafddfaef6ea729cd92f45f639a6f932f09e12ab4eaaa0512d1cd54b"
   },
   "captions.vtt": {
-    "bytes": 1299,
-    "sha256": "904d9ebf05f72f638485123351f44b709e374ac15a8466a5a603b862992e521a"
+    "bytes": 1196,
+    "sha256": "f90aa3f616295c7819b4b5dabb1d06eb74c361098c4a4102838d1ce466d439d1"
   },
   "captions.srt": {
-    "bytes": 1309,
-    "sha256": "1e2a34fc24eb78e82f3e25fe2465adeddb8774b801d8c0dae33baac224952ec2"
+    "bytes": 1206,
+    "sha256": "4f859dd6c9d3b63963f2ee8e7a46135edf7fe30c4a5bb7fc3fec9c56c6674d5b"
   },
   "data/graph-data.json": {
     "bytes": 526287,
@@ -84,8 +84,8 @@
     "sha256": "039f277d43fbe98e90100a35aa3fcdcf05b6b12913adc1b52802e474cfae2e80"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 567865,
-    "sha256": "d535bada030a570a0e1e1403732034e4b97faa998bf21823fe4d14b9867409e3"
+    "bytes": 576236,
+    "sha256": "f196a38da24b08ca40b31a69bbae3937d393e2d0f1eee6f47d2206cba38b25f7"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
@@ -103,24 +103,12 @@
     "bytes": 793805,
     "sha256": "bd9421dd02569639e27534ae639e2f03d39e7793fdd07b3dad678b8ae5fb549f"
   },
-  "render_v2.py": {
-    "bytes": 46185,
-    "sha256": "53c3b8c615469559bf7cb267c301b857246cfd649a56fbba5f5e692d571117e1"
+  "assets/DejaVuSans-Bold.ttf": {
+    "bytes": 704128,
+    "sha256": "b184b89e3c1075f22f6b71575b6fc20d4972b3cfd3b23322ca6fd596dcaef167"
   },
-  "captions-v2.srt": {
-    "bytes": 1492,
-    "sha256": "964028183b694c14e32927d0d4e2946120a93164c5e02aca7598a1c984f3da39"
-  },
-  "captions-v2.vtt": {
-    "bytes": 1482,
-    "sha256": "da207849417eb77778a784458a4d2a6e3f33d6d9909c6bfad675d2d5e9c39c37"
-  },
-  "assets/contact-sheet-v2.jpg": {
-    "bytes": 701407,
-    "sha256": "68c0e1a9691aef30018763e88fbdd24ce11cc8288a6dcf0a1062dbaaad6ee5f4"
-  },
-  "assets/poster-v2.png": {
-    "bytes": 148661,
-    "sha256": "1da62d39baef1dd89e1f872447b6f3081213e15898eab9f5b8f6ebba0e29cda0"
+  "assets/live-demo-overview.png": {
+    "bytes": 139214,
+    "sha256": "7c3214513912adc002d8b6f313a1577d38ce67cb1ab928f2d9741c22b71cc236"
   }
 }

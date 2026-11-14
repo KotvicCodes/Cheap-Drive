@@ -4,32 +4,32 @@ Cheap-Drive: Move cars, Win margins.
 
 2
 00:00:05,100 --> 00:00:12,800
-1,492 completed practice runs across four model generations: Alpha (677), Beta (268), Gamma (242), and Delta (303).
+Prototype. Test. Loop. Repeat. Across four model generations: Alpha (677 runs), Beta (268 runs), Gamma (242 runs), and Delta (303 runs).
 
 3
 00:00:13,100 --> 00:00:19,800
-Four dispatch rules: screen slack and distance, price by trust, escalate driver pay before warnings, and guard the 90% on-time gate.
+Beta: filter requests, price for dealer trust, raise gig fees after pickup opens, and meet the 90% on-time gate.
 
 4
 00:00:20,100 --> 00:00:25,800
-Every run produces an inspectable offline HTML report reconciling the event stream, financial ledger, and delivery incidents.
+Find what broke: inspect dealer notes, pickup windows, and late delivery outcomes in the live week analysis report.
 
 5
 00:00:26,100 --> 00:00:33,800
-All 1,492 completed practice runs across Baseline, Alpha, Beta, Gamma, and Delta—including failed experiments—remain in the record.
+More runs cleared the ranking gate across 1,492 practice runs: from 84.6% ranked in Alpha to 99.0% ranked in Delta.
 
 6
 00:00:34,100 --> 00:00:40,800
-Tuning is not validation: pushing volume failed gamma-t04 at 89.80%, and Gamma Early failed its first fresh holdout at 89.956% on time.
+Gamma: more margin, but one week missed the gate at 89.96% on time in the first eight-week holdout.
 
 7
 00:00:41,100 --> 00:00:47,800
-Revised Gamma passed all 8 fresh confirmation weeks (v09–v16), adding +€2,031/week (+20.21%) while raising worst on-time to 96.95%.
+Gamma reads notes and pairs two cars in one driver gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
 
 8
 00:00:48,100 --> 00:00:54,800
-Delta—adding rescue windows and note fixes—beat Gamma in all 11 fresh confirmation weeks (f01–f11), adding +€682/week with 300 of 303 Delta runs ranked.
+Delta rescues stranded orders by finding the next open pickup window, adding +€682 per week vs Gamma across 11 paired weeks.
 
 9
 00:00:55,100 --> 00:00:59,800
-Win the right work. Deliver it.
+Cheap-Drive: Win the right work. Deliver it.
