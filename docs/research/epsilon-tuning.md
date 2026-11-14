@@ -134,3 +134,18 @@ fallback. Four tests cover drive accounting, rejection above 720 minutes,
 missing fixture roads and strict validation. This is a separate hypothesis;
 its service/margin effect remains unmeasured. The scout's “strictly positive”
 causal claims are not accepted without paired practice confirmation.
+
+Prepared a second independent safety hypothesis from verified code:
+`delta_wide_pickup_buffer_minutes=20/30` trims only the final pickup tail to
+leave driving-time tolerance before the delivery closing/deadline. Default 0
+preserves Delta. If the cushion would remove all feasible pickup time, retain
+the original legal window; never widen a private slot. Three tests cover
+pickup-only trimming, unchanged fee/delivery schedules, tight private-window
+fallback and validation. Screen it separately from the same-town road repair.
+
+Also queued two settings-only route-safety screens from the scout: move the
+existing long-route guard boundary to 400/420 km, increase its shared open cap
+to six, and use 1080/1200-minute slack. The existing code confirms these are
+admission/driver-fee guards, not lane pricing. The extra cap avoids conflating
+a wider guarded band with the old three-order bottleneck. Neither change is
+adopted or assumed beneficial.

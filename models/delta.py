@@ -91,7 +91,8 @@ def wide_visit_window(place, kind, facts, low, high):
 class DeltaNotesMixin(GammaNotesMixin):
     def __init__(self, *args, delta_note_fixes=0, delta_rescue_windows=0,
                  delta_ev_rule=0, delta_private_delivery_rescue=0,
-                 delta_wide_windows=0, delta_english_pickup_close=0, **kwargs):
+                 delta_wide_windows=0, delta_english_pickup_close=0,
+                 delta_wide_pickup_buffer_minutes=0, **kwargs):
         for name, value in (('delta_note_fixes', delta_note_fixes),
                             ('delta_rescue_windows', delta_rescue_windows),
                             ('delta_ev_rule', delta_ev_rule),
@@ -106,6 +107,9 @@ class DeltaNotesMixin(GammaNotesMixin):
         self.delta_private_delivery_rescue = delta_private_delivery_rescue
         self.delta_wide_windows = delta_wide_windows
         self.delta_english_pickup_close = delta_english_pickup_close
+        if type(delta_wide_pickup_buffer_minutes) is not int or delta_wide_pickup_buffer_minutes < 0:
+            raise ValueError('delta_wide_pickup_buffer_minutes must be a nonnegative integer')
+        self.delta_wide_pickup_buffer_minutes = delta_wide_pickup_buffer_minutes
         super().__init__(*args, **kwargs)
 
     def _needs_charging(self, leg):
@@ -204,6 +208,10 @@ class DeltaNotesMixin(GammaNotesMixin):
                 if delivery is not None:
                     end = min(pickup[1], delivery[1] - travel - charge)
                     if end >= pickup[0]:
+                        buffered = min(pickup[1], delivery[1] - travel - charge -
+                                       self.delta_wide_pickup_buffer_minutes)
+                        if buffered >= pickup[0]:
+                            end = buffered
                         end = visit_window(leg['pickup'], 'pickup', facts,
                                            pickup[0], end, latest=True)[1]
                         break
@@ -224,6 +232,7 @@ class DeltaNotesMixin(GammaNotesMixin):
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
                delta_ev_rule=0, delta_private_delivery_rescue=0, delta_wide_windows=0,
                delta_english_pickup_close=0,
+               delta_wide_pickup_buffer_minutes=0,
                delta_b1="off", delta_lanes="off", delta_option_spread="off",
                delta_pairing="off", delta_pair_same_audience=0, delta_pair_quote_bps=0,
                delta_pair_self_roads=0,
@@ -283,6 +292,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
                      delta_wide_windows=delta_wide_windows,
                      delta_english_pickup_close=delta_english_pickup_close,
+                     delta_wide_pickup_buffer_minutes=delta_wide_pickup_buffer_minutes,
                      delta_pair_quote_bps=delta_pair_quote_bps,
                      delta_service_brake=delta_service_brake,
                      delta_service_horizon_minutes=delta_service_horizon_minutes,
