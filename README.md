@@ -32,17 +32,16 @@ Round 6 ("Saturday 12:00"): current; we have not played it.
 
 *Real public-page screenshot, 14 November 2026, 10:14 UTC: only round 6 is shown; our round-5 row is unavailable.*
 
-## Current model: Beta
+## Current model: Gamma
 
-Each option's quote is its list price × a markup that follows the market to a
-30% win share, with 1% extra per on-time order delivered to that dealer (up to 25;
-a late order halves the count). Driver fees open at 0.8 × the typical fee and
-reach 1.5 × at the deadline warning; the starter's rescue fees apply afterwards.
-Beta declines trade-ins, routes over 500 km and options leaving a driver under
-8 hours from the dealer's decision to the last feasible pickup.
+Gamma keeps Beta's list-price markup, 30% win target, dealer trust charge and
+fee ramp. It adds guarded 500–700 km routes: `next_day` or `within_3_days` only,
+at least 24 hours from the dealer's decision to the last feasible pickup, and
+fewer than three long orders waiting for a driver. These gigs open at 1.0 × the
+typical fee; shorter work still opens at 0.8 ×. Trade-ins remain declined.
 
-Parameters in [models/beta.json](models/beta.json): `win_target_bps=3000`,
-`opening_fee_bps=8000`, `max_km=500`.
+[models/gamma.json](models/gamma.json): `gamma:make_gamma`,
+`win_target_bps=3000`, `opening_fee_bps=8000`, `max_km=500`, `long_max_km=700`.
 Fixed €100 quotes / €150 driver fees and the official starter are pre-Alpha baselines.
 
 ## Results
@@ -50,15 +49,17 @@ Fixed €100 quotes / €150 driver fees and the official starter are pre-Alpha 
 | Model / comparison | Margin / week | Weeks ranked | On time: worst / mean | Orders / week |
 | --- | --- | --- | --- | --- |
 | Alpha, its six seeds | about €6,200 | 6 of 6 | 91.2% / 95.0% | 297 |
-| Beta, eight seeds | €10,786 | 8 of 8 | 93.9% / 96.2% | 246 |
+| Beta, eight Gamma tuning seeds | €11,269 | 8 of 8 | 92.7% / 96.3% | 244 |
+| Gamma, same eight seeds | €12,500 | 8 of 8 | 93.0% / 95.5% | 259 |
 | Leading teams, ranking round 5 | about €14–15k | 5 of 5 | 92–99% | 350–450 |
 
-Alpha and Beta used **different seeds**, not a paired test.
-Round 5's five runs totalled **€50,541**, all ranked: **41st of 65**, against about
-€71k for tenth place. Reaching the final's top ten needs roughly **40% more margin**;
-the gap is order volume (Beta about 250 orders/week versus the leaders' 350–450).
-Settings were chosen on these eight seeds; generalisation is uncertain.
-Details: [Beta results](docs/research/beta-results.md), [Alpha results](docs/research/alpha-results.md).
+Beta and Gamma above are paired on the same seeds; Alpha used different seeds.
+Gamma gained **€1,232/week (+10.93%)**, positive on all eight tuning seeds.
+Its worst week was 92.975% on time. Settings were chosen on these seeds; see the
+held-out check in [Gamma results](docs/research/gamma-results.md).
+This is a modest step, not a route to the top ten: round 6's tenth place averaged
+about €17.7k and 450 orders/week, against Gamma's €12.5k and 259.
+Earlier results: [Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
 
 ## What drove the changes
 
@@ -105,7 +106,7 @@ python compare.py run --model-a models/beta.json --model-b models/alpha.json \
 python compare.py report runs/beta-vs-alpha/results.json
 
 # Sweep settings with plan.json below.
-python scripts/sweep.py runs/beta/check plan.json
+python scripts/sweep.py runs/gamma/check plan.json
 
 # Public ranking runs; qualify on private seeds first.
 python scripts/board.py models/beta.json --runs 5
@@ -123,8 +124,9 @@ Interrupted worlds are not resumed. [Fast-practice limits](docs/research/officia
 Minimal `plan.json` (fast by default; reruns skip completed weeks):
 
 ```json
-{"factory":"beta:make_beta","level":8,"seeds":["beta-01"],
- "variants":{"beta":{"win_target_bps":3000,"opening_fee_bps":8000,"max_km":500}}}
+{"factory":"gamma:make_gamma","level":8,"seeds":["gamma-t01"],
+ "base":{"win_target_bps":3000,"opening_fee_bps":8000,"max_km":500},
+ "variants":{"beta":{},"long700g":{"long_max_km":700}}}
 ```
 
 **Ranking runs are public and cannot be retried or taken back. All five runs
