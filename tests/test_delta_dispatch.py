@@ -4,8 +4,9 @@ from copy import deepcopy
 import io
 import unittest
 
-from delta import make_delta
+from delta import make_delta, rescue_window
 from dispatch import Journal, play_model
+from notes import NoteFacts
 from spread.starter import DAY, Retry
 from tests.test_delta import HOURS
 from tests.test_gamma_pairs import PairWorld
@@ -99,6 +100,55 @@ class DeltaEVRuleTests(SwitchContract, unittest.TestCase):
             self.assertLessEqual(stops[1]['window']['to'], order['deadline'])
             desk.now = DAY + 661
             self.assertIsNone(desk._post_windows(order, [0], facts, Retry()))
+
+
+class DeltaPrivateDeliveryTests(SwitchContract, unittest.TestCase):
+    switch = 'delta_private_delivery_rescue'
+
+    def test_rescue_works_independently_and_keeps_original_deadline_and_slot(self):
+        for rescue in (0, 1):
+            desk, order = desk_and_order(now=DAY + 800, deadline=DAY + 750,
+                                        delta_private_delivery_rescue=1,
+                                        delta_rescue_windows=rescue)
+            delivery = order['legs'][0]['delivery']
+            delivery.update(privateAddress=True, window={'from': DAY + 660, 'to': DAY + 720})
+            original = deepcopy(order)
+            desk.post(order, [0])
+            self.assertEqual(len(desk.outbox), 1)
+            self.assertGreater(desk.outbox[0]['stops'][1]['window']['from'], order['deadline'])
+            self.assertEqual(order, original)
+        desk, order = desk_and_order(now=DAY + 800, deadline=DAY + 750, delta_rescue_windows=1)
+        order['legs'][0]['delivery'].update(
+            privateAddress=True, window={'from': DAY + 660, 'to': DAY + 720})
+        desk.post(order, [0])
+        self.assertEqual(desk.outbox, [])
+
+    def test_on_time_private_delivery_keeps_booked_hour(self):
+        desk, order = desk_and_order(deadline=900, delta_private_delivery_rescue=1)
+        order['legs'][0]['delivery'].update(privateAddress=True, window={'from': 810, 'to': 870})
+        desk.post(order, [0])
+        self.assertEqual(desk.outbox[0]['stops'][1]['window'], {'from': 810, 'to': 870})
+
+    def test_private_pickup_never_extends_with_either_rescue_setting(self):
+        for rescue in (0, 1):
+            desk, order = desk_and_order(now=801, delta_private_delivery_rescue=1,
+                                        delta_rescue_windows=rescue)
+            order['legs'][0]['pickup'].update(
+                privateAddress=True, window={'from': 700, 'to': 800})
+            desk.post(order, [0])
+            self.assertEqual(desk.outbox, [])
+
+    def test_rescue_retains_readiness_recurring_hours_and_weekdays(self):
+        place = dict(privateAddress=True, hours=deepcopy(HOURS),
+                     window={'from': 4 * DAY + 900, 'to': 4 * DAY + 960})
+        facts = NoteFacts(delivery_ready_at=7 * DAY + 600, delivery_opens=660,
+                          delivery_closes=900, delivery_weekdays=(0, 1, 2, 3, 4),
+                          deadline=4 * DAY + 990)
+        self.assertEqual(rescue_window(place, 'delivery', facts, 4 * DAY + 1000,
+                                       9 * DAY, private_delivery=True),
+                         (7 * DAY + 660, 7 * DAY + 900))
+        self.assertIsNone(rescue_window(place, 'delivery', facts, 4 * DAY + 1000,
+                                       7 * DAY + 659, private_delivery=True))
 
 
 if __name__ == '__main__':
