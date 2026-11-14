@@ -135,7 +135,8 @@ class BetaDesk(JournalDesk):
 
     # ---- books ----
 
-    def handle(self, event: DeskEvent) -> None:
+    def observe_feedback(self, event: DeskEvent) -> None:
+        """Model bookkeeping only; also used by offline rejoin replay."""
         kind = event["kind"]
         if kind == "order_won":
             self.learn(event["order"]["id"], True)
@@ -150,6 +151,9 @@ class BetaDesk(JournalDesk):
             elif dealer is not None and line["kind"] == "late_refund":
                 # The revenue line counted this order as on time; take that back, then halve.
                 self.trust[dealer] = max(0, self.trust.get(dealer, 0) - 1) // 2
+
+    def handle(self, event: DeskEvent) -> None:
+        self.observe_feedback(event)
         super().handle(event)
 
     def read_results(self, actions, results) -> None:
