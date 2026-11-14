@@ -170,9 +170,10 @@ Predeclare these gates; do not loosen them after observing results:
 
 The three JSON plans under `plans/delta/` use the existing `scripts/sweep.py`
 `factory/level/seeds/base/variants/fast` schema. No run commands have been executed.
-The private staged queue and exact commands are under ignored
-`runs/delta-research/queue.json` and `commands.txt` in the prepared checkout;
-copy them privately when integrating, since cherry-pick will not carry them.
+The integration checkout retains the private staged queue and exact commands
+under ignored `runs/delta-research/queue.json` and `commands.txt`. These local
+artifacts are not part of Git; use the tracked plans and this document when
+preparing another checkout.
 C–F have no runnable candidate plans until their prerequisites are met.
 
 Default to one worker, at most two after coordination with speed work and the
@@ -203,7 +204,9 @@ Practice qualification cannot validate streaming, recovery, action idempotency,
 clock handling or live rate limits. Nothing here registers or joins a final.
 
 Offline validation: all three sweep plans parse and pass the actual settings
-classes' validators (extracted without importing the SDK), excluded seed checks
-and baseline hash checks. Saved score/ledger/segment reconciliations passed.
-No simulator, SDK/network integration, final-clock validation or new strategy
-performance test was run; these artifacts are proposals, not qualified Delta.
+classes' validators, excluded seed checks and 35 baseline hash checks. Integration
+also validated all 13 settings arms through the installed SDK-backed factory's
+settings splitter. Saved score/ledger/segment reconciliations passed. No new
+simulator weeks, SDK/network integration test, final-clock validation or strategy
+performance test was run for this plan; these artifacts are proposals, not
+qualified Delta.
