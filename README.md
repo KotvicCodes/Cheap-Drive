@@ -12,7 +12,7 @@ A Python dispatcher for the Spread challenge, using the official client.
 > Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
 > Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
 > Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
-> **Missing: Beta has only been played on practice clocks; there is no final-mode runner yet.**
+> **Missing: Alpha/Beta/Gamma dispatch has not been validated on final clocks; there is no final-mode runner yet.**
 > [Schedule details](AI%20overview.md#event-deadlines-and-submission).
 
 ## Schedule & Run Limits (Official Rules)
@@ -34,6 +34,7 @@ Our public team is **Guardians of the Moonlight**. Round 6 ("Saturday 12:00"), l
 Runs: €12,273 / €13,501 / €9,191 / €12,596 / €11,968. House best (organisers):
 €77,560; tenth place about €91k; leaders €99–110k. (Round 5, "Saturday 09:00":
 41st of 65, €50,541.) Round 7 ("Saturday 15:00"): current; we have not played it.
+Unchanged Beta completed round 6 before 15:00 Helsinki, totalling €59,528.62.
 
 ![Round 6 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round6-totals.svg)
 ![Our five round-6 margins versus leader Juhus](docs/screenshots/round6-runs.svg)
@@ -44,34 +45,46 @@ Runs: €12,273 / €13,501 / €9,191 / €12,596 / €11,968. House best (orga
 
 *Real public-page screenshot, 14 November 2026, 13:18 UTC: only round 7 is shown; our round-6 row is unavailable.*
 
-## Current model: Beta
+## Current model: Gamma
 
-Each option's quote is its list price × a markup that follows the market to a
-30% win share, with 1% extra per on-time order delivered to that dealer (up to 25;
-a late order halves the count). Driver fees open at 0.8 × the typical fee and
-reach 1.5 × at the deadline warning; the starter's rescue fees apply afterwards.
-Beta declines trade-ins, routes over 500 km and options leaving a driver under
-8 hours from the dealer's decision to the last feasible pickup.
+Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
+8/8 more profitable**, gaining **€2,031/week (+20.21%)**, with **96.95% worst
+on-time delivery**. See the [recovery results](docs/research/gamma-recovery-results.md)
+for the selection process, exact comparisons and remaining limits.
 
-Parameters in [models/beta.json](models/beta.json): `win_target_bps=3000`,
-`opening_fee_bps=8000`, `max_km=500`.
-Fixed €100 quotes / €150 driver fees and the official starter are pre-Alpha baselines.
+[models/gamma.json](models/gamma.json) uses `gamma_notes:make_gamma_notes_pairs`:
+correct note dates/readiness and recurring business hours, guarded 500–700 km
+routes, short-route/premium-car fee controls, and two-car pairs. Fresh pairs
+open at 0.72 × summed reference fees; waiting-car rescue pairs open at 0.78 ×
+with a new 60-minute flat period. Pair idle wait at the second pickup is capped
+at 60 minutes. The brake, roster scaling and town caps remain disabled.
+
+Beta remains available in [models/beta.json](models/beta.json). The original
+notes-unaware guarded-700 candidate failed an earlier held-out week; it has
+been replaced in `models/gamma.json`, and its [historical results](docs/research/gamma-results.md)
+remain documented. Practice qualification does not validate final-clock integration.
 
 ## Results
 
-| Model / comparison | Margin / week | Weeks ranked | On time: worst / mean | Orders / week |
-| --- | --- | --- | --- | --- |
-| Alpha, its six seeds | about €6,200 | 6 of 6 | 91.2% / 95.0% | 297 |
-| Beta, eight seeds | €10,786 | 8 of 8 | 93.9% / 96.2% | 246 |
-| Leading teams, ranking round 6 | about €18–22k | 5 of 5 | 93–99% | 430–470 |
+Fresh confirmation on `gamma-v09` … `gamma-v16`, selected before any candidate
+outcome on those seeds. On-time means are means of weekly shares.
 
-Alpha and Beta used **different seeds**, not a paired test.
-Round 6's five runs totalled **€59,529**, all ranked: **45th of 58**, against about
-€91k for tenth place (round 5: **€50,541**, **41st of 65**, tenth about €71k).
-Reaching the final's top ten needs roughly **40–50% more margin**;
-the gap is order volume (Beta about 250 orders/week versus the leaders' 350–470).
-Settings were chosen on these eight seeds; generalisation is uncertain.
-Details: [Beta results](docs/research/beta-results.md), [Alpha results](docs/research/alpha-results.md).
+| Model | Margin / week | Weeks ranked | On time: worst / mean | Orders / week |
+| --- | ---: | ---: | ---: | ---: |
+| Beta | €10,047.87 | 8 of 8 | 93.67% / 95.69% | 241.6 |
+| Gamma | €12,078.71 | 8 of 8 | 96.95% / 98.06% | 256.3 |
+
+Every paired week improved margin, by €886.79–€2,630.60. Only 1 of 148 won,
+noncancelled long-route orders was late (0.68%, including undelivered orders).
+Gamma also ranked on all eight screening weeks and three known difficult weeks;
+those are exposed diagnostics, separate from confirmation.
+
+Earlier results: [Gamma guarded-route research](docs/research/gamma-results.md),
+[Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
+Further model work is parked in the [Delta handoff](docs/research/delta-handoff.md).
+
+For context, round 6’s leading teams averaged about €18–22k and 430–470
+orders/week on different ranking worlds; practice results are not directly comparable.
 
 ## What drove the changes
 
@@ -110,18 +123,18 @@ python dispatch.py --demo
 # One fixed-price practice week.
 python dispatch.py --level 4 --seed cheap-drive-1
 
-# Paired Beta / Alpha weeks on shared seeds.
-python compare.py run --model-a models/beta.json --model-b models/alpha.json \
-  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast --output runs/beta-vs-alpha
+# Paired Beta / Gamma weeks on shared seeds.
+python compare.py run --model-a models/beta.json --model-b models/gamma.json \
+  --levels 8 --seeds screen-1 screen-2 --workers 8 --fast --output runs/beta-vs-gamma
 
 # Rebuild Markdown offline.
-python compare.py report runs/beta-vs-alpha/results.json
+python compare.py report runs/beta-vs-gamma/results.json
 
 # Sweep settings with plan.json below.
-python scripts/sweep.py runs/beta/check plan.json
+python scripts/sweep.py runs/gamma/check plan.json
 
 # Public ranking runs; qualify on private seeds first.
-python scripts/board.py models/beta.json --runs 5
+python scripts/board.py models/gamma.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
@@ -136,9 +149,13 @@ Interrupted worlds are not resumed. [Fast-practice limits](docs/research/officia
 Minimal `plan.json` (fast by default; reruns skip completed weeks):
 
 ```json
-{"factory":"beta:make_beta","level":8,"seeds":["beta-01"],
- "variants":{"beta":{"win_target_bps":3000,"opening_fee_bps":8000,"max_km":500}}}
+{"factory":"gamma:make_gamma","level":8,"seeds":["gamma-t01"],
+ "base":{"win_target_bps":3000,"opening_fee_bps":8000,"max_km":500},
+ "variants":{"beta":{},"long700g":{"long_max_km":700}}}
 ```
+
+The server allows only one unfinished ranking run per level. Use `--runs 5`
+to finish them sequentially; parallel invocations receive HTTP 409.
 
 **Ranking runs are public and cannot be retried or taken back. All five runs
 of a round must reach 90% on time.** Stopping or deleting one still counts.
