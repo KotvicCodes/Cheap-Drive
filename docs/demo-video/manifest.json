@@ -102,5 +102,25 @@
   "data/run-data.json": {
     "bytes": 793805,
     "sha256": "bd9421dd02569639e27534ae639e2f03d39e7793fdd07b3dad678b8ae5fb549f"
+  },
+  "render_v2.py": {
+    "bytes": 45447,
+    "sha256": "5a0cfff934fa747fb964e661cc59d883399a0b2d6cdc52e88b8a32f76c6e699d"
+  },
+  "captions-v2.srt": {
+    "bytes": 1492,
+    "sha256": "964028183b694c14e32927d0d4e2946120a93164c5e02aca7598a1c984f3da39"
+  },
+  "captions-v2.vtt": {
+    "bytes": 1482,
+    "sha256": "da207849417eb77778a784458a4d2a6e3f33d6d9909c6bfad675d2d5e9c39c37"
+  },
+  "assets/contact-sheet-v2.jpg": {
+    "bytes": 700509,
+    "sha256": "d7c52737c24ee6f0c87e3dde76226e4223da5609dd73b93f9a03961b566bde4f"
+  },
+  "assets/poster-v2.png": {
+    "bytes": 156176,
+    "sha256": "e6e1fc3688b15526da4b1aca98a6294ba358debccd3b14f5851042d1f5606313"
   }
 }
