@@ -596,8 +596,9 @@ function drawTable() {
     th.append(b); hr.append(th);
   }
   thead.append(hr);
-  const pages = Math.max(1, Math.ceil(filtered.length / size)); page = Math.max(0, Math.min(page, pages - 1));
-  for (const row of filtered.slice(page * size, (page + 1) * size)) {
+  const step = Number.isFinite(size) ? size : Math.max(1, filtered.length);
+  const pages = Math.max(1, Math.ceil(filtered.length / step)); page = Math.max(0, Math.min(page, pages - 1));
+  for (const row of filtered.slice(page * step, (page + 1) * step)) {
     const tr = N('tr'), open = primaryOpen(row);
     for (const c of columns) { const td = N('td', null, c.cls); add(td, c.render(row)); tr.append(td); }
     if (open) { tr.classList.add('clickable'); tr.addEventListener('click', e => { if (!e.target.closest('button,a,summary,input,select') && !getSelection().toString()) open(); }); }
@@ -607,7 +608,7 @@ function drawTable() {
   $('row-count').textContent = `${num(filtered.length)} of ${num(currentRows.length)} ${unit}`;
   const sorted = columns.find(c => c.key === sortKey);
   $('sort-info').textContent = sorted ? `· ${sorted.title} ${direction === 1 ? '↑' : '↓'}` : '';
-  $('page-info').textContent = filtered.length ? `${num(page * size + 1)}–${num(Math.min((page + 1) * size, filtered.length))} of ${num(filtered.length)}` : '0 rows';
+  $('page-info').textContent = filtered.length ? `${num(page * step + 1)}–${num(Math.min((page + 1) * step, filtered.length))} of ${num(filtered.length)}` : '0 rows';
   $('page-total').textContent = `of ${num(pages)}`;
   $('page-number').value = page + 1; $('page-number').max = pages;
   $('first').disabled = $('prev').disabled = page === 0; $('last').disabled = $('next').disabled = page >= pages - 1;
@@ -617,8 +618,8 @@ $('filters').onsubmit = e => e.preventDefault();
 for (const id of filterIds) $(id).addEventListener(id === 'search' || id.endsWith('-filter') ? 'input' : 'change', () => { clearTimeout(debounce); debounce = setTimeout(applyFilters, id === 'search' ? 160 : 0); });
 $('reset').onclick = () => { for (const id of filterIds) $(id).value = ''; applyFilters(); };
 $('filters-toggle').onclick = () => { const open = $('filters').classList.toggle('expanded'); $('filters-toggle').setAttribute('aria-expanded', String(open)); };
-$('page-size').onchange = () => { size = Number($('page-size').value); page = 0; drawTable(); };
-$('first').onclick = () => { page = 0; drawTable(); }; $('prev').onclick = () => { page--; drawTable(); }; $('next').onclick = () => { page++; drawTable(); }; $('last').onclick = () => { page = Math.ceil(filtered.length / size) - 1; drawTable(); }; $('page-number').onchange = () => { page = Number($('page-number').value) - 1; drawTable(); };
+$('page-size').onchange = () => { size = $('page-size').value === 'all' ? Infinity : Number($('page-size').value); page = 0; drawTable(); };
+$('first').onclick = () => { page = 0; drawTable(); }; $('prev').onclick = () => { page--; drawTable(); }; $('next').onclick = () => { page++; drawTable(); }; $('last').onclick = () => { const step = Number.isFinite(size) ? size : Math.max(1, filtered.length); page = Math.ceil(filtered.length / step) - 1; drawTable(); }; $('page-number').onchange = () => { page = Number($('page-number').value) - 1; drawTable(); };
 $('export-filtered').onclick = () => download('cheap-drive-' + active + '-filtered.json', filtered);
 document.addEventListener('keydown', e => {
   if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey || $('workspace').hidden || $('detail').open) return;
