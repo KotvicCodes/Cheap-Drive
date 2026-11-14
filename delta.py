@@ -8,9 +8,9 @@ from gamma import GammaCoreDesk, GammaSettings
 from delta_b1 import DeltaB1Mixin, validate_b1
 from delta_lanes import DeltaLanesMixin, validate_lanes
 from delta_option_spread import DeltaOptionSpreadMixin, validate_option_spread
-from gamma_notes import GammaNotesMixin, visit_window
+from gamma_notes import GammaNotesMixin, _daily_window, visit_window
 from gamma_pairs import DriverSideMixin, _split_settings
-from notes import parse_note
+from notes import NoteFacts, parse_note
 from spread.starter import DAY
 
 
@@ -50,19 +50,52 @@ def rescue_window(place, kind, facts, low, high, *, private_delivery=False):
     return visit_window(relaxed_place, kind, relaxed_facts, low, high)
 
 
+def wide_visit_window(place, kind, facts, low, high):
+    """Keep the first feasible span, bridging only server-enforced closures.
+
+    The server checks stated site hours throughout a multi-day stop window.
+    It does not check parsed note hours, so stop before the first stated-open
+    minute excluded by a recurring note. A single API window cannot encode
+    that hole. Absolute bounds, readiness and private slots remain strict.
+    """
+    first = visit_window(place, kind, facts, low, high)
+    if first is None:
+        return None
+    last = visit_window(place, kind, facts, low, high, latest=True)
+    low, high = first[0], last[1]
+    end = first[1]
+    for day in range(low // DAY, high // DAY + 1):
+        stated = _daily_window(place, kind, NoteFacts(), day)
+        if stated is None:
+            continue
+        start, close = max(low, stated[0]), min(high, stated[1])
+        if start > close:
+            continue
+        allowed = _daily_window(place, kind, facts, day)
+        if allowed is None or allowed[0] > start:
+            break
+        end = min(close, allowed[1])
+        if end < close:
+            break
+    return low, end
+
+
 class DeltaNotesMixin(GammaNotesMixin):
     def __init__(self, *args, delta_note_fixes=0, delta_rescue_windows=0,
-                 delta_ev_rule=0, delta_private_delivery_rescue=0, **kwargs):
+                 delta_ev_rule=0, delta_private_delivery_rescue=0,
+                 delta_wide_windows=0, **kwargs):
         for name, value in (('delta_note_fixes', delta_note_fixes),
                             ('delta_rescue_windows', delta_rescue_windows),
                             ('delta_ev_rule', delta_ev_rule),
-                            ('delta_private_delivery_rescue', delta_private_delivery_rescue)):
+                            ('delta_private_delivery_rescue', delta_private_delivery_rescue),
+                            ('delta_wide_windows', delta_wide_windows)):
             if type(value) is not int or value not in (0, 1):
                 raise ValueError(name + ' must be 0 or 1')
         self.delta_note_fixes = delta_note_fixes
         self.delta_rescue_windows = delta_rescue_windows
         self.delta_ev_rule = delta_ev_rule
         self.delta_private_delivery_rescue = delta_private_delivery_rescue
+        self.delta_wide_windows = delta_wide_windows
         super().__init__(*args, **kwargs)
 
     def _needs_charging(self, leg):
@@ -83,13 +116,21 @@ class DeltaNotesMixin(GammaNotesMixin):
         return self._note_cache[key]
 
     def _dispatch_window(self, place, kind, facts, low, high):
+        if self.delta_wide_windows and kind == 'pickup' and place.get('privateAddress'):
+            return visit_window(place, kind, facts, low, high)
         if self.delta_rescue_windows or (self.delta_private_delivery_rescue and place.get('privateAddress')):
             return rescue_window(place, kind, facts, low, high,
                                  private_delivery=bool(self.delta_private_delivery_rescue))
         return visit_window(place, kind, facts, low, high, rescue=True)
 
     def _post_windows(self, order, legs, facts, retry):
-        if not (self.delta_rescue_windows or self.delta_private_delivery_rescue):
+        if self.delta_wide_windows:
+            stops = self._wide_post_windows(order, legs, facts, retry)
+            if stops is not None:
+                return stops
+            # Already impossible promises retain the existing rescue policy;
+            # the widening experiment itself never relaxes an absolute end.
+        if not (self.delta_rescue_windows or self.delta_private_delivery_rescue or self.delta_wide_windows):
             return super()._post_windows(order, legs, facts, retry)
         # Retain Gamma's sequential route construction, using the repaired
         # window intersection for this experiment only. Fee policy is unchanged.
@@ -128,9 +169,44 @@ class DeltaNotesMixin(GammaNotesMixin):
             minute, previous = delivery[0], leg['delivery']['placeId']
         return stops
 
+    def _wide_post_windows(self, order, legs, facts, retry):
+        stops, minute, previous = [], self.now, None
+        deadline = min(order['deadline'], facts.deadline if facts.deadline is not None else order['deadline'])
+        for index in legs:
+            leg = order['legs'][index]
+            if previous is not None and previous != leg['pickup']['placeId']:
+                minute += self.roads[previous, leg['pickup']['placeId']]['minutes']
+            start = max(minute + (30 if retry.plates or facts.plates else 0), retry.pickup_from)
+            travel = self.roads[leg['pickup']['placeId'], leg['delivery']['placeId']]['minutes']
+            charge = 40 if self._needs_charging(leg) else 0
+            while start <= deadline:
+                pickup = wide_visit_window(leg['pickup'], 'pickup', facts, start, deadline)
+                if pickup is None:
+                    return None
+                delivery = wide_visit_window(leg['delivery'], 'delivery', facts,
+                                             pickup[0] + travel + charge, deadline)
+                if delivery is not None:
+                    end = min(pickup[1], delivery[1] - travel - charge)
+                    if end >= pickup[0]:
+                        end = visit_window(leg['pickup'], 'pickup', facts,
+                                           pickup[0], end, latest=True)[1]
+                        break
+                start = pickup[1] + 1
+            else:
+                return None
+            stops.extend([
+                {'orderId': order['id'], 'leg': index, 'kind': 'pickup',
+                 'withPlates': retry.plates or facts.plates, 'withCharging': bool(charge),
+                 'window': {'from': pickup[0], 'to': end}},
+                {'orderId': order['id'], 'leg': index, 'kind': 'delivery',
+                 'window': {'from': delivery[0], 'to': delivery[1]}},
+            ])
+            minute, previous = delivery[0], leg['delivery']['placeId']
+        return stops
+
 
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
-               delta_ev_rule=0, delta_private_delivery_rescue=0,
+               delta_ev_rule=0, delta_private_delivery_rescue=0, delta_wide_windows=0,
                delta_b1="off", delta_lanes="off",
                delta_option_spread="off", **settings):
     class DeltaDesk(DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
@@ -156,5 +232,6 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
+                     delta_wide_windows=delta_wide_windows,
                      delta_b1=delta_b1, delta_lanes=delta_lanes,
                      delta_option_spread=delta_option_spread)
