@@ -1,0 +1,93 @@
+{
+  "method": "Completed trace selected from runs.jsonl metadata; score and ledger reconciled; cancelled orders removed from segment wins; no raw note text, request identities or traces included.",
+  "summaries": [
+    {
+      "model": "Beta",
+      "block": "screen",
+      "weeks": 8,
+      "margin_eur_per_week": 11786.33,
+      "won_per_week": 245.875,
+      "quoted_per_week": 829.875,
+      "segment_wins_per_week": {
+        "short": 19.875,
+        "standard": 226.0,
+        "long": 0.0
+      },
+      "no_window_orders": 0,
+      "penalty_orders": 2,
+      "penalty_eur_per_week": -26.4,
+      "no_window_linked_penalty_eur_per_week": 0.0,
+      "long_cap_refusals": 0,
+      "pair_error_events": 0,
+      "failed_visit_events": 40,
+      "unique_failed_orders": 31,
+      "median_week_seconds": 235.0
+    },
+    {
+      "model": "Beta",
+      "block": "confirmation",
+      "weeks": 8,
+      "margin_eur_per_week": 10047.8675,
+      "won_per_week": 241.625,
+      "quoted_per_week": 833.5,
+      "segment_wins_per_week": {
+        "short": 18.0,
+        "standard": 223.625,
+        "long": 0.0
+      },
+      "no_window_orders": 0,
+      "penalty_orders": 2,
+      "penalty_eur_per_week": -27.295,
+      "no_window_linked_penalty_eur_per_week": 0.0,
+      "long_cap_refusals": 0,
+      "pair_error_events": 0,
+      "failed_visit_events": 54,
+      "unique_failed_orders": 39,
+      "median_week_seconds": 242.5
+    },
+    {
+      "model": "Gamma",
+      "block": "screen",
+      "weeks": 8,
+      "margin_eur_per_week": 13372.2825,
+      "won_per_week": 260.0,
+      "quoted_per_week": 876.0,
+      "segment_wins_per_week": {
+        "short": 31.5,
+        "standard": 210.5,
+        "long": 18.0
+      },
+      "no_window_orders": 17,
+      "penalty_orders": 17,
+      "penalty_eur_per_week": -529.0825,
+      "no_window_linked_penalty_eur_per_week": -529.0825,
+      "long_cap_refusals": 108,
+      "pair_error_events": 22,
+      "failed_visit_events": 9,
+      "unique_failed_orders": 7,
+      "median_week_seconds": 265.0
+    },
+    {
+      "model": "Gamma",
+      "block": "confirmation",
+      "weeks": 8,
+      "margin_eur_per_week": 12078.7125,
+      "won_per_week": 256.25,
+      "quoted_per_week": 871.875,
+      "segment_wins_per_week": {
+        "short": 31.875,
+        "standard": 205.875,
+        "long": 18.5
+      },
+      "no_window_orders": 11,
+      "penalty_orders": 12,
+      "penalty_eur_per_week": -376.26,
+      "no_window_linked_penalty_eur_per_week": -359.795,
+      "long_cap_refusals": 135,
+      "pair_error_events": 25,
+      "failed_visit_events": 22,
+      "unique_failed_orders": 11,
+      "median_week_seconds": 327.0
+    }
+  ]
+}
