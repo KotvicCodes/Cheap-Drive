@@ -21,9 +21,12 @@ PAIRING_PROFILES = {'off': None, 'regional': (60, 480), 'extended': (90, 720)}
 _NO_PICKUPS = re.compile(
     r'(^|[;,\n!?]\s*|\.(?!\d)\s*)\s*klo\s+'
     r'(\d{1,2}(?:[.:]\d{2})?)\s+j[aä]lkeen\s+ei\s+en[aä]{2}\s+luovutuksia\b', re.I)
+_EN_NO_PICKUPS = re.compile(
+    r'(^|[;,\n!?]\s*|\.(?!\d)\s*)\s*no\s+(?:pickups?|collections?)\s+after\s+'
+    r'(\d{1,2}[.:]\d{2})(?![\w:])', re.I)
 
 
-def parse_delta_note(note, arrived_at):
+def parse_delta_note(note, arrived_at, *, english_pickup_close=False):
     """Correct only observed whole-word typos and a standalone closing clause."""
     text = note.get('text', '') if isinstance(note, dict) else note or ''
     def correct_word(match):
@@ -33,6 +36,8 @@ def parse_delta_note(note, arrived_at):
         return _CORRECTIONS[match[0].lower()]
     text = _TYPOS.sub(correct_word, text)
     text = _NO_PICKUPS.sub(lambda match: match[1] + 'Nouto ennen klo ' + match[2], text)
+    if english_pickup_close:
+        text = _EN_NO_PICKUPS.sub(lambda match: match[1] + 'Collect before ' + match[2], text)
     return parse_note(text, arrived_at)
 
 
@@ -85,12 +90,13 @@ def wide_visit_window(place, kind, facts, low, high):
 class DeltaNotesMixin(GammaNotesMixin):
     def __init__(self, *args, delta_note_fixes=0, delta_rescue_windows=0,
                  delta_ev_rule=0, delta_private_delivery_rescue=0,
-                 delta_wide_windows=0, **kwargs):
+                 delta_wide_windows=0, delta_english_pickup_close=0, **kwargs):
         for name, value in (('delta_note_fixes', delta_note_fixes),
                             ('delta_rescue_windows', delta_rescue_windows),
                             ('delta_ev_rule', delta_ev_rule),
                             ('delta_private_delivery_rescue', delta_private_delivery_rescue),
-                            ('delta_wide_windows', delta_wide_windows)):
+                            ('delta_wide_windows', delta_wide_windows),
+                            ('delta_english_pickup_close', delta_english_pickup_close)):
             if type(value) is not int or value not in (0, 1):
                 raise ValueError(name + ' must be 0 or 1')
         self.delta_note_fixes = delta_note_fixes
@@ -98,6 +104,7 @@ class DeltaNotesMixin(GammaNotesMixin):
         self.delta_ev_rule = delta_ev_rule
         self.delta_private_delivery_rescue = delta_private_delivery_rescue
         self.delta_wide_windows = delta_wide_windows
+        self.delta_english_pickup_close = delta_english_pickup_close
         super().__init__(*args, **kwargs)
 
     def _needs_charging(self, leg):
@@ -108,13 +115,19 @@ class DeltaNotesMixin(GammaNotesMixin):
         return self.roads[leg['pickup']['placeId'], leg['delivery']['placeId']]['km'] > 200
 
     def note_facts(self, request):
-        if not self.delta_note_fixes:
+        if not (self.delta_note_fixes or self.delta_english_pickup_close):
             return super().note_facts(request)
         note = request.get('note')
         text = note.get('text', '') if note else ''
         key = (request['id'], request['arrivedAt'], text)
         if key not in self._note_cache:
-            self._note_cache[key] = parse_delta_note(note, request['arrivedAt'])
+            if self.delta_note_fixes:
+                facts = parse_delta_note(note, request['arrivedAt'],
+                                         english_pickup_close=bool(self.delta_english_pickup_close))
+            else:
+                corrected = _EN_NO_PICKUPS.sub(lambda m: m[1] + 'Collect before ' + m[2], text)
+                facts = parse_note(corrected, request['arrivedAt'])
+            self._note_cache[key] = facts
         return self._note_cache[key]
 
     def _dispatch_window(self, place, kind, facts, low, high):
@@ -209,6 +222,7 @@ class DeltaNotesMixin(GammaNotesMixin):
 
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
                delta_ev_rule=0, delta_private_delivery_rescue=0, delta_wide_windows=0,
+               delta_english_pickup_close=0,
                delta_b1="off", delta_lanes="off", delta_option_spread="off",
                delta_pairing="off", delta_pair_same_audience=0, delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
@@ -257,6 +271,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
                      delta_wide_windows=delta_wide_windows,
+                     delta_english_pickup_close=delta_english_pickup_close,
                      delta_service_brake=delta_service_brake,
                      delta_service_horizon_minutes=delta_service_horizon_minutes,
                      delta_service_soft_orders=delta_service_soft_orders,
