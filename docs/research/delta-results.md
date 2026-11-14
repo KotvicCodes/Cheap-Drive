@@ -187,12 +187,42 @@ fees and one final cent ceiling. The [technical contract](delta-b2-implementatio
 and [frozen plan](plans/delta/b2-lanes.json) specify boundaries and composition.
 All 288 combined offline tests pass, including 17 lane-specific checks.
 
-A six-world s01 pilot (neutral plus five treatments) is running. Review exact
-neutral operational parity against retained frozen Gamma, quote-menu/factor and
-price integrity, full ledger reconciliation and service before remaining seeds.
-No economic gain or simulator equivalence is established by offline tests.
-Two independent s01 note-only and rescue-only pilots use the other available
-workers under the user's all-slots instruction. These combine with neither B1
-nor lanes; no correctness repair is assumed profitable. Eight newly owned
-ordinary-practice worlds were observed active after launch. Every other world
-remained untouched.
+A six-world s01 pilot (neutral plus five treatments) and two independent
+note-only/rescue-only pilots completed naturally. Neutral matched all 5,347
+retained Gamma operational rows exactly. Source/SDK provenance, actual menus,
+exact factors and rounding, full ledgers, terminal ownership and service were
+reviewed. All eight runs passed the bounded service check.
+
+Three lane treatments passed the bounded integrity review: outbound 10400 and
+both inbound/outbound combinations. Inbound-only 9100 and outbound-only 10600
+each exposed an inherited frozen-Gamma rescue path extending a private delivery
+window beyond its original bounds. Those trajectories cannot pass integrity
+review. The combined 9100/10600 treatment lost margin on this seed despite
+passing the bounded checks. No arm is selected or qualified from this pilot.
+
+Notes-only matched Gamma's operational rows exactly on s01. Rescue-only had no
+no-window gaps or undelivered orders on this seed, unlike the earlier
+`gamma-v01` pilot; its economic effect remains seed-dependent. C bookkeeping
+is still unimplemented. No lane or repair arm advanced to remaining seeds.
+
+At the user's stopping instruction, all eight owned worlds had completed and
+both controllers had exited; zero active/draining worlds or follow-up launches
+remained. Other chats' worlds were untouched. Private review artifacts retain
+the complete prices, deltas, objections and controller/source hashes.
+
+## B4 conditional pricing prepared offline
+
+The default-off `delta_option_spread="dual_10400_9800"` experiment is implemented
+and reviewed. Only final competitive menus containing both same-day and
+next-day receive the respective 10400/9800 bps factors before one final cent
+ceiling. Lone menus and third options retain Gamma prices. Invalid experimental
+combinations are rejected; admission, learner and driver behavior are inherited.
+See the [implementation contract](delta-b4-implementation-contract.md).
+
+All 301 offline tests pass on the integration checkout's Python 3.12, including
+13 B4 checks for real option gating, exact rounding, neutral action/event parity,
+pair timers and lifecycle handling. No B4 live worlds were launched. A separately
+frozen executable snapshot and live review remain necessary; the inherited
+private-window limitation remains open. All new launches are held at the user's
+requested stopping point. Offline readiness establishes no service or economic
+qualification, and no Delta model has been selected.
