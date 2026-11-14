@@ -15,6 +15,8 @@ learner, price spread) did not hold on fresh
 weeks. [Delta results](docs/research/delta-results.md) ·
 [testing plan](docs/research/delta-testing-plan.md).
 
+[Delta next steps](docs/research/delta-next-steps.md): ranked service-protection tweaks for tonight and larger ideas parked for the next model.
+
 > Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki**. The final: Sunday **15 November 2026, 08:00 Helsinki**, about 34 minutes; submission by **10:00**.
 > **Final mode:** `python final.py models/delta.json` waits for the (test) final and plays it from the live stream; rerun the same command to rejoin after a crash. `--rehearse SEED` creates or resumes a paced practice rehearsal. Keep `runs/final/` for checkpoints and quote receipts. See the [recovery handoff](docs/research/final-rejoin-recovery.md) for the outage findings, offline validation and kill/restart drill.
 > [Schedule and run limits](docs/reference.md#event-schedule-and-run-limits) · [Challenge constraints](docs/challenge.md).
