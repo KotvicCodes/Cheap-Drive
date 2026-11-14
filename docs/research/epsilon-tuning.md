@@ -85,3 +85,22 @@ neutral behavior, rounding and validation. No practice results yet.
 
 Fresh confirmation seeds were reserved before outcomes:
 `epsilon-confirm-20261115-s01..s08`. They have not been played by this loop.
+
+## Operator control, 23:18 UTC
+
+The orchestrator confirmed a 12-world practice limit. Worker allocation was
+raised to ten and `client.worlds()` confirmed ten ordinary practice worlds
+(no active ranking world, plus the existing final). The orchestrator then
+reported a live final and prohibited all new practice creation until its
+snapshot reaches `now >= endsAt`. The existing sweep processes were suspended
+with SIGSTOP to guarantee that their already-queued jobs could not refill
+slots; current worlds and completed results remain intact. No `final.py`
+process or `runs/final/` file was touched.
+
+After that final, the updated instruction is twelve total practice workers,
+no reserve, until the orchestrator requests a ranking stop. New sweeps support
+`SWEEP_PAUSE_FILE`: touching the configured flag blocks creation and retry at
+world boundaries while current weeks finish; removing it resumes the queue.
+The pre-existing suspended processes were started before that flag existed
+and will be resumed only after the final ends. Re-running their original
+`sweep.py` commands reuses completed weekly scores.

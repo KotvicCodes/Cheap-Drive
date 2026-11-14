@@ -14,6 +14,10 @@ eight play at once (the team's unfinished-world limit). Finished weeks are
 skipped on a rerun, so an interrupted sweep resumes. Outputs under the given
 directory (git-ignored): traces/*.jsonl.gz, reveals/*.json.gz, runs.jsonl
 (one line per week) and summary.md (one row per variant).
+
+Set SWEEP_PAUSE_FILE to a shared file path for drain-and-resume control.
+Creating that file blocks new worlds (including retries) while active weeks
+finish. Removing it resumes queued weeks; completed scores are still reused.
 """
 from __future__ import annotations
 
@@ -41,6 +45,13 @@ EVENTS = ("price_request", "order_won", "gig_booked", "gig_dropped", "gig_expire
           "visit_failed", "no_show", "order_cancelled")
 
 
+def wait_for_launch():
+    """Pause only at world boundaries; never interfere with an active week."""
+    path = os.environ.get("SWEEP_PAUSE_FILE")
+    while path and Path(path).exists():
+        time.sleep(1)
+
+
 def play_week(out, factory_name, level, seed, label, settings, fast):
     from performance import PracticeClient as Client
     from compare import MetricsJournal
@@ -53,6 +64,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     for attempt in range(4):
         world = None
         try:
+            wait_for_launch()
             world = client.create(level=level, seed=seed, board=False)
             (out / "worlds" / world.id).write_text(tag)
             started = time.time()
