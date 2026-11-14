@@ -16,6 +16,7 @@ from spread.starter import DAY
 
 _TYPOS = re.compile(r'\b(huoomenna|friay|aikaisiintaan)\b', re.I)
 _CORRECTIONS = {'huoomenna': 'huomenna', 'friay': 'Friday', 'aikaisiintaan': 'aikaisintaan'}
+PAIRING_PROFILES = {'off': None, 'regional': (60, 480), 'extended': (90, 720)}
 _NO_PICKUPS = re.compile(
     r'(^|[;,\n!?]\s*|\.(?!\d)\s*)\s*klo\s+'
     r'(\d{1,2}(?:[.:]\d{2})?)\s+j[aä]lkeen\s+ei\s+en[aä]{2}\s+luovutuksia\b', re.I)
@@ -111,7 +112,10 @@ class DeltaNotesMixin(GammaNotesMixin):
 
 
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
-               delta_b1="off", delta_lanes="off", delta_option_spread="off", **settings):
+               delta_b1="off", delta_lanes="off", delta_option_spread="off",
+               delta_pairing="off", **settings):
+    if not isinstance(delta_pairing, str) or delta_pairing not in PAIRING_PROFILES:
+        raise ValueError('delta_pairing must be off, regional or extended')
     class DeltaDesk(DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
                     DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
@@ -131,6 +135,14 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
     validate_b1(delta_b1, base, driver, note_fixes=delta_note_fixes, rescue_windows=delta_rescue_windows)
     validate_lanes(delta_lanes, base, driver, b1=delta_b1,
                    note_fixes=delta_note_fixes, rescue_windows=delta_rescue_windows)
+    if delta_pairing != 'off':
+        # Widen only route search. Keep the established audience, calendars,
+        # arrival allowance, deadline spare and timed single-order fallback.
+        # Explicitly require pairs rather than silently enabling another policy.
+        if not driver.pairs:
+            raise ValueError('delta_pairing requires pairs=1')
+        transfer, drive = PAIRING_PROFILES[delta_pairing]
+        driver = replace(driver, pair_transfer_km=transfer, pair_max_drive_minutes=drive)
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver,
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_b1=delta_b1, delta_lanes=delta_lanes,
