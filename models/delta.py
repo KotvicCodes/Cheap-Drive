@@ -8,6 +8,7 @@ from .gamma import GammaCoreDesk, GammaSettings
 from .delta_b1 import DeltaB1Mixin, validate_b1
 from .delta_lanes import DeltaLanesMixin, validate_lanes
 from .delta_option_spread import DeltaOptionSpreadMixin, validate_option_spread
+from .delta_service import DeltaServiceMixin
 from .gamma_notes import GammaNotesMixin, _daily_window, visit_window
 from .gamma_pairs import DriverSideMixin, _split_settings
 from .notes import NoteFacts, parse_note
@@ -209,10 +210,13 @@ class DeltaNotesMixin(GammaNotesMixin):
 def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_windows=0,
                delta_ev_rule=0, delta_private_delivery_rescue=0, delta_wide_windows=0,
                delta_b1="off", delta_lanes="off", delta_option_spread="off",
-               delta_pairing="off", **settings):
+               delta_pairing="off", delta_service_brake=0,
+               delta_service_horizon_minutes=360, delta_service_soft_orders=3,
+               delta_service_hard_orders=6, delta_service_target_bps=3000,
+               delta_service_hard_target_bps=2400, **settings):
     if not isinstance(delta_pairing, str) or delta_pairing not in PAIRING_PROFILES:
         raise ValueError('delta_pairing must be off, regional or extended')
-    class DeltaDesk(DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
+    class DeltaDesk(DeltaServiceMixin, DeltaOptionSpreadMixin, DeltaB1Mixin, DeltaLanesMixin,
                     DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
 
@@ -244,5 +248,11 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
                      delta_wide_windows=delta_wide_windows,
+                     delta_service_brake=delta_service_brake,
+                     delta_service_horizon_minutes=delta_service_horizon_minutes,
+                     delta_service_soft_orders=delta_service_soft_orders,
+                     delta_service_hard_orders=delta_service_hard_orders,
+                     delta_service_target_bps=delta_service_target_bps,
+                     delta_service_hard_target_bps=delta_service_hard_target_bps,
                      delta_b1=delta_b1, delta_lanes=delta_lanes,
                      delta_option_spread=delta_option_spread)
