@@ -56,7 +56,7 @@
   --radius-sm: 8px;
   --sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --side: 232px;
+  --side: 248px;
   font-family: var(--sans);
   font-size: 14px;
   line-height: 1.45;
@@ -191,10 +191,10 @@ kbd {
   background: var(--surface); border-right: 1.5px solid var(--line);
   padding: 18px 14px; overflow-y: auto;
 }
-.sidebar-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.brand { display: flex; align-items: center; gap: 10px; padding: 2px 2px; min-width: 0; }
-.brand-icon svg { width: 34px; height: 34px; display: block; flex: none; }
-.brand strong { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.025em; white-space: nowrap; }
+.sidebar-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.brand { display: flex; align-items: center; gap: 8px; padding: 2px 0; min-width: 0; }
+.brand-icon svg { width: 32px; height: 32px; display: block; flex: none; }
+.brand strong { display: block; font-size: 14.5px; font-weight: 700; letter-spacing: -.025em; white-space: nowrap; }
 .brand span { display: block; font-size: 11px; font-weight: 600; color: var(--brand); letter-spacing: .01em; }
 .run-card {
   border: 1.5px solid var(--line); background: var(--surface-2); border-radius: 11px;
@@ -305,12 +305,12 @@ main { margin-left: var(--side); padding: 22px 30px 32px; max-width: calc(var(--
 h1 { font-size: 30px; letter-spacing: -.035em; line-height: 1.1; margin: 0; font-weight: 700; }
 .top-actions { display: flex; align-items: center; gap: 8px; flex: none; }
 .theme-toggle {
-  padding: 5px 9px; font-size: 11.5px; font-weight: 700; gap: 5px;
+  padding: 4px 8px; font-size: 11px; font-weight: 700; gap: 4px;
   border-radius: 999px; background: var(--surface-2); border: 1.5px solid var(--line-strong);
   color: var(--ink); flex: none;
 }
 .theme-toggle:hover { background: var(--brand); color: #141413; border-color: var(--brand); }
-.theme-toggle svg { width: auto; height: 15px; display: block; }
+.theme-toggle svg { width: auto; height: 14px; display: block; }
 
 .badge {
   display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700;
