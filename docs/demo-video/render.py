@@ -262,7 +262,7 @@ FINLAND_BORDER = [
     (60.15, 25.10), (59.98, 24.40), (59.82, 22.96),
 ]
 
-# All 30 simulator places + northern Lapland waypoints so routes cover the entirety of Finland
+# All 30 real simulator places in Finland
 FINLAND_PLACES = {
     'helsinki': (60.1699, 24.9384, 'Helsinki', True),
     'espoo': (60.2055, 24.6559, 'Espoo', False),
@@ -295,15 +295,14 @@ FINLAND_PLACES = {
     'kemi': (65.7364, 24.5637, 'Kemi', False),
     'rovaniemi': (66.5039, 25.7294, 'Rovaniemi', True),
     'sodankyla': (67.4160, 26.5890, 'Sodankylä', False),
-    'kittila': (67.6547, 24.9074, 'Kittilä', False),
     'ivalo': (68.6576, 27.5397, 'Ivalo', True),
-    'kilpisjarvi': (69.0489, 20.7958, 'Kilpisjärvi', False),
 }
 
 FINLAND_ROADS = [
     ('helsinki', 'espoo'), ('espoo', 'salo'), ('salo', 'turku'), ('turku', 'raisio'),
     ('raisio', 'rauma'), ('rauma', 'pori'), ('pori', 'vaasa'), ('vaasa', 'kokkola'),
     ('kokkola', 'ylivieska'), ('ylivieska', 'oulu'), ('oulu', 'kemi'), ('kemi', 'rovaniemi'),
+    ('rovaniemi', 'sodankyla'), ('sodankyla', 'ivalo'),
     ('helsinki', 'vantaa'), ('vantaa', 'hyvinkaa'), ('hyvinkaa', 'hameenlinna'),
     ('hameenlinna', 'lempaala'), ('lempaala', 'tampere'), ('tampere', 'pori'),
     ('tampere', 'seinajoki'), ('seinajoki', 'vaasa'), ('seinajoki', 'kokkola'),
@@ -313,21 +312,16 @@ FINLAND_ROADS = [
     ('kouvola', 'mikkeli'), ('mikkeli', 'kuopio'), ('kuopio', 'kajaani'), ('kajaani', 'oulu'),
     ('kouvola', 'lappeenranta'), ('lappeenranta', 'savonlinna'), ('savonlinna', 'joensuu'),
     ('lappeenranta', 'joensuu'), ('joensuu', 'kuopio'), ('joensuu', 'kajaani'),
-    ('rovaniemi', 'sodankyla'), ('sodankyla', 'ivalo'), ('rovaniemi', 'kittila'),
-    ('kittila', 'kilpisjarvi'), ('kemi', 'kittila'),
 ]
 
-# Multi-directional dispatch routes (N->S, W->E, E->W, S->N, NW->SE) across Finland
+# 5 realistic main-highway transfers across 5 distinct regions of Finland
 FINLAND_TRIPS = [
     # (waypoints, start_offset, speed, color, is_primary)
-    (['ivalo', 'sodankyla', 'rovaniemi', 'kemi', 'oulu'], 0.05, 0.22, ORANGE, True),
-    (['kilpisjarvi', 'kittila', 'rovaniemi', 'sodankyla', 'ivalo'], 0.16, 0.25, MARIGOLD, False),
-    (['vaasa', 'seinajoki', 'jyvaskyla', 'kuopio', 'joensuu'], 0.24, 0.27, MARIGOLD, True),
-    (['joensuu', 'savonlinna', 'mikkeli', 'lahti', 'hameenlinna', 'turku'], 0.14, 0.24, ORANGE, True),
-    (['helsinki', 'hyvinkaa', 'hameenlinna', 'tampere', 'pori', 'vaasa'], 0.30, 0.26, ORANGE, True),
-    (['oulu', 'kajaani', 'kuopio', 'mikkeli', 'kouvola', 'kotka'], 0.18, 0.23, MARIGOLD, False),
-    (['turku', 'salo', 'espoo', 'helsinki', 'porvoo', 'lappeenranta'], 0.22, 0.28, ORANGE, False),
-    (['kokkola', 'ylivieska', 'oulu', 'rovaniemi', 'kittila'], 0.35, 0.21, MARIGOLD, True),
+    (['ivalo', 'sodankyla', 'rovaniemi', 'kemi', 'oulu'], 0.14, 0.14, ORANGE, True),
+    (['vaasa', 'kokkola', 'ylivieska', 'oulu'], 0.08, 0.15, MARIGOLD, False),
+    (['joensuu', 'kuopio', 'jyvaskyla', 'tampere'], 0.20, 0.15, ORANGE, True),
+    (['helsinki', 'hyvinkaa', 'hameenlinna', 'lempaala', 'tampere', 'pori'], 0.12, 0.16, MARIGOLD, False),
+    (['turku', 'salo', 'espoo', 'helsinki', 'porvoo', 'kotka', 'lappeenranta'], 0.28, 0.14, ORANGE, True),
 ]
 
 
@@ -398,31 +392,30 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
         if in_box(pu) and in_box(pv):
             line(im, [pu, pv], '#FFC266', 2)
 
-    # Plot all 30 simulator towns + Lapland hubs
+    # Plot all 30 simulator towns
     for pid, (lat, lon, name, is_major) in FINLAND_PLACES.items():
         pt = proj(lat, lon)
         if not in_box(pt):
             continue
-        circle(im, *pt, 6 if is_major else 4, CARD, ORANGE if is_major else MANGO, 3 if is_major else 2)
+        circle(im, *pt, 5 if is_major else 3, CARD, ORANGE if is_major else MANGO, 2)
         if is_major:
-            circle(im, *pt, 11 + 7 * ((t * 0.85 + hash(pid) % 7 * 0.14) % 1), None, MARIGOLD, 2)
-            lx_off = -12 if pid in ('vaasa', 'turku') else 12
+            lx_off = -10 if pid in ('vaasa', 'turku') else 10
             anc = 'rm' if pid in ('vaasa', 'turku') else 'lm'
-            txt(im, name, pt[0] + lx_off, pt[1], 17, INK, weight=700, anchor=anc)
+            txt(im, name, pt[0] + lx_off, pt[1], 16, INK, weight=650, anchor=anc)
 
-    # Multi-directional trips with trailing route wakes and varied speeds/directions
+    # 5 realistic highway transfers with subtle trailing progress
     for c_idx, (corr, p0, spd, col, is_prim) in enumerate(FINLAND_TRIPS):
         pts = [proj(*FINLAND_PLACES[pid][:2]) for pid in corr if in_box(proj(*FINLAND_PLACES[pid][:2]))]
         if len(pts) < 2:
             continue
         p = (p0 + t * spd) % 1.0
-        tail = max(0.0, p - 0.34)
-        path_segment(im, pts, tail, p, ORANGE if is_prim else MANGO, 5 if is_prim else 4, glow='#FFE066' if is_prim else None)
-        if 0.03 < p < 0.97:
+        tail = max(0.0, p - 0.22)
+        path_segment(im, pts, tail, p, ORANGE if is_prim else MANGO, 4 if is_prim else 3)
+        if 0.04 < p < 0.96:
             q = route_point(pts, p)
             ahead = route_point(pts, min(p + 0.008, 1.0))
             heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
-            car(im, *q, color=INK if c_idx % 2 == 0 else ORANGE, scale=0.82, angle=heading)
+            car(im, *q, color=INK if c_idx % 2 == 0 else ORANGE, scale=0.68, angle=heading)
 
 
 def hero(t):
