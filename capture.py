@@ -31,6 +31,17 @@ class Journal:
         except (io.UnsupportedOperation, AttributeError):
             pass  # In-memory fixtures have no durable file descriptor.
 
+    def record_history(self, events) -> None:
+        """One durable flush for an already read replay, not one fsync per old event."""
+        for event in events:
+            self.output.write(json.dumps(clean({'type': 'history_event', 'event': event}),
+                                         ensure_ascii=False, allow_nan=False) + '\n')
+        self.output.flush()
+        try:
+            os.fsync(self.output.fileno())
+        except (io.UnsupportedOperation, AttributeError):
+            pass
+
 
 class CapturedWorld:
     """Persist intent before each SDK call and its whole return before desk handling.
