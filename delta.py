@@ -21,7 +21,12 @@ _NO_PICKUPS = re.compile(
 def parse_delta_note(note, arrived_at):
     """Correct only observed whole-word typos and a standalone closing clause."""
     text = note.get('text', '') if isinstance(note, dict) else note or ''
-    text = _TYPOS.sub(lambda match: _CORRECTIONS[match[0].lower()], text)
+    def correct_word(match):
+        # Do not turn an unrecognized negative aside into a competing date.
+        if re.search(r'\b(?:not|ei|inte)\s*$', text[:match.start()], re.I):
+            return match[0]
+        return _CORRECTIONS[match[0].lower()]
+    text = _TYPOS.sub(correct_word, text)
     text = _NO_PICKUPS.sub(lambda match: match[1] + 'Nouto ennen klo ' + match[2], text)
     return parse_note(text, arrived_at)
 

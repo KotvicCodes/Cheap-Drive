@@ -19,7 +19,9 @@ Both switches default to zero, preserving Gamma's selected note/pair behavior:
 
 Synthetic regressions cover date anchoring, negation, codes/prose, inclusive
 closing, weekday/weekend calendars, readiness, private slots, plates, charging,
-route timing and neutral pairing. All 241 offline tests pass on Python 3.12.
+route timing and neutral pairing. All 242 offline tests pass on Python 3.12.
+Negated typo asides are left uncorrected so they cannot override an affirmative
+weekday elsewhere in the clause.
 An offline posting-window reconstruction on the 17 unique no-window orders
 from Gamma's exposed screening traces found no Gamma route and a Delta route
 in every case, with calendar/private-slot checks passing. This reconstructs
