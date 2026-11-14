@@ -9,7 +9,7 @@ from unittest.mock import patch
 from beta import BetaDesk, BetaSettings
 from compare import load_model
 from demo import sample_request
-from dispatch import Journal, JournalDesk, play_model
+from dispatch import Journal, JournalDesk, handle_batch, play_model
 from gamma import (BIG_DEALERS, DEALER_FACTORS, DELIVERY_FACTORS, LANE_FACTORS, PLACE_IDS,
                    GammaCoreDesk, GammaDesk, GammaSettings, make_gamma)
 from spread.starter import DAY
@@ -493,6 +493,319 @@ class GammaTests(unittest.TestCase):
             score = play_model(world, 8, Journal(io.StringIO()), model.factory, fast=fast)
             self.assertEqual(score['wonOrders'], 1)
             self.assertEqual(score['revenueCents'], 37500)
+
+    def brake_orders(self, desk, count=1, legs=1):
+        for i in range(count):
+            req = request(identity=f'won-{i}', slacks=(1200, 1800, 2400))
+            req['legs'] *= legs
+            desk.requests[req['id']] = req
+            self.win(desk, req)
+
+    def brake_quote(self, desk, identity=None, **changes):
+        req = request(identity=identity or f'quote-{len(desk.requests)}', **changes)
+        shift = desk.now - 500
+        req['respondBy'] += shift
+        for option in req['options']:
+            option['deadline'] += shift
+        return self.quote(desk, req)
+
+    def risk_event(self, desk, kind, order='won-0'):
+        if kind == 'late_refund':
+            self.event(desk, 'ledger', line={'kind': kind, 'orderId': order})
+        elif kind == 'deadline_close':
+            self.event(desk, kind, orderId=order)
+        else:
+            self.event(desk, kind, gigId='offline-gig')
+
+    def test_brake_projected_thresholds_denominator_and_warned_weight(self):
+        for count, late, warned, expected, projected in [
+                (40, 1, 0, 'normal', 250), (40, 2, 0, 'caution', 500),
+                (40, 3, 0, 'brake', 750), (41, 2, 0, 'normal', 20000 / 41),
+                (4, 0, 4, 'caution', 500), (6, 0, 6, 'brake', 750),
+                (1, 1, 0, 'normal', 250)]:
+            with self.subTest(count=count, late=late, warned=warned):
+                desk = self.desk(brake=1, brake_soft_warnings=1000, brake_hard_warnings=1000)
+                self.brake_orders(desk, count)
+                for i in range(late):
+                    self.risk_event(desk, 'late_refund', f'won-{i}')
+                for i in range(late, late + warned):
+                    self.risk_event(desk, 'deadline_close', f'won-{i}')
+                self.brake_quote(desk, slacks=(1200, 1800))
+                record = self.record(desk)
+                self.assertEqual(record['mode'], expected)
+                self.assertAlmostEqual(record['projectedLateBps'], projected)
+                self.assertEqual((record['won'], record['late'], record['warnedOpen']), (count, late, warned))
+        for weight, expected in [(0, 'normal'), (33, 'normal'), (34, 'caution'), (100, 'brake')]:
+            desk = self.desk(brake=1, brake_warned_weight_pct=weight, brake_min_orders=10,
+                             brake_soft_bps=335, brake_hard_bps=900)
+            self.brake_orders(desk)
+            self.risk_event(desk, 'deadline_close')
+            self.brake_quote(desk, slacks=(1200, 1800))
+            self.assertEqual(self.record(desk)['mode'], expected)
+
+    def test_brake_warning_and_drop_thresholds_and_trailing_event_clock(self):
+        for warnings, expected in [(0, 'normal'), (5, 'normal'), (6, 'caution'), (11, 'caution'), (12, 'brake')]:
+            desk = self.desk(brake=1)
+            for _ in range(warnings):
+                self.risk_event(desk, 'deadline_close', 'unknown')
+            self.brake_quote(desk, slacks=(1200, 1800))
+            self.assertEqual(self.record(desk)['mode'], expected)
+            self.assertEqual(self.record(desk)['warn24'], warnings)
+        desk = self.desk(brake=1, brake_soft_drops=3, brake_hold_minutes=0)
+        self.risk_event(desk, 'gig_dropped')
+        desk.now += 1
+        self.risk_event(desk, 'no_show')
+        self.brake_quote(desk)
+        self.assertEqual(self.record(desk)['mode'], 'normal')
+        self.risk_event(desk, 'gig_dropped')
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual((self.record(desk)['mode'], self.record(desk)['drops24']), ('caution', 3))
+        desk.now = 500 + DAY
+        self.brake_quote(desk)
+        self.assertEqual((self.record(desk)['mode'], self.record(desk)['drops24']), ('normal', 2))
+        desk.now += 1
+        self.brake_quote(desk)
+        self.assertEqual(self.record(desk)['drops24'], 0)
+        # Event timestamps, not the later batch clock, determine window membership.
+        desk.handle({'kind': 'deadline_close', 'at': 500, 'orderId': 'unknown'})
+        self.brake_quote(desk)
+        self.assertEqual(self.record(desk)['warn24'], 0)
+
+    def test_brake_counts_distinct_orders_partial_delivery_refunds_and_cancellation(self):
+        desk = self.desk(brake=1, trade_ins=1, brake_hold_minutes=0)
+        self.brake_orders(desk, 2, legs=2)
+        self.risk_event(desk, 'deadline_close')
+        self.risk_event(desk, 'deadline_close')
+        self.event(desk, 'delivered', orderId='won-0', leg=0)
+        self.assertEqual(desk.brake_inputs()['warnedOpen'], 1)
+        self.event(desk, 'delivered', orderId='won-0', leg=1)
+        self.assertEqual(desk.brake_inputs()['warnedOpen'], 0)
+        self.risk_event(desk, 'deadline_close', 'won-1')
+        self.risk_event(desk, 'late_refund', 'won-1')
+        self.risk_event(desk, 'late_refund', 'won-1')
+        inputs = desk.brake_inputs()
+        self.assertEqual((inputs['won'], inputs['late'], inputs['warnedOpen'], inputs['warn24']), (2, 1, 0, 3))
+        self.event(desk, 'order_cancelled', orderId='won-1')
+        self.risk_event(desk, 'late_refund', 'won-1')
+        self.risk_event(desk, 'deadline_close', 'won-0')
+        self.event(desk, 'order_cancelled', orderId='won-0')
+        self.brake_quote(desk)
+        record = self.record(desk)
+        self.assertEqual((record['won'], record['late'], record['warnedOpen']), (0, 0, 0))
+        # Rolling event counts retain the events even after their orders cancel.
+        self.assertEqual(record['warn24'], 4)
+
+    def test_brake_hysteresis_tracks_last_condition_between_quotes(self):
+        desk = self.desk(brake=1, brake_soft_bps=100, brake_hard_bps=200)
+        self.brake_orders(desk)
+        self.risk_event(desk, 'late_refund')
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(self.record(desk)['mode'], 'brake')
+        desk.now += 1000  # No quotes while the hard condition continues to hold.
+        self.event(desk, 'order_cancelled', orderId='won-0')
+        desk.now += 239
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(self.record(desk)['mode'], 'brake')
+        desk.now += 1
+        self.brake_quote(desk)
+        self.assertEqual(self.record(desk)['mode'], 'normal')
+        transitions = [r for r in map(json.loads, desk.trace.getvalue().splitlines()) if r['type'] == 'gamma_brake']
+        self.assertEqual([(r['from'], r['to']) for r in transitions], [('normal', 'brake'), ('brake', 'normal')])
+        self.assertEqual(transitions[-1]['at'], 1740)
+        self.assertEqual(transitions[-1]['late'], 0)
+
+    def test_brake_hysteresis_warning_expiry_and_severity_downgrade(self):
+        desk = self.desk(brake=1, brake_soft_warnings=1, brake_hard_warnings=2)
+        self.risk_event(desk, 'deadline_close', 'unknown')
+        desk.now += 100
+        self.risk_event(desk, 'deadline_close', 'unknown')
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(self.record(desk)['mode'], 'brake')
+        desk.now = 500 + DAY + 239
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(self.record(desk)['mode'], 'brake')
+        desk.now += 1
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(self.record(desk)['mode'], 'caution')
+        self.assertEqual(desk.markup, 16686)
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(desk.markup, 16686)
+        desk.now = 600 + DAY + 240
+        self.brake_quote(desk)
+        self.assertEqual(self.record(desk)['mode'], 'normal')
+        immediate = self.desk(brake=1, brake_hold_minutes=0, brake_soft_warnings=1)
+        self.risk_event(immediate, 'deadline_close', 'unknown')
+        self.brake_quote(immediate, slacks=(1200, 1800))
+        immediate.now += DAY
+        self.brake_quote(immediate)
+        self.assertEqual(self.record(immediate)['mode'], 'normal')
+
+    def test_brake_targets_override_capacity_and_can_be_ablated(self):
+        for capacity in (0, 1):
+            for warnings, target in [(0, 3400 if capacity else 3800), (6, 3000), (12, 2200)]:
+                desk = self.desk(brake=1, capacity_valve=capacity, win_target_bps=3800)
+                for _ in range(warnings):
+                    self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(self.record(desk)['winTargetBps'], target)
+                identity = desk.outbox[-1]['requestId']
+                markup = desk.markup
+                self.event(desk, 'order_lost', requestId=identity)
+                self.assertAlmostEqual(desk.markup, markup * (1 - 0.02 * target / 10000))
+        desk = self.desk(brake=1, brake_soft_warnings=1, brake_hard_warnings=2, win_target_bps=3800,
+                         brake_caution_target_bps=3800, brake_target_bps=3800)
+        for _ in range(2):
+            self.risk_event(desk, 'deadline_close', 'unknown')
+            self.brake_quote(desk, slacks=(1200, 1800))
+            self.assertEqual(desk.win_target(), 3800)
+
+    def test_brake_entry_bumps_once_each_entry_and_bounds_every_tracker(self):
+        for scope, trackers in [('global', []), ('dealer', [*BIG_DEALERS, 'other']),
+                                ('km', ['under_100', '100_to_300', 'over_300'])]:
+            with self.subTest(scope=scope):
+                desk = self.desk(brake=1, markup_scope=scope, brake_soft_warnings=1, brake_hard_warnings=2,
+                                 brake_hold_minutes=0, learn_bps=0, markup_max_bps=17000)
+                self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(desk.markup, 15450)
+                for tracker in trackers:
+                    self.assertEqual(desk.tracker_markup(tracker), 15450)
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(desk.markup, 15450)
+                self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(desk.markup, 16686)
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(desk.markup, 16686)
+                desk.now += DAY
+                self.brake_quote(desk)
+                self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(desk.markup, 17000)
+                for tracker in trackers:
+                    self.assertEqual(desk.tracker_markup(tracker), 17000)
+        # Both bounds apply even to unusual experimental multipliers.
+        desk = self.desk(brake=1, brake_soft_warnings=1, brake_caution_bump_bps=1)
+        self.risk_event(desk, 'deadline_close', 'unknown')
+        self.brake_quote(desk, slacks=(1200, 1800))
+        self.assertEqual(desk.markup, desk.settings.markup_min_bps)
+
+    def test_brake_bump_ablation_and_custom_multipliers(self):
+        for caution, hard, expected in [(10000, 10000, (15000, 15000)), (11000, 12000, (16500, 19800))]:
+            desk = self.desk(brake=1, brake_soft_warnings=1, brake_hard_warnings=2,
+                             brake_caution_bump_bps=caution, brake_bump_bps=hard)
+            for markup in expected:
+                self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1200, 1800))
+                self.assertEqual(desk.markup, markup)
+
+    def test_brake_option_filters_boundaries_ablation_and_selection(self):
+        for warnings, changes, slacks, expected in [
+                (6, {}, (719, 600, 720), {'next_day', 'within_3_days'}),
+                (6, {}, (720, 600, 720), {'same_day', 'next_day', 'within_3_days'}),
+                (6, {'brake_caution_same_day_slack_minutes': 0}, (600, 600), {'same_day', 'next_day'}),
+                (12, {}, (1200, 719, 720), {'within_3_days'}),
+                (12, {'brake_drop_same_day': 0}, (600, 719, 720), {'same_day', 'within_3_days'}),
+                (12, {'brake_min_slack_minutes': 0}, (1200, 600), {'next_day'}),
+                (12, {'brake_drop_same_day': 0, 'brake_min_slack_minutes': 0}, (600, 600), {'same_day', 'next_day'}),
+                (6, {'quote_options': 'cheapest_only'}, (600, 800), {'next_day'})]:
+            with self.subTest(warnings=warnings, changes=changes, slacks=slacks):
+                desk = self.desk(brake=1, **changes)
+                for _ in range(warnings):
+                    self.risk_event(desk, 'deadline_close', 'unknown')
+                self.assertEqual(set(self.brake_quote(desk, slacks=slacks)), expected)
+        for warnings in (6, 12):
+            desk = self.desk(brake=1)
+            for _ in range(warnings):
+                self.risk_event(desk, 'deadline_close', 'unknown')
+            prices = self.brake_quote(desk, slacks=(600,))
+            self.assertEqual(prices, {'same_day': 250000})
+            record = self.record(desk, 'beta_decline')
+            self.assertEqual(record['reason'], 'on-time brake')
+            self.assertEqual(record['warn24'], warnings)
+            self.assertFalse(desk.pending)
+
+    def test_brake_long_route_block_and_all_route_cap_with_ablations(self):
+        for warnings, blocked in [(0, False), (6, True), (12, True)]:
+            for blocks in (0, 1):
+                desk = self.desk(brake=1, long_max_km=600, brake_blocks_long=blocks)
+                desk.roads['helsinki', 'tampere']['km'] = 600
+                for _ in range(warnings):
+                    self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1800, 1800))
+                if blocks and blocked:
+                    self.assertEqual(self.record(desk, 'beta_decline')['reason'], 'on-time brake')
+                else:
+                    self.assertTrue(desk.pending)
+        for max_km in (0, 500):
+            for warnings, cap, km, accepted in [(6, 300, 301, True), (12, 300, 300, True),
+                                               (12, 300, 301, False), (12, 0, 400, True)]:
+                desk = self.desk(brake=1, max_km=max_km, brake_max_km=cap)
+                desk.roads['helsinki', 'tampere']['km'] = km
+                for _ in range(warnings):
+                    self.risk_event(desk, 'deadline_close', 'unknown')
+                self.brake_quote(desk, slacks=(1800, 1800))
+                self.assertEqual(bool(desk.pending), accepted)
+                if not accepted:
+                    self.assertEqual(self.record(desk, 'beta_decline')['reason'], 'on-time brake')
+
+    def test_same_day_slack_inherits_general_setting_and_is_independent(self):
+        self.assertEqual(GammaSettings(min_slack_minutes=123).same_day_min_slack_minutes, 123)
+        for general, same_day, expected in [(480, 720, {'next_day'}), (720, 480, {'same_day'}),
+                                             (480, 480, {'same_day', 'next_day'})]:
+            desk = self.desk(min_slack_minutes=general, same_day_min_slack_minutes=same_day)
+            self.assertEqual(set(self.brake_quote(desk, slacks=(600, 600))), expected)
+
+    def test_brake_batch_events_use_prior_events_and_journal_each_transition(self):
+        desk = self.desk(brake=1, brake_soft_bps=200, brake_hard_bps=400, brake_hold_minutes=0)
+        self.brake_orders(desk, 3)
+        events = [
+            {'kind': 'ledger', 'line': {'kind': 'late_refund', 'orderId': 'won-0'}},
+            {'kind': 'ledger', 'line': {'kind': 'late_refund', 'orderId': 'won-0'}},
+            {'kind': 'deadline_close', 'orderId': 'won-1'},
+            {'kind': 'gig_dropped', 'gigId': 'unknown'},
+            {'kind': 'no_show', 'gigId': 'unknown'},
+            {'kind': 'price_request', 'request': request('caution', slacks=(1200, 1800))},
+            {'kind': 'ledger', 'line': {'kind': 'late_refund', 'orderId': 'won-1'}},
+            {'kind': 'price_request', 'request': request('brake', slacks=(1200, 1800))},
+            {'kind': 'order_cancelled', 'orderId': 'won-0'},
+            {'kind': 'order_cancelled', 'orderId': 'won-1'},
+            {'kind': 'price_request', 'request': request('normal', slacks=(1200, 1800))}]
+        handle_batch(desk, [{'seq': i, 'at': 500, **event} for i, event in enumerate(events)], 500)
+        records = list(map(json.loads, desk.trace.getvalue().splitlines()))
+        quotes = [r for r in records if r['type'] == 'beta_quote']
+        self.assertEqual([r['mode'] for r in quotes], ['caution', 'brake', 'normal'])
+        self.assertEqual([(r['late'], r['warnedOpen'], r['won']) for r in quotes], [(1, 1, 3), (2, 0, 3), (0, 0, 1)])
+        self.assertTrue(all(r['drops24'] == 2 and r['warn24'] == 1 for r in quotes))
+        transitions = [r for r in records if r['type'] == 'gamma_brake']
+        self.assertEqual([(r['from'], r['to']) for r in transitions],
+                         [('normal', 'caution'), ('caution', 'brake'), ('brake', 'normal')])
+        for transition, quote in zip(transitions, quotes):
+            for key in ('at', 'projectedLateBps', 'warn24', 'drops24', 'late', 'warnedOpen', 'won'):
+                self.assertEqual(transition[key], quote[key])
+
+    def test_disabled_brake_ignores_risk_and_keeps_all_effects_off(self):
+        desk = self.desk(long_max_km=600, win_target_bps=3800, brake_max_km=1)
+        desk.roads['helsinki', 'tampere']['km'] = 600
+        for _ in range(20):
+            self.risk_event(desk, 'deadline_close', 'unknown')
+            self.risk_event(desk, 'gig_dropped')
+        self.brake_quote(desk, slacks=(1800, 1800))
+        self.assertEqual(self.record(desk)['mode'], 'normal')
+        self.assertEqual(desk.markup, 15000)
+        self.assertEqual(desk.win_target(), 3800)
+        self.assertTrue(desk.pending)
+        records = list(map(json.loads, desk.trace.getvalue().splitlines()))
+        self.assertFalse(any(r['type'] == 'gamma_brake' for r in records))
+
+    def test_brake_settings_validation(self):
+        for changes in [{'brake_min_orders': 0}, {'brake_warned_weight_pct': 101},
+                        {'brake_caution_bump_bps': 0}, {'brake_bump_bps': 0},
+                        {'brake_caution_target_bps': 0}, {'brake_caution_target_bps': 10000},
+                        {'brake_target_bps': 0}, {'brake_target_bps': 10000},
+                        {'brake': 2}, {'brake_drop_same_day': 2}, {'brake_blocks_long': 2}]:
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                GammaSettings(**changes)
 
     def test_settings_are_frozen_validated_and_json_serializable(self):
         settings = GammaSettings()

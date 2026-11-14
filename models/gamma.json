@@ -39,6 +39,25 @@
     "short_bps": 10000,
     "quote_options": "all",
     "markup_scope": "global",
-    "freeze_day_drop_bps": 0
+    "freeze_day_drop_bps": 0,
+    "same_day_min_slack_minutes": 480,
+    "brake": 0,
+    "brake_soft_bps": 500,
+    "brake_hard_bps": 750,
+    "brake_soft_warnings": 6,
+    "brake_hard_warnings": 12,
+    "brake_soft_drops": 100000,
+    "brake_warned_weight_pct": 50,
+    "brake_min_orders": 40,
+    "brake_hold_minutes": 240,
+    "brake_caution_target_bps": 3000,
+    "brake_target_bps": 2200,
+    "brake_caution_bump_bps": 10300,
+    "brake_bump_bps": 10800,
+    "brake_caution_same_day_slack_minutes": 720,
+    "brake_drop_same_day": 1,
+    "brake_min_slack_minutes": 720,
+    "brake_blocks_long": 1,
+    "brake_max_km": 0
   }
 }

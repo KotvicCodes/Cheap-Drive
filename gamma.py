@@ -1,6 +1,7 @@
 """Gamma's pricing and admission controls; defaults reproduce Beta."""
 from __future__ import annotations
 
+from collections import deque
 from dataclasses import dataclass
 from fractions import Fraction
 
@@ -63,10 +64,31 @@ class GammaSettings:
     quote_options: str = "all"
     markup_scope: str = "global"
     freeze_day_drop_bps: int = 0
+    same_day_min_slack_minutes: int | None = None  # omission follows min_slack_minutes
+    brake: int = 0
+    brake_soft_bps: int = 500
+    brake_hard_bps: int = 750
+    brake_soft_warnings: int = 6
+    brake_hard_warnings: int = 12
+    brake_soft_drops: int = 100000
+    brake_warned_weight_pct: int = 50
+    brake_min_orders: int = 40
+    brake_hold_minutes: int = 240
+    brake_caution_target_bps: int = 3000
+    brake_target_bps: int = 2200
+    brake_caution_bump_bps: int = 10300
+    brake_bump_bps: int = 10800
+    brake_caution_same_day_slack_minutes: int = 720
+    brake_drop_same_day: int = 1
+    brake_min_slack_minutes: int = 720
+    brake_blocks_long: int = 1
+    brake_max_km: int = 0
 
     def __post_init__(self):
         if self.long_max_km is None:
             object.__setattr__(self, "long_max_km", self.max_km)
+        if self.same_day_min_slack_minutes is None:
+            object.__setattr__(self, "same_day_min_slack_minutes", self.min_slack_minutes)
         strings = {"long_options", "quote_options", "markup_scope"}
         for name, value in vars(self).items():
             if name in strings:
@@ -74,17 +96,24 @@ class GammaSettings:
                     raise ValueError(f"{name} must be a string")
             elif type(value) is not int or value < 0:
                 raise ValueError(f"{name} must be a nonnegative integer")
-        for name in ("trade_ins", "dealer_table", "place_table", "trust_guard", "capacity_valve"):
+        for name in ("trade_ins", "dealer_table", "place_table", "trust_guard", "capacity_valve",
+                     "brake", "brake_drop_same_day", "brake_blocks_long"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
-        for name in ("win_target_bps", "win_target_low_bps", "win_target_mid_bps", "win_target_high_bps"):
+        for name in ("win_target_bps", "win_target_low_bps", "win_target_mid_bps", "win_target_high_bps",
+                     "brake_caution_target_bps", "brake_target_bps"):
             if not 0 < getattr(self, name) < 10000:
                 raise ValueError(f"{name} must be between 1 and 9999")
         for name, maximum in (("table_strength", 100), ("learn_bps", 10000),
                               ("trust_build_bps", 9999), ("freeze_day_drop_bps", 10000),
-                              ("trust_build_until_day", 7)):
+                              ("trust_build_until_day", 7), ("brake_warned_weight_pct", 100)):
             if getattr(self, name) > maximum or (name == "trust_build_until_day" and getattr(self, name) < 1):
                 raise ValueError(f"{name} outside its allowed range")
+        if self.brake_min_orders < 1:
+            raise ValueError("brake_min_orders must be positive")
+        for name in ("brake_caution_bump_bps", "brake_bump_bps"):
+            if getattr(self, name) == 0:
+                raise ValueError(f"{name} must be positive; use 10000 for no bump")
         if not 0 < self.markup_min_bps <= self.start_markup_bps <= self.markup_max_bps:
             raise ValueError("markup bounds must contain a positive start_markup_bps")
         if not 0 < self.opening_fee_bps <= self.fee_cap_bps or self.fee_steps < 1:
@@ -119,6 +148,12 @@ class GammaDesk(BetaDesk):
         self.markups: dict[str, float] = {}
         self.quote_trackers: dict[str, str] = {}
         self.day_starts: dict[str, tuple[int, float]] = {}
+        self.brake_mode = "normal"
+        self.brake_last_held: dict[str, int] = {}
+        self.brake_warned: set[str] = set()
+        self.brake_late: set[str] = set()
+        self.brake_warnings: deque[int] = deque()
+        self.brake_drops: deque[int] = deque()
         table_places = set(DELIVERY_FACTORS) | {place for lane in LANE_FACTORS for place in lane}
         unknown = table_places - PLACE_IDS
         if settings.place_table:
@@ -127,6 +162,84 @@ class GammaDesk(BetaDesk):
             unknown |= table_places - map_places
         if unknown:
             raise ValueError(f"unknown table place ids: {', '.join(sorted(unknown))}")
+
+    # ---- on-time brake ----
+
+    def brake_inputs(self, at=None):
+        at = self.now if at is None else at
+        # Trailing window is (now - DAY, now]; repeated warnings count as events,
+        # but each open warned or refunded order contributes only once.
+        for history in (self.brake_warnings, self.brake_drops):
+            while history and history[0] <= at - DAY:
+                history.popleft()
+        won = {identity for identity, order in self.orders.items() if order["status"] != "cancelled"}
+        late = len(won & self.brake_late)
+        warned_open = sum(identity not in self.brake_late and self.orders[identity]["status"] != "delivered"
+                          and bool(undelivered(self.orders[identity])) for identity in won & self.brake_warned)
+        projected = 100 * (100 * late + self.settings.brake_warned_weight_pct * warned_open) / max(
+            len(won), self.settings.brake_min_orders)
+        return {"projectedLateBps": projected, "warn24": len(self.brake_warnings),
+                "drops24": len(self.brake_drops), "late": late, "warnedOpen": warned_open, "won": len(won)}
+
+    def observe_brake(self, at):
+        """Refresh hold clocks before books change, including between-quote expiries."""
+        s = self.settings
+        if not s.brake:
+            return
+        # Before pruning, the Nth newest event tells us when a rolling count
+        # last met its threshold, even if there was no quote at its expiry.
+        def last_signal(history, threshold):
+            if threshold == 0:
+                return at
+            return min(at, history[-threshold] + DAY) if len(history) >= threshold else None
+        hard_at = last_signal(self.brake_warnings, s.brake_hard_warnings)
+        soft_times = [hard_at, last_signal(self.brake_warnings, s.brake_soft_warnings),
+                      last_signal(self.brake_drops, s.brake_soft_drops)]
+        projected = self.brake_inputs(at)["projectedLateBps"]
+        if projected >= s.brake_hard_bps:
+            hard_at = at
+        if projected >= s.brake_soft_bps:
+            soft_times.append(at)
+        soft_times.append(hard_at)
+        for severity, times in (("brake", [hard_at]), ("caution", soft_times)):
+            held = [t for t in times if t is not None]
+            if held:
+                self.brake_last_held[severity] = max(self.brake_last_held.get(severity, 0), max(held))
+
+    def update_brake(self):
+        """Recompute the mode at each quote from the desk's own event history."""
+        self.observe_brake(self.now)
+        s, inputs = self.settings, self.brake_inputs()
+        mode = "normal"
+        if s.brake:
+            hard = inputs["projectedLateBps"] >= s.brake_hard_bps or inputs["warn24"] >= s.brake_hard_warnings
+            soft = (hard or inputs["projectedLateBps"] >= s.brake_soft_bps
+                    or inputs["warn24"] >= s.brake_soft_warnings or inputs["drops24"] >= s.brake_soft_drops)
+            if hard or self.now < self.brake_last_held.get("brake", -s.brake_hold_minutes) + s.brake_hold_minutes:
+                mode = "brake"
+            elif soft or self.now < self.brake_last_held.get("caution", -s.brake_hold_minutes) + s.brake_hold_minutes:
+                mode = "caution"
+        if mode != self.brake_mode:
+            previous, self.brake_mode = self.brake_mode, mode
+            if mode != "normal":
+                self.bump_markups(s.brake_bump_bps if mode == "brake" else s.brake_caution_bump_bps)
+            self.journal.record("gamma_brake", at=self.now, **{"from": previous, "to": mode}, **inputs)
+        return {"mode": mode, **inputs}
+
+    def bump_markups(self, factor_bps):
+        s = self.settings
+        def bumped(value):
+            return min(s.markup_max_bps, max(s.markup_min_bps, value * factor_bps / 10000))
+        self.markup = bumped(self.markup)
+        # Include not-yet-used trackers so a new dealer/distance bucket gets the
+        # entry bump too, rather than starting at the unbraked opening price.
+        trackers = set(self.markups)
+        if s.markup_scope == "dealer":
+            trackers.update((*self.big_dealers, "other"))
+        elif s.markup_scope == "km":
+            trackers.update(("under_100", "100_to_300", "over_300"))
+        for tracker in trackers:
+            self.markups[tracker] = bumped(self.tracker_markup(tracker))
 
     # ---- admission ----
 
@@ -155,7 +268,11 @@ class GammaDesk(BetaDesk):
             return [], "trade-in"
         if s.max_km and km > s.max_km and not self.is_long_route(km):
             return [], "route too long"
-        options = [o for o in request["options"] if self.slack(request, o) >= s.min_slack_minutes]
+        if ((self.brake_mode != "normal" and s.brake_blocks_long and self.is_long_route(km))
+                or (self.brake_mode == "brake" and s.brake_max_km and km > s.brake_max_km)):
+            return [], "on-time brake"
+        options = [o for o in request["options"] if self.slack(request, o) >= (
+            s.same_day_min_slack_minutes if o["kind"] == "same_day" else s.min_slack_minutes)]
         if not options:
             return [], "no option leaves a driver enough time"
         if s.trust_guard and request["dealerId"] in self.big_dealers and trust >= 10:
@@ -169,6 +286,14 @@ class GammaDesk(BetaDesk):
                        and self.slack(request, o) >= s.long_min_slack_minutes]
             if not options:
                 return [], "no eligible long route option"
+        if self.brake_mode == "caution":
+            options = [o for o in options if o["kind"] != "same_day"
+                       or self.slack(request, o) >= s.brake_caution_same_day_slack_minutes]
+        elif self.brake_mode == "brake":
+            options = [o for o in options if not (s.brake_drop_same_day and o["kind"] == "same_day")
+                       and (o["kind"] == "same_day" or self.slack(request, o) >= s.brake_min_slack_minutes)]
+        if not options:
+            return [], "on-time brake"
         return self.select_options(options), ""
 
     def select_options(self, options):
@@ -195,6 +320,10 @@ class GammaDesk(BetaDesk):
 
     def win_target(self):
         s = self.settings
+        if self.brake_mode == "brake":
+            return s.brake_target_bps
+        if self.brake_mode == "caution":
+            return s.brake_caution_target_bps
         if not s.capacity_valve:
             return s.win_target_bps
         count = len(self.orders_without_driver())
@@ -233,6 +362,7 @@ class GammaDesk(BetaDesk):
     def quote(self, request):
         if request["id"] in self.requests or self.now >= request["respondBy"]:
             return
+        brake = self.update_brake()
         if self.level <= 3:
             super().quote(request)
             return
@@ -261,11 +391,11 @@ class GammaDesk(BetaDesk):
                                 trustGuardApplied=guard, trustGuardDropped=[o["kind"] for o in request["options"]
                                                                          if guard and self.slack(request, o) < 720],
                                 longRoute=self.is_long_route(km), openOrders=len(self.orders_without_driver()),
-                                longOpenOrders=len(self.long_orders_without_driver()))
+                                longOpenOrders=len(self.long_orders_without_driver()), **brake)
         else:
             first = request["options"][0]
             prices = {first["kind"]: first["listPriceCents"] * 10}
-            self.journal.record("beta_decline", at=self.now, requestId=request["id"], routeKm=km, reason=reason)
+            self.journal.record("beta_decline", at=self.now, requestId=request["id"], routeKm=km, reason=reason, **brake)
         self.outbox.append({"type": "quote", "requestId": request["id"], "prices": prices})
 
     def learn(self, request_id, won):
@@ -301,6 +431,18 @@ class GammaDesk(BetaDesk):
                 for k in range(steps)]
 
     def handle(self, event):
+        kind = event["kind"]
+        if kind in ("order_won", "order_cancelled", "order_changed", "delivered", "deadline_close",
+                    "gig_dropped", "no_show", "ledger"):
+            self.observe_brake(event["at"])
+        if kind == "deadline_close":
+            self.brake_warned.add(event["orderId"])
+            self.brake_warnings.append(event["at"])
+        elif kind in ("gig_dropped", "no_show"):
+            self.brake_drops.append(event["at"])
+        elif kind == "ledger" and event["line"]["kind"] == "late_refund":
+            if event["line"].get("orderId") is not None:
+                self.brake_late.add(event["line"]["orderId"])
         dealer = None
         if event["kind"] == "ledger":
             dealer = self.dealers.get(event["line"].get("orderId") or "")
