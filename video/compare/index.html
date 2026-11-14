@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheap-Drive — Video Comparison (v1 vs v2)</title>
+  <style>
+    :root {
+      --bg-top: #FFB700;
+      --bg-bot: #FF6200;
+      --card: #FFFDF8;
+      --ink: #141416;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 70% 35%, var(--bg-top), var(--bg-bot));
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      gap: 16px;
+    }
+    .grid {
+      width: min(1860px, 98vw);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 18px;
+    }
+    .stage {
+      background: var(--card);
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 20px 50px rgba(20, 20, 22, 0.22);
+    }
+    .label {
+      font-weight: 700;
+      font-size: 16px;
+      margin: 0 4px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tag {
+      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: #FFEAB8;
+    }
+    .tag.v2 {
+      background: #FF6200;
+      color: #FFFDF8;
+    }
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+      background: #141416;
+    }
+    .sync {
+      background: var(--ink);
+      color: #FFD000;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button class="sync" onclick="const v1=document.getElementById('v1'),v2=document.getElementById('v2');v1.currentTime=0;v2.currentTime=0;v1.play();v2.play();">Restart & Play Both in Sync</button>
+  <main class="grid">
+    <section class="stage">
+      <div class="label"><span>Version 1 (Original)</span><span class="tag">v1</span></div>
+      <video id="v1" controls autoplay muted loop playsinline preload="auto" poster="../poster.png" src="../cheap-drive-demo.mp4">
+        <track kind="captions" src="../captions.vtt" srclang="en" label="English">
+      </video>
+    </section>
+    <section class="stage">
+      <div class="label"><span>Version 2 (Codex Story Clone)</span><span class="tag v2">v2</span></div>
+      <video id="v2" controls autoplay muted loop playsinline preload="auto" poster="../v2/poster-v2.png" src="../v2/cheap-drive-demo-v2.mp4">
+        <track kind="captions" src="../v2/captions-v2.vtt" srclang="en" label="English">
+      </video>
+    </section>
+  </main>
+</body>
+</html>
