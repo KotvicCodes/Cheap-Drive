@@ -7,12 +7,19 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
-**Delta** ([models/delta.json](models/delta.json)) is Gamma plus two repairs: bounded
-note corrections and a rescue-window fix for orders Gamma could not repost. On eleven
-unseen practice weeks it beat Gamma **11/11, by €682/week**; over all 27 paired weeks
-**+€518/week**, every week ranked. The other Delta experiments (segments, lanes, intake,
-learner, price spread) did not hold on fresh
-weeks. [Delta results](docs/research/delta-results.md) ·
+**Delta** ([models/delta.json](models/delta.json)) takes on more work and offers it to
+drivers better: a 42% win target instead of 30%, stops posted for the whole span an order
+allows, pairs searched over 90 km, and rescue for overdue private deliveries. Over 19
+paired practice weeks it earned **€1,664/week more than Early Delta** (17 of 19 weeks
+ahead; 8 of the weeks unseen: +€1,389, 7 of 8), winning 342 orders a week instead of 257,
+every week ranked. On time is lower: 95.7% on average against 96.9%, worst week 91.1%
+against 93.7%.
+
+**Early Delta** ([models/delta-early.json](models/delta-early.json)) is Gamma plus two
+repairs: bounded note corrections and a rescue-window fix. It beat Gamma on 11 of 11 unseen
+weeks by €682/week (+€518/week over 27 paired weeks). The pricing experiments in between
+(segments, lanes, small intake changes, learner, price spread) did not hold on fresh weeks.
+[Delta results](docs/research/delta-results.md) · [next steps](docs/research/delta-next-steps.md) ·
 [testing plan](docs/research/delta-testing-plan.md).
 
 [Delta next steps](docs/research/delta-next-steps.md): ranked service-protection tweaks for tonight and larger ideas parked for the next model.

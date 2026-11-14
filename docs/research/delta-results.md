@@ -1,9 +1,11 @@
 # Delta investigation
 
-Development began on 14 November 2026. The selected Delta is Gamma plus the
-note and rescue-window repairs ([models/delta.json](../../models/delta.json));
-see [the selection](#selection-before-the-evening-test-final-14-november-16401745-utc)
-at the end. The sections before it record the investigation in order, as it
+Development began on 14 November 2026. The selected Delta
+([models/delta.json](../../models/delta.json)) is described in
+[the volume section](#delta-volume-with-capacity-14-november-evening) at the end.
+"Early Delta" ([models/delta-early.json](../../models/delta-early.json)) is Gamma
+plus the note and rescue-window repairs; where earlier sections say "the selected
+Delta" or `models/delta.json`, they mean Early Delta. The sections before it record the investigation in order, as it
 stood when each was written. Gamma remains available as the fixed baseline.
 
 ## Correctness experiments
@@ -326,3 +328,59 @@ found the restart path unsafe, each point reproduced offline:
 
 Until those are fixed, start the runner once before the clock begins and do not
 restart it during a final unless it has actually stopped.
+
+## Delta: volume with capacity (14 November, evening)
+
+Early Delta won about 257 orders a week at the best margin per order on the
+public board; the top ten won 400–500 at about the same unit margin. A
+[capacity audit](delta-capacity-levers.md) of eleven Early Delta weeks found
+433 gigs posted a week and 141 expiring unbooked, 60% of legs booking on their
+first posting, and 64 of 78 late or undelivered orders involving an expiry.
+Three suspected dispatch bugs were [checked against the rules](delta-dispatcher-bug-verification.md)
+and fixed behind default-off switches: stops offered for one day when the order
+allows a wider span (`delta_wide_windows`), overdue private deliveries that
+could not be rescued (`delta_private_delivery_rescue`), and charging stops on
+routes of 200 km or less (`delta_ev_rule`). Wider pair search was added as
+`delta_pairing` (`regional` 60 km / 480 min, `extended` 90 km / 720 min).
+
+Measured alone at the 30% win target, none of these changed orders won (within
+two of Early Delta in every arm) and none beat it: the price learner holds the
+win rate at its target, so freed capacity is not used. The EV fix lost on 4 of
+4 weeks (−€200/week) and is left off. Intake raised only at low backlog
+(`capacity_valve`) also left orders unchanged.
+
+Raising the win target itself, with and without the capacity switches (wide
+windows, private-delivery rescue, extended pairing), paired against Early Delta:
+
+| Win target | Switches | Weeks | Orders/week | Margin vs Early Delta | Weeks ahead | Mean on time | Lowest week | Unranked | Expired gigs/week |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 30% | on | 11 | 260 | +€284 | 9 | 96.8% | 91.7% | 0 | 14 |
+| 36% | on | 19 | 302 | +€1,174 | 18 | — | 91.4% | 0 | — |
+| **42%** | **on** | **19** | **342** | **+€1,664** | **17** | **95.7%** | **91.1%** | **0** | **25 (f1)** |
+| 46% | on | 11 | 370 | +€1,676 | 10 | 95.4% | 90.2% | 0 | 36 |
+| 50% | on | 11 | 397 | +€1,529 | 9 | 94.6% | 89.0% | 1 | 43 |
+| 55% | on | 11 | 427 | +€1,666 | 8 | 94.1% | 88.9% | 1 | 48 |
+| 36% | off | 4 | 298 | +€151 | 2 | 96.2% | 95.5% | 0 | 178 |
+| 42% | off | 4 | 335 | +€317 | 3 | 96.3% | 95.5% | 0 | 212 |
+| 50% | off | 4 | 384 | −€46 | 1 | 94.5% | 93.4% | 0 | 255 |
+
+The 42% arm on its two blocks: `delta-f1-s01..s11` (screening) +€1,863.53/week,
+10 of 11 ahead; `delta-f2-s01..s08` (unseen, run after the arm was chosen)
++€1,389.22/week, 7 of 8 ahead. Early Delta on the same 19 weeks: 257 orders,
+96.9% mean on time, lowest week 93.7%. Above 42% margin stops rising and weeks
+fall under the 90% line. Without the switches the same intake earns far less
+and expiries rise instead of falling.
+
+Limits and open risk. On time is lower than Early Delta's in most weeks and
+the weakest practice week (91.1%, `delta-f1-s07`) is 1.1 points above the cut.
+The switches alone cost about two points on that week. A backlog brake (win
+target back to 30% above 25 open orders) restored that week to 93.0% but did
+not help the fresh hard weeks (91.3% against 91.6% on the weakest) and gave up
+about €190/week over the 19 weeks, so it is not in the model. Removing wider
+pairing left that week unranked (89.1%). Small follow-up tweaks are listed in
+[next steps](delta-next-steps.md).
+
+Public ranking round 9 ("Saturday 21:00", level 8) with this model: five of
+five weeks ranked, **€75,763.55, 96.72% on time, 1,798 orders**; weakest week
+93.6%. See [the round note](delta-board-round9.md). Rounds use different
+secret weeks, so round totals are not a paired comparison.

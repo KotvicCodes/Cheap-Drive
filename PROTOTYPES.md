@@ -241,10 +241,24 @@ and validation. Further experiments are reserved for [Delta](docs/research/delta
 
 Delta started with repository cleanup and documentation consolidation, then
 screened pricing, intake, learner and lane experiments against frozen Gamma.
-None of those held on fresh weeks. The selected [models/delta.json](models/delta.json)
-is Gamma's settings plus two repairs in `delta:make_delta`: bounded note
-corrections and rescue-window handling for orders Gamma could not repost. On
-eleven unseen practice weeks it beat Gamma 11/11 by €682/week on average; over 27
-paired weeks +€518/week, every week ranked. `final.py` plays it on the live
-final clock. See the [investigation results](docs/research/delta-results.md) and
+None of those held on fresh weeks.
+
+**Early Delta** ([models/delta-early.json](models/delta-early.json)) is Gamma's
+settings plus two repairs in `delta:make_delta`: bounded note corrections and
+rescue-window handling for orders Gamma could not repost. On eleven unseen
+practice weeks it beat Gamma 11/11 by €682/week; over 27 paired weeks +€518/week.
+
+**Delta** ([models/delta.json](models/delta.json)) changes what the model
+optimises: orders delivered per driver rather than margin per order. A capacity
+audit found a third of posted gigs expiring unbooked, and the board showed the
+top ten winning 400–500 orders a week at about our unit margin while we won 250.
+Delta adds three verified dispatch fixes (`delta_wide_windows`,
+`delta_private_delivery_rescue`; the EV rule fix exists but is off), wider
+pairing (`delta_pairing="extended"`) and a 42% win target. Against Early Delta on
+19 paired weeks: +€1,664/week, 17 weeks ahead, 342 orders a week instead of 257,
+expired gigs down from about 140 to 25 a week, no unranked week; on time
+averages 95.7% against 96.9% and the weakest week was 91.1%. `final.py` plays
+either model on the live final clock. See the
+[investigation results](docs/research/delta-results.md),
+[next steps](docs/research/delta-next-steps.md) and
 [testing plan](docs/research/delta-testing-plan.md).
