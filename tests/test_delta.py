@@ -687,14 +687,24 @@ class DeltaB1Tests(unittest.TestCase):
 
 
 class DeltaModelConfigTests(unittest.TestCase):
-    def test_selected_delta_is_gamma_plus_the_two_repairs(self):
+    ROOT = Path(__file__).resolve().parents[1]
+
+    def test_early_delta_is_gamma_plus_the_two_repairs(self):
         from compare import load_model
-        root = Path(__file__).resolve().parents[1]
-        delta = load_model(root / 'models/delta.json').spec
-        gamma = json.loads((root / 'models/gamma.json').read_text())['settings']
+        early = load_model(self.ROOT / 'models/delta-early.json').spec
+        gamma = json.loads((self.ROOT / 'models/gamma.json').read_text())['settings']
+        self.assertEqual(early['factory'], 'delta:make_delta')
+        self.assertEqual(early['settings'],
+                         {**gamma, 'delta_note_fixes': 1, 'delta_rescue_windows': 1})
+
+    def test_selected_delta_adds_capacity_switches_and_volume_target(self):
+        from compare import load_model
+        delta = load_model(self.ROOT / 'models/delta.json').spec
+        early = json.loads((self.ROOT / 'models/delta-early.json').read_text())['settings']
         self.assertEqual(delta['factory'], 'delta:make_delta')
         self.assertEqual(delta['settings'],
-                         {**gamma, 'delta_note_fixes': 1, 'delta_rescue_windows': 1})
+                         {**early, 'win_target_bps': 4200, 'delta_wide_windows': 1,
+                          'delta_private_delivery_rescue': 1, 'delta_pairing': 'extended'})
 
 
 if __name__ == '__main__':

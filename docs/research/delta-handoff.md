@@ -9,7 +9,8 @@ Delta's fixed baseline. Do not revise Gamma using confirmation outcomes.
 Repository cleanup established Delta's groundwork. The experimental
 `delta:make_delta` factory now isolates note and rescue corrections; Gamma's
 settings and supported behavior remain fixed. Delta was later selected as Gamma
-plus those two repairs (`models/delta.json`).
+plus those two repairs (`models/delta-early.json`, "Early Delta"); the current
+`models/delta.json` adds the capacity switches and a 42% win target.
 Alpha, Beta and Gamma remain supported baselines. See the
 [investigation results](delta-results.md) for the current evidence.
 
