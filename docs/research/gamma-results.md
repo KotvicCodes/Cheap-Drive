@@ -60,13 +60,14 @@ and 1.05 for premium cars, a 10-hour premium slack floor, and an 8% short-route
 quote discount. These are neutral by default and remain under live evaluation.
 The short and premium segments overlap; their late-order shares cannot be added.
 
-At this checkpoint, 226 offline tests pass on Python 3.9 and 3.14. Fresh Beta
-baselines and four candidate arms are running on `gamma-v01` … `gamma-v08`.
-`gamma-v09` … `gamma-v16` are reserved for confirmation after settings are
-chosen. Note parsing and its integration are implemented in `notes.py` and `gamma_notes.py`;
-five note-aware arms have joined the live queue. The saved-source snapshots keep
-running experiments independent of later edits.
-No revised candidate has been qualified or promoted yet.
+At this checkpoint, 226 offline tests pass on Python 3.9 and 3.14. The revised
+note/pair/segment candidate completed eight screening weeks and three known
+difficult weeks, all ranked. Its screening gain is €1,585.95/week over paired
+Beta, with 94.574% worst on time. Settings were frozen before starting fresh
+confirmation on `gamma-v09` … `gamma-v16`. See the
+[recovery experiment report](gamma-recovery-results.md) for policy comparisons,
+the exact candidate and acceptance gates. Saved-source snapshots keep running
+experiments independent of later edits. No revised candidate is promoted yet.
 
 ## Note corrections under live evaluation
 

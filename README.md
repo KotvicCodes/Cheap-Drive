@@ -37,6 +37,8 @@ Round 6 ("Saturday 12:00"): **€59,528.62 with unchanged Beta**, all five ranke
 
 Beta remains the ranking model: guarded 700 km Gamma failed one of eight
 held-out weeks (89.956% on time). See [Gamma results](docs/research/gamma-results.md).
+The [recovery experiments](docs/research/gamma-recovery-results.md) test corrected
+notes and pairs, segment fees, and roster controls; fresh confirmation is running.
 
 The experimental Gamma keeps Beta's list-price markup, 30% win target, dealer trust charge and
 fee ramp. It adds guarded 500–700 km routes: `next_day` or `within_3_days` only,
