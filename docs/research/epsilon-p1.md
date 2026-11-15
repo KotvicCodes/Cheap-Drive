@@ -68,8 +68,9 @@ Read only `summary.md` and `runs.jsonl` for empirical selection.
 Promotion requires positive paired mean margin and every observed week at
 least 91.5% on time in both existing and fresh cohorts. A screen result is
 not promotion, and unchanged Delta itself misses the floor on f1-s07.
-No ranking or final worlds are authorized. Stop launching at 03:00 UTC,
-resume at 03:45, and drain all worlds by 06:15. Latest report deadline 04:15.
+No ranking or final worlds are authorized. Pause launches at 03:00 UTC,
+resume at 03:45, stop new worlds at 05:30, and drain all worlds by 05:50.
+The final report deadline is 05:45 UTC.
 
 
 ## Predeclared fresh confirmation
@@ -124,8 +125,7 @@ lane; synthetic exact-off plans/actions establish parity instead.
 This priority supersedes the queued diagnostic fresh tight-roads block, which
 was cancelled before it created a world. Stop-spare combinations already in
 flight are retained. Target a confirmed result by 05:45 UTC, drain all worlds
-by 06:15, and retain the 03:00–03:45 launch pause. If confirmation is still
-running at the earlier 04:15 report checkpoint, report its partial state.
+by 05:50, and retain the 03:00–03:45 launch pause.
 
 
 ## Volume follow-up and hard cutoff
@@ -141,6 +141,18 @@ base. These retain target4200, fees, route limits and all admission guards.
 For every new screen/extension, the plan base includes premium slack1440.
 The old Delta-base results remain historical and are never pooled with a
 new Early Epsilon candidate under the same label. The new hard deadlines
-are no practice starts after05:30, all worlds ended by05:50, final report
-by05:45. The launch gate has an independent05:30 timer. Use only fixed known
+are no practice starts after 05:30, all worlds ended by 05:50, final report
+by 05:45. The launch gate has an independent 05:30 timer. Use only fixed known
 paths and shallow own-worktree reads; no recursive scans across worktrees.
+
+
+## Timing-only diagnostic
+
+The broad same-town-road policy changes both driving time and transfer ranking:
+a same-town connection moves from zero to the map's positive transfer distance.
+Its negative full-cohort result therefore does not isolate timing correction.
+The queued `epsilon-time-screen.json` retains zero same-town transfer preference
+and changes only intra-town driving minutes (`pair_self_time=1`), independently
+and with latest(0) windows. It retains Early Epsilon's premium1440 guard and all
+route, fee, spare and quote-target settings. This is not a repeat of the old
+road-only arm. It starts only after the three-worker volume screen drains.
