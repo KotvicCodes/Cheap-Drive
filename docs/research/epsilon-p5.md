@@ -13,7 +13,9 @@ traces. In particular, admitting more long routes need not retain the observed
 96.5% service of previously won routes. Trade-ins have no Delta dispatch
 baseline, and later changes can still force a combined trade-in to split.
 
-All trials use level-8 practice via `scripts/sweep.py`, `SWEEP_WORKERS=3`.
+All trials use level-8 practice via `scripts/sweep.py`. The initial allocation
+was `SWEEP_WORKERS=3`; the orchestrator reduced it to 2 at 01:45 UTC.
+Subsequent trials use `SWEEP_WORKERS=2`.
 Only `summary.md` and `runs.jsonl` are used for live trial analysis. Existing
 19-seed Delta references are reused from sibling worktree
 `t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/delta-baseline.jsonl`; their settings
@@ -108,3 +110,28 @@ for the low / mid / high bands, respectively. Long cap remains 3, long slack
 1440 minutes, and all customer price factors remain Delta's.
 
 Detailed practice outputs are under `runs/epsilon-p5/`.
+
+
+## Completed roster extension and next screen
+
+The original roster policy failed its full cohort despite passing the screen:
+
+| Candidate | Paired weeks | Mean margin difference | Positive weeks | Worst on time | Mean wins difference |
+|---|---:|---:|---:|---:|---:|
+| Roster 4000/4500/5000 | 19 | -62.28 | 9/19 | 92.711% | +12.00 |
+
+Its previously queued fresh run was cancelled at the orchestrator's quota and
+priority update. No holdout worlds have been launched. The two next arms are:
+
+- `scarce4000-normal4200`: same 710/800 roster thresholds and 550/700/700 km
+  corridor maxima, but target 4000 / 4200 / 4200. This preserves Delta's target
+  on medium/high rosters and tests scarce-roster protection alone.
+- `roster-backlog-valve3-12`: original 4000/4500/5000 supply targets combined
+  with `capacity_valve=1`, `open_low=3`, `open_high=12`, and target caps
+  5000 / 4200 / 4000 as unbooked backlog rises. Gamma takes the smaller of
+  its supply and capacity targets. Customer price factors are unchanged.
+
+The four screen seeds are unchanged. Only the highest paired-mean survivor
+with every observed week >=91.5% on time will extend to 19 and then the
+reserved four unseen confirmation seeds. All remaining older screen worlds
+were drained before the new two-worker sweep started.
