@@ -105,11 +105,35 @@ class EpsilonBreakerTests(unittest.TestCase):
             outcomes.append((world.sent, world.calls, score, stream.getvalue()))
         self.assertEqual(*outcomes)
 
+    def test_rolling_service_detects_degradation_hidden_by_earlier_success(self):
+        desk = self.desk(epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=1440)
+        cumulative = self.desk(epsilon_breaker_min_orders=20)
+        for target in (desk, cumulative):
+            for n in range(100):
+                self.delivery(target, f'old-{n}')
+            for n in range(20):
+                identity = f'recent-{n}'
+                target.orders[identity] = dict(id=identity, deadline=3000, deliveredAt=[None])
+                target.handle(dict(kind='delivered', orderId=identity, leg=0,
+                                   at=3001 if n < 2 else 3000))
+        self.assertTrue(desk.epsilon_breaker_active)
+        self.assertFalse(cumulative.epsilon_breaker_active)
+
+    def test_duplicate_refund_does_not_refresh_old_failure_in_window(self):
+        desk = self.desk(epsilon_breaker_min_orders=1, epsilon_breaker_window_minutes=60)
+        self.delivery(desk, 'old')
+        refund = dict(kind='ledger', at=700,
+                      line=dict(kind='late_refund', orderId='old'))
+        desk.observe_history(refund)
+        self.assertFalse(desk.epsilon_breaker_active)
+        self.assertEqual(desk.epsilon_breaker_resolved_at['old'], 600)
+
     def test_invalid_settings(self):
         for knobs in ({'epsilon_breaker': True}, {'epsilon_breaker': 2},
                       {'epsilon_breaker_on_time_bps': 0},
                       {'epsilon_breaker_on_time_bps': 10001},
                       {'epsilon_breaker_on_time_bps': 9400.0},
+                      {'epsilon_breaker_window_minutes': -1},
                       {'epsilon_breaker_min_orders': 0}):
             with self.subTest(knobs=knobs), self.assertRaises(ValueError):
                 self.desk(**knobs)

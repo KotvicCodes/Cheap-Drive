@@ -27,7 +27,8 @@
     "delta_relaxed_slack_minutes": 300,
     "delta_corridor_open_cap": 5,
     "delta_intake_max_backlog": 12,
-    "long_markup_bps": 10500
+    "long_markup_bps": 10500,
+    "epsilon_breaker_window_minutes": 1440
   },
   "variants": {
     "medium-breaker94": {

@@ -4,7 +4,7 @@ from dataclasses import replace
 
 class EpsilonBreakerMixin:
     def __init__(self, *args, epsilon_breaker=0, epsilon_breaker_on_time_bps=9400,
-                 epsilon_breaker_min_orders=20, **kwargs):
+                 epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0, **kwargs):
         if type(epsilon_breaker) is not int or epsilon_breaker not in (0, 1):
             raise ValueError('epsilon_breaker must be 0 or 1')
         if (type(epsilon_breaker_on_time_bps) is not int or
@@ -12,14 +12,18 @@ class EpsilonBreakerMixin:
             raise ValueError('epsilon_breaker_on_time_bps must be in 1..10000')
         if type(epsilon_breaker_min_orders) is not int or epsilon_breaker_min_orders < 1:
             raise ValueError('epsilon_breaker_min_orders must be positive')
+        if type(epsilon_breaker_window_minutes) is not int or epsilon_breaker_window_minutes < 0:
+            raise ValueError('epsilon_breaker_window_minutes must be nonnegative')
         self.epsilon_breaker = epsilon_breaker
         self.epsilon_breaker_on_time_bps = epsilon_breaker_on_time_bps
         self.epsilon_breaker_min_orders = epsilon_breaker_min_orders
+        self.epsilon_breaker_window_minutes = epsilon_breaker_window_minutes
         self.epsilon_breaker_active = False
         self.epsilon_breaker_at = None
         # One outcome per order: True is fully delivered on time, False is
         # already late (including an overdue order not yet fully delivered).
         self.epsilon_breaker_outcomes = {}
+        self.epsilon_breaker_resolved_at = {}
         super().__init__(*args, **kwargs)
 
     def apply_epsilon_breaker(self):
@@ -53,7 +57,15 @@ class EpsilonBreakerMixin:
                 outcomes[identity] = False
         elif kind == 'order_cancelled':
             outcomes.pop(identity, None)
-        count, on_time = len(outcomes), sum(outcomes.values())
+            self.epsilon_breaker_resolved_at.pop(identity, None)
+        if identity in outcomes:
+            # Keep the first observed resolution time. Duplicate refunds or
+            # later legs must not make an old failure look recent again.
+            self.epsilon_breaker_resolved_at.setdefault(identity, event['at'])
+        window = self.epsilon_breaker_window_minutes
+        recent = [good for identity, good in outcomes.items()
+                  if not window or event['at'] - window < self.epsilon_breaker_resolved_at[identity]]
+        count, on_time = len(recent), sum(recent)
         if (not self.epsilon_breaker_active and count >= self.epsilon_breaker_min_orders
                 and on_time * 10000 < self.epsilon_breaker_on_time_bps * count):
             self.epsilon_breaker_active = True
@@ -61,4 +73,5 @@ class EpsilonBreakerMixin:
             self.apply_epsilon_breaker()
             self.journal.record('epsilon_breaker', at=event['at'], mode='conservative',
                                 resolvedOrders=count, onTimeOrders=on_time,
-                                thresholdBps=self.epsilon_breaker_on_time_bps)
+                                thresholdBps=self.epsilon_breaker_on_time_bps,
+                                windowMinutes=window)
