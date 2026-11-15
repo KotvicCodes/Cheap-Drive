@@ -104,6 +104,11 @@ class DeltaIntakeMixin:
             fee = max(fee, self.intake_settings.delta_trade_opening_fee_bps)
         return fee
 
+    def true_last_pickup(self, order, legs=None):
+        if self._guarded_trade(order) and legs is None:
+            legs = [i for i, at in enumerate(order['deliveredAt']) if at is None]
+        return super().true_last_pickup(order, legs=legs)
+
     @staticmethod
     def _trade_facts(facts, index):
         # The note describes the dealer's outgoing car/customer delivery.

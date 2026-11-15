@@ -137,6 +137,14 @@ class DeltaIntakeTests(unittest.TestCase):
         self.assertTrue(action['stops'][0]['withPlates'])
         self.assertIn('window', action['stops'][0])
 
+    def test_delivered_outgoing_leg_does_not_shorten_changed_return_fee_horizon(self):
+        desk = self.desk(trade_ins=1, delta_guarded_trade_ins=1)
+        req, order = self.trade(desk)
+        desk.now = DAY + 1000
+        order['deliveredAt'][0] = DAY + 940
+        order['legs'][1]['pickup']['window'] = {'from': 2 * DAY + 900, 'to': 2 * DAY + 960}
+        self.assertEqual(desk.true_last_pickup(order), 2 * DAY + 960)
+
     def test_corridor_expansion_closes_on_backlog_and_never_changes_settings(self):
         desk = self.desk(max_km=500, long_max_km=700, delta_corridor_open_cap=5,
                          delta_intake_max_backlog=3)
