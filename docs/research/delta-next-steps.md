@@ -468,6 +468,19 @@ benchmarks; none of their reported euro improvements transfers to our model.
   budgets, offer outcome persistence and restart reconciliation before testing;
   it is not an existing Gamma setting or a sub-40-line fee tweak.
 
+### Parked: Gemini note-reading API (the 'decision API')
+
+Spread has no official decision or autopilot API. Our "decision API" is the parked
+design in [gemini-notes.md](gemini-notes.md) and `models/gemini_notes.py` that calls
+Gemini to read dealer notes and tighten the deterministic note bounds. Status: never
+called live; no latency, cost or margin has been measured, and only synthetic unit
+tests exist. It is not used for Epsilon or the 15 November final because the upside
+is limited to note misreads (deterministic note fixes already cover most of them) and
+quotes must be answered within about 4.5 s, so a slow call loses the request unless
+the fallback guard works. The design's offline → shadow → paired-practice stages were
+not run; using it later requires running those three stages, then a paired practice
+comparison against the deterministic parser on the same seeds.
+
 ### Provenance and verification limits
 
 The three supplied Gemini write-ups were read only from
