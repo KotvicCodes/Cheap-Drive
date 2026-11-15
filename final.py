@@ -20,7 +20,7 @@ final's pace (--minutes-per-second). Its one-minute ticks slow under API stalls
 rather than catching up in jumps that can expire requests before delivery.
 
 Traces, world-specific checkpoints and rehearsal manifests go to runs/final/
-(git-ignored). Keep this directory when restarting in a new process.
+(git-ignored), or --output DIR. Reuse the same directory when restarting.
 """
 from __future__ import annotations
 
@@ -310,6 +310,8 @@ def main(argv=None):
     parser.add_argument("--minutes-per-second", type=float, default=5.0,
                         help="target rehearsal pace in world minutes per real second (final averages ~5)")
     parser.add_argument("--quiet", action="store_true", help="send per-event desk logs to the trace only")
+    parser.add_argument("--output", type=Path, default=ROOT / "runs" / "final",
+                        help="trace/checkpoint directory; reuse it when restarting (default: runs/final)")
     args = parser.parse_args(argv)
     if not math.isfinite(args.minutes_per_second) or args.minutes_per_second <= 0:
         parser.error("--minutes-per-second must be positive and finite")
@@ -319,7 +321,7 @@ def main(argv=None):
         parser.error("set SPREAD_KEY")
     url = os.environ.get("SPREAD_URL") or "https://spread.bahnexpress.com"
     client = Client(url=url)
-    out = ROOT / "runs" / "final"
+    out = args.output
     out.mkdir(parents=True, exist_ok=True)
     pacer = None
     clock_client, score_client = Client(url=url), Client(url=url)

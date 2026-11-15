@@ -261,3 +261,34 @@ Six tests cover ledger versus offers, failed posts, pair fallback, separate
 legs, receipt-before-event ordering and complete sweep opt-in parity.
 All 431 tests and the CI demo/CLI commands pass locally. A four-week unchanged
 Delta measurement batch is prepared before any fee-policy hypothesis.
+
+
+## Ranking and selection update, 00:19 UTC
+
+The orchestrator briefly authorized five sequential 01:00 UTC ranking runs,
+then explicitly revoked that authorization before any run started. The timed
+practice launch gate was cancelled; the queue continues at twelve workers.
+Do not start board runs without a new instruction. Selection now explicitly
+requires positive paired mean margin as well as the existing service and fresh
+confirmation gates. Negative-margin brake arms remain reference hypotheses,
+not adopted Epsilon settings. Margin/volume experiments take priority.
+
+The projected 350/600 brake completed nineteen pairs at −€44.09/week, 3/19
+positive, floor 91.718%; its pre-reserved fresh confirmation is in flight.
+The stronger pickup brake remains −€328.42/week on the nineteen-week cohort.
+These are distinct existing and fresh cohorts; partial combined averages do
+not replace the independent fresh result.
+
+Prepared `final.py --output DIR` so the required post-freeze rehearsal can
+use ignored `runs/epsilon/rehearsal/` without touching the live runner's
+`runs/final/`. The default output path and existing runner behavior stay the
+same. An offline restart test checks that the custom manifest rejoins the
+same world and that both checkpoint calls use the custom directory.
+
+Repository decision-API audit: `docs/research/gemini-notes.md`,
+`models/gemini_notes.py` and `scripts/benchmark_gemini_notes.py` implement only
+an offline cached note-extraction contract. The doc describes a possible
+Google GenerateContent transport; no live inference client, credential lookup
+or model-factory integration exists. `docs/research/delta-next-steps.md`
+parks live LLM notes pending independent evidence. No implemented decision
+API or live LLM dispatch path was found.
