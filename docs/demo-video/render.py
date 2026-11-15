@@ -812,7 +812,7 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
 # ---------------------------------------------------------------------------
 def gain(t):
     im = base_canvas('citrus').copy()
-    enter_model_hdr(im, 'Gamma:', ' read notes and pair two cars', 80, 88, 74, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
+    enter_model_hdr(im, 'Gamma:', ' read dealer notes and combine cars in one gig', 80, 88, 62, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
     txt(im, f'+€{2030.845 * ease((t - .2) / 1):,.0f}', 76, 278, 132, ORANGE, 700)
     txt(im, 'gross margin/week vs Beta', 84, 448, 32, INK, 650)
     badge(im, '8/8 weeks qualified', 84, 540, color=INK, bg=MARIGOLD, border=ORANGE, size=29)
