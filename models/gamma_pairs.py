@@ -44,6 +44,7 @@ class DriverSideSettings:
     pair_self_time: int = 0
     pair_economic_rank: int = 0
     pair_stop_spare: int = 0
+    pair_earliest_finish: int = 0
 
     def __post_init__(self):
         if self.fee_shape not in ("ramp", "review"):
@@ -52,7 +53,8 @@ class DriverSideSettings:
             if name != "fee_shape" and (type(value) is not int or value < 0):
                 raise ValueError(f"{name} must be a nonnegative integer")
         for name in ("review_skip_night", "pairs", "pair_with_waiting", "pair_once", "pair_tight_windows",
-                     "pair_cancel_cleanup", "pair_self_time", "pair_economic_rank", "pair_stop_spare"):
+                     "pair_cancel_cleanup", "pair_self_time", "pair_economic_rank", "pair_stop_spare",
+                     "pair_earliest_finish"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
         if not 0 < self.pair_max_drive_minutes <= 720:
@@ -62,6 +64,8 @@ class DriverSideSettings:
                 raise ValueError(f"{name} must be positive")
         if self.pair_rescue_floor_bps > 10000:
             raise ValueError("pair_rescue_floor_bps must be <= 10000")
+        if self.pair_economic_rank and self.pair_earliest_finish:
+            raise ValueError("pair_earliest_finish cannot combine with pair_economic_rank")
 
 
 @dataclass
@@ -473,6 +477,8 @@ class DriverSideMixin:
         if self.driver_settings.pair_economic_rank:
             pair = min(plans, key=lambda p: (p.action["schedule"][0]["feeCents"] - p.typical,
                                              p.transfer_km, p.finish, p.orders))
+        elif self.driver_settings.pair_earliest_finish:
+            pair = min(plans, key=lambda p: (p.finish, p.transfer_km, p.orders))
         else:
             pair = min(plans, key=lambda p: (p.transfer_km, p.finish, p.orders))
         # Build everything before touching existing singles. Confirm withdrawal

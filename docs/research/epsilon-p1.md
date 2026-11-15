@@ -21,6 +21,7 @@ nineteen saved current-Delta weeks, not new Delta worlds.
 | `pair_aged_guard_bps` | 10000 | Current solo fee threshold for the optional age guard |
 | `pair_self_time` | 0 | Count map self-road minutes while retaining zero same-town transfer distance |
 | `pair_economic_rank` | 0 | Prefer greatest combined reference less opening fee among feasible pairs |
+| `pair_earliest_finish` | 0 | Prefer `(finish, transfer_km, orders)` within the same legal candidate set |
 
 The numeric step/transfer/guard defaults have no effect unless their policy
 is enabled. Existing `delta_pair_self_roads` is reused only in combination;
@@ -99,3 +100,28 @@ combination with tight-roads, and that combination plus rescue85/step25.
 These use the common screen seeds s07, f2-s04, s01, s05. The earlier prepared
 planner-ranking/time/retry screens are deferred. Per orchestrator steering,
 no further rescue-pricing worlds run without tight-roads.
+
+
+## Earliest-completion priority (volume-gap steering)
+
+Screen `pair_earliest_finish=1` on confirmed Epsilon: unchanged Delta settings
+except the already confirmed premium admission slack of 1440 minutes. The
+control is the retained nineteen premium1440 weeks, with exact configuration
+matching checked. Also retain the matching Delta comparison. No new control
+worlds, transfer widening, fee changes, timing repairs or target increase are
+part of this first screen. Ranking alone changes from `(transfer_km, finish,
+orders)` to `(finish, transfer_km, orders)`. Conflicting economic and earliest
+ranking flags are rejected.
+
+The selector must first improve paired margin and pass every service week;
+then a target-4400 test may be considered independently. Total completed wins,
+late share and expiry counts can be compared from runs.jsonl. A nominal finish
+improvement does not demonstrate actual driver reuse. The earlier strict
+read restriction excludes retrospective saved-tape exposure mining in this
+lane; synthetic exact-off plans/actions establish parity instead.
+
+This priority supersedes the queued diagnostic fresh tight-roads block, which
+was cancelled before it created a world. Stop-spare combinations already in
+flight are retained. Target a confirmed result by 05:45 UTC, drain all worlds
+by 06:15, and retain the 03:00–03:45 launch pause. If confirmation is still
+running at the earlier 04:15 report checkpoint, report its partial state.

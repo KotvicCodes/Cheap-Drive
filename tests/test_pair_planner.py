@@ -387,3 +387,63 @@ class PairStopSpareTests(unittest.TestCase):
 def json_roundtrip(value):
     import json
     return json.loads(json.dumps(value))
+
+
+class EarliestFinishTests(unittest.TestCase):
+    def desk(self, **settings):
+        return make_delta(PairWorld(),8,600,Journal(io.StringIO()),pairs=1,
+                          delta_wide_windows=1,delta_pairing='extended',**settings)
+
+    def candidates(self, desk):
+        new=pair_order(desk,'new')
+        slow=pair_order(desk,'slow','b','c')
+        fast=pair_order(desk,'fast','d','c')
+        desk.roads['b','c']={'km':10,'minutes':120}
+        desk.orders.update(new=new,slow=slow,fast=fast)
+        return new,slow,fast
+
+    def test_earliest_finish_selects_shorter_legal_work_over_zero_transfer(self):
+        selected=[]
+        for enabled,expected in ((0,'slow'),(1,'fast')):
+            desk=self.desk(pair_earliest_finish=enabled)
+            new,slow,fast=self.candidates(desk)
+            before={o['id']:deepcopy(desk._plan(new,o)[0]) for o in (slow,fast)}
+            self.assertTrue(desk._try_pair(new))
+            plan=next(iter(desk._pending_pairs.values()))
+            self.assertIn(expected,plan.orders)
+            self.assertLessEqual(plan.drive_minutes,720)
+            self.assertLessEqual(plan.transfer_km,90)
+            # The ranking mode does not alter any candidate's route or fees.
+            for order in (slow,fast):
+                self.assertEqual(desk._plan(new,order)[0],before[order['id']])
+            selected.append(plan)
+        self.assertLess(selected[1].finish,selected[0].finish)
+        self.assertGreater(selected[1].transfer_km,selected[0].transfer_km)
+
+    def test_explicit_off_keeps_transfer_priority_and_default_state(self):
+        for settings in ({},{'pair_earliest_finish':0}):
+            desk=self.desk(**settings)
+            new,_,_=self.candidates(desk)
+            self.assertTrue(desk._try_pair(new))
+            pair=next(iter(desk._pending_pairs.values()))
+            self.assertIn('slow',pair.orders)
+            self.assertEqual(pair.transfer_km,0)
+
+    def test_same_finish_prefers_less_transfer_and_does_not_admit_infeasible_fast_work(self):
+        desk=self.desk(pair_earliest_finish=1)
+        new,slow,fast=self.candidates(desk)
+        desk.roads['b','c']['minutes']=60
+        self.assertTrue(desk._try_pair(new))
+        self.assertIn('slow',next(iter(desk._pending_pairs.values())).orders)
+        desk=self.desk(pair_earliest_finish=1)
+        new,slow,fast=self.candidates(desk)
+        fast['legs'][0]['pickup']['window']['from']=2900
+        self.assertTrue(desk._try_pair(new))
+        self.assertIn('slow',next(iter(desk._pending_pairs.values())).orders)
+
+    def test_mode_validation_and_conflicting_rank_modes(self):
+        for value in (True,-1,2,'1',None):
+            with self.assertRaisesRegex(ValueError,'pair_earliest_finish'):
+                self.desk(pair_earliest_finish=value)
+        with self.assertRaisesRegex(ValueError,'pair_earliest_finish'):
+            self.desk(pair_earliest_finish=1,pair_economic_rank=1)
