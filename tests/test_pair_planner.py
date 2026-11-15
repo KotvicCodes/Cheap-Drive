@@ -281,6 +281,109 @@ class PairRescueTests(unittest.TestCase):
                          (None,'failed_pair'))
 
 
+class PairStopSpareTests(unittest.TestCase):
+    def desk(self, enabled=0):
+        return make_delta(PairWorld(),8,600,Journal(io.StringIO()),pairs=1,
+                          delta_wide_windows=1,delta_pairing='extended',
+                          delta_pair_stop_spare=enabled)
+
+    def orders(self, desk, private=False):
+        one = pair_order(desk,'one',deadline=3000)
+        two = pair_order(desk,'two','b','c',deadline=3000)
+        one['legs'][0]['delivery']['window']['to'] = 1100
+        one['legs'][0]['delivery']['privateAddress'] = private
+        if private:
+            one['legs'][0]['delivery']['window']['from'] = 1000
+        return one,two
+
+    def test_tighter_delivery_end_moves_safe_start_but_not_last_start_or_stops(self):
+        plans=[]
+        for enabled in (0,1):
+            desk=self.desk(enabled)
+            plan,reason=desk._plan(*self.orders(desk))
+            self.assertIsNone(reason)
+            plans.append(plan)
+        old,new=plans
+        self.assertEqual(new.last_start,old.last_start)
+        self.assertEqual(new.latest_safe,old.latest_safe-60)
+        self.assertEqual(new.action,old.action)
+
+    def test_private_appointment_keeps_spare_inside_original_slot(self):
+        desk=self.desk(1)
+        plan,reason=desk._plan(*self.orders(desk,private=True))
+        self.assertIsNone(reason)
+        self.assertEqual(plan.latest_safe,1010)
+        self.assertEqual(plan.action['stops'][1]['window']['to'],1100)
+
+    def test_narrow_private_slot_can_reject_instead_of_erasing_spare(self):
+        desk=self.desk(1)
+        one,two=self.orders(desk,private=True)
+        one['legs'][0]['delivery']['window']['from']=1070
+        self.assertEqual(desk._plan(one,two),(None,'windows'))
+
+    def test_tightened_note_closing_gets_cushion(self):
+        desk=self.desk(1)
+        one=pair_order(desk,'one',deadline=3000)
+        two=pair_order(desk,'two','b','c',deadline=3000)
+        desk.requests['one']['note']={'text':'Deliver before 18:00'}
+        plan,reason=desk._plan(one,two)
+        self.assertIsNone(reason)
+        self.assertEqual(plan.action['stops'][1]['window']['to'],1080)
+        self.assertEqual(plan.latest_safe,990)
+
+    def test_forward_rejection_precedes_waiting_single_withdrawal(self):
+        desk=self.desk(1)
+        one,two=self.orders(desk)
+        desk.orders.update(one=one,two=two)
+        desk.leg_gigs['one']={0:'old'}
+        desk.roads['c','a']={'km':100,'minutes':60}
+        desk.now=850
+        self.assertEqual(desk._plan(one,two),(None,'windows'))
+        self.assertFalse(desk._try_pair(two))
+        self.assertEqual(desk.world.actions,[])
+        self.assertEqual(desk.leg_gigs['one'],{0:'old'})
+        off=self.desk()
+        off.now=850
+        self.assertIsNotNone(off._plan(*self.orders(off))[0])
+
+    def test_ordinary_stated_deadline_remains_equivalent(self):
+        plans=[]
+        for enabled in (0,1):
+            desk=self.desk(enabled)
+            one=pair_order(desk,'one',deadline=3000)
+            two=pair_order(desk,'two','b','c',deadline=3000)
+            plans.append(desk._plan(one,two)[0])
+        self.assertEqual(plans[0],plans[1])
+
+    def test_plates_charge_calendar_and_public_reconstruction(self):
+        from recovery import _restore_pairs
+        plans=[]
+        for enabled in (0,1):
+            desk=self.desk(enabled)
+            one,two=self.orders(desk)
+            for place in (one['legs'][0]['delivery'],two['legs'][0]['pickup']):
+                place['hours']={'weekdays':[0,1,2,3,4],'opens':480,'closes':1080,'saturday':None}
+            desk.requests['one']['note']={'text':'Plates required'}
+            one['legs'][0]['car'].update(electric=True,chargePercent=5)
+            desk.roads['a','b']={'km':250,'minutes':30}
+            plan,reason=desk._plan(one,two)
+            self.assertIsNone(reason)
+            plans.append(plan)
+            self.assertTrue(plan.action['stops'][0]['withCharging'])
+            self.assertTrue(plan.action['stops'][0]['withPlates'])
+            desk.orders.update(one=one,two=two)
+            gig=dict(id='g',postedAt=600,status='open',**deepcopy(plan.action))
+            self.assertEqual(_restore_pairs(desk,{'gigs':[gig]}),[])
+            self.assertEqual(desk._pairs['g'].latest_safe,plan.latest_safe)
+        self.assertEqual(plans[1].latest_safe,plans[0].latest_safe-60)
+
+    def test_controls_require_integer_binary_values(self):
+        for name in ('delta_pair_stop_spare','pair_stop_spare'):
+            for value in (True,-1,2,'1',None):
+                with self.subTest(name=name,value=value), self.assertRaisesRegex(ValueError,name):
+                    make_delta(PairWorld(),8,600,Journal(io.StringIO()),**{name:value})
+
+
 def json_roundtrip(value):
     import json
     return json.loads(json.dumps(value))

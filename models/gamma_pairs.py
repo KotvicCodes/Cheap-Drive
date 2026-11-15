@@ -43,6 +43,7 @@ class DriverSideSettings:
     pair_aged_guard_bps: int = 10000
     pair_self_time: int = 0
     pair_economic_rank: int = 0
+    pair_stop_spare: int = 0
 
     def __post_init__(self):
         if self.fee_shape not in ("ramp", "review"):
@@ -51,7 +52,7 @@ class DriverSideSettings:
             if name != "fee_shape" and (type(value) is not int or value < 0):
                 raise ValueError(f"{name} must be a nonnegative integer")
         for name in ("review_skip_night", "pairs", "pair_with_waiting", "pair_once", "pair_tight_windows",
-                     "pair_cancel_cleanup", "pair_self_time", "pair_economic_rank"):
+                     "pair_cancel_cleanup", "pair_self_time", "pair_economic_rank", "pair_stop_spare"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
         if not 0 < self.pair_max_drive_minutes <= 720:
@@ -380,7 +381,8 @@ class DriverSideMixin:
                 if index == 2 and minute - arrived > s.pair_max_idle_minutes:
                     return None, "idle_too_long"
                 order = orders[index // 2]
-                if index % 2 and minute > order["deadline"] - spare:
+                delivery_bound = min(order["deadline"], high) if s.pair_stop_spare else order["deadline"]
+                if index % 2 and minute > delivery_bound - spare:
                     return None, "windows"
                 if stops[index].get("withCharging"):
                     minute += 40
@@ -395,7 +397,8 @@ class DriverSideMixin:
             for index in range(3, -1, -1):
                 low, high = windows[index]
                 if index % 2:
-                    high = min(high, orders[index // 2]["deadline"] - spare)
+                    deadline = orders[index // 2]["deadline"]
+                    high = min(high, deadline) - spare if s.pair_stop_spare else min(high, deadline - spare)
                 # Charging takes time after pickup. Plates precede pickup.
                 minute = min(minute - (40 if stops[index].get("withCharging") else 0), high)
                 minute = _previous_open(places[index], int(minute), low)

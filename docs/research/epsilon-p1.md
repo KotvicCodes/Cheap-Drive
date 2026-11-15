@@ -10,6 +10,7 @@ nineteen saved current-Delta weeks, not new Delta worlds.
 | --- | ---: | --- |
 | `delta_pair_latest0_windows` | 0 | Delta alias for `pair_tight_windows=1` |
 | `pair_tight_windows` | 0 | Clamp four posted stop ends to backward latest(0) visit times |
+| `delta_pair_stop_spare` / `pair_stop_spare` | 0 | Apply admission/timer spare to the tighter delivery-stop end |
 | `pair_rescue_floor_bps` | 0 | Floor rescue opening at this fraction of the combined current solo offers |
 | `pair_rescue_step_minutes` | 0 | Add an early rescue increase after this many minutes |
 | `pair_rescue_step_bps` | 600 | Size of the optional step, against combined raw reference fees |
@@ -81,3 +82,20 @@ new holdout for this lane.
 Exact-off comparison against the frozen origin driver mixin passed 300
 synthetic pair plans and 30 order/timer/receipt batches, yielding 45 identical
 actions. The tests construct no network client and read no saved traces.
+
+
+## Delivery-stop spare (wave two)
+
+The original planner subtracts spare only from the stated order deadline.
+An earlier note closing or private delivery slot is enforced but receives no
+spare of its own. Enabled stop spare uses `min(deadline, delivery_stop_end)`
+before subtracting the existing spare, in both forward admission and backward
+safe-start calculation. It leaves latest(0), posted windows, fees, transfer
+limits, pickup bounds and the 60-minute timer unchanged. Infeasible plans are
+rejected before withdrawal. Public reconstruction uses the same policy.
+
+After the tight-roads extension, screen the isolated stop-spare arm, its
+combination with tight-roads, and that combination plus rescue85/step25.
+These use the common screen seeds s07, f2-s04, s01, s05. The earlier prepared
+planner-ranking/time/retry screens are deferred. Per orchestrator steering,
+no further rescue-pricing worlds run without tight-roads.
