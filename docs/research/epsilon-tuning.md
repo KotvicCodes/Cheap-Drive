@@ -341,3 +341,38 @@ never spend an extra run in an already-completed round. Use confirmed positive
 Epsilon only, otherwise plain Delta. The post-freeze rehearsal may kill/restart
 only its own newly started PID and must use isolated output, run with no live
 final active, and finish before 05:15.
+
+
+## Checkpoint 1, 00:41 UTC
+
+Best **selected** candidate remains plain Delta; `models/epsilon.json` has no
+settings difference. No positive-margin change has completed both all nineteen
+paired weeks and independent fresh confirmation. The premium admission guard
+is the live positive survivor, not a promoted model.
+
+| Candidate / cohort | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Delta reference | 19 | €0.00 | — | 91.117% | Selected fallback |
+| Projected 350/600 brake, existing | 19 | −€44.09 | 3/19 | 91.718% | Reject standalone: negative mean |
+| Projected 350/600 brake, fresh | 8 | −€18.15 | 1/8 | 94.158% | Confirms no margin gain |
+| Pickup-opportunity 360/2 brake, existing | 19 | −€328.42 | 6/19 | 92.806% | Reject standalone: negative mean |
+| Pickup-opportunity 360/2 brake, fresh | 8 | −€537.13 | 2/8 | 92.963% | Confirms margin cost |
+| Same-town pair roads | 19 | −€47.04 | 11/19 | 91.714% | Reject standalone: negative mean |
+| Premium minimum slack 1440 min | 8 | +€250.29 | 6/8 | 91.667% | Extension in flight; fresh confirmation still required |
+
+Twelve workers remain allocated; `client.worlds()` confirmed twelve unfinished
+ordinary practice worlds at 00:36. In flight: premium extension, protected
+volume and pair discounts, broader pair reach/long capacity, roster-based
+volume, and the unchanged Delta fee measurement. Both uniform higher-target
+arms and both pair discounts already failed the service gate and will not
+advance. Fresh margin-confirmation seeds are reserved separately from the
+completed brake confirmation cohort.
+
+New implementation-manager pushes since resuming the loop: `faa5e63`,
+`8fcd5b7`, `e595cdd`, `0c7301e`; earlier Epsilon work is `c144242` through
+`5626f4c`. Shared-checkout documentation commits `124033d` and `03da2ae` were
+created by the orchestrator, preserved unchanged and not claimed as loop work.
+Local 433 tests pass; Python 3.9/3.12/3.14 CI passed at `0c7301e`.
+Decision-API pointers remain `docs/research/gemini-notes.md`,
+`models/gemini_notes.py`, `scripts/benchmark_gemini_notes.py`, now explicitly
+parked as future work. There is no live decision-API integration.
