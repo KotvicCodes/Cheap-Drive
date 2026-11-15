@@ -299,6 +299,11 @@ def replay_history(desk, snapshot, history, *, after=-1):
                     if gig["outcome"] in ("withdrawn", "released"):
                         _detach(desk, gig["gigId"])
             elif kind == "deadline_close":
+                # Booked pair warnings bypass observe_history, just as live
+                # DriverSideMixin intercepts them before Gamma bookkeeping.
+                if getattr(desk, "delta_urgent_fee_memory", 0):
+                    desk.delta_urgent_since[identity] = min(
+                        event["at"], desk.delta_urgent_since.get(identity, event["at"]))
                 desk.urgent.add(identity)
             elif kind in ("gig_booked", "gig_started"):
                 desk.booked.add(gig_id)
