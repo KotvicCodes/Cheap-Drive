@@ -641,3 +641,50 @@ unit coverage in`tests/test_gamma_segments.py`,`test_delta.py` and
 `test_delta_lanes.py`. Each needs all19 old pairs and a newly reserved
 independent confirmation cohort before promotion. Fees remain lower priority
 after all three smaller-cut arms missed service on a hard week.
+
+
+## Aggressive volume pivot, 02:09 UTC
+
+Latest orchestrator instruction cancels remaining fee/note/service micro-items
+and restores six tuning slots. New priority: **premium1440 + targets4600,
+5000,5500, each with projected350 or pickup360/2/4 protection**. This is a
+new combined-policy screen; prior target4600/5000 failures lacked premium1440.
+All new candidates retain the strict91.5% worst-week gate, full19 old pairs
+and fresh confirmation. Best report due05:45 UTC; existing04:30 freeze is
+retained unless explicitly superseded. Rehearsal remains delegated.
+
+Drained active micro-item worlds under the shared pause gate, stopped only
+those sweep controllers after their worlds ended, and launched the new
+24-world screen with six workers. No final process or live-final file was
+touched. Cancelled unfinished rows remain resumable but are no longer queued.
+Projected protection uses350/600bps late thresholds, targets3600/3000,
+120-minute hold and no extra quote bump. Pickup protection uses a360-minute
+horizon, soft2/hard4 risky unbooked orders and targets3000/2400. All knobs
+already exist, default off; an integration test checks all six combinations'
+premium option filtering, brake activation/release and checkpoint recovery.
+
+| Change against Delta, all with premium1440 | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Projected350 + target4600 | Pending4 | — | — | — | Volume screen |
+| Projected350 + target5000 | Pending4 | — | — | — | Volume screen |
+| Projected350 + target5500 | Pending4 | — | — | — | Volume screen |
+| Pickup360/2/4 + target4600 | Pending4 | — | — | — | Volume screen |
+| Pickup360/2/4 + target5000 | Pending4 | — | — | — | Volume screen |
+| Pickup360/2/4 + target5500 | Pending4 | — | — | — | Volume screen |
+
+The latest instruction explicitly keeps03:00 ranking on **Delta+premium1440**.
+The private controller therefore pins that specification, with explicit
+selection metadata documenting the extra91.495601% research-floor miss.
+It does not label that week as meeting91.5%. New volume candidates cannot
+silently change the pinned ranking model. Five runs remain sequential,
+server-checked, and must start before04:00. The controller was restarted
+while still waiting so its explicit-selection handling is actually loaded.
+
+Completed abandoned micro-items: readiness200 +€31.04/week versus Delta
+(2/4positive), −€182.36 versus premium, worst90.642%; readiness400 −€138.10
+(2/4positive), −€351.51 versus premium, worst90.885%; cap14500 −€210.29
+(0/4positive), −€423.70 versus premium, worst91.117%. Premium+note urgency
+screen was+€229.12 versus Delta(3/4), +€15.71 versus premium(2/4), floor91.667%,
+but the added package-s03 regression remained91.495601%, so no extension.
+Premium1800 was stopped after its first two old weeks: −€679.51,0/2positive,
+floor91.304%. No component from this cancelled queue was adopted.
