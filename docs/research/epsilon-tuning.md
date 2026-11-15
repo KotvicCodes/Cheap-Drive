@@ -533,3 +533,34 @@ Own pushes since the previous report: `5f71742` quote floor, `b6913be`
 readiness fees, `982c9d6` Saturday parser, `07fdb54` urgency memory,
 `67c1554` urgency recovery edges,
 `e42c6eb` reproducible sweep plans. All defaults remain off for Delta.
+
+
+## Wave2 note-urgency implementation
+
+`delta_note_urgency=0` leaves schedules identical. Enabled nonurgent singles
+compare a stable note-aware route against neutral note facts using the current
+order legs/deadline and original request response/readiness floor. Only a
+note-tightened pickup cutoff arms a steep curve atcutoff−180. Merge by maximum
+with the ordinary fee schedule, fold elapsed steps into one current rung,
+and retain strictly increasing future times. Actual-warning, pair and
+infeasible-route rescue behavior remains unchanged. No persistent clock,
+network timer or final-runner change. Reposts cannot reset this derived clock;
+changed appointments/deadlines recompute the current order version's cutoff.
+
+Six focused tests cover elapsed0/30/120+, rounding, monotonicity, pre-trigger
+fees, actual warning, neutral calendars, infeasibility, current private slots,
+plates, pair/trade-in exclusions. Explicit0 complete s07 replay matches all
+2277 batches/1943 actions;463 local tests pass.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Anticipated note urgency, anchored single fees | Pending4 | — | — | — | Queued after existing fee items |
+| Raw-reference floor11000 | 4 | +€355.10 | 3/4 | 90.296% | Reject standalone: service |
+| Raw-reference floor11500 | 4 | +€179.95 | 2/4 | 91.398% | Reject standalone: service |
+| Premium1440 + floor11000 | Pending4 | — | — | — | New combination screen |
+| Premium1440 + floor11500 | Pending4 | — | — | — | New combination screen |
+
+The quote floors' combination screens are new candidates; no floor-failing
+component was adopted or advanced to19 by itself. Their margin evidence
+motivates testing whether the confirmed premium guard changes the service
+interaction. They must independently pass the full promotion gates.

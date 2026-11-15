@@ -69,6 +69,11 @@ class FeeMetricsJournal(MetricsJournal):
             self.interventions['reference_floor_lift_cents'] += fields['finalCents'] - fields['baseCents']
             ratio = fields['finalCents'] * 10000 // max(1, fields['referenceFeeCents'])
             self.interventions['quote_reference_ratio_bps_' + str(ratio // 1000 * 1000)] += 1
+        elif kind == 'delta_note_urgency':
+            self.interventions['note_urgency_evaluated'] += 1
+            self.interventions['note_urgency_armed'] += fields['armed']
+            self.interventions['note_urgency_crossed'] += fields.get('crossed', False)
+            self.interventions['note_urgency_no_stable_route'] += fields.get('reason') == 'no_stable_route'
         elif kind == 'delta_urgent_fee_memory':
             self.interventions['urgent_memory_schedules'] += 1
             self.interventions['urgent_memory_resets_prevented'] += fields['resetPrevented']
