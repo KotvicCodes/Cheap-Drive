@@ -1104,3 +1104,44 @@ These test whether limiting discounts to longer-lead, less-congested work
 retains margin. Same continuation gate: mean>=€300, at least half positive,
 worst>=91.0%. Final replacement still requires worst>=91.5% and a clear
 paired gain. The selected manifest remains Early Epsilon.
+
+## Narrow discounts rejected; 04:30 UTC selection checkpoint
+
+**Selected model remains Early Epsilon.** Its exact settings difference from
+Delta is `premium_min_slack_minutes:600→1440`; `epsilon.json` matches the
+named Early manifest. Recovery fixes from58aa58a and P5 safe-price code from
+29b25f0 are merged, all experiment flags default off. Source head399c2ee
+passes524 tests and1853 subtests, with greenPython3.9/3.12/3.14 CI.
+No volume/safe-price candidate has earned replacement.
+
+| Change | Paired weeks | Mean margin difference/week vs Early | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| safe9700/backlog6/slack1440 | 2 | −€1,362.43 | 0/2 | 94.322% | Reject |
+| safe9500/backlog6/slack1440 | 2 | −€639.07 | 0/2 | 94.375% | Reject |
+| safe9900/backlog6/slack1440 | 2 | +€85.68 | 1/2 | 94.393% | Reject: below€300 |
+| safe9700/backlog8/slack1080 | 2 | −€1,525.41 | 0/2 | 94.322% | Reject |
+| Original safe9700/backlog10, own plus completed orchestrator backfill | 11 | +€61.53 | 7/11 | 93.548% | Reject: larger sample confirms flat margin |
+| pair split240, own seed | 1 | +€261.42 | 1/1 | 97.273% | Handed to orchestrator; no adoption on1week |
+
+Narrow-screen seed prefixes `epsilon-safe-pricing-v2-20261115-`; controls
+and all four candidates ran on the same fresh s001/s002. Complete results:
+`plans/epsilon/safe-pricing-v2-results.json`. All those worlds finished
+naturally. No surviving safe-price arm remains queued.
+
+The user separately requested zero-code `pair_split_minutes`240/480 and
+`opening_fee_bps`9000+`fee_steps`4, three fresh pairs each. Factory keys exist
+and were prevalidated. Pair split minutes measure age since posting, capped
+by the pickup-safety timer; this is an analogy to the reported peer policy,
+not an implementation of its exact8-hours-before-pickup algorithm. Pair fees
+retain the existing7200bps setting. Fee opening retains the existing short
+and premium floors. Once the orchestrator took ownership, own new candidate
+launches were paused. The sole own started split240 week and its missing
+Early control completed: €13,469.91/330won/97.273% versus
+€13,208.49/325won/97.538%, seed `epsilon-peer-zero-20261115-s001`.
+The orchestrator's `eps-pr-s*` backfill owns further split/fee candidate
+weeks; pool exact settings regardless of label aliases. One missing Early
+control is queued for an already-finished original safe9700 confirmation
+week, preserving the paired evidence from that started world.
+
+Final safety gate remains worst>=91.5% plus clear paired gain; otherwise
+Early is final. No new starts after05:30UTC; every started world completes.
