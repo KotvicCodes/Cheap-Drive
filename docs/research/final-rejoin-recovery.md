@@ -81,6 +81,21 @@ and `action_intent`/`act_result` records. Complete JSON lines from a gzip file
 without its final footer remain usable after SIGKILL. Historical trace logging
 uses one durable flush for the batch instead of an fsync per old event.
 
+The final CLI now flushes each input, intent and returned receipt through
+Python/gzip to the operating system before handling or proceeding, while a
+coalescing background worker performs journal `fsync` at most about four times
+per second. A blocked storage sync cannot hold up the quote consumer. Complete
+records remain recoverable after process SIGKILL, including when the worker's
+first sync has not returned; there is no queue of unwritten receipt records.
+Storage-sync errors are raised at the next journal boundary, and clean shutdown
+waits for the last sync. Practice journals retain synchronous fsync.
+
+This preserves process-crash recovery, not identical power-loss durability:
+a host/power failure can lose the unsynced journal tail while storage is stalled.
+The checkpoint writer already runs separately. A kernel-flushed write can still
+block under severe storage pressure, so the final also needs a quiet host and
+free disk space; background fsync is not a guarantee against every I/O stall.
+
 Clock and daily score reads run in separate daemon workers, each with its own
 HTTP client in the CLI. The consumer only reads the cached minute and completed
 reports. A 429 retry, DNS failure or 20-second read timeout cannot hold up its
