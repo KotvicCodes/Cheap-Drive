@@ -5,7 +5,7 @@
 # Cheap-Drive
 
 A Python dispatcher for the Spread challenge, using the official client.
-[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard) · [Live analytics demo](https://kotviccodes.github.io/Cheap-Drive/)
+[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
 [Presentation: from Alpha to Epsilon](presentations/cheap-drive-alpha-to-gamma.html) · [PDF](presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf)
 
@@ -37,59 +37,62 @@ weeks by €682/week (+€518/week over 27 paired weeks). The pricing experiment
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. **Delta completed all five
-level-8 runs in round 10 ("Sunday 00:00", 15 November 2026, Helsinki time).**
-At 2026-11-14 23:13:42 UTC, we are **#31 of 45 ranked teams**,
-with **€72,322.03 total gross margin** and **96.27% on time**.
-All five weeks qualified; the worst week was 95.11% on time
-(90% required in every week). The round remains open until 01:00 UTC
-on 15 November, so positions can change.
-The runs used [models/delta.json](models/delta.json) at code revision
-[cae1e58](https://github.com/KotvicCodes/Cheap-Drive/commit/cae1e58b8ce3234260328f78dcf2283cd2ebced7).
+Our public team is **Guardians of the Moonlight**. **Early Epsilon completed
+all five level-8 runs in round 11 ("Sunday 03:00", 15 November 2026, Helsinki time).**
+The runs launched at **05:00 Helsinki (03:00 UTC)** with
+[models/epsilon-early.json](models/epsilon-early.json): Delta plus
+`premium_min_slack_minutes: 1440`.
+At **2026-11-15 05:16:23 Helsinki (2026-11-15 03:16:23.416 UTC)**, we are
+**#28 of 44 ranked teams**, **€69,301.34 gross margin**,
+**95.85% on time**. All five weeks qualified; the worst was
+93.63% on time (90% required in every week).
+**The round was still open until 06:00 Helsinki (04:00 UTC); positions can change.**
 
-| Delta run | Gross margin | On time | Orders won | Ranked |
+| Early Epsilon run | Gross margin | On time | Orders won | Ranked |
 | --- | ---: | ---: | ---: | :---: |
-| 1 | €15,397.99 | 96.32% | 353 | Yes |
-| 2 | €13,064.94 | 95.11% | 368 | Yes |
-| 3 | €12,341.81 | 95.79% | 356 | Yes |
-| 4 | €17,046.58 | 96.34% | 355 | Yes |
-| 5 | €14,470.71 | 98.06% | 310 | Yes |
-| **Total** | **€72,322.03** | **96.27%** | **1742** | **5 / 5** |
+| 1 | €13,985.11 | 96.45% | 310 | Yes |
+| 2 | €12,122.31 | 97.12% | 313 | Yes |
+| 3 | €9,229.95 | 93.63% | 314 | Yes |
+| 4 | €19,254.35 | 95.77% | 378 | Yes |
+| 5 | €14,709.62 | 96.28% | 349 | Yes |
+| **Total** | **€69,301.34** | **95.85%** | **1664** | **5 / 5** |
 
-Leader **Juhus**: €102,581.93; tenth place:
-**AppleJuice**, €80,862.35 (we are €8,540.32 behind).
-Organisers' **House best**: €60,811.68.
+Leader **Seekers**: €85,282.54; tenth place **Upsala**:
+€76,872.81 (we are **€7,571.47 behind**).
+Seventh place **iliada**: €77,655.64
+(**€8,354.30 ahead**).
+Organisers' **House best**: €56,128.21.
 House teams have no public rank and are excluded from the ranked-team count.
 
-![Round 10 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round10-totals.svg)
-![Delta's five round-10 margins versus the round leader](docs/screenshots/round10-runs.svg)
+![Round 11 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round11-totals.svg)
+![Early Epsilon's five round-11 margins versus the round leader](docs/screenshots/round11-runs.svg)
 
-*Charts generated from the official public leaderboard, retrieved 2026-11-14 23:13:42 UTC.
-Exact cents are retained; the public page rounds margins to whole euros.*
+*Charts use exact-cent official public figures retrieved 2026-11-15 03:16:23.416 UTC.*
 
-![Public leaderboard: round 10, Sunday 00:00, level 8, leading teams](docs/screenshots/leaderboard-round10.png)
-![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Delta runs](docs/screenshots/leaderboard-round10-team.png)
+![Public leaderboard: round 11, Sunday 03:00 Helsinki, level 8, leaders](docs/screenshots/leaderboard-round11.png)
+![Public leaderboard: Guardians of the Moonlight and neighbours after five Early Epsilon runs](docs/screenshots/leaderboard-round11-team.png)
 
-*Real public-page screenshots captured at 2026-11-14 23:14:25 UTC (leaders) and
-2026-11-14 23:14:11 UTC (our row), after all five Delta runs, while the round was open.
-[Run and snapshot details](docs/research/delta-board-round10.md).*
+*Real public-page screenshots captured 2026-11-15 03:16:31 UTC (leaders) and
+2026-11-15 03:16:47 UTC (our row), while the round was open.
+[Run table, model provenance and snapshot evidence](docs/research/epsilon-board-round11.md).*
 
-Previous round: **Delta**, round 9 ("Saturday 21:00"), finished
-**34th of 56 ranked teams**, €75,763.55,
-96.72% on time, all five qualified (closed-round data retrieved 2026-11-14 23:13:42 UTC).
-[Earlier round-9 snapshot and evidence](docs/research/delta-board-round9.md).
+**Delta**, round 10 ("Sunday 00:00", 15 November, Helsinki), finished
+**38th of 58 ranked teams**, **€72,322.03**, **96.27% on time**, all five qualified.
+Saved provenance and all five trace headers confirm `models/delta.json`,
+`premium_min_slack_minutes: 600`, at
+[`cae1e58`](https://github.com/KotvicCodes/Cheap-Drive/commit/cae1e58b8ce3234260328f78dcf2283cd2ebced7).
 
-Previous rounds: **Early Delta**, round 8 ("Saturday 18:00"),
-**37th of 58 ranked teams**, €55,639.62, 96.96% on time, all five weeks qualified
-(open-round snapshot retrieved 2026-11-14 17:53:55 UTC).
-[Round-8 snapshot and evidence](docs/research/delta-board-round8.md).
-**Gamma** finished round 7 ("Saturday 15:00")
-**41st of 62 ranked teams**, €66,880.48, 96.75% on time,
-with all five weeks qualified (closed-round data retrieved 2026-11-14 17:53:55 UTC).
-[Earlier round-7 snapshot and evidence](docs/research/gamma-board-round7.md).
-These rounds used different secret weeks, so their totals are not a paired
-comparison of the models; the paired practice evidence is in
-[Delta results](docs/research/delta-results.md).
+**Delta**, round 9 ("Saturday 21:00", 14 November), was **31st of 52**,
+€75,763.55, 96.72% on time at its open-round snapshot (2026-11-14 21:34:23 UTC).
+[Round-9 evidence](docs/research/delta-board-round9.md).
+**Early Delta**, round 8 ("Saturday 18:00"), was **37th of 58**,
+€55,639.62, 96.96% on time at its open-round snapshot (2026-11-14 17:53:55 UTC).
+[Round-8 evidence](docs/research/delta-board-round8.md).
+**Gamma** finished round 7 ("Saturday 15:00") **41st of 62**,
+€66,880.48, 96.75% on time, all five qualified.
+[Round-7 evidence](docs/research/gamma-board-round7.md).
+Different rounds use different secret weeks; their totals are not a paired
+model comparison. See [paired Delta evidence](docs/research/delta-results.md).
 
 ### Test final
 
@@ -223,9 +226,6 @@ python scripts/board.py models/gamma.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
-
-# Multi-run interactive analytics demo bundle.
-python scripts/build_demo.py
 ```
 
 `compare.py run`: `--workers` defaults to 1 (1–8), capped at

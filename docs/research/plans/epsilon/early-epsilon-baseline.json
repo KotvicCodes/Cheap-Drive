@@ -1,0 +1,465 @@
+{
+  "model": "models/epsilon-early.json",
+  "model_settings": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "weeks": [
+    {
+      "seed": "delta-f1-s01",
+      "score": {
+        "marginCents": 1007318,
+        "revenueCents": 2773404,
+        "marginShare": 0.36320637022229724,
+        "wonOrders": 307,
+        "onTimeShare": 0.9609120521172638,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s02",
+      "score": {
+        "marginCents": 1500048,
+        "revenueCents": 4434055,
+        "marginShare": 0.3383016223298989,
+        "wonOrders": 362,
+        "onTimeShare": 0.9613259668508287,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s03",
+      "score": {
+        "marginCents": 1456960,
+        "revenueCents": 3636612,
+        "marginShare": 0.40063663651772585,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s04",
+      "score": {
+        "marginCents": 1631470,
+        "revenueCents": 4308286,
+        "marginShare": 0.3786819166601289,
+        "wonOrders": 360,
+        "onTimeShare": 0.9722222222222222,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s05",
+      "score": {
+        "marginCents": 1378578,
+        "revenueCents": 3543934,
+        "marginShare": 0.38899652194425743,
+        "wonOrders": 336,
+        "onTimeShare": 0.9672619047619048,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s06",
+      "score": {
+        "marginCents": 1945575,
+        "revenueCents": 4638501,
+        "marginShare": 0.419440461476671,
+        "wonOrders": 361,
+        "onTimeShare": 0.9584487534626038,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s07",
+      "score": {
+        "marginCents": 1215413,
+        "revenueCents": 4160135,
+        "marginShare": 0.2921571054785482,
+        "wonOrders": 348,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s08",
+      "score": {
+        "marginCents": 1158653,
+        "revenueCents": 3497460,
+        "marginShare": 0.3312841319128739,
+        "wonOrders": 336,
+        "onTimeShare": 0.9464285714285714,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s09",
+      "score": {
+        "marginCents": 1540167,
+        "revenueCents": 3820738,
+        "marginShare": 0.40310720075545614,
+        "wonOrders": 347,
+        "onTimeShare": 0.9827089337175793,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s10",
+      "score": {
+        "marginCents": 1787729,
+        "revenueCents": 4190285,
+        "marginShare": 0.4266366130227419,
+        "wonOrders": 367,
+        "onTimeShare": 0.9727520435967303,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s11",
+      "score": {
+        "marginCents": 1276165,
+        "revenueCents": 3532289,
+        "marginShare": 0.36128555732557555,
+        "wonOrders": 319,
+        "onTimeShare": 0.9686520376175548,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s01",
+      "score": {
+        "marginCents": 1608018,
+        "revenueCents": 3950457,
+        "marginShare": 0.40704607087230665,
+        "wonOrders": 337,
+        "onTimeShare": 0.9673590504451038,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s02",
+      "score": {
+        "marginCents": 1277754,
+        "revenueCents": 3395772,
+        "marginShare": 0.37627791265137944,
+        "wonOrders": 297,
+        "onTimeShare": 0.9629629629629629,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s03",
+      "score": {
+        "marginCents": 1022054,
+        "revenueCents": 3818236,
+        "marginShare": 0.2676770110595573,
+        "wonOrders": 372,
+        "onTimeShare": 0.9220430107526881,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s04",
+      "score": {
+        "marginCents": 1372042,
+        "revenueCents": 4110342,
+        "marginShare": 0.3338023940586939,
+        "wonOrders": 372,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0.002688172043010753,
+        "ranked": true
+      },
+      "source": "runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s05",
+      "score": {
+        "marginCents": 1101725,
+        "revenueCents": 3419533,
+        "marginShare": 0.3221858072432698,
+        "wonOrders": 319,
+        "onTimeShare": 0.9686520376175548,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s06",
+      "score": {
+        "marginCents": 1079956,
+        "revenueCents": 3408027,
+        "marginShare": 0.3168859871121913,
+        "wonOrders": 312,
+        "onTimeShare": 0.9583333333333334,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s07",
+      "score": {
+        "marginCents": 1680229,
+        "revenueCents": 4143945,
+        "marginShare": 0.40546604744995407,
+        "wonOrders": 357,
+        "onTimeShare": 0.9523809523809523,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s08",
+      "score": {
+        "marginCents": 1335769,
+        "revenueCents": 3676226,
+        "marginShare": 0.3633533411710814,
+        "wonOrders": 342,
+        "onTimeShare": 0.9444444444444444,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-extend/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s01",
+      "score": {
+        "marginCents": 1800113,
+        "revenueCents": 4663006,
+        "marginShare": 0.38604132184260537,
+        "wonOrders": 360,
+        "onTimeShare": 0.9777777777777777,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s02",
+      "score": {
+        "marginCents": 1040839,
+        "revenueCents": 3434313,
+        "marginShare": 0.30307051221015674,
+        "wonOrders": 281,
+        "onTimeShare": 0.9395017793594306,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s03",
+      "score": {
+        "marginCents": 1002780,
+        "revenueCents": 3365802,
+        "marginShare": 0.2979319639123157,
+        "wonOrders": 329,
+        "onTimeShare": 0.9452887537993921,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s04",
+      "score": {
+        "marginCents": 1518713,
+        "revenueCents": 3668093,
+        "marginShare": 0.4140333955545838,
+        "wonOrders": 346,
+        "onTimeShare": 0.976878612716763,
+        "undeliveredShare": 0.002890173410404624,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s05",
+      "score": {
+        "marginCents": 1497677,
+        "revenueCents": 3984155,
+        "marginShare": 0.37590831682000325,
+        "wonOrders": 349,
+        "onTimeShare": 0.9656160458452722,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s06",
+      "score": {
+        "marginCents": 738369,
+        "revenueCents": 3130054,
+        "marginShare": 0.23589656919656976,
+        "wonOrders": 305,
+        "onTimeShare": 0.921311475409836,
+        "undeliveredShare": 0.003278688524590164,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s07",
+      "score": {
+        "marginCents": 1476775,
+        "revenueCents": 3908443,
+        "marginShare": 0.3778422763233339,
+        "wonOrders": 347,
+        "onTimeShare": 0.9711815561959655,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s08",
+      "score": {
+        "marginCents": 933549,
+        "revenueCents": 3560856,
+        "marginShare": 0.26216982658102433,
+        "wonOrders": 327,
+        "onTimeShare": 0.9204892966360856,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/premium1440-fresh/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s01",
+      "score": {
+        "marginCents": 1018256,
+        "revenueCents": 3496044,
+        "marginShare": 0.29125949215742136,
+        "wonOrders": 327,
+        "onTimeShare": 0.9296636085626911,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s02",
+      "score": {
+        "marginCents": 1242553,
+        "revenueCents": 3638509,
+        "marginShare": 0.34150059818458606,
+        "wonOrders": 331,
+        "onTimeShare": 0.9697885196374623,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s03",
+      "score": {
+        "marginCents": 1389216,
+        "revenueCents": 4148538,
+        "marginShare": 0.33486881402556756,
+        "wonOrders": 341,
+        "onTimeShare": 0.9149560117302052,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s04",
+      "score": {
+        "marginCents": 1300508,
+        "revenueCents": 4285476,
+        "marginShare": 0.30346873952858444,
+        "wonOrders": 340,
+        "onTimeShare": 0.9264705882352942,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s05",
+      "score": {
+        "marginCents": 1686327,
+        "revenueCents": 4319390,
+        "marginShare": 0.39040859936240996,
+        "wonOrders": 366,
+        "onTimeShare": 0.9453551912568307,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s06",
+      "score": {
+        "marginCents": 636886,
+        "revenueCents": 2792221,
+        "marginShare": 0.22809297688112795,
+        "wonOrders": 320,
+        "onTimeShare": 0.915625,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    },
+    {
+      "seed": "epsilon-package-confirm-20261115-s07",
+      "score": {
+        "marginCents": 1230467,
+        "revenueCents": 3718669,
+        "marginShare": 0.33088908961781754,
+        "wonOrders": 347,
+        "onTimeShare": 0.9193083573487032,
+        "undeliveredShare": 0.002881844380403458,
+        "ranked": true
+      },
+      "source": "runs/epsilon/package-fresh-reference/runs.jsonl"
+    }
+  ]
+}

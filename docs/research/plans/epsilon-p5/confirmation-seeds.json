@@ -1,0 +1,29 @@
+{
+  "factory": "models.delta:make_delta",
+  "level": 8,
+  "seeds": [
+    "epsilon-p5-holdout-20261115-s01",
+    "epsilon-p5-holdout-20261115-s02",
+    "epsilon-p5-holdout-20261115-s03",
+    "epsilon-p5-holdout-20261115-s04"
+  ],
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 600,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "variants": {}
+}

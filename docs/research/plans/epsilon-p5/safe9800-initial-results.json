@@ -1,0 +1,67 @@
+{
+  "updated_at": "2026-11-15T03:57:38.902821+00:00",
+  "candidate": "safe9800-backlog10",
+  "status": "fresh_validation_running",
+  "settings_diff": {
+    "delta_safe_quote_bps": 9800,
+    "delta_safe_quote_max_backlog": 10
+  },
+  "settings": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended",
+    "delta_safe_quote_bps": 9800,
+    "delta_safe_quote_max_backlog": 10
+  },
+  "baseline": "Early Epsilon",
+  "pooled": {
+    "paired_weeks": 3,
+    "mean_margin_difference_eur": 649.72,
+    "positive_weeks": 2,
+    "worst_on_time_share": 0.9137931034482759,
+    "pairs": [
+      {
+        "seed": "delta-f1-s07",
+        "margin_difference_eur": -465.06,
+        "on_time_share": 0.9137931034482759,
+        "won_orders": 348
+      },
+      {
+        "seed": "delta-f2-s04",
+        "margin_difference_eur": 1556.81,
+        "on_time_share": 0.926829268292683,
+        "won_orders": 369
+      },
+      {
+        "seed": "delta-f1-s01",
+        "margin_difference_eur": 857.41,
+        "on_time_share": 0.9683544303797469,
+        "won_orders": 316
+      }
+    ]
+  },
+  "fresh": {
+    "paired_weeks": 0,
+    "mean_margin_difference_eur": null,
+    "positive_weeks": 0,
+    "worst_on_time_share": null,
+    "pairs": []
+  },
+  "final_service_floor": 0.915,
+  "final_eligible": false,
+  "note": "Historical 91.3793% week remains in pooled assessment; fresh validation cannot erase it. Previous admission arm stopped at -17.45 EUR/week over 8 pairs, 3 positive.",
+  "branch": "t3/epsilon-p5b"
+}

@@ -1,0 +1,2932 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-15T06:06:20.936062+00:00",
+  "status": "complete",
+  "experiment": {
+    "name": "Epsilon Prime final win-target sensitivity",
+    "worktree": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c",
+    "commit": "717c00af257b0996daf4c8a4ea0ca6f446a38538",
+    "level": 8,
+    "board": false,
+    "base_model": {
+      "name": "Epsilon Prime",
+      "factory": "models.delta:make_delta",
+      "settings": {
+        "max_km": 500,
+        "win_target_bps": 4400,
+        "opening_fee_bps": 8000,
+        "long_max_km": 700,
+        "pairs": 1,
+        "short_fee_km": 45,
+        "short_opening_fee_bps": 11000,
+        "short_km": 300,
+        "short_bps": 9300,
+        "premium_opening_fee_bps": 10500,
+        "premium_min_slack_minutes": 1440,
+        "delta_note_fixes": 1,
+        "delta_rescue_windows": 1,
+        "delta_wide_windows": 1,
+        "delta_private_delivery_rescue": 1,
+        "delta_pairing": "extended",
+        "pair_once": 0,
+        "pair_max_idle_minutes": 120,
+        "delta_pair_max_wait_minutes": 180,
+        "delta_pair_min_slack_minutes": 480,
+        "trade_ins": 1,
+        "delta_guarded_trade_ins": 1,
+        "delta_relaxed_slack_minutes": 300,
+        "delta_corridor_open_cap": 5,
+        "delta_intake_max_backlog": 12,
+        "long_markup_bps": 10500,
+        "epsilon_breaker": 1,
+        "epsilon_breaker_on_time_bps": 9500,
+        "epsilon_breaker_window_minutes": 1440,
+        "epsilon_breaker_risk_orders": 0,
+        "epsilon_breaker_restore_pairing": 0
+      }
+    },
+    "variants": {
+      "prime-win4200": {
+        "win_target_bps": 4200
+      },
+      "prime-win4300": {
+        "win_target_bps": 4300
+      },
+      "prime4400": {
+        "win_target_bps": 4400,
+        "reference": true
+      },
+      "prime-win4500": {
+        "win_target_bps": 4500
+      },
+      "prime-win4600": {
+        "win_target_bps": 4600
+      }
+    },
+    "early_epsilon_model": {
+      "name": "Early Epsilon",
+      "factory": "models.delta:make_delta",
+      "settings": {
+        "max_km": 500,
+        "win_target_bps": 4200,
+        "opening_fee_bps": 8000,
+        "long_max_km": 700,
+        "pairs": 1,
+        "short_fee_km": 45,
+        "short_opening_fee_bps": 11000,
+        "short_km": 45,
+        "short_bps": 9200,
+        "premium_opening_fee_bps": 10500,
+        "premium_min_slack_minutes": 1440,
+        "delta_note_fixes": 1,
+        "delta_rescue_windows": 1,
+        "delta_wide_windows": 1,
+        "delta_private_delivery_rescue": 1,
+        "delta_pairing": "extended"
+      }
+    },
+    "cohorts": {
+      "hard": [
+        "eps-bf-s002",
+        "eps-sp-s001",
+        "eps-px-s010",
+        "delta-f1-s07"
+      ],
+      "normal": [
+        "delta-f2-s04",
+        "eps-fd-s002",
+        "eps-sf-s003",
+        "eps-fd-s005"
+      ]
+    },
+    "phases": {
+      "initial_42_46": {
+        "variants": [
+          "prime-win4200",
+          "prime-win4600"
+        ],
+        "expected_runs": 16,
+        "new_world_cutoff_utc": "2026-11-15T06:02:00+00:00",
+        "report_deadline_utc": "2026-11-15T06:12:00+00:00"
+      },
+      "final_43_45": {
+        "variants": [
+          "prime-win4300",
+          "prime-win4500"
+        ],
+        "expected_runs": 16,
+        "completed_runs": 16,
+        "plan": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win43-45-plan.json",
+        "scheduler_pid": 1308415
+      }
+    }
+  },
+  "methodology": {
+    "paired_seeds": true,
+    "baseline_reference": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/docs/research/plans/epsilon/prime-final-results.json",
+    "baseline_display_table": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/docs/research/epsilon-tuning.md#epsilon-prime-final-pooled-confirmation-2026-11-15",
+    "baseline_display_margins_validated": true,
+    "baseline_precision": "Exact archived cents and shares; displayed table percentages are rounded.",
+    "ranked_rule": "onTimeShare >= 0.90",
+    "selection_rule": "Reject any candidate with an observed unranked seed; preserve selected 4400 unless a fully ranked sensitivity candidate justifies replacement.",
+    "means": "Arithmetic means across seed-weeks, not pooled order-weighted service.",
+    "gross_margin": "Unranked world margins are shown as gross euros; ranked_margin_euros is zero for unranked worlds.",
+    "limitation": "Eight selected sensitivity seeds are a stress comparison, not fresh out-of-sample confirmation; Prime has a broader 38-week record."
+  },
+  "completed_sweep_runs": 32,
+  "expected_sweep_runs": 32,
+  "missing_runs": [],
+  "per_seed": [
+    {
+      "seed": "eps-bf-s002",
+      "cohort": "hard",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 784442,
+            "revenueCents": 3364162,
+            "marginShare": 0.2331760480024446,
+            "wonOrders": 317,
+            "onTimeShare": 0.8990536277602523,
+            "undeliveredShare": 0,
+            "ranked": false
+          },
+          "margin_euros": 7844.42,
+          "margin_delta_vs_prime_euros": 285.83,
+          "margin_delta_vs_early_euros": 908.28,
+          "on_time_pct": 89.90536277602523,
+          "won_orders": 317,
+          "ranked": false,
+          "ranked_margin_euros": 0,
+          "on_time_delta_vs_prime_percentage_points": -0.18751648094070816,
+          "on_time_delta_vs_early_percentage_points": -2.5038781480671735,
+          "world_id": "w7968c0116a678a08181a",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-bf-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-bf-s002.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 869838,
+            "revenueCents": 3491104,
+            "marginShare": 0.24915843240419078,
+            "wonOrders": 325,
+            "onTimeShare": 0.9138461538461539,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 8698.38,
+          "margin_delta_vs_prime_euros": 1139.79,
+          "margin_delta_vs_early_euros": 1762.24,
+          "on_time_pct": 91.38461538461539,
+          "won_orders": 325,
+          "ranked": true,
+          "ranked_margin_euros": 8698.38,
+          "on_time_delta_vs_prime_percentage_points": 1.2917361276494455,
+          "on_time_delta_vs_early_percentage_points": -1.0246255394770198,
+          "world_id": "w5ce32aa698b0a189b56e",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-bf-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-bf-s002.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 755859,
+            "revenueCents": 3411269,
+            "marginShare": 0.22157707293092394,
+            "wonOrders": 323,
+            "onTimeShare": 0.9009287925696594,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 7558.59,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": 622.45,
+          "on_time_pct": 90.09287925696594,
+          "won_orders": 323,
+          "ranked": true,
+          "ranked_margin_euros": 7558.59,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": -2.3163616671264653,
+          "world_id": "w863e4e77d5de45fa72cc",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-bf-s002/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 829022,
+            "revenueCents": 3519199,
+            "marginShare": 0.23557121947352225,
+            "wonOrders": 332,
+            "onTimeShare": 0.9036144578313253,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 8290.22,
+          "margin_delta_vs_prime_euros": 731.63,
+          "margin_delta_vs_early_euros": 1354.08,
+          "on_time_pct": 90.36144578313254,
+          "won_orders": 332,
+          "ranked": true,
+          "ranked_margin_euros": 8290.22,
+          "on_time_delta_vs_prime_percentage_points": 0.2685665261665915,
+          "on_time_delta_vs_early_percentage_points": -2.047795140959874,
+          "world_id": "wf6bf9c697827f64a24f9",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-bf-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-bf-s002.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 624131,
+            "revenueCents": 3529565,
+            "marginShare": 0.17682943932184278,
+            "wonOrders": 331,
+            "onTimeShare": 0.8761329305135952,
+            "undeliveredShare": 0,
+            "ranked": false
+          },
+          "margin_euros": 6241.31,
+          "margin_delta_vs_prime_euros": -1317.28,
+          "margin_delta_vs_early_euros": -694.83,
+          "on_time_pct": 87.61329305135952,
+          "won_orders": 331,
+          "ranked": false,
+          "ranked_margin_euros": 0,
+          "on_time_delta_vs_prime_percentage_points": -2.479586205606421,
+          "on_time_delta_vs_early_percentage_points": -4.795947872732887,
+          "world_id": "w8a2eb3e3e725a92e804e",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-bf-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-bf-s002.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 693614,
+            "revenueCents": 3295882,
+            "marginShare": 0.2104486750435847,
+            "wonOrders": 303,
+            "onTimeShare": 0.9240924092409241,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 6936.14,
+          "margin_delta_vs_prime_euros": -622.45,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 92.4092409240924,
+          "won_orders": 303,
+          "ranked": true,
+          "ranked_margin_euros": 6936.14,
+          "on_time_delta_vs_prime_percentage_points": 2.3163616671264653,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "wec3d97e6a9b84a26fdc9",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-bf-s002/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "eps-sp-s001",
+      "cohort": "hard",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1153999,
+            "revenueCents": 4488133,
+            "marginShare": 0.25712228224965705,
+            "wonOrders": 362,
+            "onTimeShare": 0.9226519337016574,
+            "undeliveredShare": 0.0027624309392265192,
+            "ranked": true
+          },
+          "margin_euros": 11539.99,
+          "margin_delta_vs_prime_euros": -872.26,
+          "margin_delta_vs_early_euros": 46.39,
+          "on_time_pct": 92.26519337016575,
+          "won_orders": 362,
+          "ranked": true,
+          "ranked_margin_euros": 11539.99,
+          "on_time_delta_vs_prime_percentage_points": 0.8673439078001555,
+          "on_time_delta_vs_early_percentage_points": 2.265193370165741,
+          "world_id": "w00bd6517b3e803c436c0",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-sp-s001.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-sp-s001.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1194424,
+            "revenueCents": 4487725,
+            "marginShare": 0.2661535633310865,
+            "wonOrders": 366,
+            "onTimeShare": 0.9180327868852459,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 11944.24,
+          "margin_delta_vs_prime_euros": -468.01,
+          "margin_delta_vs_early_euros": 450.64,
+          "on_time_pct": 91.80327868852459,
+          "won_orders": 366,
+          "ranked": true,
+          "ranked_margin_euros": 11944.24,
+          "on_time_delta_vs_prime_percentage_points": 0.40542922615900423,
+          "on_time_delta_vs_early_percentage_points": 1.80327868852459,
+          "world_id": "w7bee3d83c28388b9385d",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-sp-s001.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-sp-s001.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1241225,
+            "revenueCents": 4560824,
+            "marginShare": 0.2721492870586543,
+            "wonOrders": 372,
+            "onTimeShare": 0.9139784946236559,
+            "undeliveredShare": 0.002688172043010753,
+            "ranked": true
+          },
+          "margin_euros": 12412.25,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": 918.65,
+          "on_time_pct": 91.39784946236558,
+          "won_orders": 372,
+          "ranked": true,
+          "ranked_margin_euros": 12412.25,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": 1.3978494623655857,
+          "world_id": "wa25817429fee65bb4fa2",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-priority/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1174880,
+            "revenueCents": 4612346,
+            "marginShare": 0.25472503580607353,
+            "wonOrders": 376,
+            "onTimeShare": 0.9148936170212766,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 11748.8,
+          "margin_delta_vs_prime_euros": -663.45,
+          "margin_delta_vs_early_euros": 255.2,
+          "on_time_pct": 91.48936170212765,
+          "won_orders": 376,
+          "ranked": true,
+          "ranked_margin_euros": 11748.8,
+          "on_time_delta_vs_prime_percentage_points": 0.09151223976207046,
+          "on_time_delta_vs_early_percentage_points": 1.4893617021276562,
+          "world_id": "w61691048529ec208319d",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-sp-s001.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-sp-s001.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 956448,
+            "revenueCents": 4606485,
+            "marginShare": 0.20763076402072295,
+            "wonOrders": 369,
+            "onTimeShare": 0.8726287262872628,
+            "undeliveredShare": 0,
+            "ranked": false
+          },
+          "margin_euros": 9564.48,
+          "margin_delta_vs_prime_euros": -2847.77,
+          "margin_delta_vs_early_euros": -1929.12,
+          "on_time_pct": 87.26287262872629,
+          "won_orders": 369,
+          "ranked": false,
+          "ranked_margin_euros": 0,
+          "on_time_delta_vs_prime_percentage_points": -4.134976833639303,
+          "on_time_delta_vs_early_percentage_points": -2.7371273712737176,
+          "world_id": "w267627216f3b72a5b59b",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-sp-s001.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-sp-s001.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1149360,
+            "revenueCents": 4688669,
+            "marginShare": 0.2451356664332671,
+            "wonOrders": 350,
+            "onTimeShare": 0.9,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 11493.6,
+          "margin_delta_vs_prime_euros": -918.65,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 90.0,
+          "won_orders": 350,
+          "ranked": true,
+          "ranked_margin_euros": 11493.6,
+          "on_time_delta_vs_prime_percentage_points": -1.3978494623655857,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "wa1dc1abbb6badbff949f",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-sp-s001/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "eps-px-s010",
+      "cohort": "hard",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1339464,
+            "revenueCents": 3919565,
+            "marginShare": 0.34173792244802675,
+            "wonOrders": 376,
+            "onTimeShare": 0.925531914893617,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13394.64,
+          "margin_delta_vs_prime_euros": 767.31,
+          "margin_delta_vs_early_euros": 1408.93,
+          "on_time_pct": 92.5531914893617,
+          "won_orders": 376,
+          "ranked": true,
+          "ranked_margin_euros": 13394.64,
+          "on_time_delta_vs_prime_percentage_points": 1.384360320530531,
+          "on_time_delta_vs_early_percentage_points": 2.329727802210857,
+          "world_id": "w5fdaeab895b0be0d4d47",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-px-s010.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-px-s010.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1396934,
+            "revenueCents": 4021454,
+            "marginShare": 0.34737037897238165,
+            "wonOrders": 383,
+            "onTimeShare": 0.9321148825065274,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13969.34,
+          "margin_delta_vs_prime_euros": 1342.01,
+          "margin_delta_vs_early_euros": 1983.63,
+          "on_time_pct": 93.21148825065274,
+          "won_orders": 383,
+          "ranked": true,
+          "ranked_margin_euros": 13969.34,
+          "on_time_delta_vs_prime_percentage_points": 2.042657081821575,
+          "on_time_delta_vs_early_percentage_points": 2.988024563501901,
+          "world_id": "w08f6ca837cc4f7e228ef",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-px-s010.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-px-s010.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1262733,
+            "revenueCents": 4022530,
+            "marginShare": 0.3139151230693121,
+            "wonOrders": 385,
+            "onTimeShare": 0.9116883116883117,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12627.33,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": 641.62,
+          "on_time_pct": 91.16883116883116,
+          "won_orders": 385,
+          "ranked": true,
+          "ranked_margin_euros": 12627.33,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": 0.9453674816803259,
+          "world_id": "w6e0bd1fda55982ce5758",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-px-s010/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1258936,
+            "revenueCents": 4003283,
+            "marginShare": 0.3144758939100733,
+            "wonOrders": 389,
+            "onTimeShare": 0.9177377892030848,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12589.36,
+          "margin_delta_vs_prime_euros": -37.97,
+          "margin_delta_vs_early_euros": 603.65,
+          "on_time_pct": 91.77377892030847,
+          "won_orders": 389,
+          "ranked": true,
+          "ranked_margin_euros": 12589.36,
+          "on_time_delta_vs_prime_percentage_points": 0.6049477514773138,
+          "on_time_delta_vs_early_percentage_points": 1.5503152331576397,
+          "world_id": "wb72afa398b9577a96ce4",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-px-s010.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-px-s010.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 1270592,
+            "revenueCents": 3920428,
+            "marginShare": 0.3240952263375325,
+            "wonOrders": 385,
+            "onTimeShare": 0.9194805194805195,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12705.92,
+          "margin_delta_vs_prime_euros": 78.59,
+          "margin_delta_vs_early_euros": 720.21,
+          "on_time_pct": 91.94805194805194,
+          "won_orders": 385,
+          "ranked": true,
+          "ranked_margin_euros": 12705.92,
+          "on_time_delta_vs_prime_percentage_points": 0.7792207792207795,
+          "on_time_delta_vs_early_percentage_points": 1.7245882609011054,
+          "world_id": "wcaf2e3ad63b3d1ee893e",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-px-s010.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-px-s010.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1198571,
+            "revenueCents": 3913703,
+            "marginShare": 0.3062498610650834,
+            "wonOrders": 358,
+            "onTimeShare": 0.9022346368715084,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 11985.71,
+          "margin_delta_vs_prime_euros": -641.62,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 90.22346368715084,
+          "won_orders": 358,
+          "ranked": true,
+          "ranked_margin_euros": 11985.71,
+          "on_time_delta_vs_prime_percentage_points": -0.9453674816803259,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "w4dcb72798337957b05fd",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-px-s010/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "delta-f1-s07",
+      "cohort": "hard",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1130306,
+            "revenueCents": 4187731,
+            "marginShare": 0.2699089315908782,
+            "wonOrders": 354,
+            "onTimeShare": 0.9067796610169492,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 11303.06,
+          "margin_delta_vs_prime_euros": -1403.33,
+          "margin_delta_vs_early_euros": -851.07,
+          "on_time_pct": 90.67796610169492,
+          "won_orders": 354,
+          "ranked": true,
+          "ranked_margin_euros": 11303.06,
+          "on_time_delta_vs_prime_percentage_points": -2.434981556707283,
+          "on_time_delta_vs_early_percentage_points": -0.9887005649717451,
+          "world_id": "wcd6598ea0b39b74fc92d",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--delta-f1-s07.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--delta-f1-s07.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1239808,
+            "revenueCents": 4198572,
+            "marginShare": 0.2952927804977502,
+            "wonOrders": 360,
+            "onTimeShare": 0.9361111111111111,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12398.08,
+          "margin_delta_vs_prime_euros": -308.31,
+          "margin_delta_vs_early_euros": 243.95,
+          "on_time_pct": 93.61111111111111,
+          "won_orders": 360,
+          "ranked": true,
+          "ranked_margin_euros": 12398.08,
+          "on_time_delta_vs_prime_percentage_points": 0.4981634527089107,
+          "on_time_delta_vs_early_percentage_points": 1.9444444444444486,
+          "world_id": "w8225c2af4b89251375de",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--delta-f1-s07.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--delta-f1-s07.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1270639,
+            "revenueCents": 4264760,
+            "marginShare": 0.29793915718586744,
+            "wonOrders": 363,
+            "onTimeShare": 0.931129476584022,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12706.39,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": 552.26,
+          "on_time_pct": 93.1129476584022,
+          "won_orders": 363,
+          "ranked": true,
+          "ranked_margin_euros": 12706.39,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": 1.446280991735538,
+          "world_id": "w8eaf0b65879721c48691",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-24h/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1300441,
+            "revenueCents": 4334681,
+            "marginShare": 0.30000846659765734,
+            "wonOrders": 370,
+            "onTimeShare": 0.9108108108108108,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13004.41,
+          "margin_delta_vs_prime_euros": 298.02,
+          "margin_delta_vs_early_euros": 850.28,
+          "on_time_pct": 91.08108108108108,
+          "won_orders": 370,
+          "ranked": true,
+          "ranked_margin_euros": 13004.41,
+          "on_time_delta_vs_prime_percentage_points": -2.0318665773211175,
+          "on_time_delta_vs_early_percentage_points": -0.5855855855855796,
+          "world_id": "wc456a71412f42bfdbdff",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--delta-f1-s07.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--delta-f1-s07.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 1229533,
+            "revenueCents": 4302159,
+            "marginShare": 0.285794411596596,
+            "wonOrders": 370,
+            "onTimeShare": 0.9054054054054054,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12295.33,
+          "margin_delta_vs_prime_euros": -411.06,
+          "margin_delta_vs_early_euros": 141.2,
+          "on_time_pct": 90.54054054054053,
+          "won_orders": 370,
+          "ranked": true,
+          "ranked_margin_euros": 12295.33,
+          "on_time_delta_vs_prime_percentage_points": -2.5724071178616637,
+          "on_time_delta_vs_early_percentage_points": -1.1261261261261257,
+          "world_id": "w8f0829c52fecc18073dc",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--delta-f1-s07.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--delta-f1-s07.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1215413,
+            "revenueCents": 4160135,
+            "marginShare": 0.2921571054785482,
+            "wonOrders": 348,
+            "onTimeShare": 0.9166666666666666,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12154.13,
+          "margin_delta_vs_prime_euros": -552.26,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 91.66666666666666,
+          "won_orders": 348,
+          "ranked": true,
+          "ranked_margin_euros": 12154.13,
+          "on_time_delta_vs_prime_percentage_points": -1.446280991735538,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "w536ca03da42a45780066",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/verify-top/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "delta-f2-s04",
+      "cohort": "normal",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1423668,
+            "revenueCents": 3919975,
+            "marginShare": 0.36318292846255396,
+            "wonOrders": 373,
+            "onTimeShare": 0.9195710455764075,
+            "undeliveredShare": 0.002680965147453083,
+            "ranked": true
+          },
+          "margin_euros": 14236.68,
+          "margin_delta_vs_prime_euros": -644.16,
+          "margin_delta_vs_early_euros": 516.26,
+          "on_time_pct": 91.95710455764075,
+          "won_orders": 373,
+          "ranked": true,
+          "ranked_margin_euros": 14236.68,
+          "on_time_delta_vs_prime_percentage_points": -0.4710938757796157,
+          "on_time_delta_vs_early_percentage_points": 0.29043789097408235,
+          "world_id": "wf1cc8bbcf403d3dfb1bf",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--delta-f2-s04.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--delta-f2-s04.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1530647,
+            "revenueCents": 4065881,
+            "marginShare": 0.37646133765351225,
+            "wonOrders": 391,
+            "onTimeShare": 0.928388746803069,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 15306.47,
+          "margin_delta_vs_prime_euros": 425.63,
+          "margin_delta_vs_early_euros": 1586.05,
+          "on_time_pct": 92.8388746803069,
+          "won_orders": 391,
+          "ranked": true,
+          "ranked_margin_euros": 15306.47,
+          "on_time_delta_vs_prime_percentage_points": 0.41067624688654325,
+          "on_time_delta_vs_early_percentage_points": 1.1722080136402413,
+          "world_id": "w1b6012ea75d9248b35b6",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--delta-f2-s04.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--delta-f2-s04.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1488084,
+            "revenueCents": 3997179,
+            "marginShare": 0.3722835529757361,
+            "wonOrders": 383,
+            "onTimeShare": 0.9242819843342036,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 14880.84,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": 1160.42,
+          "on_time_pct": 92.42819843342036,
+          "won_orders": 383,
+          "ranked": true,
+          "ranked_margin_euros": 14880.84,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": 0.761531766753698,
+          "world_id": "wd9ad7e6528893a8189d8",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-24h/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1456630,
+            "revenueCents": 4059484,
+            "marginShare": 0.35882146597942005,
+            "wonOrders": 388,
+            "onTimeShare": 0.9123711340206185,
+            "undeliveredShare": 0.005154639175257732,
+            "ranked": true
+          },
+          "margin_euros": 14566.3,
+          "margin_delta_vs_prime_euros": -314.54,
+          "margin_delta_vs_early_euros": 845.88,
+          "on_time_pct": 91.23711340206185,
+          "won_orders": 388,
+          "ranked": true,
+          "ranked_margin_euros": 14566.3,
+          "on_time_delta_vs_prime_percentage_points": -1.1910850313585075,
+          "on_time_delta_vs_early_percentage_points": -0.42955326460480947,
+          "world_id": "w0c0bd4935f552a01ebb6",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--delta-f2-s04.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--delta-f2-s04.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 1437344,
+            "revenueCents": 4113368,
+            "marginShare": 0.3494323872797182,
+            "wonOrders": 393,
+            "onTimeShare": 0.9211195928753181,
+            "undeliveredShare": 0.002544529262086514,
+            "ranked": true
+          },
+          "margin_euros": 14373.44,
+          "margin_delta_vs_prime_euros": -507.4,
+          "margin_delta_vs_early_euros": 653.02,
+          "on_time_pct": 92.1119592875318,
+          "won_orders": 393,
+          "ranked": true,
+          "ranked_margin_euros": 14373.44,
+          "on_time_delta_vs_prime_percentage_points": -0.31623914588855273,
+          "on_time_delta_vs_early_percentage_points": 0.4452926208651453,
+          "world_id": "w4711e6e5067d720ddc88",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--delta-f2-s04.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--delta-f2-s04.reveal.json.gz",
+          "recovered_from_completed_trace": true
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1372042,
+            "revenueCents": 4110342,
+            "marginShare": 0.3338023940586939,
+            "wonOrders": 372,
+            "onTimeShare": 0.9166666666666666,
+            "undeliveredShare": 0.002688172043010753,
+            "ranked": true
+          },
+          "margin_euros": 13720.42,
+          "margin_delta_vs_prime_euros": -1160.42,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 91.66666666666666,
+          "won_orders": 372,
+          "ranked": true,
+          "ranked_margin_euros": 13720.42,
+          "on_time_delta_vs_prime_percentage_points": -0.761531766753698,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "wfa88b093d13c17e3e33d",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/verify-top/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "eps-fd-s002",
+      "cohort": "normal",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1698333,
+            "revenueCents": 4183525,
+            "marginShare": 0.40595741629367577,
+            "wonOrders": 384,
+            "onTimeShare": 0.9635416666666666,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 16983.33,
+          "margin_delta_vs_prime_euros": 530.6,
+          "margin_delta_vs_early_euros": -156.49,
+          "on_time_pct": 96.35416666666666,
+          "won_orders": 384,
+          "ranked": true,
+          "ranked_margin_euros": 16983.33,
+          "on_time_delta_vs_prime_percentage_points": 1.6706223628691896,
+          "on_time_delta_vs_early_percentage_points": 0.6668351302785203,
+          "world_id": "w1083230a7bbe8a7625c0",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-fd-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-fd-s002.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1620047,
+            "revenueCents": 4244356,
+            "marginShare": 0.3816944196009948,
+            "wonOrders": 388,
+            "onTimeShare": 0.9355670103092784,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 16200.47,
+          "margin_delta_vs_prime_euros": -252.26,
+          "margin_delta_vs_early_euros": -939.35,
+          "on_time_pct": 93.55670103092784,
+          "won_orders": 388,
+          "ranked": true,
+          "ranked_margin_euros": 16200.47,
+          "on_time_delta_vs_prime_percentage_points": -1.1268432728696376,
+          "on_time_delta_vs_early_percentage_points": -2.130630505460307,
+          "world_id": "w1165588c5d6dc6b2cc1d",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-fd-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-fd-s002.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1645273,
+            "revenueCents": 4207301,
+            "marginShare": 0.3910518881344596,
+            "wonOrders": 395,
+            "onTimeShare": 0.9468354430379747,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 16452.73,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": -687.09,
+          "on_time_pct": 94.68354430379748,
+          "won_orders": 395,
+          "ranked": true,
+          "ranked_margin_euros": 16452.73,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": -1.0037872325906694,
+          "world_id": "w7e0cac5a14a66da4741a",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-fd-s002/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1593721,
+            "revenueCents": 4218680,
+            "marginShare": 0.3777771720064096,
+            "wonOrders": 398,
+            "onTimeShare": 0.9296482412060302,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 15937.21,
+          "margin_delta_vs_prime_euros": -515.52,
+          "margin_delta_vs_early_euros": -1202.61,
+          "on_time_pct": 92.96482412060301,
+          "won_orders": 398,
+          "ranked": true,
+          "ranked_margin_euros": 15937.21,
+          "on_time_delta_vs_prime_percentage_points": -1.7187201831944554,
+          "on_time_delta_vs_early_percentage_points": -2.722507415785125,
+          "world_id": "w83a41a33d538788441e1",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-fd-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-fd-s002.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 1709584,
+            "revenueCents": 4345898,
+            "marginShare": 0.3933787677483457,
+            "wonOrders": 407,
+            "onTimeShare": 0.9557739557739557,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 17095.84,
+          "margin_delta_vs_prime_euros": 643.11,
+          "margin_delta_vs_early_euros": -43.98,
+          "on_time_pct": 95.57739557739558,
+          "won_orders": 407,
+          "ranked": true,
+          "ranked_margin_euros": 17095.84,
+          "on_time_delta_vs_prime_percentage_points": 0.8938512735981008,
+          "on_time_delta_vs_early_percentage_points": -0.10993595899256858,
+          "world_id": "wd14ef77551a7ed31d2c5",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-fd-s002.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-fd-s002.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1713982,
+            "revenueCents": 4276951,
+            "marginShare": 0.4007485706523175,
+            "wonOrders": 371,
+            "onTimeShare": 0.9568733153638814,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 17139.82,
+          "margin_delta_vs_prime_euros": 687.09,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 95.68733153638814,
+          "won_orders": 371,
+          "ranked": true,
+          "ranked_margin_euros": 17139.82,
+          "on_time_delta_vs_prime_percentage_points": 1.0037872325906694,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "w1e1a6fc6005b165b24fa",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-fd-s002/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "eps-sf-s003",
+      "cohort": "normal",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1331155,
+            "revenueCents": 4176962,
+            "marginShare": 0.3186897558560504,
+            "wonOrders": 358,
+            "onTimeShare": 0.952513966480447,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13311.55,
+          "margin_delta_vs_prime_euros": 551.63,
+          "margin_delta_vs_early_euros": 2685.34,
+          "on_time_pct": 95.25139664804469,
+          "won_orders": 358,
+          "ranked": true,
+          "ranked_margin_euros": 13311.55,
+          "on_time_delta_vs_prime_percentage_points": 1.2134562686409,
+          "on_time_delta_vs_early_percentage_points": 2.0763224640684363,
+          "world_id": "w263e3b4f4ffbc6f50b7b",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-sf-s003.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-sf-s003.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1431837,
+            "revenueCents": 4429507,
+            "marginShare": 0.3232497431429728,
+            "wonOrders": 368,
+            "onTimeShare": 0.9510869565217391,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 14318.37,
+          "margin_delta_vs_prime_euros": 1558.45,
+          "margin_delta_vs_early_euros": 3692.16,
+          "on_time_pct": 95.1086956521739,
+          "won_orders": 368,
+          "ranked": true,
+          "ranked_margin_euros": 14318.37,
+          "on_time_delta_vs_prime_percentage_points": 1.0707552727701186,
+          "on_time_delta_vs_early_percentage_points": 1.933621468197655,
+          "world_id": "w9417e3a922acec1c53da",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-sf-s003.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-sf-s003.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1275992,
+            "revenueCents": 4340736,
+            "marginShare": 0.29395752241094597,
+            "wonOrders": 369,
+            "onTimeShare": 0.940379403794038,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12759.92,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": 2133.71,
+          "on_time_pct": 94.03794037940379,
+          "won_orders": 369,
+          "ranked": true,
+          "ranked_margin_euros": 12759.92,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": 0.8628661954275363,
+          "world_id": "wf9f9af1bfe5afafeef2c",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-sf-s003/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1376749,
+            "revenueCents": 4435031,
+            "marginShare": 0.3104260150605486,
+            "wonOrders": 379,
+            "onTimeShare": 0.9472295514511874,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13767.49,
+          "margin_delta_vs_prime_euros": 1007.57,
+          "margin_delta_vs_early_euros": 3141.28,
+          "on_time_pct": 94.72295514511873,
+          "won_orders": 379,
+          "ranked": true,
+          "ranked_margin_euros": 13767.49,
+          "on_time_delta_vs_prime_percentage_points": 0.6850147657149419,
+          "on_time_delta_vs_early_percentage_points": 1.5478809611424782,
+          "world_id": "w175983165be84eddc34c",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-sf-s003.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-sf-s003.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 1262437,
+            "revenueCents": 4429069,
+            "marginShare": 0.2850343943614335,
+            "wonOrders": 389,
+            "onTimeShare": 0.9408740359897172,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12624.37,
+          "margin_delta_vs_prime_euros": -135.55,
+          "margin_delta_vs_early_euros": 1998.16,
+          "on_time_pct": 94.08740359897172,
+          "won_orders": 389,
+          "ranked": true,
+          "ranked_margin_euros": 12624.37,
+          "on_time_delta_vs_prime_percentage_points": 0.04946321956792454,
+          "on_time_delta_vs_early_percentage_points": 0.9123294149954608,
+          "world_id": "w464238f4b9ba04231b18",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-sf-s003.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-sf-s003.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1062621,
+            "revenueCents": 3960469,
+            "marginShare": 0.2683068596168787,
+            "wonOrders": 337,
+            "onTimeShare": 0.9317507418397626,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 10626.21,
+          "margin_delta_vs_prime_euros": -2133.71,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 93.17507418397626,
+          "won_orders": 337,
+          "ranked": true,
+          "ranked_margin_euros": 10626.21,
+          "on_time_delta_vs_prime_percentage_points": -0.8628661954275363,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "w4d849d0b9b791c981f77",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-sf-s003/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    },
+    {
+      "seed": "eps-fd-s005",
+      "cohort": "normal",
+      "policies": {
+        "prime-win4200": {
+          "label": "prime-win4200",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1294682,
+            "revenueCents": 3345509,
+            "marginShare": 0.3869910378360961,
+            "wonOrders": 332,
+            "onTimeShare": 0.9698795180722891,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12946.82,
+          "margin_delta_vs_prime_euros": 477.03,
+          "margin_delta_vs_early_euros": -292.94,
+          "on_time_pct": 96.98795180722891,
+          "won_orders": 332,
+          "ranked": true,
+          "ranked_margin_euros": 12946.82,
+          "on_time_delta_vs_prime_percentage_points": -0.9592622690174246,
+          "on_time_delta_vs_early_percentage_points": -1.7462254079609663,
+          "world_id": "w5d0d21e4203d2bde56ad",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-fd-s005.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-fd-s005.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4300": {
+          "label": "prime-win4300",
+          "win_target_bps": 4300,
+          "score": {
+            "marginCents": 1248558,
+            "revenueCents": 3313951,
+            "marginShare": 0.37675813553067017,
+            "wonOrders": 336,
+            "onTimeShare": 0.9821428571428571,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12485.58,
+          "margin_delta_vs_prime_euros": 15.79,
+          "margin_delta_vs_early_euros": -754.18,
+          "on_time_pct": 98.21428571428571,
+          "won_orders": 336,
+          "ranked": true,
+          "ranked_margin_euros": 12485.58,
+          "on_time_delta_vs_prime_percentage_points": 0.2670716380393734,
+          "on_time_delta_vs_early_percentage_points": -0.5198915009041682,
+          "world_id": "we57061a0368800b52828",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-fd-s005.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-fd-s005.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime4400": {
+          "label": "prime4400",
+          "win_target_bps": 4400,
+          "score": {
+            "marginCents": 1246979,
+            "revenueCents": 3311434,
+            "marginShare": 0.3765676743066599,
+            "wonOrders": 341,
+            "onTimeShare": 0.9794721407624634,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 12469.79,
+          "margin_delta_vs_prime_euros": 0.0,
+          "margin_delta_vs_early_euros": -769.97,
+          "on_time_pct": 97.94721407624634,
+          "won_orders": 341,
+          "ranked": true,
+          "ranked_margin_euros": 12469.79,
+          "on_time_delta_vs_prime_percentage_points": 0.0,
+          "on_time_delta_vs_early_percentage_points": -0.7869631389435416,
+          "world_id": "w272050c89f4b453c3295",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-fd-s005/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4500": {
+          "label": "prime-win4500",
+          "win_target_bps": 4500,
+          "score": {
+            "marginCents": 1315421,
+            "revenueCents": 3437461,
+            "marginShare": 0.3826722688635595,
+            "wonOrders": 355,
+            "onTimeShare": 0.9887323943661972,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13154.21,
+          "margin_delta_vs_prime_euros": 684.42,
+          "margin_delta_vs_early_euros": -85.55,
+          "on_time_pct": 98.87323943661971,
+          "won_orders": 355,
+          "ranked": true,
+          "ranked_margin_euros": 13154.21,
+          "on_time_delta_vs_prime_percentage_points": 0.9260253603733837,
+          "on_time_delta_vs_early_percentage_points": 0.13906222142984204,
+          "world_id": "w22977df877189ab6e041",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-fd-s005.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-fd-s005.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "prime-win4600": {
+          "label": "prime-win4600",
+          "win_target_bps": 4600,
+          "score": {
+            "marginCents": 1328457,
+            "revenueCents": 3529945,
+            "marginShare": 0.3763392914053902,
+            "wonOrders": 353,
+            "onTimeShare": 0.9773371104815864,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13284.57,
+          "margin_delta_vs_prime_euros": 814.78,
+          "margin_delta_vs_early_euros": 44.81,
+          "on_time_pct": 97.73371104815864,
+          "won_orders": 353,
+          "ranked": true,
+          "ranked_margin_euros": 13284.57,
+          "on_time_delta_vs_prime_percentage_points": -0.2135030280876915,
+          "on_time_delta_vs_early_percentage_points": -1.0004661670312331,
+          "world_id": "w5d3069e169fc45edc71d",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-fd-s005.jsonl.gz",
+          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-fd-s005.reveal.json.gz",
+          "recovered_from_completed_trace": false
+        },
+        "early-epsilon": {
+          "label": "early-epsilon",
+          "win_target_bps": 4200,
+          "score": {
+            "marginCents": 1323976,
+            "revenueCents": 3336289,
+            "marginShare": 0.3968409211552117,
+            "wonOrders": 316,
+            "onTimeShare": 0.9873417721518988,
+            "undeliveredShare": 0,
+            "ranked": true
+          },
+          "margin_euros": 13239.76,
+          "margin_delta_vs_prime_euros": 769.97,
+          "margin_delta_vs_early_euros": 0.0,
+          "on_time_pct": 98.73417721518987,
+          "won_orders": 316,
+          "ranked": true,
+          "ranked_margin_euros": 13239.76,
+          "on_time_delta_vs_prime_percentage_points": 0.7869631389435416,
+          "on_time_delta_vs_early_percentage_points": 0.0,
+          "world_id": "wcde1e217430afdec5336",
+          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-fd-s005/runs.jsonl",
+          "trace": null,
+          "reveal": null,
+          "recovered_from_completed_trace": false
+        }
+      }
+    }
+  ],
+  "summary": {
+    "prime-win4200": {
+      "all": {
+        "weeks": 8,
+        "expected_weeks": 8,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07",
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 101560.49,
+        "mean_margin_euros": 12695.06125,
+        "mean_margin_delta_vs_prime_euros": -38.418749999999996,
+        "mean_margin_delta_vs_early_euros": 533.0875,
+        "positive_weeks_vs_prime": 5,
+        "positive_weeks_vs_early": 5,
+        "mean_on_time_pct": 93.24404167710358,
+        "worst_on_time_pct": 89.90536277602523,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 2856,
+        "mean_won_orders": 357.0,
+        "ranked_weeks": 7,
+        "all_ranked": false,
+        "strictly_above_90_all_weeks": false,
+        "unranked_seeds": [
+          "eps-bf-s002"
+        ],
+        "mean_ranked_margin_euros": 11714.50875
+      },
+      "hard": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07"
+        ],
+        "total_margin_euros": 44082.11,
+        "mean_margin_euros": 11020.5275,
+        "mean_margin_delta_vs_prime_euros": -305.6125,
+        "mean_margin_delta_vs_early_euros": 378.1325,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 3,
+        "mean_on_time_pct": 91.3504284343119,
+        "worst_on_time_pct": 89.90536277602523,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 1409,
+        "mean_won_orders": 352.25,
+        "ranked_weeks": 3,
+        "all_ranked": false,
+        "strictly_above_90_all_weeks": false,
+        "unranked_seeds": [
+          "eps-bf-s002"
+        ],
+        "mean_ranked_margin_euros": 9059.4225
+      },
+      "normal": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 57478.38,
+        "mean_margin_euros": 14369.595000000001,
+        "mean_margin_delta_vs_prime_euros": 228.775,
+        "mean_margin_delta_vs_early_euros": 688.0425,
+        "positive_weeks_vs_prime": 3,
+        "positive_weeks_vs_early": 2,
+        "mean_on_time_pct": 95.13765491989525,
+        "worst_on_time_pct": 91.95710455764075,
+        "worst_on_time_seeds": [
+          "delta-f2-s04"
+        ],
+        "total_won_orders": 1447,
+        "mean_won_orders": 361.75,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 14369.595000000001
+      }
+    },
+    "prime-win4300": {
+      "all": {
+        "weeks": 8,
+        "expected_weeks": 8,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07",
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 105320.93,
+        "mean_margin_euros": 13165.11625,
+        "mean_margin_delta_vs_prime_euros": 431.63625,
+        "mean_margin_delta_vs_early_euros": 1003.1425,
+        "positive_weeks_vs_prime": 5,
+        "positive_weeks_vs_early": 6,
+        "mean_on_time_pct": 93.71613131407477,
+        "worst_on_time_pct": 91.38461538461539,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 2917,
+        "mean_won_orders": 364.625,
+        "ranked_weeks": 8,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 13165.11625
+      },
+      "hard": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07"
+        ],
+        "total_margin_euros": 47010.04,
+        "mean_margin_euros": 11752.51,
+        "mean_margin_delta_vs_prime_euros": 426.37,
+        "mean_margin_delta_vs_early_euros": 1110.115,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 4,
+        "mean_on_time_pct": 92.50262335872596,
+        "worst_on_time_pct": 91.38461538461539,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 1434,
+        "mean_won_orders": 358.5,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 11752.51
+      },
+      "normal": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 58310.89,
+        "mean_margin_euros": 14577.7225,
+        "mean_margin_delta_vs_prime_euros": 436.90250000000003,
+        "mean_margin_delta_vs_early_euros": 896.17,
+        "positive_weeks_vs_prime": 3,
+        "positive_weeks_vs_early": 2,
+        "mean_on_time_pct": 94.92963926942359,
+        "worst_on_time_pct": 92.8388746803069,
+        "worst_on_time_seeds": [
+          "delta-f2-s04"
+        ],
+        "total_won_orders": 1483,
+        "mean_won_orders": 370.75,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 14577.7225
+      }
+    },
+    "prime4400": {
+      "all": {
+        "weeks": 8,
+        "expected_weeks": 8,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07",
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 101867.84,
+        "mean_margin_euros": 12733.48,
+        "mean_margin_delta_vs_prime_euros": 0.0,
+        "mean_margin_delta_vs_early_euros": 571.50625,
+        "positive_weeks_vs_prime": 0,
+        "positive_weeks_vs_early": 6,
+        "mean_on_time_pct": 93.10867559242911,
+        "worst_on_time_pct": 90.09287925696594,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 2931,
+        "mean_won_orders": 366.375,
+        "ranked_weeks": 8,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 12733.48
+      },
+      "hard": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07"
+        ],
+        "total_margin_euros": 45304.56,
+        "mean_margin_euros": 11326.14,
+        "mean_margin_delta_vs_prime_euros": 0.0,
+        "mean_margin_delta_vs_early_euros": 683.745,
+        "positive_weeks_vs_prime": 0,
+        "positive_weeks_vs_early": 4,
+        "mean_on_time_pct": 91.44312688664122,
+        "worst_on_time_pct": 90.09287925696594,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 1443,
+        "mean_won_orders": 360.75,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 11326.14
+      },
+      "normal": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 56563.28,
+        "mean_margin_euros": 14140.82,
+        "mean_margin_delta_vs_prime_euros": 0.0,
+        "mean_margin_delta_vs_early_euros": 459.26750000000004,
+        "positive_weeks_vs_prime": 0,
+        "positive_weeks_vs_early": 2,
+        "mean_on_time_pct": 94.77422429821699,
+        "worst_on_time_pct": 92.42819843342036,
+        "worst_on_time_seeds": [
+          "delta-f2-s04"
+        ],
+        "total_won_orders": 1488,
+        "mean_won_orders": 372.0,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 14140.82
+      }
+    },
+    "prime-win4500": {
+      "all": {
+        "weeks": 8,
+        "expected_weeks": 8,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07",
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 103058.0,
+        "mean_margin_euros": 12882.25,
+        "mean_margin_delta_vs_prime_euros": 148.76999999999998,
+        "mean_margin_delta_vs_early_euros": 720.27625,
+        "positive_weeks_vs_prime": 4,
+        "positive_weeks_vs_early": 6,
+        "mean_on_time_pct": 92.81297494888163,
+        "worst_on_time_pct": 90.36144578313254,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 2987,
+        "mean_won_orders": 373.375,
+        "ranked_weeks": 8,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 12882.25
+      },
+      "hard": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07"
+        ],
+        "total_margin_euros": 45632.79,
+        "mean_margin_euros": 11408.1975,
+        "mean_margin_delta_vs_prime_euros": 82.05749999999998,
+        "mean_margin_delta_vs_early_euros": 765.8025,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 4,
+        "mean_on_time_pct": 91.17641687166244,
+        "worst_on_time_pct": 90.36144578313254,
+        "worst_on_time_seeds": [
+          "eps-bf-s002"
+        ],
+        "total_won_orders": 1467,
+        "mean_won_orders": 366.75,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 11408.1975
+      },
+      "normal": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 57425.21,
+        "mean_margin_euros": 14356.3025,
+        "mean_margin_delta_vs_prime_euros": 215.48250000000002,
+        "mean_margin_delta_vs_early_euros": 674.7500000000001,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 2,
+        "mean_on_time_pct": 94.44953302610082,
+        "worst_on_time_pct": 91.23711340206185,
+        "worst_on_time_seeds": [
+          "delta-f2-s04"
+        ],
+        "total_won_orders": 1520,
+        "mean_won_orders": 380.0,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 14356.3025
+      }
+    },
+    "prime-win4600": {
+      "all": {
+        "weeks": 8,
+        "expected_weeks": 8,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07",
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 98185.26,
+        "mean_margin_euros": 12273.1575,
+        "mean_margin_delta_vs_prime_euros": -460.3225,
+        "mean_margin_delta_vs_early_euros": 111.18375000000002,
+        "positive_weeks_vs_prime": 3,
+        "positive_weeks_vs_early": 5,
+        "mean_on_time_pct": 92.109403460092,
+        "worst_on_time_pct": 87.26287262872629,
+        "worst_on_time_seeds": [
+          "eps-sp-s001"
+        ],
+        "total_won_orders": 2997,
+        "mean_won_orders": 374.625,
+        "ranked_weeks": 6,
+        "all_ranked": false,
+        "strictly_above_90_all_weeks": false,
+        "unranked_seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001"
+        ],
+        "mean_ranked_margin_euros": 10297.43375
+      },
+      "hard": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07"
+        ],
+        "total_margin_euros": 40807.04,
+        "mean_margin_euros": 10201.76,
+        "mean_margin_delta_vs_prime_euros": -1124.3799999999999,
+        "mean_margin_delta_vs_early_euros": -440.635,
+        "positive_weeks_vs_prime": 1,
+        "positive_weeks_vs_early": 2,
+        "mean_on_time_pct": 89.34118954216957,
+        "worst_on_time_pct": 87.26287262872629,
+        "worst_on_time_seeds": [
+          "eps-sp-s001"
+        ],
+        "total_won_orders": 1455,
+        "mean_won_orders": 363.75,
+        "ranked_weeks": 2,
+        "all_ranked": false,
+        "strictly_above_90_all_weeks": false,
+        "unranked_seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001"
+        ],
+        "mean_ranked_margin_euros": 6250.3125
+      },
+      "normal": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 57378.22,
+        "mean_margin_euros": 14344.555,
+        "mean_margin_delta_vs_prime_euros": 203.735,
+        "mean_margin_delta_vs_early_euros": 663.0025,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 3,
+        "mean_on_time_pct": 94.87761737801443,
+        "worst_on_time_pct": 92.1119592875318,
+        "worst_on_time_seeds": [
+          "delta-f2-s04"
+        ],
+        "total_won_orders": 1542,
+        "mean_won_orders": 385.5,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 14344.555
+      }
+    },
+    "early-epsilon": {
+      "all": {
+        "weeks": 8,
+        "expected_weeks": 8,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07",
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 97295.79,
+        "mean_margin_euros": 12161.97375,
+        "mean_margin_delta_vs_prime_euros": -571.50625,
+        "mean_margin_delta_vs_early_euros": 0.0,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 0,
+        "mean_on_time_pct": 92.94532761001635,
+        "worst_on_time_pct": 90.0,
+        "worst_on_time_seeds": [
+          "eps-sp-s001"
+        ],
+        "total_won_orders": 2755,
+        "mean_won_orders": 344.375,
+        "ranked_weeks": 8,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": false,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 12161.97375
+      },
+      "hard": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "eps-bf-s002",
+          "eps-sp-s001",
+          "eps-px-s010",
+          "delta-f1-s07"
+        ],
+        "total_margin_euros": 42569.58,
+        "mean_margin_euros": 10642.395,
+        "mean_margin_delta_vs_prime_euros": -683.745,
+        "mean_margin_delta_vs_early_euros": 0.0,
+        "positive_weeks_vs_prime": 0,
+        "positive_weeks_vs_early": 0,
+        "mean_on_time_pct": 91.07484281947748,
+        "worst_on_time_pct": 90.0,
+        "worst_on_time_seeds": [
+          "eps-sp-s001"
+        ],
+        "total_won_orders": 1359,
+        "mean_won_orders": 339.75,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": false,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 10642.395
+      },
+      "normal": {
+        "weeks": 4,
+        "expected_weeks": 4,
+        "complete": true,
+        "seeds": [
+          "delta-f2-s04",
+          "eps-fd-s002",
+          "eps-sf-s003",
+          "eps-fd-s005"
+        ],
+        "total_margin_euros": 54726.21,
+        "mean_margin_euros": 13681.5525,
+        "mean_margin_delta_vs_prime_euros": -459.26750000000004,
+        "mean_margin_delta_vs_early_euros": 0.0,
+        "positive_weeks_vs_prime": 2,
+        "positive_weeks_vs_early": 0,
+        "mean_on_time_pct": 94.81581240055523,
+        "worst_on_time_pct": 91.66666666666666,
+        "worst_on_time_seeds": [
+          "delta-f2-s04"
+        ],
+        "total_won_orders": 1396,
+        "mean_won_orders": 349.0,
+        "ranked_weeks": 4,
+        "all_ranked": true,
+        "strictly_above_90_all_weeks": true,
+        "unranked_seeds": [],
+        "mean_ranked_margin_euros": 13681.5525
+      }
+    }
+  },
+  "decision": {
+    "recommended_win_target_bps": 4300,
+    "final": true,
+    "reason": "43% has the highest mean margin among win targets ranked on all eight paired seeds. This selected stress comparison warrants fresh out-of-sample confirmation before replacing Prime.",
+    "observed_ranking_failures": [
+      {
+        "label": "prime-win4200",
+        "seed": "eps-bf-s002",
+        "on_time_pct": 89.90536277602523
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-bf-s002",
+        "on_time_pct": 87.61329305135952
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-sp-s001",
+        "on_time_pct": 87.26287262872629
+      }
+    ],
+    "deployment_performed": false
+  },
+  "validation": {
+    "conflicting_duplicate_scores": [],
+    "unique_sweep_worlds": 32,
+    "trace_audit": [
+      {
+        "label": "prime-win4200",
+        "seed": "delta-f1-s07",
+        "world_id": "wcd6598ea0b39b74fc92d",
+        "trace_sha256": "135cd94a43294473a6636d5a0b076584a9e2d5db43c69f37e1ddd6155ee1af94",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "delta-f2-s04",
+        "world_id": "wf1cc8bbcf403d3dfb1bf",
+        "trace_sha256": "4558492a8723a542af3e143a5c451783e70aceb5c0226e89ac12cca24a4ccf4e",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "eps-bf-s002",
+        "world_id": "w7968c0116a678a08181a",
+        "trace_sha256": "26f3940d26d0dbfcb173bbd2238db67263e394727973a2a7320c1940faf34bfa",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "eps-fd-s002",
+        "world_id": "w1083230a7bbe8a7625c0",
+        "trace_sha256": "2c3738c71605231a90860f13c931c0b80024e918618741d59c39a5760ffd62df",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "eps-fd-s005",
+        "world_id": "w5d0d21e4203d2bde56ad",
+        "trace_sha256": "8eb48400b1eff394c958491d161285a28ae86185b80b53e6070c8b6192463119",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "eps-px-s010",
+        "world_id": "w5fdaeab895b0be0d4d47",
+        "trace_sha256": "e28822766bf1879fee1ab00ccaa77ddedcd4be699dd46cdc34410e2878312799",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "eps-sf-s003",
+        "world_id": "w263e3b4f4ffbc6f50b7b",
+        "trace_sha256": "d1289a8f8d6a61fb1810f0c9e2cd04a3db0be26820d20d9b1811752dc5d4ea39",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4200",
+        "seed": "eps-sp-s001",
+        "world_id": "w00bd6517b3e803c436c0",
+        "trace_sha256": "3f7d934c7aae3d10312a8b096871c99be132b710465506afe020ed3a6e385745",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "delta-f1-s07",
+        "world_id": "w8225c2af4b89251375de",
+        "trace_sha256": "d81dedcb0b1795b6122f42f577bf707077df72ea7d8a1ea4e363c53dc94c9258",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "delta-f2-s04",
+        "world_id": "w1b6012ea75d9248b35b6",
+        "trace_sha256": "14a29b55130d8b2b7c511ab592787b03b1ab7d86a544bc36aa94b3cfe0e58025",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "eps-bf-s002",
+        "world_id": "w5ce32aa698b0a189b56e",
+        "trace_sha256": "98b078cc2ea109df723e894f72522f5bb780ea7b871fa6a4b550f7e613ecee9c",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "eps-fd-s002",
+        "world_id": "w1165588c5d6dc6b2cc1d",
+        "trace_sha256": "14ff52bdb08227de9e9bcf44b1e185cfb2c718dbd1bba85e1e0d8ba2b09db94d",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "eps-fd-s005",
+        "world_id": "we57061a0368800b52828",
+        "trace_sha256": "f2f3b96fdf402600a71c607aaeaaacd81805f1241c9665a056df9cd58ca42c37",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "eps-px-s010",
+        "world_id": "w08f6ca837cc4f7e228ef",
+        "trace_sha256": "4ae7efe70fdd29deee7e1432083fca079f556f826e4c51bb2c67278c6aab07e9",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "eps-sf-s003",
+        "world_id": "w9417e3a922acec1c53da",
+        "trace_sha256": "24bc31e9b8b86024f34d11332d7185e1cae385a8d61cda27f7d99a1a10d33320",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4300",
+        "seed": "eps-sp-s001",
+        "world_id": "w7bee3d83c28388b9385d",
+        "trace_sha256": "fd2df975d934d15bb8433f679784a9ef68b35a0d9cd15a5f9bd22954ef1618ec",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "delta-f1-s07",
+        "world_id": "wc456a71412f42bfdbdff",
+        "trace_sha256": "2f3f65e160eacc154e18dd132ae21e15ec932c2dd8d38ba93a3d1a5890ce0c77",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "delta-f2-s04",
+        "world_id": "w0c0bd4935f552a01ebb6",
+        "trace_sha256": "ec14b892e3d061181a6e25e4239411ddd86dd01c67568399d187381381884676",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "eps-bf-s002",
+        "world_id": "wf6bf9c697827f64a24f9",
+        "trace_sha256": "8212b2ac931e1493ce373021b5a2fa7f17e2ce565dfcb5e52890821d0a2359dd",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "eps-fd-s002",
+        "world_id": "w83a41a33d538788441e1",
+        "trace_sha256": "8fb6d3f08f25e9c0c3cec57c66977b8d9d8c173917dbdb7a3ff2b05e07db5b2f",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "eps-fd-s005",
+        "world_id": "w22977df877189ab6e041",
+        "trace_sha256": "3ea0341bc4dc41b174218b8196b45d90220c2aafe24f27960d700654c29e2b38",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "eps-px-s010",
+        "world_id": "wb72afa398b9577a96ce4",
+        "trace_sha256": "9fe2d53702d7e6ff1c970d5e4dd32e5a0c5c1089bb4e3d4e972caa8acf02c60d",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "eps-sf-s003",
+        "world_id": "w175983165be84eddc34c",
+        "trace_sha256": "ffb8b266895f09df5a7c324bd441d7f01b08fe340ee7a34862c2b8cbc38e6996",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4500",
+        "seed": "eps-sp-s001",
+        "world_id": "w61691048529ec208319d",
+        "trace_sha256": "0b530efbe9ec64de6e3cf858d3d128689e7ffe113ce6051e5cf8cecc294079c8",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "delta-f1-s07",
+        "world_id": "w8f0829c52fecc18073dc",
+        "trace_sha256": "e17a07b9fdc9a2e8790a53a0d6fe8d89d56bed0e4b65a1d519833d66ba65abd4",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "delta-f2-s04",
+        "world_id": "w4711e6e5067d720ddc88",
+        "trace_sha256": "3e6fc368fb03d99563ad3fc48a4b7e6f055e5cada27164cd8e312c70b25e05e2",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-bf-s002",
+        "world_id": "w8a2eb3e3e725a92e804e",
+        "trace_sha256": "3ba4bb8823cc82ee4d02d663139a88757b82bbbcdb58aa385d98c05e5c7b8cdc",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-fd-s002",
+        "world_id": "wd14ef77551a7ed31d2c5",
+        "trace_sha256": "3a65dbe12d87278f0bec882db97b51db105ff7d8b68416c329b2fd2c45436662",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-fd-s005",
+        "world_id": "w5d3069e169fc45edc71d",
+        "trace_sha256": "e148b74dae923b3309f177a347969d291672790f38424afe145008e7d0c8eee3",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-px-s010",
+        "world_id": "wcaf2e3ad63b3d1ee893e",
+        "trace_sha256": "cc02da2ee288cc96ce6b09df7d10c589bfe641ec2628100b1c9f9fedfc0e994e",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-sf-s003",
+        "world_id": "w464238f4b9ba04231b18",
+        "trace_sha256": "56e33cdea8ca241a4315fd0338f18c34a36bfe8811254a8965fd1403af62025a",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      },
+      {
+        "label": "prime-win4600",
+        "seed": "eps-sp-s001",
+        "world_id": "w267627216f3b72a5b59b",
+        "trace_sha256": "1f2ab4ebc39e83f2ac93288a1bf9fd46ef9e2839d1ea437fea10ffa154d7c66b",
+        "settings_match": true,
+        "terminal_score_match": true,
+        "natural_run_end": true,
+        "reveal_identity_match": true
+      }
+    ],
+    "baseline_source_sha256": "907c592fc5716f4fbdd079550112f129eb49bf0354fff1aedf23262600beb624",
+    "terminal_api_audit": {
+      "at": "2026-11-15T06:06:20.936062+00:00",
+      "terminal_api_checks": [
+        {
+          "label": "prime-win4200",
+          "seed": "delta-f1-s07",
+          "world_id": "wcd6598ea0b39b74fc92d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "delta-f2-s04",
+          "world_id": "wf1cc8bbcf403d3dfb1bf",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-bf-s002",
+          "world_id": "w7968c0116a678a08181a",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-fd-s002",
+          "world_id": "w1083230a7bbe8a7625c0",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-fd-s005",
+          "world_id": "w5d0d21e4203d2bde56ad",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-px-s010",
+          "world_id": "w5fdaeab895b0be0d4d47",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-sf-s003",
+          "world_id": "w263e3b4f4ffbc6f50b7b",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-sp-s001",
+          "world_id": "w00bd6517b3e803c436c0",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "delta-f1-s07",
+          "world_id": "w8225c2af4b89251375de",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "delta-f2-s04",
+          "world_id": "w1b6012ea75d9248b35b6",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "eps-bf-s002",
+          "world_id": "w5ce32aa698b0a189b56e",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "eps-fd-s002",
+          "world_id": "w1165588c5d6dc6b2cc1d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "eps-fd-s005",
+          "world_id": "we57061a0368800b52828",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "eps-px-s010",
+          "world_id": "w08f6ca837cc4f7e228ef",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "eps-sf-s003",
+          "world_id": "w9417e3a922acec1c53da",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4300",
+          "seed": "eps-sp-s001",
+          "world_id": "w7bee3d83c28388b9385d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "delta-f1-s07",
+          "world_id": "wc456a71412f42bfdbdff",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "delta-f2-s04",
+          "world_id": "w0c0bd4935f552a01ebb6",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "eps-bf-s002",
+          "world_id": "wf6bf9c697827f64a24f9",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "eps-fd-s002",
+          "world_id": "w83a41a33d538788441e1",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "eps-fd-s005",
+          "world_id": "w22977df877189ab6e041",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "eps-px-s010",
+          "world_id": "wb72afa398b9577a96ce4",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "eps-sf-s003",
+          "world_id": "w175983165be84eddc34c",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4500",
+          "seed": "eps-sp-s001",
+          "world_id": "w61691048529ec208319d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "delta-f1-s07",
+          "world_id": "w8f0829c52fecc18073dc",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "delta-f2-s04",
+          "world_id": "w4711e6e5067d720ddc88",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-bf-s002",
+          "world_id": "w8a2eb3e3e725a92e804e",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-fd-s002",
+          "world_id": "wd14ef77551a7ed31d2c5",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-fd-s005",
+          "world_id": "w5d3069e169fc45edc71d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-px-s010",
+          "world_id": "wcaf2e3ad63b3d1ee893e",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-sf-s003",
+          "world_id": "w464238f4b9ba04231b18",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-sp-s001",
+          "world_id": "w267627216f3b72a5b59b",
+          "terminal_api_score_match": true
+        }
+      ],
+      "all_sweep_worlds_ended": true,
+      "active_other_worlds": [
+        {
+          "worldId": "wbed1f5882b61228cf8db",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        },
+        {
+          "worldId": "wd68ec7beb911cc43a0b4",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        },
+        {
+          "worldId": "wf52d6ee29cbfadcde67e",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        },
+        {
+          "worldId": "w1e28b15806ee5be882c0",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        }
+      ],
+      "standby_pid_994238_alive": true
+    },
+    "initial_42_46_terminal_api_audit": {
+      "at": "2026-11-15T05:57:04.665078+00:00",
+      "terminal_api_checks": [
+        {
+          "label": "prime-win4200",
+          "seed": "delta-f1-s07",
+          "world_id": "wcd6598ea0b39b74fc92d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-bf-s002",
+          "world_id": "w7968c0116a678a08181a",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-px-s010",
+          "world_id": "w5fdaeab895b0be0d4d47",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-sp-s001",
+          "world_id": "w00bd6517b3e803c436c0",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "delta-f1-s07",
+          "world_id": "w8f0829c52fecc18073dc",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-bf-s002",
+          "world_id": "w8a2eb3e3e725a92e804e",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-px-s010",
+          "world_id": "wcaf2e3ad63b3d1ee893e",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-sp-s001",
+          "world_id": "w267627216f3b72a5b59b",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "delta-f2-s04",
+          "world_id": "wf1cc8bbcf403d3dfb1bf",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "delta-f2-s04",
+          "world_id": "w4711e6e5067d720ddc88",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-fd-s005",
+          "world_id": "w5d0d21e4203d2bde56ad",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-fd-s005",
+          "world_id": "w5d3069e169fc45edc71d",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-fd-s002",
+          "world_id": "wd14ef77551a7ed31d2c5",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-fd-s002",
+          "world_id": "w1083230a7bbe8a7625c0",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-sf-s003",
+          "world_id": "w263e3b4f4ffbc6f50b7b",
+          "terminal_api_score_match": true
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-sf-s003",
+          "world_id": "w464238f4b9ba04231b18",
+          "terminal_api_score_match": true
+        }
+      ],
+      "all_sweep_worlds_ended": true,
+      "active_other_worlds": [
+        {
+          "worldId": "wbed1f5882b61228cf8db",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        },
+        {
+          "worldId": "wd68ec7beb911cc43a0b4",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        },
+        {
+          "worldId": "wf52d6ee29cbfadcde67e",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        },
+        {
+          "worldId": "w1e28b15806ee5be882c0",
+          "kind": "practice",
+          "level": 8,
+          "parent": null,
+          "season": null,
+          "boardRun": null,
+          "ended": false
+        }
+      ],
+      "launch_timestamps": [
+        {
+          "label": "prime-win4200",
+          "seed": "delta-f1-s07",
+          "trace_created_at": "2026-11-15T05:47:48.244493+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-bf-s002",
+          "trace_created_at": "2026-11-15T05:47:48.245635+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-px-s010",
+          "trace_created_at": "2026-11-15T05:47:48.284159+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-sp-s001",
+          "trace_created_at": "2026-11-15T05:47:48.242347+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "delta-f1-s07",
+          "trace_created_at": "2026-11-15T05:47:48.416208+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-bf-s002",
+          "trace_created_at": "2026-11-15T05:47:48.347680+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-px-s010",
+          "trace_created_at": "2026-11-15T05:47:48.345867+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-sp-s001",
+          "trace_created_at": "2026-11-15T05:47:48.327486+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "delta-f2-s04",
+          "trace_created_at": "2026-11-15T05:51:20.141903+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "delta-f2-s04",
+          "trace_created_at": "2026-11-15T05:51:23.612810+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-fd-s005",
+          "trace_created_at": "2026-11-15T05:52:22.819477+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-fd-s005",
+          "trace_created_at": "2026-11-15T05:52:24.977291+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-fd-s002",
+          "trace_created_at": "2026-11-15T05:52:24.257656+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-fd-s002",
+          "trace_created_at": "2026-11-15T05:52:26.412055+00:00"
+        },
+        {
+          "label": "prime-win4200",
+          "seed": "eps-sf-s003",
+          "trace_created_at": "2026-11-15T05:52:25.668337+00:00"
+        },
+        {
+          "label": "prime-win4600",
+          "seed": "eps-sf-s003",
+          "trace_created_at": "2026-11-15T05:52:23.586310+00:00"
+        }
+      ],
+      "last_launch_no_later_than": "2026-11-15T05:52:26.412055+00:00",
+      "no_launches_after_cutoff": true,
+      "standby_pid_994238_alive": true
+    }
+  },
+  "queue_management": {
+    "initial_42_46": {
+      "overlap_detected": "Original A plan queued all 16 pairs; B plan overlapped the 8 normal pairs.",
+      "action": "Paused scheduler parents only; all 10 submitted worlds finished with their original workers. Remaining 6 unique jobs used a serialized 12-world team capacity gate and explicit launch cutoff. Recovered rows were checked against terminal API scores. Original pools retired only after their assigned worlds ended.",
+      "audit_file": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/manager-audit.jsonl",
+      "capacity_max_observed": 12,
+      "latest_capacity": {
+        "at": "2026-11-15T05:56:43.413962+00:00",
+        "event": "capacity",
+        "active": 4,
+        "sweep_active": {},
+        "other_active": [
+          "w1e28b15806ee5be882c0",
+          "wbed1f5882b61228cf8db",
+          "wd68ec7beb911cc43a0b4",
+          "wf52d6ee29cbfadcde67e"
+        ],
+        "completed": 16
+      },
+      "standby_and_readiness_processes_touched": false,
+      "worlds_manually_ended_deleted_or_abandoned": 0,
+      "all_sweep_worlds_finished": true,
+      "server_fully_drained": false,
+      "preexisting_other_worlds": [
+        "wbed1f5882b61228cf8db",
+        "wd68ec7beb911cc43a0b4"
+      ],
+      "other_world_note": "User confirmed these are earlier orchestrator rehearsal worlds from 05:34 UTC and explicitly instructed leaving them untouched and reporting them. All count against server capacity.",
+      "last_launch_no_later_than": "2026-11-15T05:52:26.412055+00:00",
+      "no_launches_after_cutoff": true,
+      "sweep_active_worlds_at_completion": 0,
+      "pending_launches": 0,
+      "sweep_completed_at": "2026-11-15T05:56:43.414160+00:00"
+    },
+    "final_43_45": {
+      "audit_file": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/final-43-45-monitor.jsonl",
+      "capacity_max_observed": 12,
+      "latest_capacity": {
+        "at": "2026-11-15T06:06:19.615865+00:00",
+        "completed": 16,
+        "expected": 16,
+        "counts": {
+          "prime-win4300": 8,
+          "prime-win4500": 8
+        },
+        "active_worlds": 4,
+        "sweep_active": {},
+        "other_active": [
+          "wbed1f5882b61228cf8db",
+          "wd68ec7beb911cc43a0b4",
+          "wf52d6ee29cbfadcde67e",
+          "w1e28b15806ee5be882c0"
+        ],
+        "standby_pid_994238_alive": true,
+        "scheduler_pid_1308415_alive": false
+      },
+      "workers": 8,
+      "helper_launched": false,
+      "team_world_limit": 12,
+      "standby_and_readiness_processes_touched": false,
+      "worlds_manually_ended_deleted_or_abandoned": 0,
+      "all_sweep_worlds_finished": true,
+      "pending_launches": 0
+    }
+  }
+}

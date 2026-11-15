@@ -1,0 +1,234 @@
+{
+  "Delta": {
+    "delta-f1-s01": {
+      "marginCents": 971104,
+      "onTimeShare": 0.9573770491803278,
+      "wonOrders": 305,
+      "ranked": true
+    },
+    "delta-f1-s02": {
+      "marginCents": 1521871,
+      "onTimeShare": 0.9696969696969697,
+      "wonOrders": 363,
+      "ranked": true
+    },
+    "delta-f1-s03": {
+      "marginCents": 1437653,
+      "onTimeShare": 0.96996996996997,
+      "wonOrders": 333,
+      "ranked": true
+    },
+    "delta-f1-s04": {
+      "marginCents": 1623016,
+      "onTimeShare": 0.9777158774373259,
+      "wonOrders": 359,
+      "ranked": true
+    },
+    "delta-f1-s05": {
+      "marginCents": 1349961,
+      "onTimeShare": 0.961764705882353,
+      "wonOrders": 340,
+      "ranked": true
+    },
+    "delta-f1-s06": {
+      "marginCents": 1836642,
+      "onTimeShare": 0.9478021978021978,
+      "wonOrders": 364,
+      "ranked": true
+    },
+    "delta-f1-s07": {
+      "marginCents": 1146267,
+      "onTimeShare": 0.9111747851002865,
+      "wonOrders": 349,
+      "ranked": true
+    },
+    "delta-f1-s08": {
+      "marginCents": 1157592,
+      "onTimeShare": 0.9526627218934911,
+      "wonOrders": 338,
+      "ranked": true
+    },
+    "delta-f1-s09": {
+      "marginCents": 1560846,
+      "onTimeShare": 0.9857142857142858,
+      "wonOrders": 350,
+      "ranked": true
+    },
+    "delta-f1-s10": {
+      "marginCents": 1734420,
+      "onTimeShare": 0.9754098360655737,
+      "wonOrders": 366,
+      "ranked": true
+    },
+    "delta-f1-s11": {
+      "marginCents": 1309879,
+      "onTimeShare": 0.9657320872274143,
+      "wonOrders": 321,
+      "ranked": true
+    },
+    "delta-f2-s01": {
+      "marginCents": 1602064,
+      "onTimeShare": 0.9584569732937686,
+      "wonOrders": 337,
+      "ranked": true
+    },
+    "delta-f2-s02": {
+      "marginCents": 1271221,
+      "onTimeShare": 0.9731543624161074,
+      "wonOrders": 298,
+      "ranked": true
+    },
+    "delta-f2-s05": {
+      "marginCents": 1096742,
+      "onTimeShare": 0.9621451104100947,
+      "wonOrders": 317,
+      "ranked": true
+    },
+    "delta-f2-s03": {
+      "marginCents": 1116166,
+      "onTimeShare": 0.9333333333333333,
+      "wonOrders": 375,
+      "ranked": true
+    },
+    "delta-f2-s06": {
+      "marginCents": 989492,
+      "onTimeShare": 0.9423076923076923,
+      "wonOrders": 312,
+      "ranked": true
+    },
+    "delta-f2-s04": {
+      "marginCents": 1420655,
+      "onTimeShare": 0.9164420485175202,
+      "wonOrders": 371,
+      "ranked": true
+    },
+    "delta-f2-s07": {
+      "marginCents": 1611566,
+      "onTimeShare": 0.952513966480447,
+      "wonOrders": 358,
+      "ranked": true
+    },
+    "delta-f2-s08": {
+      "marginCents": 1387246,
+      "onTimeShare": 0.9647058823529412,
+      "wonOrders": 340,
+      "ranked": true
+    }
+  },
+  "Early Epsilon": {
+    "delta-f1-s01": {
+      "marginCents": 1007318,
+      "onTimeShare": 0.9609120521172638,
+      "wonOrders": 307,
+      "ranked": true
+    },
+    "delta-f1-s02": {
+      "marginCents": 1500048,
+      "onTimeShare": 0.9613259668508287,
+      "wonOrders": 362,
+      "ranked": true
+    },
+    "delta-f1-s03": {
+      "marginCents": 1456960,
+      "onTimeShare": 0.96996996996997,
+      "wonOrders": 333,
+      "ranked": true
+    },
+    "delta-f1-s04": {
+      "marginCents": 1631470,
+      "onTimeShare": 0.9722222222222222,
+      "wonOrders": 360,
+      "ranked": true
+    },
+    "delta-f1-s05": {
+      "marginCents": 1378578,
+      "onTimeShare": 0.9672619047619048,
+      "wonOrders": 336,
+      "ranked": true
+    },
+    "delta-f1-s06": {
+      "marginCents": 1945575,
+      "onTimeShare": 0.9584487534626038,
+      "wonOrders": 361,
+      "ranked": true
+    },
+    "delta-f1-s07": {
+      "marginCents": 1215413,
+      "onTimeShare": 0.9166666666666666,
+      "wonOrders": 348,
+      "ranked": true
+    },
+    "delta-f1-s08": {
+      "marginCents": 1158653,
+      "onTimeShare": 0.9464285714285714,
+      "wonOrders": 336,
+      "ranked": true
+    },
+    "delta-f1-s09": {
+      "marginCents": 1540167,
+      "onTimeShare": 0.9827089337175793,
+      "wonOrders": 347,
+      "ranked": true
+    },
+    "delta-f1-s10": {
+      "marginCents": 1787729,
+      "onTimeShare": 0.9727520435967303,
+      "wonOrders": 367,
+      "ranked": true
+    },
+    "delta-f1-s11": {
+      "marginCents": 1276165,
+      "onTimeShare": 0.9686520376175548,
+      "wonOrders": 319,
+      "ranked": true
+    },
+    "delta-f2-s01": {
+      "marginCents": 1608018,
+      "onTimeShare": 0.9673590504451038,
+      "wonOrders": 337,
+      "ranked": true
+    },
+    "delta-f2-s02": {
+      "marginCents": 1277754,
+      "onTimeShare": 0.9629629629629629,
+      "wonOrders": 297,
+      "ranked": true
+    },
+    "delta-f2-s03": {
+      "marginCents": 1022054,
+      "onTimeShare": 0.9220430107526881,
+      "wonOrders": 372,
+      "ranked": true
+    },
+    "delta-f2-s04": {
+      "marginCents": 1372042,
+      "onTimeShare": 0.9166666666666666,
+      "wonOrders": 372,
+      "ranked": true
+    },
+    "delta-f2-s05": {
+      "marginCents": 1101725,
+      "onTimeShare": 0.9686520376175548,
+      "wonOrders": 319,
+      "ranked": true
+    },
+    "delta-f2-s06": {
+      "marginCents": 1079956,
+      "onTimeShare": 0.9583333333333334,
+      "wonOrders": 312,
+      "ranked": true
+    },
+    "delta-f2-s07": {
+      "marginCents": 1680229,
+      "onTimeShare": 0.9523809523809523,
+      "wonOrders": 357,
+      "ranked": true
+    },
+    "delta-f2-s08": {
+      "marginCents": 1335769,
+      "onTimeShare": 0.9444444444444444,
+      "wonOrders": 342,
+      "ranked": true
+    }
+  }
+}

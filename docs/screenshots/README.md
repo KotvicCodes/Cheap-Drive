@@ -11,21 +11,19 @@ They were captured from a compact renderer copy that omits the redundant embedde
 
 ## Leaderboard visuals
 
-Current round 10 (Delta), level 8, Sunday 00:00 Helsinki,
-15 November 2026:
+Current round 11 (Early Epsilon), level 8, "Sunday 03:00" Helsinki,
+15 November 2026; our runs launched at 05:00 Helsinki:
 
-- [round10-totals.svg](round10-totals.svg): top ten, our neighbours and House best; 2026-11-14 23:13:42 UTC, rank 31 of 45, €72,322.03, 96.27% on time.
-- [round10-runs.svg](round10-runs.svg): our five qualified Delta weeks versus leader Juhus, same snapshot; exact cents and zero-based bars.
-- [leaderboard-round10.png](leaderboard-round10.png): original public-page ranking heading, round label, selected level 8 and leaders; 2026-11-14 23:14:25 UTC.
-- [leaderboard-round10-team.png](leaderboard-round10-team.png): our ranked row and neighbours after all five weeks; 2026-11-14 23:14:11 UTC.
+- [round11-totals.svg](round11-totals.svg): top ten, our neighbours and House best, with our team highlighted; 2026-11-15 03:16:23.416 UTC, rank 28 of 44, €69,301.34, 95.85% on time.
+- [round11-runs.svg](round11-runs.svg): all five Early Epsilon runs versus Seekers on the same weeks, exact cents and zero-based bars.
+- [leaderboard-round11.png](leaderboard-round11.png): unaltered public-page leaders, round label and selected level 8; captured 2026-11-15 03:16:31 UTC.
+- [leaderboard-round11-team.png](leaderboard-round11-team.png): unaltered public-page team row and neighbours; captured 2026-11-15 03:16:47 UTC.
 
-Both PNGs are unaltered public-page captures at a 1280 × 1000 CSS-pixel viewport
-(2560 × 2000 image pixels),
-scrolled without changing data, hiding rows, cropping or annotation.
-The round was open until 01:00 UTC on 15 November; standings can change.
-The page rounds margins to whole euros and shares to one decimal place.
-[Exact results and provenance](../research/delta-board-round10.md) ·
-[Offline chart renderer](../../tests/make_round10_charts.py) (Matplotlib required).
+PNG viewport: 1280 × 1000 CSS pixels. Scrolling only; no changed data,
+hidden rows, cropping or annotation. All five runs are present and ranked.
+**The round was open until 06:00 Helsinki (04:00 UTC)** at retrieval and both
+captures; positions can change. The page rounds euros and percentages.
+[Exact results, provenance and offline chart reproduction](../research/epsilon-board-round11.md).
 
 Historical round 9 (Delta), level 8, Saturday 21:00 Helsinki,
 14 November 2026:

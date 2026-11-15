@@ -119,7 +119,17 @@ def _clock(match):
     return hour * 60 + minute
 
 
-def parse_note(note, arrived_at):
+_SATURDAY_CLOSED = re.compile(
+    r'\b(?:no\s+(?:(?:pickups?|collections?|deliveries)\s+(?:on\s+)?)?saturdays?'
+    r'|closed\s+(?:on\s+)?saturdays?|saturdays?\s+(?:closed|no\s+(?:pickups?|deliveries))'
+    r'|ei\s+(?:(?:nout\w*|luovut\w*|toimit\w*)\s+)?lauantai(?:sin|na)?'
+    r'|lauantai(?:sin|na)?\s+(?:kiinni|suljettu)'
+    r'|(?:stangt|stangd)\s+(?:pa\s+)?lordag(?:ar)?'
+    r'|lordag(?:ar)?\s+(?:stangt|stangd)'
+    r'|(?:inga|ingen)\s+(?:(?:hamt\w*|leveran\w*)\s+(?:pa\s+)?)?lordag(?:ar)?)\b')
+
+
+def parse_note(note, arrived_at, *, weekday_saturday=False):
     """Extract supported constraints without retaining note text or access codes."""
     if isinstance(note, dict):
         note = note.get('text', '')
@@ -141,9 +151,13 @@ def parse_note(note, arrived_at):
     # instructions elsewhere in the note. Split again at an explicit new role.
     clauses = re.split(r'[,;\n!?]|\.(?!\d)', text)
     release_context = False
+    saturday_closed = set()
     for clause in clauses:
         clause = _word_hours(clause)
-        pieces = re.split(r'\s+(?=(?:ready for pickup|pick(?:up|\s+up)|collect(?:ion)?|nouto|toimit\w*|destination|deliver\w*|arriv\w*|recipient|oltava perilla|perilla|leverans\w*|framme)\b)', clause)
+        negative_prefix = (r'(?<!\bno)(?<!\bei)(?<!\binte)(?<!\binga)(?<!\bingen)'
+                           r'(?<!\bno saturday)(?<!\bno saturdays)'
+                           r'(?<!\bei lauantaisin)(?<!\bei lauantaina)') if weekday_saturday else ''
+        pieces = re.split(negative_prefix + r'\s+(?=(?:ready for pickup|pick(?:up|\s+up)|collect(?:ion)?|nouto|toimit\w*|destination|deliver\w*|arriv\w*|recipient|oltava perilla|perilla|leverans\w*|framme)\b)', clause)
         for part in pieces:
             if not part.strip():
                 continue
@@ -153,8 +167,14 @@ def parse_note(note, arrived_at):
                 release_context = True
             elif delivery or re.search(r'valmi|vamis|\bready\b|workshop|woorkshop|\bklar\b', part):
                 release_context = False
-            if re.search(r'arkisin|weekdays|ma\s*-\s*pe|mon\s*-\s*fri|mandag\s*-\s*fredag', part):
-                values[kind + '_weekdays'] = (0, 1, 2, 3, 4)
+            explicit_weekdays = re.search(r'ma\s*-\s*pe|mon\s*-\s*fri|mandag\s*-\s*fredag', part)
+            bare_weekdays = re.search(r'arkisin|weekdays', part)
+            if explicit_weekdays or bare_weekdays:
+                values[kind + '_weekdays'] = ((0, 1, 2, 3, 4, 5) if weekday_saturday
+                                                and bare_weekdays and not explicit_weekdays
+                                                else (0, 1, 2, 3, 4))
+            if weekday_saturday and _SATURDAY_CLOSED.search(part):
+                saturday_closed.add(kind)
             clocks = [(match, _clock(match)) for match in _CLOCK.finditer(part)]
             clocks = [(match, minute) for match, minute in clocks if minute is not None]
             # A pair of clocks joined by a dash is a recurring daily range.
@@ -199,4 +219,7 @@ def parse_note(note, arrived_at):
                     maximum(kind + '_opens', minute)
                 elif _PICKUP.search(part):
                     maximum('ready_at', absolute)
+    for kind in saturday_closed:
+        key = kind + '_weekdays'
+        values[key] = tuple(day for day in values.get(key, range(7)) if day != 5)
     return NoteFacts(**values)

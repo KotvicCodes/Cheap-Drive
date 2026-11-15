@@ -20,7 +20,7 @@ final's pace (--minutes-per-second). Its one-minute ticks slow under API stalls
 rather than catching up in jumps that can expire requests before delivery.
 
 Traces, world-specific checkpoints and rehearsal manifests go to runs/final/
-(git-ignored). Keep this directory when restarting in a new process.
+(git-ignored), or --output DIR. Reuse the same directory when restarting.
 """
 from __future__ import annotations
 
@@ -202,6 +202,11 @@ def play_live(world, level, journal, factory, *, clock, stats=None, reads=None, 
             reads.close()
 
 
+def retryable(error):
+    """Reconcile uncertain writes on transient failures; keep auth/input errors fatal."""
+    return isinstance(error, Unreachable) or error.status in (409, 429) or 500 <= error.status < 600
+
+
 def play_until_done(world, level, journal, factory, clock, *, retry_seconds=3,
                     score_reader=None, checkpoint=None):
     """The final keeps running while we are away: rebuild and resume after any outage."""
@@ -212,8 +217,10 @@ def play_until_done(world, level, journal, factory, clock, *, retry_seconds=3,
             try:
                 return play_live(world, level, journal, factory, clock=clock, stats=stats,
                                  reads=reads, checkpoint=checkpoint), stats
-            except Unreachable as error:
-                journal.record("unreachable", at=None)
+            except SpreadError as error:
+                if not retryable(error):
+                    raise
+                journal.record("unreachable", at=None, status=error.status)
                 print(f"spread: {error}. Rebuilding from the server in {retry_seconds} s.", file=sys.stderr, flush=True)
                 time.sleep(retry_seconds)
     finally:
@@ -231,10 +238,10 @@ def wait_for_final(client):
             snapshot = world.snapshot()
             if snapshot["now"] < snapshot["endsAt"]:
                 return world, final
-        except Unreachable as error:
-            print(f"spread: {error}; retrying.", file=sys.stderr, flush=True)
         except SpreadError as error:
-            if error.status != 404:
+            if retryable(error):
+                print(f"spread: {error}; retrying.", file=sys.stderr, flush=True)
+            elif error.status != 404:
                 raise
         if not said:
             print("No live final yet; waiting (checks every 5 s).", flush=True)
@@ -310,6 +317,8 @@ def main(argv=None):
     parser.add_argument("--minutes-per-second", type=float, default=5.0,
                         help="target rehearsal pace in world minutes per real second (final averages ~5)")
     parser.add_argument("--quiet", action="store_true", help="send per-event desk logs to the trace only")
+    parser.add_argument("--output", type=Path, default=ROOT / "runs" / "final",
+                        help="trace/checkpoint directory; reuse it when restarting (default: runs/final)")
     args = parser.parse_args(argv)
     if not math.isfinite(args.minutes_per_second) or args.minutes_per_second <= 0:
         parser.error("--minutes-per-second must be positive and finite")
@@ -319,7 +328,7 @@ def main(argv=None):
         parser.error("set SPREAD_KEY")
     url = os.environ.get("SPREAD_URL") or "https://spread.bahnexpress.com"
     client = Client(url=url)
-    out = ROOT / "runs" / "final"
+    out = args.output
     out.mkdir(parents=True, exist_ok=True)
     pacer = None
     clock_client, score_client = Client(url=url), Client(url=url)
@@ -334,11 +343,12 @@ def main(argv=None):
         mode, clock_info = "final", {"startsAt": final.get("startsAt")}
         clock = lambda: clock_client.final()["now"]
         level = next((w.get("level", 8) for w in client.worlds() if w.get("worldId") == world.id), 8)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     path = out / f"{stamp}-{mode}-{world.id}.jsonl.gz"
     print(f"{mode.title()} world {world.id} with {model.spec['name']}; trace {path}", flush=True)
     print("Ctrl-C stops our system only; run the same command again to rejoin.", flush=True)
-    # Append so a restarted process never overwrites an earlier trace of the same world.
+    # A fresh path also avoids appending behind a SIGKILL-truncated gzip member,
+    # which would make the restarted run's receipts unreadable during recovery.
     with gzip.open(path, "at", encoding="utf-8") as stream, BackgroundFsync(stream.fileno()) as sync:
         journal = MetricsJournal(stream, fsync=sync.request)
         journal.record("run", worldId=world.id, mode=mode, level=level, model=model.spec, **clock_info)

@@ -17,6 +17,7 @@ import os
 from pathlib import Path
 import queue
 import threading
+import zlib
 
 from spread.starter import DAY, undelivered
 
@@ -26,8 +27,10 @@ SETS = ("booked", "urgent", "pending", "brake_warned", "brake_late", "town_won_i
         "_split_orders", "_failed_orders", "_picked", "_started", "_skip_logged")
 DICTS = ("requests", "orders", "leg_gigs", "posts", "trust", "dealers", "markups",
          "quote_trackers", "day_starts", "brake_last_held", "near30", "town_pending",
-         "first_posted", "delta_b1_pending", "delta_lane_counts", "delta_b1_counts")
-SCALARS = ("markup", "brake_mode", "supply_roster_size", "now")
+         "first_posted", "delta_b1_pending", "delta_lane_counts", "delta_b1_counts", "delta_urgent_since",
+         "epsilon_breaker_outcomes", "epsilon_breaker_resolved_at")
+SCALARS = ("markup", "brake_mode", "supply_roster_size", "now",
+           "epsilon_breaker_active", "epsilon_breaker_at")
 DEQUES = ("brake_warnings", "brake_drops")
 
 
@@ -68,6 +71,8 @@ def restore_state(desk, state):
         desk._pairs = {k: _Pair(**{**v, "orders": tuple(v["orders"])})
                        for k, v in state.get("_pairs", {}).items()}
         desk._pending_pairs.clear()
+    if hasattr(desk, 'apply_epsilon_breaker'):
+        desk.apply_epsilon_breaker()
 
 
 class CheckpointStore:
@@ -90,7 +95,7 @@ class CheckpointStore:
             if (value["version"] != VERSION or value["worldId"] != self.world_id
                     or value["model"] != self.model_spec or type(value["lastSeq"]) is not int
                     or not isinstance(value["state"], dict)
-                    or not all(k in value["state"] for k in (*DICTS[:11], *SCALARS, *DEQUES,
+                    or not all(k in value["state"] for k in (*DICTS[:11], *SCALARS[:4], *DEQUES,
                                                              "town_wins", "pending", "booked", "urgent"))):
                 return None
             state = value["state"]
@@ -143,7 +148,7 @@ class CheckpointStore:
                                     receipts[identity] = {**quotes[identity], "ok": result["ok"]}
                         elif kind == "model_quote_result":
                             receipts[row["requestId"]] = {k: row[k] for k in ("at", "ok", "competitive", "tracker")}
-            except (OSError, EOFError, ValueError, KeyError, StopIteration):
+            except (OSError, EOFError, ValueError, KeyError, TypeError, AttributeError, StopIteration, zlib.error):
                 continue
         return receipts
 
@@ -302,6 +307,11 @@ def replay_history(desk, snapshot, history, *, after=-1):
                     if gig["outcome"] in ("withdrawn", "released"):
                         _detach(desk, gig["gigId"])
             elif kind == "deadline_close":
+                # Booked pair warnings bypass observe_history, just as live
+                # DriverSideMixin intercepts them before Gamma bookkeeping.
+                if getattr(desk, "delta_urgent_fee_memory", 0):
+                    desk.delta_urgent_since[identity] = min(
+                        event["at"], desk.delta_urgent_since.get(identity, event["at"]))
                 desk.urgent.add(identity)
             elif kind in ("gig_booked", "gig_started"):
                 desk.booked.add(gig_id)
@@ -385,9 +395,12 @@ def rejoin_model(desk, snapshot, history):
             if (checkpoint["worldId"] == snapshot.get("worldId")
                     and checkpoint["state"]["now"] <= snapshot["now"]
                     and (seq == -1 or any(e["seq"] == seq for e in history))):
-                restore_state(desk, checkpoint["state"])
-                if not math.isfinite(desk.markup) or not desk.settings.markup_min_bps <= desk.markup <= desk.settings.markup_max_bps:
+                # Validate before restoration can apply a latched breaker's
+                # policy. Rolling back data alone cannot undo those settings.
+                markup = checkpoint["state"]["markup"]
+                if not math.isfinite(markup) or not desk.settings.markup_min_bps <= markup <= desk.settings.markup_max_bps:
                     raise ValueError("invalid checkpoint markup")
+                restore_state(desk, checkpoint["state"])
                 after = seq
         except (KeyError, TypeError, ValueError, AttributeError):
             restore_state(desk, initial)

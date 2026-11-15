@@ -65,6 +65,26 @@ class JournalDesk(Desk):
             LOG.info("minute=%s event=%s %s", event["at"], event["kind"], identity)
         super().handle(event)
 
+    def send(self) -> None:
+        if getattr(self.world, "capture_recovery", False):
+            # A live quote has seconds to arrive. Reading a pair desk's outbox
+            # normally polls timers, which can do blocking withdrawals first.
+            # Drain ready quotes with timers held, retaining other action order
+            # and the original post objects used by pair-result bookkeeping.
+            paired = hasattr(self, "_busy")
+            if paired:
+                self._busy += 1
+            try:
+                outbox = self.outbox
+                quotes = [action for action in outbox if action["type"] == "quote"]
+                if quotes:
+                    outbox[:] = [action for action in outbox if action["type"] != "quote"]
+                    self.read_results(quotes, self.world.act(quotes))
+            finally:
+                if paired:
+                    self._busy -= 1
+        super().send()
+
     def read_results(self, actions: list[Action], results: list[ActionResult]) -> None:
         if not isinstance(self.world, CapturedWorld):
             for action, result in zip(actions, results):
