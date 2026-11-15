@@ -22,11 +22,13 @@ Set SWEEP_TEAM_WORLD_LIMIT=12 to check the team's unfinished worlds before
 each creation, including retries, and wait while the shared capacity is full.
 SWEEP_START_BEFORE_UTC accepts a timezone-aware ISO timestamp; queued weeks
 stop at this cutoff, including during a pause or a capacity wait.
+SWEEP_LANE_WORLD_LIMIT and SWEEP_LANE_ROOT optionally limit all sweeps sharing
+one lane output root. A file lock serializes their slot checks and creation.
 """
 from __future__ import annotations
 
 import concurrent.futures as cf
-from contextlib import redirect_stdout
+from contextlib import contextmanager, nullcontext, redirect_stdout
 from datetime import datetime, timezone
 import gzip
 import io
@@ -86,6 +88,37 @@ def wait_for_team_capacity(client):
         time.sleep(3)
 
 
+@contextmanager
+def world_launch_slot(client):
+    """Serialize lane checks through creation and writing its ownership marker."""
+    limit = int(os.environ.get('SWEEP_LANE_WORLD_LIMIT', '0'))
+    root = os.environ.get('SWEEP_LANE_ROOT')
+    if limit < 0 or limit and not root:
+        raise ValueError('a positive lane limit requires SWEEP_LANE_ROOT')
+    if limit:
+        import fcntl
+        lane = Path(root)
+        lane.mkdir(parents=True, exist_ok=True)
+    while True:
+        lock = (lane / '.launch.lock').open('a') if limit else nullcontext()
+        with lock as stream:
+            if limit:
+                fcntl.flock(stream, fcntl.LOCK_EX)
+            wait_for_launch()
+            wait_for_team_capacity(client)
+            full = False
+            if limit:
+                active = {w['worldId'] for w in client.worlds() if not w['ended']}
+                owned = {p.name for directory in lane.glob('*/worlds')
+                         for p in directory.iterdir() if p.is_file()}
+                full = len(active & owned) >= limit
+            if not full:
+                check_launch_cutoff()
+                yield
+                return
+        time.sleep(3)
+
+
 def play_week(out, factory_name, level, seed, label, settings, fast):
     from performance import PracticeClient as Client
     from compare import MetricsJournal
@@ -98,11 +131,9 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     for attempt in range(4):
         world = None
         try:
-            wait_for_launch()
-            wait_for_team_capacity(client)
-            check_launch_cutoff()
-            world = client.create(level=level, seed=seed, board=False)
-            (out / "worlds" / world.id).write_text(tag)
+            with world_launch_slot(client):
+                world = client.create(level=level, seed=seed, board=False)
+                (out / "worlds" / world.id).write_text(tag)
             started = time.time()
             name = tag if attempt == 0 else f"{tag}-attempt{attempt + 1}"
             with gzip.open(out / "traces" / f"{name}.jsonl.gz", "wt", encoding="utf-8") as stream:

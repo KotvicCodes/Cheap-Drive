@@ -261,3 +261,29 @@ the orchestrator's direction; no force push, merge or PR was performed. The
 model/test source is unchanged by this publication issue. Retained paired
 reference scores are copied to `plans/epsilon-p5/paired-references.json` so
 result differences are reviewable without an API call or replaying baselines.
+
+
+### New priority: direct decline-admission screens
+
+The orchestrator supplied `gem-vol-3-declines.md` at 02:54 UTC and requested
+A–D ahead of the weak selective-pricing lead. All settings keys and the comma-
+separated long-option enum validate in the existing factory. The screen chooses
+the permitted safer same-day threshold360: A=slack240/same-day360; B=A plus
+long cap10/max900/all three options; C=B plus bare trade-ins; D=C plus global
+target4600. Premium1440 and long minimum slack1440 remain enforced. The
+previous narrower slack360/cap4/max700 arm is retained for comparison, reusing
+its first completed score; other rejected admission variants stop. Gemini's
+claimed euro improvements are scenarios, not confirmed effects. No admission
+code changes or automatic free-release behavior are implied by these settings.
+
+The selective target4600 screen completed: +290.20/week vs Delta, +76.79 vs
+Early Epsilon, 3/4 positive, 91.781% minimum service, +0.50 wins/week. It is
+held for a possible later extension while the newly prioritized admission arms
+run. The split4200 control failed service at90.286%; target5000 at90.028%.
+
+A coordinator unexpectedly exited with SIGTERM while its workers continued;
+the fallback advanced early. Launches were paused and all admission workers
+drained before switching screens. An additional default-off lane gate now
+serializes slot checks, world creation and ownership-marker writes with a file
+lock. This lane uses `SWEEP_LANE_WORLD_LIMIT=3` and `SWEEP_LANE_ROOT=runs/epsilon-p5`
+in addition to the team12 gate. Tests:465 passing.

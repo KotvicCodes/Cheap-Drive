@@ -1,12 +1,44 @@
 """Shared world capacity is checked before launch, not during a running week."""
 import os
+from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
-from scripts.sweep import LaunchWindowClosed, wait_for_launch, wait_for_team_capacity
+from scripts.sweep import LaunchWindowClosed, wait_for_launch, wait_for_team_capacity, world_launch_slot
 
 
 class SweepCapacityTests(unittest.TestCase):
+    def test_lane_wait_counts_only_its_unfinished_worlds_across_outputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            lane=Path(tmp)
+            for name in ('a','b'):
+                (lane/name/'worlds').mkdir(parents=True)
+            (lane/'a/worlds/own').write_text('candidate--seed')
+            (lane/'b/worlds/ended').write_text('candidate--previous')
+            client=Mock()
+            client.worlds.side_effect=[
+                [{'worldId':'own','ended':False},{'worldId':'ended','ended':True},
+                 {'worldId':'another-lane','ended':False}],
+                [{'worldId':'own','ended':True},{'worldId':'another-lane','ended':False}]]
+            with patch.dict(os.environ, {'SWEEP_LANE_WORLD_LIMIT':'1','SWEEP_LANE_ROOT':tmp,
+                                        'SWEEP_TEAM_WORLD_LIMIT':'0','SWEEP_PAUSE_FILE':''},clear=True), \
+                    patch('scripts.sweep.time.sleep') as sleep:
+                with world_launch_slot(client):
+                    (lane/'b/worlds/new').write_text('new--seed')
+            sleep.assert_called_once_with(3)
+            self.assertEqual(client.worlds.call_count,2)
+            self.assertTrue((lane/'b/worlds/new').exists())
+
+    def test_lane_default_is_off_and_missing_root_fails_closed(self):
+        client=Mock()
+        with patch.dict(os.environ, {}, clear=True):
+            with world_launch_slot(client):pass
+        client.worlds.assert_not_called()
+        with patch.dict(os.environ, {'SWEEP_LANE_WORLD_LIMIT':'3'},clear=True):
+            with self.assertRaises(ValueError):
+                with world_launch_slot(client):self.fail('invalid gate permitted creation')
+
     def test_cutoff_is_rechecked_during_pause_and_capacity_wait(self):
         with patch.dict(os.environ, {'SWEEP_PAUSE_FILE':'/unused'}), \
                 patch('scripts.sweep.Path.exists',return_value=True), \
