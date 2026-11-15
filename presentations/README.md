@@ -2,6 +2,8 @@
 
 [Open the presentation](cheap-drive-alpha-to-gamma.html)
 
+[Download the 10-slide PDF](Cheap-Drive-from-Alpha-to-Epsilon.pdf)
+
 Source: [Spread: how you win](https://spread.bahnexpress.com/judging), checked live on 14 November 2026. Definitions checked against the [official rules](https://spread.bahnexpress.com/kit/RULES.md). Recheck the live page before submission: the guidance can change.
 
 Company branding: the [official Spread homepage](https://spread.bahnexpress.com/) says “A Bahn challenge at Junction 2026” and “What Bahn does”. Use **Bahn** on the title slide; the `bahnexpress.com` domain is not the displayed company name. The embedded monochrome logo mark comes from the [official challenge site’s SVG icon](https://spread.bahnexpress.com/icon-2nt2tvdj.svg), with its background removed and colour matched to the title text. Checked 14 November 2026.
@@ -46,12 +48,12 @@ Start with the answer, keep one claim and its evidence on a slide, and give each
 
 ## Remaining presentation work
 
-The current ten-slide deck has terminology and speaker-note updates, not a full redesign to satisfy every judging suggestion. Its reader notes open with the released Delta result. The visible title, iteration and all-run slides retain the current design. Beta and Gamma group their major decisions on a slide. Gamma's four yellow decision headings and compact matched-week results share slide 7. Slides 8 and 9 tell Delta's volume story: about 257 to 342 won orders/week, supported by better dispatch capacity and higher request intake, using the merged release at `cae1e58b8ce3234260328f78dcf2283cd2ebced7` as the source. The all-run chart closes the deck on slide 10.
+The current ten-slide deck has terminology and speaker-note updates, not a full redesign to satisfy every judging suggestion. Its reader notes open with the Delta volume story and the selected Epsilon Prime result, with the latest saved official context clearly separated. The visible title, iteration and all-run slides retain the current design. Beta and Gamma group their major decisions on a slide. Gamma's four yellow decision headings and compact matched-week results share slide 6. Slides 7 and 8 tell Delta's volume story: about 257 to 342 won orders/week, supported by better dispatch capacity and higher request intake, using the merged release at `cae1e58b8ce3234260328f78dcf2283cd2ebced7` as the source. The dedicated goal slide has been removed. Slide 9 introduces Epsilon through intake-brake and higher-volume experiments. The all-run chart closes the deck on slide 10.
 
-- Add the actual **final result** when available; do not substitute practice or test-final results
-- Recheck the **latest verified ranking-round result** before submission. Slide 8 now includes Delta round 9: €75,763.55 across five ranked weeks. Its 21:34:23 UTC standings snapshot was still an open round, so its rank is not final
+- Add the confirmed **deciding-final result** when available. The saved surprise live-final event and its unresolved designation are documented below; practice results are separate
+- Latest saved ranking evidence is **Early Epsilon round 11**: €69,301.34, 5/5 ranked. Its public rank of 28/44 at 03:16:23 UTC was an open-round snapshot. Slide 7 retains Delta round 9 as historical release evidence
 - Record any demonstrated restart, slow-network and live-clock behaviour separately; the Gamma practice test alone establishes none of these
-- The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 1,5B token figure is supplied by the presenter, not audited by simulation logs
+- The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 2,1B+ token figure is supplied by the presenter, not audited by simulation logs
 - Keep Beta's small historical fee/trust tests separate. Do not add their gains or describe them as Gamma effects
 - Keep chart footnotes off the graphs, as requested; their context belongs in these notes
 
@@ -59,17 +61,27 @@ A ranking round sums five secret weeks and every week must meet the delivery min
 
 ## Evidence sources
 
-Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 5's notes below. They are historical comparisons, not new experiments.
+Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 4's notes below. They are historical comparisons, not new experiments.
 
 Delta prioritises more work over further polishing margin per order. Its main visible result is **257 → 342 won orders/week** on 19 paired weeks; the €1,664/week margin gain is supporting evidence. The saved Test Final 2 snapshot shows pre-capacity Delta at **€50.07 gross margin per won order**, higher than every top-ten team, while winning only 256 orders versus the leader's 469. It ranked seventh of all 75 ranked teams on that ratio, so the deck does not claim the highest unit margin across the whole board. This is euros per order, not margin percentage. [Saved public snapshot](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-test-final-2-public.json).
 
 The released Delta evidence is in [Delta results](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md), [round 9](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md) and [the released settings](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json), pinned to the merged source. The supporting €1,664/week gain compares Delta with **Early Delta**, not Gamma; its 19 weeks combine eleven screening weeks and eight fresh weeks. The fresh-eight-week gain alone is €1,389.22/week. All 19 ranked, but mean on-time share fell from 96.9% to 95.7%. The official €75,763.55 round total is separate from those practice comparisons.
 
+[Epsilon research log](https://github.com/KotvicCodes/Cheap-Drive/blob/c547d4124224b5c02b6588bc61e3bee2ec0635b6/docs/research/epsilon-tuning.md) supplies the experiments and later 38-week Prime comparison used in slide 9's reader notes. The visible slide presents experimentation, not a claim that every tested brake or volume setting was selected. The frozen all-run inventory and the earlier paired research tally have different cutoffs. Prime's selected trigger is trailing realized service below 95% over 24 hours after at least 20 resolved orders; the pickup-risk brakes were separate experiments.
+
 The private prototype-story journal is not included in this presentation bundle.
+
+## Latest saved official results
+
+Latest saved official context: Early Epsilon, not Prime, completed round 11 with €69,301.34 gross margin, 1,664 won orders and 95.8534% aggregate on-time service; all five weeks ranked. The 03:16:23 UTC public snapshot was 28th of 44 ranked teams while the round was open. Delta's closed round 10 was 38th of 58 ranked teams with €72,322.03, 96.27% on time and five of five ranked. Different rounds use different secret weeks; these totals are not a paired model comparison. The Delta round-9 figure on slide 7 is retained as historical evidence of that release, not presented as the newest team result.
+
+The saved surprise live-final event produced €2,374.14 gross margin, 89 won orders and 83/89 on time (93.2584%), ranked. The post-mortem attributes its main loss to joining late; the public final snapshot placed us 38th of 41 ranked teams. Organiser confirmation of whether that event was the deciding final or another test was still pending in the saved evidence. Do not present it as the confirmed deciding final or as an Epsilon Prime result. A later deciding final must be recorded separately when confirmed.
+
+Sources: [Early Epsilon round 11](https://github.com/KotvicCodes/Cheap-Drive/blob/0b537090727d6e520588ac0f8c7cc414c0e86084/docs/research/epsilon-board-round11.md), [selected Prime manifest and recovery checks](https://github.com/KotvicCodes/Cheap-Drive/blob/0b537090727d6e520588ac0f8c7cc414c0e86084/docs/research/epsilon-prime.md), [surprise live-final post-mortem](https://github.com/KotvicCodes/Cheap-Drive/blob/0b537090727d6e520588ac0f8c7cc414c0e86084/docs/research/surprise-final-postmortem.md). The 38-week Prime comparison uses the later pooled research log linked above, rather than the older 13-week selection summary.
 
 ## Current run-count snapshot
 
-**1,685 completed practice runs**, updated 2026-11-14 22:53 UTC (193 more than the previous 1,492-run chart). Counts are deduplicated by server world ID, with final-score evidence. Three completed timed practice rehearsals count as practice worlds, with restarts deduplicated. Official ranking runs (20 saved worlds), the live test final (1 saved world), demos and 139 identified worlds without final-score evidence are excluded. Practice covers **87 seed-and-level scenarios**, so repeated trials are correlated. All 193 new counted worlds have terminal trace evidence, and the audit found no score conflicts. No simulation was launched for this refresh.
+**2,627 completed practice runs**, frozen at 2026-11-15 06:07 UTC (76 more than the previous 2,551-run chart). Counts are deduplicated by server world ID with final-score evidence. Five completed timed practice rehearsals count as practice worlds, with restarts deduplicated. Official ranking runs (30 saved worlds), final/test-final runs (2 saved worlds), demos and 191 identified worlds without final-score evidence are excluded. Practice covers **171 seed-and-level scenarios**, so repeated trials are correlated. Worktree folders and all host-mounted Alpha, Epsilon and models archives were checked. All 76 additions are Epsilon worlds with terminal trace evidence, including 68 qualified and 8 disqualified; no newly added world relied solely on an archive or summary. Previously audited archived worlds remain included. All 2,551 previous records and scores were preserved unchanged. The audit found no score conflicts. No simulation was launched. Later runs do not update this fixed presentation snapshot automatically.
 
 | Model stage | Completed practice runs |
 | --- | ---: |
@@ -77,16 +89,17 @@ The private prototype-story journal is not included in this presentation bundle.
 | Alpha | 677 |
 | Beta | 268 |
 | Gamma | 242 |
-| Delta | 496 |
-| **Total** | **1,685** |
+| Delta | 528 |
+| Epsilon | 910 |
+| **Total** | **2,627** |
 
-Early and late versions are combined into Beta and Gamma. Gamma controls run during Delta development remain in Gamma; Delta experiments are combined into one category. Original stage membership is retained in run-data.json for comparison. Category averages include unranked weeks and are descriptive, not same-week component effects. The historical Beta and Gamma comparisons retain their original weeks.
+Early and late versions are combined within each model family, including Epsilon. Gamma controls run during Delta development remain in Gamma; Delta controls tested during Epsilon development remain in Delta. Epsilon experiments are combined into one category, including rejected candidates. Original stage membership is retained in run-data.json for comparison. Category averages include unranked weeks and are descriptive, not same-week component effects. The historical Beta and Gamma comparisons retain their original weeks.
 
 - [All-run graph: PNG](all-run-margins.png) and [PDF](all-run-margins.pdf)
 - [Frozen scores and group membership](run-data.json)
 - [Replot script](plot-runs.py): run `python3 presentations/plot-runs.py` with Matplotlib installed to regenerate the standalone chart files
 
-The HTML embeds the same PNG for offline use. Regenerating standalone files does not replace the HTML image automatically. The local detailed audit is under git-ignored `runs/presentation-refresh-20261114T225305Z/`. The token total shown on slide 3 is **1,5B**, as supplied by the presenter.
+The HTML embeds the same PNG for offline use. Regenerating standalone files does not replace the HTML image automatically. The local detailed audit is under git-ignored `runs/presentation-refresh-20261115T060731Z/`. The token total shown on slide 2 is **2,1B+**, as supplied by the presenter.
 
 ## Reader notes
 
@@ -94,31 +107,27 @@ These match the notes embedded in the HTML.
 
 ### Slide 1: Cheap-Drive
 
-Cheap-Drive quotes dealer requests and posts gigs with fees for freelance drivers. Delta is the shift to volume: about 257 to 342 won orders per week on the same 19 practice weeks versus Early Delta, with all 19 ranked. Our pre-Delta margin per won order already exceeded every top-ten team in the saved Test Final 2 snapshot; the opportunity was to win and handle more work. The complete combination also added €1,663.82 gross margin per week, including a positive result on eight fresh weeks tested after selection. The official round-9 total is €75,763.55 with five of five weeks ranked. Delta pairs dispatch capacity repairs with a higher request-win target; its mean on-time share is lower than Early Delta's, so qualification headroom remains a risk. Earlier slides explain fee timing, dealer trust, reading notes and combining cars. The final result is still to be added; practice results are not the final.
+Cheap-Drive quotes dealer requests and posts gigs with fees for freelance drivers. Delta is the shift to volume: about 257 to 342 won orders per week on the same 19 practice weeks versus Early Delta, with all 19 ranked. Our pre-Delta margin per won order already exceeded every top-ten team in the saved Test Final 2 snapshot; the opportunity was to win and handle more work. The complete combination also added €1,663.82 gross margin per week, including a positive result on eight fresh weeks tested after selection. The official round-9 total is €75,763.55 with five of five weeks ranked. Delta pairs dispatch capacity repairs with a higher request-win target; its mean on-time share is lower than Early Delta's, so qualification headroom remains a risk. Earlier slides explain fee timing, dealer trust, reading notes and combining cars. The selected Epsilon Prime continues the volume experiments with a realized-service brake. On 38 paired practice weeks versus Early Epsilon it adds 26.87 won orders and €456.04 gross margin per week, with all 38 above 90% on time, but the worst is only 90.092879%. These are practice results, not the deciding final. See slide 9 for the selected combination and limits.
 
 Use the challenge's words throughout: a dealer sends a request; when our quote wins, we have an order; we post its car in a gig, choose the fee and aim to deliver by the deadline. A gig is work for a driver, not the request or the order itself. All money shown is simulated euros.
 
 Source: https://spread.bahnexpress.com/judging; ../docs/research/gamma-recovery-results.md.
 
-### Slide 2: The goal
+Latest saved official context: Early Epsilon, not Prime, completed round 11 with €69,301.34 gross margin, 1,664 won orders and 95.8534% aggregate on-time service; all five weeks ranked. The 03:16:23 UTC public snapshot was 28th of 44 ranked teams while the round was open. Delta's closed round 10 was 38th of 58 ranked teams with €72,322.03, 96.27% on time and five of five ranked. Different rounds use different secret weeks; these totals are not a paired model comparison. The Delta round-9 figure on slide 7 is retained as historical evidence of that release, not presented as the newest team result.
 
-The goal: maximise gross margin while meeting the delivery minimum. Gross margin is dealer revenue minus driver fees, refunds, penalties and other account charges. It is euros, not a weighted score or a percentage bonus.
+The saved surprise live-final event produced €2,374.14 gross margin, 89 won orders and 83/89 on time (93.2584%), ranked. The post-mortem attributes its main loss to joining late; the public final snapshot placed us 38th of 41 ranked teams. Organiser confirmation of whether that event was the deciding final or another test was still pending in the saved evidence. Do not present it as the confirmed deciding final or as an Epsilon Prime result. A later deciding final must be recorded separately when confirmed.
 
-A week is ranked only if we win at least one order and at least 90% of won, noncancelled orders arrive on time. An undelivered order counts as late; a multi-car order is on time only when every leg arrives by its deadline. More gross margin cannot compensate for missing the delivery minimum.
+### Slide 2: Prototype. Test. Loop. Repeat.
 
-A ranking round sums gross margin over five secret weeks, and every week must meet the delivery minimum. The final is one secret level-8 week; ranking rounds do not carry over. The ten ranked teams with the highest final gross margin reach the jury. After that, gross margin no longer counts: the jury assesses Elegant, Clear, Creative and Robust.
+Why we tested: one profitable practice week can hide a delivery failure on another week. We compared changes on the same weeks, then reserved new weeks to test chosen models without changing their settings.
 
-Sources: https://spread.bahnexpress.com/judging; https://spread.bahnexpress.com/kit/RULES.md.
+The frozen final presentation inventory is 2,627 completed practice runs at the 2026-11-15 06:07 UTC saved-file snapshot, 76 more than the previous 2,551-run snapshot. It includes 5 completed timed practice rehearsals; restarting a world does not add another run. We deduplicate by world ID and require a completed result or terminal trace score. The 30 saved official ranking worlds, 2 saved final/test-final worlds, synthetic demos and 191 identified worlds without final-score evidence are excluded from this practice total.
 
-### Slide 3: Prototype. Test. Loop. Repeat.
+The audit includes worktree run folders and the host-mounted Alpha, Epsilon and models archives at /Users/kotvic/Desktop/GitHub/Cheap-Drive/runs/archives. Resolved file paths and world IDs prevent symlinks from counting as extra runs. All 76 added worlds are Epsilon experiments and controls within that family, with terminal trace evidence; 0 of these additions have host-archive evidence. Previously audited archived worlds remain in the inventory. All previous 2,551 records and scores were preserved unchanged. The audit found no score conflicts. No simulation was launched for the refresh.
 
-Why we tested: one profitable practice week can hide a delivery failure on another week. We compared changes on the same weeks, then reserved new weeks to test the chosen Gamma and Delta without changing their settings.
+Those 2,627 runs cover 171 seed-and-level scenarios with repeated configurations; they are not 2,627 independent unseen weeks. Counts show development effort, not the effect of an idea. The five models are Alpha, Beta, Gamma, Delta and Epsilon. The chart includes Epsilon experiments as one combined category. We report 2,1B+ tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality. This is a fixed presentation snapshot; subsequent runs do not change it automatically.
 
-The updated count is 1,685 completed practice runs at the 2026-11-14 22:53 UTC saved-file snapshot, 193 more than the previous 1,492-run snapshot. It includes three completed timed practice rehearsals; restarting a world does not add another run. We deduplicate by world ID and require a completed result or terminal trace score. The 20 saved official ranking worlds, one test-final world, synthetic demos and 139 identified worlds without final-score evidence are excluded from this practice total. All 193 newly counted worlds have terminal trace evidence; no simulation was launched for the refresh.
-
-Those 1,685 runs cover 87 seed-and-level scenarios with repeated configurations; they are not 1,685 independent unseen weeks. Counts show development effort, not the effect of an idea. The five models are Alpha, Beta, Gamma, Delta and Epsilon. Epsilon is being brought into the presentation; the dated run chart still covers the four earlier model families until its runs are audited. We report 1,5B tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality.
-
-### Slide 4: Alpha: formula tuned by gradient descent
+### Slide 3: Alpha: formula tuned by gradient descent
 
 The idea: Alpha quotes each dealer request from estimated route cost, pickup cost, nearby driver supply and a dealer-specific margin. Simplified decision: quote = estimated cost + margin + scarcity allowance. Delivery and the gig fee schedule initially follow the starter.
 
@@ -128,7 +137,7 @@ The effect shown here is a descriptive gross-margin range of roughly €0–9k p
 
 Sources: ../docs/research/alpha-results.md; ../PROTOTYPES.md; ../alpha.py.
 
-### Slide 5: Beta: two decisions that paid off
+### Slide 4: Beta: two decisions that paid off
 
 The idea: time the gig's fee increases to the time available for pickup, instead of a fixed five-hour ramp. The fee is what we pay the driver; it is different from the quote we send the dealer. The typical fee is the request's benchmark for usual driver pay, not a guaranteed minimum or a price paid by the dealer.
 
@@ -146,7 +155,7 @@ These are two small historical development comparisons, with different settings 
 
 Sources: saved presentation handoff, EVIDENCE.md sections 3–4 (Beta s2 B versus B-ramp; Beta s4 notrust versus base); ../docs/research/beta-results.md; ../beta.py; https://spread.bahnexpress.com/kit/RULES.md.
 
-### Slide 6: Gamma: a try and a fail
+### Slide 5: Gamma: a try and a fail
 
 The idea: quote selected 500–700 km dealer requests that Beta's 500 km limit rejected, but require at least 24 hours until the last feasible pickup and fewer than three long orders waiting for a driver. Long single-car gigs open at the typical fee; only next-day and within-three-days options are admitted.
 
@@ -158,7 +167,7 @@ What did not work: both brake follow-ups also failed that difficult week. We kep
 
 Source: ../docs/research/gamma-results.md.
 
-### Slide 7: Gamma: what we changed
+### Slide 6: Gamma: what we changed
 
 The idea: turn dealer notes into constraints before quoting a request and posting its gig. Readiness dates anchor to request arrival; pickup hours, delivery hours and tighter promises affect gig stop windows, the last feasible pickup and the fee schedule. Plates, charging and manual-licence requirements remain enforced. “Ready tomorrow at 11:30” is an illustrative supported note, not a new measured example.
 
@@ -190,7 +199,7 @@ Sources: ../docs/research/gamma-recovery-results.md; ../docs/research/delta-hand
 
 The compact table displays worst-week on-time share, not the mean weekly share: Beta 93.67%, Gamma 96.95%. Gross margins are rounded to whole euros for the slide: €10,048 and €12,079 per week. The gain of 20.21% uses the unrounded values. Both policies ranked in all eight weeks. The four visible yellow headings retain the decisions; their implementation details remain in these notes.
 
-### Slide 8: Delta: volume first
+### Slide 7: Delta: volume first
 
 Why volume became the priority: before the capacity-focused Delta, Early Delta's Test Final 2 result was €12,816.67 gross margin on 256 won orders, or €50.07 gross margin per won order. That exceeded every top-ten team's ratio in the saved public snapshot from 14 November 2026 at 18:40:38.493 UTC. The leader won 469 orders and tenth place won 393, while we won 256. This supports the story that strong unit economics were not enough at our lower volume. Our ratio was seventh among all 75 ranked teams in that snapshot, so do not claim the highest margin per order across the whole leaderboard. Gross margin per order is euros per won order, not the gross-margin percentage or the total score. This older test-final comparison motivates the change; the paired practice weeks measure its effect.
 
@@ -200,13 +209,13 @@ The eleven screening weeks, delta-f1-s01..s11, gained €1,863.53/week with 10 p
 
 Separate official evidence: Delta's five level-8 ranking-round-9 weeks total €75,763.55 gross margin, 1,798 won orders and 96.72% on time, with all five ranked. The lowest week was 93.58%. The slide rounds the official total to €75,764. Public snapshot: 14 November 2026, 21:34:23 UTC, rank 31 of 52 ranked teams while the round was still open. The ranking runs used the settings now named Delta, from code 589daf7ad8b17d6c2402bb45f7cab7856cd777b9. The public feed verifies results, while the model provenance comes from the ranking-run handoff. This is a ranking round, not the actual final; it must not be compared causally with Gamma's round 7 or Early Delta's round 8 because the secret weeks differ. Do not present the open-round rank as a final standing.
 
-The actual final result still needs to be added when available. The older Test Final 2 result was produced before this capacity model and must not be presented as its measured effect. The all-run graph remains the explicitly frozen 22:53 UTC development snapshot; it includes candidate experiments, not only the released Delta.
+The confirmed deciding-final result still needs to be added when available; the separately documented surprise live-final event is described in slide 1's notes. The older Test Final 2 result was produced before this capacity model and must not be presented as its measured effect. The all-run graph remains the explicitly frozen 2026-11-15 06:07 UTC development snapshot; it includes candidate experiments, not only the released Delta.
 
 Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json.
 
 Unit-economics snapshot: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-test-final-2-public.json.
 
-### Slide 9: Delta: make room for more
+### Slide 8: Delta: make room for more
 
 The idea: move from high margin on each order to winning and handling more orders. Strong margin per order was already a strength; the next step was to use capacity freed by dispatch repairs to win more dealer requests. The released Delta retains Early Delta's bounded note corrections and rescue-window handling, then enables wider gig windows, private-delivery rescue, extended pairing and a 42% request-win target instead of 30%. It uses the same dealer, request, gig, fee, typical fee and deadline concepts as earlier slides.
 
@@ -228,10 +237,34 @@ Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f7
 
 Unit-economics snapshot: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-test-final-2-public.json.
 
-### Slide 10: 1,685 practice runs
+Slide layout: the short headings Wider gig windows, Rescue overdues and Wider pairing sit above the main statement, Win more requests. Rescue overdues abbreviates the private-delivery rescue described above; it does not extend private pickup appointments. The margin-per-order explanation and win-target label are spoken rather than printed. The 30% → 42% callout is the configured request-win target, not measured delivery share or a claim that exactly 42% of all incoming requests were won. The paired results on slide 7 measure the complete combination, not independent effects for each change.
 
-This chart shows gross margin in euros for all 1,685 completed practice runs in the 2026-11-14 22:53 UTC snapshot. Each dot is one server world, deduplicated across traces and summaries. Blue dots marked qualified meet the week's ranking conditions; red crosses marked disqualified do not. The pitch-black plus in each category is its arithmetic mean gross margin, including unranked runs.
+### Slide 9: Epsilon: keep experimenting
 
-Categories: Baseline 2, Alpha 677, Beta 268, Gamma 242, Delta 496. Early and late versions are combined within each model family. These total 1,685 runs across 87 seed-and-level scenarios. Unchanged Gamma controls tested during Delta development belong to Gamma. Delta experiments are combined into one category. Three completed timed practice rehearsals are included; official ranking worlds and the live test final are separate. Repeated seeds and changing settings make observations correlated. Horizontal jitter separates marks visually; it is not elapsed time. Comparing category averages does not measure an idea's effect on the same weeks.
+The idea: continue experimenting after Delta. Test when to brake new intake and how to win more dealer requests without losing the delivery minimum. Here brakes means restricting new intake when service is at risk, not pausing deliveries or abandoning won orders. The selected Prime uses trailing 24-hour realized on-time service: after at least 20 resolved orders, a drop below 95% latches conservative intake for the rest of the week, preserving its pairing and existing gigs. The pickup-risk brakes discussed below were separate experiments, not the selected trigger. The slide describes our research process; it does not imply that every experiment became part of the selected model.
 
-The 193 added worlds all belong to Delta experiments, taking Delta from 303 to 496 runs; they include rejected alternatives as well as selected models. The all-run chart is a development inventory, not a test of the released configuration alone. Delta's historical paired practice and ranking-round results retain their own frozen evidence on slide 8.
+Why: Delta's higher quantity left less delivery headroom. Its worst paired practice week was about 91.1% on time. The question became how far to push intake and when to slow it. A dealer request becomes an order only after we win it; driver work is posted as a gig with a fee schedule, a typical-fee reference and a delivery deadline. Braking changes new quoting/intake decisions while existing delivery obligations remain.
+
+Test the brakes: compare risk estimates and remaining pickup opportunities. The pickup-opportunity brake counts orders still needing a driver and checks their latest feasible start against readiness, dealer hours, charging and plate collection. In one 19-week development comparison against current Delta, the stronger six-hour, 2/4-order brake with 30%/24% target caps raised the worst on-time share to 92.806% but gave up 25.6 wins and €328.42 gross margin per week. An earlier projected-risk brake returned −€44.09/week over 19 pairs, with a 91.718% floor. These are measured tradeoffs on exposed development weeks, not independent fresh confirmation or proof that every brake helps.
+
+Push the volume: test 46%/50% request-win targets with protection, more selective admission, pricing, fees and pairing variants. Several higher-volume or rescue alternatives lost money or failed service checks. A profitable single week or a larger order count alone did not establish a winner. We compared alternatives against frozen Delta or Early Epsilon on the same weeks, kept failures visible, and reserved new weeks for the chosen combination. Early Epsilon adds a longer premium-car pickup buffer to Delta; it is a different comparator from Early Delta used on slide 7.
+
+The effect of the later selected combination: the Epsilon Prime tally in the research log, generated 15 November 2026 at 05:30:58 UTC, reports 38 paired practice weeks versus Early Epsilon: 369.50 versus 342.63 won orders/week, +26.87 orders/week and +€456.04 gross margin/week, with positive margin differences in 28 of 38 weeks. The thirteen untouched eps-px weeks are a subset of those 38, not additional weeks: +31.46 orders/week and +€364.65/week, positive in 11 of 13. These outcomes belong to the full selected combination and must not be attributed to every brake or intake change shown in the research history.
+
+What did not work and limits: stronger protection could sacrifice both volume and margin; higher intake could exhaust the service cushion. Prime's weakest measured week was 90.092879%, only 0.092879 percentage points above 90%. Earlier screens used a 91.5% research floor; the later selection used a strict greater-than-90% rule. The game's legal delivery minimum remains at least 90%, with at least one won order. The chosen model did not retain the earlier 91.5% cushion in every week. All 38 measured Prime weeks were above 90%; this does not guarantee the actual final or establish universal restart/latency robustness.
+
+Keep what survives new weeks: explain the hypotheses, the discarded variants and the volume/service tradeoff. The visible slide deliberately has no unqualified euro forecast or claim that quantity is always better. The final all-run chart is the frozen 2026-11-15 06:07 UTC inventory of 2,627 completed practice worlds, including 910 Epsilon candidates and controls. The earlier 05:30 research tally has its own cutoff and paired cohort. Additional parameter variants in the inventory do not change the pinned 38-week Prime result. Practice runs, ranking rounds and the actual final remain separate.
+
+Source: https://github.com/KotvicCodes/Cheap-Drive/blob/c547d4124224b5c02b6588bc61e3bee2ec0635b6/docs/research/epsilon-tuning.md. The source file matches committed revision c547d4124224b5c02b6588bc61e3bee2ec0635b6. This slide uses brakes, not breaks, for the intake controls.
+
+### Slide 10: 2,627 practice runs
+
+This chart shows gross margin in euros for all 2,627 completed practice runs in the 2026-11-15 06:07 UTC snapshot. Each dot is one server world, deduplicated across traces and summaries. Blue dots marked qualified meet the week's ranking conditions; red crosses marked disqualified do not. The pitch-black plus in each category is its arithmetic mean gross margin, including unranked runs.
+
+Categories: Baseline 2, Alpha 677, Beta 268, Gamma 242, Delta 528, Epsilon 910. These total 2,627 runs across 171 seed-and-level scenarios. Early and late versions remain combined within each model family. Epsilon's 910 runs include experimental variants, controls and rejected candidates; they are not 910 repeats of the selected Prime model alone. Delta controls tested during Epsilon development remain in Delta, and unchanged Gamma controls remain in Gamma. The six categories include the baseline and five model families.
+
+The 76 additions since the 2,551-run snapshot are all Epsilon worlds, all with terminal trace evidence: 68 qualified and 8 disqualified. Host-mounted archives were rescanned and deduplicated against worktree aliases by resolved path and world ID. Previously audited archived worlds were retained. Five completed timed practice rehearsals are included; the 30 saved official ranking worlds and 2 saved final/test-final worlds are separate. The 191 worlds without final-score evidence are excluded. The audit found no score conflicts.
+
+Repeated seeds and changing settings make observations correlated. Horizontal jitter separates marks visually; it is not elapsed time. Category averages describe experiments on different mixes of weeks and do not measure a model's improvement on the same weeks. The selected Prime's 38-week paired comparison is separate and is explained on slide 9.
+
+The chart is a development inventory. Delta's historical paired practice and ranking-round results retain their own frozen evidence on slide 7; refreshing this inventory does not change those comparisons. No simulator runs were launched. This final presentation snapshot does not automatically include later runs.
