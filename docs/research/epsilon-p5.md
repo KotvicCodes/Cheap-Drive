@@ -234,3 +234,22 @@ the specified 19-seed cohort. The target fresh cohort remains unseen.
 Tests: 463 passing, including cutoff expiration during both pause and team
 capacity waits. A lane-local 05:48 cleanup guard ends any remaining own practice
 worlds before the 05:50 hard deadline without touching any other runner.
+
+
+### Verified zero-code admission fallbacks
+
+The orchestrator supplied `gem-vol-6-mechanics.md` at 02:40 UTC. Its levers 4A
+and 5A use real GammaSettings keys: `trade_ins`, `min_slack_minutes`,
+`same_day_min_slack_minutes`, `long_open_cap`, and `long_max_km`. All four plans
+instantiate successfully on the synthetic map with the Early Epsilon base.
+
+Prepared if selective pricing fails: bare `trade_ins=1`; slack300/cap6/max850
+with same-day slack480 and target4200; the same with Gemini's full target4800;
+and a conservative slack360/cap4/max700 arm with target4200. The exact Gemini
+bundle and admission-only variants are separate so global target changes do not
+get attributed to admission. Bare trade-ins retain strict return-leg windows:
+this screen makes no claim to implement lever4B's same-visit repair, and the
+prior guarded-trade screen failed service. None of these mechanisms has an
+established gain. Four unused admission holdout seeds were reserved at 02:42
+UTC before any admission-screen outcomes. All existing slot, pause, cutoff,
+full-cohort and fresh confirmation requirements remain unchanged.
