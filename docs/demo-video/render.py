@@ -1017,7 +1017,7 @@ def epsilon_slide(t):
     eps_col = '#7C4DFF'
     enter_model_hdr(im, 'Epsilon:', ' keep experimenting', 80, 88, 78, t, .05, model_color=eps_col, rest_color=INK, weight=700)
 
-    # Left column: Two clean, bold pillar cards matching Presentation Slide 9
+    # Left column: Card 1 ("Test the brakes") and Card 2 ("Push the volume" with the volume numbers)
     rect(im, (80, 236, 760, 584), CARD, None, r=18)
     rect(im, (80, 236, 760, 252), eps_col, None, r=18)
     rect(im, (80, 244, 760, 252), eps_col, None, r=0)
@@ -1029,18 +1029,15 @@ def epsilon_slide(t):
     rect(im, (80, 618, 760, 634), eps_col, None, r=18)
     rect(im, (80, 626, 760, 634), eps_col, None, r=0)
     rect(im, (80, 618, 760, 966), None, GOLD_LINE, r=18, width=2)
-    txt(im, 'Push the', 120, 708, 76, INK, 700)
-    txt(im, 'volume', 120, 800, 76, eps_col, 700)
+    txt(im, 'Push the volume', 116, 662, 40, INK, 700)
+    txt(im, '342 → 370', 116, 742, 82, eps_col, 700)
+    txt(im, 'orders won / week (+27/wk)', 116, 858, 29, MUTED_INK, 650)
 
     # Right column: Clean comparison of Epsilon vs Delta (no extra text clutter)
     rect(im, (800, 236, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
     p_cnt = ease((t - 0.2) / 0.9)
-    txt(im, f'+€{456.04 * p_cnt:,.0f}', 864, 304, 156, eps_col, 700)
-    txt(im, 'gross margin / week vs Delta', 870, 492, 36, INK, 700)
-
-    line(im, [(864, 608), (1776, 608)], GOLD_LINE, 2)
-    txt(im, '342 → 370', 864, 658, 108, eps_col, 700)
-    txt(im, 'orders won / week vs Delta', 870, 796, 34, INK, 700)
+    txt(im, f'+€{456.04 * p_cnt:,.0f}', 1320, 520, 196, eps_col, 700, anchor='mm')
+    txt(im, 'gross margin / week vs Delta', 1320, 690, 40, INK, 700, anchor='mm')
 
     return im
 
