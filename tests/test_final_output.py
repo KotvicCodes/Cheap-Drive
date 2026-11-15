@@ -1,5 +1,6 @@
 """Isolated rehearsal output must keep both manifest and checkpoint on restart."""
 from contextlib import redirect_stdout
+from datetime import datetime, timezone
 import io
 import os
 from pathlib import Path
@@ -29,14 +30,19 @@ class FinalOutputTests(unittest.TestCase):
                     patch.object(final, 'Pacer', return_value=Mock(error=None)), \
                     patch.object(final, 'play_until_done', return_value=(score, {})), \
                     patch.object(final, 'report'), \
+                    patch.object(final, 'datetime') as dates, \
                     patch('recovery.CheckpointStore') as checkpoints, \
                     redirect_stdout(io.StringIO()):
+                # Two starts in the same second need separate gzip files: a
+                # killed member cannot safely be extended by a new process.
+                dates.now.side_effect = [datetime(2026, 11, 15, 5, 0, 0, microsecond=n,
+                                                 tzinfo=timezone.utc) for n in (1, 2)]
                 self.assertEqual(final.main(args), 0)
                 self.assertEqual(final.main(args), 0)
             client.create.assert_called_once_with(level=8, seed='offline-seed')
             client.world.assert_any_call(world.id)
             self.assertEqual(len(list(out.glob('rehearsal-*.json'))), 1)
-            self.assertTrue(list(out.glob('*.jsonl.gz')))
+            self.assertEqual(len(list(out.glob('*.jsonl.gz'))), 2)
             self.assertEqual([call.args[0] for call in checkpoints.call_args_list],
                              [out / 'offline-rehearsal-checkpoint.json'] * 2)
             self.assertFalse((root / 'runs' / 'final').exists())
