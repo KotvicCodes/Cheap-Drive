@@ -990,3 +990,38 @@ Stage1strong-signal targets remain+€500/week,~380wins and floor>=91.5%;
 only the strongest1–2 policies should earn final adoption after additional
 paired/fresh confidence. Do not promote tilt based on its positive mean
 while ignoring90.144%floor. No new practice starts after05:30.
+
+## Current-code verification and user-selected Epsilon Medium, 04:00 UTC
+
+Current-code Early Epsilon reruns reproduce the archived scores exactly on
+f1-s01, s02, s05, s07 and f2-s04; remaining controls are in progress. Completed
+tilt4600 trace headers match the full stack settings, with quote/decline counts
+867/163 (s07), 879/153 (s01), 901/132 (f2-s04), accounting for every request.
+
+The user explicitly selects **Epsilon Medium** as champion and requests its
+named manifest despite the measured floor below the earlier91.5% selection
+rule. The reported eight-week tally below is the orchestrator's aggregation;
+current-code paired verification continues and will be separately reported.
+The full settings are frozen in `models/epsilon-medium.json`: Early Epsilon
+plus the complete young re-pairing/guarded intake stack and the300km quote
+tilt at target4400. It is not merely a target/price-only variant.
+
+| Change | Paired weeks | Mean margin difference/week vs Early | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Full volume-stack-tilt-win4400, named Epsilon Medium | 8 | +€323 (orchestrator tally) | 6/8 | 91.0% | User-selected champion; explicit floor exception |
+| Full tilt4600 | 5 | +€775 (orchestrator tally) | 4/5 | 90.144% | Information only, capped at1worker; no final adoption |
+| safe9800-backlog10 | 3 | +€649.72 vs archived Early | 2/3 | 91.379% | Continue current-code verification; below91.5% adoption floor |
+
+Imported only P5's default-off guarded safe-quote mixin and six unit tests.
+It discounts eligible50–300km, nonprivate/nonpremium single-leg quotes by2%
+only with sufficient slack/backlog headroom and a final110% reference fee
+floor. Delta and Early Epsilon retain identical default behavior. The sweep
+now supports disjoint peer seed assignments, bounded per-arm concurrency,
+and per-completed-week sequential elimination without draining the entire
+queue. Default sweep settings retain the existing Cartesian jobs/resume.
+
+Next user-directed challengers: Medium with intake backlog10; Medium target4300;
+Medium plus guarded safe quote9800/backlog10. Fresh Medium controls establish
+a direct paired comparison. Continue only at mean gain>=€300 and floor>=91.0%;
+a replacement must beat Medium and preserve or improve its measured floor.
+The target for improving final safety is91.5%. No ranking runs remain.

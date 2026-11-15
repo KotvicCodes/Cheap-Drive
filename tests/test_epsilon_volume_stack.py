@@ -66,3 +66,16 @@ class VolumeStackTests(unittest.TestCase):
                 self.assertEqual(recovered.delta_reference_quote_floor_bps, floor)
                 self.assertEqual(recovered.intake_settings.delta_relaxed_slack_minutes, 300)
                 self.assertFalse(recovered.settings.brake)
+
+    def test_medium_loads_exact_full_champion_and_preserves_early_baseline(self):
+        root = Path(__file__).resolve().parents[1]
+        model = json.loads((root / 'models/epsilon-medium.json').read_text())
+        plan = json.loads((root / 'docs/research/plans/epsilon/volume-long.json').read_text())
+        self.assertEqual(model['name'], 'Epsilon Medium')
+        self.assertEqual(model['factory'], plan['factory'])
+        self.assertEqual(model['settings'], {**plan['base'], **plan['variants']['volume-stack-tilt-win4400']})
+        from models import resolve_factory
+        desk = resolve_factory(model['factory'])(GammaWorld(), 8, 500, Journal(io.StringIO()), **model['settings'])
+        self.assertEqual(desk.win_target(), 4400)
+        self.assertEqual(desk.intake_settings.delta_intake_max_backlog, 12)
+        self.assertEqual(desk.driver_settings.pair_once, 0)
