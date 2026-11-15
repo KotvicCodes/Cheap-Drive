@@ -7,6 +7,23 @@ from scripts.sweep import LaunchWindowClosed, wait_for_launch, wait_for_team_cap
 
 
 class SweepCapacityTests(unittest.TestCase):
+    def test_cutoff_is_rechecked_during_pause_and_capacity_wait(self):
+        with patch.dict(os.environ, {'SWEEP_PAUSE_FILE':'/unused'}), \
+                patch('scripts.sweep.Path.exists',return_value=True), \
+                patch('scripts.sweep.time.sleep') as sleep, \
+                patch('scripts.sweep.check_launch_cutoff',side_effect=[None,LaunchWindowClosed]):
+            with self.assertRaises(LaunchWindowClosed):
+                wait_for_launch()
+        sleep.assert_called_once_with(1)
+        client=Mock()
+        client.worlds.return_value=[{'ended':False}]*12
+        with patch.dict(os.environ, {'SWEEP_TEAM_WORLD_LIMIT':'12'}), \
+                patch('scripts.sweep.wait_for_launch',side_effect=[None,LaunchWindowClosed]), \
+                patch('scripts.sweep.time.sleep'):
+            with self.assertRaises(LaunchWindowClosed):
+                wait_for_team_capacity(client)
+        client.worlds.assert_called_once()
+
     def test_cutoff_expires_while_paused(self):
         with patch.dict(os.environ, {'SWEEP_START_BEFORE_UTC':'2000-01-01T05:30:00+00:00',
                                     'SWEEP_PAUSE_FILE':'/unused'}), \
