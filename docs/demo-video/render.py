@@ -641,6 +641,20 @@ def dispatcher(t):
     return im
 
 
+@lru_cache(maxsize=1)
+def live_demo_tall_main():
+    """Seamless 1182px-wide tall scrollable main column (x=248..1430) with zero cut lines or overlays."""
+    main_w = 1430 - 248
+    top_bar = LIVE_DEMO.crop((248, 0, 1430, 149))
+    body_src = LIVE_DEMO_SCROLL.crop((232, 238, 1430, 1715))
+    body_h = round(body_src.height * (main_w / body_src.width))
+    body_resized = body_src.resize((main_w, body_h), Image.Resampling.LANCZOS)
+    tall = Image.new('RGB', (main_w, 14 + top_bar.height + body_h), '#141413')
+    tall.paste(top_bar, (0, 14))
+    tall.paste(body_resized, (0, 14 + top_bar.height))
+    return tall
+
+
 # ---------------------------------------------------------------------------
 # Slide 4 (20–26s): Sol's observability + new live demo app preview
 # ---------------------------------------------------------------------------
@@ -665,30 +679,22 @@ def observability(t):
 
     rect(im, (80, 336, 1020, 978), INK, r=18)
     bezel_w, bezel_h = 1004 - 96, 962 - 352
-    # Build a 1430x960 browser viewport with fixed sidebar + pinned top switcher + smooth-scrolling main pane
     viewport = Image.new('RGB', (1430, 960), '#141413')
-    # Fixed left sidebar & top run-switcher bar from LIVE_DEMO (shows Delta Late €18,058)
-    top_strip = LIVE_DEMO.crop((0, 0, 1430, 1)).resize((1430, 14), Image.Resampling.NEAREST)
-    viewport.paste(top_strip, (0, 0))
-    viewport.paste(LIVE_DEMO.crop((0, 0, 214, 946)), (0, 14))
-    viewport.paste(LIVE_DEMO.crop((214, 0, 1430, 106)), (214, 14))
+    # Fixed left sidebar (exact 248px width including vertical divider at x=247)
+    side_top = LIVE_DEMO.crop((0, 0, 248, 1)).resize((248, 14), Image.Resampling.NEAREST)
+    viewport.paste(side_top, (0, 0))
+    viewport.paste(LIVE_DEMO.crop((0, 0, 248, 946)), (0, 14))
 
-    # Smoothly scroll the full 1715px report body inside the main content pane (x=214..1430, y=120..960)
-    pane_w, pane_h = 1430 - 214, 960 - 120
-    crop_top = mix(0.0, float(1715 - 168 - pane_h), smooth((t - 0.30) / 4.9))
-    scrolled_pane = LIVE_DEMO_SCROLL.resize(
-        (pane_w, pane_h),
+    # Smoothly scroll the entire right-hand main column (x=248..1430, y=0..960) with no overlays
+    tall_main = live_demo_tall_main()
+    max_scroll = float(tall_main.height - 960)
+    crop_top = mix(0.0, max_scroll, smooth((t - 0.35) / 4.8))
+    scrolled_main = tall_main.resize(
+        (1430 - 248, 960),
         Image.Resampling.BICUBIC,
-        box=(232.0, 168.0 + crop_top, 1430.0, 168.0 + pane_h + crop_top),
+        box=(0.0, crop_top, float(1430 - 248), crop_top + 960.0),
     )
-    viewport.paste(scrolled_pane, (214, 120))
-
-    # Subtle top shadow under the pinned run-switcher header when scrolling
-    shade = Image.new('RGBA', (pane_w, 26))
-    sh_alpha = round(190 * clamp(crop_top / 80.0))
-    for sy_i in range(26):
-        ImageDraw.Draw(shade).line((0, sy_i, pane_w, sy_i), fill=(20, 20, 19, round(sh_alpha * (1 - sy_i / 26))))
-    viewport.paste(shade, (214, 120), shade)
+    viewport.paste(scrolled_main, (248, 0))
 
     app_view = viewport.resize((bezel_w, bezel_h), Image.Resampling.LANCZOS)
     mask = Image.new('L', (bezel_w, bezel_h), 0)
