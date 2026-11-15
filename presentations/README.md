@@ -46,10 +46,10 @@ Start with the answer, keep one claim and its evidence on a slide, and give each
 
 ## Remaining presentation work
 
-The current ten-slide deck has terminology and speaker-note updates, not a full redesign to satisfy every judging suggestion. Its reader notes open with the released Delta result. The visible title, iteration and all-run slides retain the current design. Beta and Gamma group their major decisions on a slide. Gamma's four yellow decision headings and compact matched-week results share slide 8. Slides 9 and 10 now show the released Delta's measured results and its capacity/intake decisions, using the merged release at `cae1e58b8ce3234260328f78dcf2283cd2ebced7` as the source.
+The current ten-slide deck has terminology and speaker-note updates, not a full redesign to satisfy every judging suggestion. Its reader notes open with the released Delta result. The visible title, iteration and all-run slides retain the current design. Beta and Gamma group their major decisions on a slide. Gamma's four yellow decision headings and compact matched-week results share slide 7. Slides 8 and 9 now show the released Delta's measured results and its capacity/intake decisions, using the merged release at `cae1e58b8ce3234260328f78dcf2283cd2ebced7` as the source. The all-run chart closes the deck on slide 10.
 
 - Add the actual **final result** when available; do not substitute practice or test-final results
-- Recheck the **latest verified ranking-round result** before submission. Slide 9 now includes Delta round 9: €75,763.55 across five ranked weeks. Its 21:34:23 UTC standings snapshot was still an open round, so its rank is not final
+- Recheck the **latest verified ranking-round result** before submission. Slide 8 now includes Delta round 9: €75,763.55 across five ranked weeks. Its 21:34:23 UTC standings snapshot was still an open round, so its rank is not final
 - Record any demonstrated restart, slow-network and live-clock behaviour separately; the Gamma practice test alone establishes none of these
 - The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 1B token figure is supplied by the presenter, not audited by simulation logs
 - Keep Beta's small historical fee/trust tests separate. Do not add their gains or describe them as Gamma effects
@@ -59,7 +59,7 @@ A ranking round sums five secret weeks and every week must meet the delivery min
 
 ## Evidence sources
 
-Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 6's notes below. They are historical comparisons, not new experiments.
+Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 5's notes below. They are historical comparisons, not new experiments.
 
 The released Delta evidence is in [Delta results](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md), [round 9](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md) and [the released settings](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json), pinned to the merged source. The €1,664/week headline compares Delta with **Early Delta**, not Gamma; its 19 weeks combine eleven screening weeks and eight fresh weeks. The fresh-eight-week gain alone is €1,389.22/week. All 19 ranked, but mean on-time share fell from 96.9% to 95.7%. The official €75,763.55 round total is separate from those practice comparisons.
 
@@ -126,15 +126,7 @@ The effect shown here is a descriptive gross-margin range of roughly €0–9k p
 
 Sources: ../docs/research/alpha-results.md; ../PROTOTYPES.md; ../alpha.py.
 
-### Slide 5: 1,685 practice runs
-
-This chart shows gross margin in euros for all 1,685 completed practice runs in the 2026-11-14 22:53 UTC snapshot. Each dot is one server world, deduplicated across traces and summaries. Blue dots marked qualified meet the week's ranking conditions; red crosses marked disqualified do not. The pitch-black plus in each category is its arithmetic mean gross margin, including unranked runs.
-
-Categories: Baseline 2, Alpha 677, Beta 268, Gamma 242, Delta 496. Early and late versions are combined within each model family. These total 1,685 runs across 87 seed-and-level scenarios. Unchanged Gamma controls tested during Delta development belong to Gamma. Delta experiments are combined into one category. Three completed timed practice rehearsals are included; official ranking worlds and the live test final are separate. Repeated seeds and changing settings make observations correlated. Horizontal jitter separates marks visually; it is not elapsed time. Comparing category averages does not measure an idea's effect on the same weeks.
-
-The 193 added worlds all belong to Delta experiments, taking Delta from 303 to 496 runs; they include rejected alternatives as well as selected models. The all-run chart is a development inventory, not a test of the released configuration alone. Delta's historical paired practice and ranking-round results retain their own frozen evidence on slide 9.
-
-### Slide 6: Beta: two decisions that paid off
+### Slide 5: Beta: two decisions that paid off
 
 The idea: time the gig's fee increases to the time available for pickup, instead of a fixed five-hour ramp. The fee is what we pay the driver; it is different from the quote we send the dealer. The typical fee is the request's benchmark for usual driver pay, not a guaranteed minimum or a price paid by the dealer.
 
@@ -152,7 +144,7 @@ These are two small historical development comparisons, with different settings 
 
 Sources: saved presentation handoff, EVIDENCE.md sections 3–4 (Beta s2 B versus B-ramp; Beta s4 notrust versus base); ../docs/research/beta-results.md; ../beta.py; https://spread.bahnexpress.com/kit/RULES.md.
 
-### Slide 7: Gamma: a try and a fail
+### Slide 6: Gamma: a try and a fail
 
 The idea: quote selected 500–700 km dealer requests that Beta's 500 km limit rejected, but require at least 24 hours until the last feasible pickup and fewer than three long orders waiting for a driver. Long single-car gigs open at the typical fee; only next-day and within-three-days options are admitted.
 
@@ -164,7 +156,7 @@ What did not work: both brake follow-ups also failed that difficult week. We kep
 
 Source: ../docs/research/gamma-results.md.
 
-### Slide 8: Gamma: what we changed
+### Slide 7: Gamma: what we changed
 
 The idea: turn dealer notes into constraints before quoting a request and posting its gig. Readiness dates anchor to request arrival; pickup hours, delivery hours and tighter promises affect gig stop windows, the last feasible pickup and the fee schedule. Plates, charging and manual-licence requirements remain enforced. “Ready tomorrow at 11:30” is an illustrative supported note, not a new measured example.
 
@@ -196,7 +188,7 @@ Sources: ../docs/research/gamma-recovery-results.md; ../docs/research/delta-hand
 
 The compact table displays worst-week on-time share, not the mean weekly share: Beta 93.67%, Gamma 96.95%. Gross margins are rounded to whole euros for the slide: €10,048 and €12,079 per week. The gain of 20.21% uses the unrounded values. Both policies ranked in all eight weeks. The four visible yellow headings retain the decisions; their implementation details remain in these notes.
 
-### Slide 9: Delta in production
+### Slide 8: Delta in production
 
 The effect: released Delta earned €1,663.82 more gross margin per week than Early Delta on the same 19 level-8 practice weeks. It was ahead in 17 of 19 weeks, and all 19 Delta weeks ranked. This is the capacity combination versus Early Delta, not versus Gamma. Early Delta is the former note-fix and rescue-window model, now saved as models/delta-early.json.
 
@@ -208,7 +200,7 @@ The actual final result still needs to be added when available. The older Test F
 
 Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-board-round9.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json.
 
-### Slide 10: Delta: the next iteration
+### Slide 9: Delta: the next iteration
 
 The idea: use capacity freed by dispatch repairs to win more dealer requests. The released Delta retains Early Delta's bounded note corrections and rescue-window handling, then enables wider gig windows, private-delivery rescue, extended pairing and a 42% request-win target instead of 30%. It uses the same dealer, request, gig, fee, typical fee and deadline concepts as earlier slides.
 
@@ -225,3 +217,11 @@ What did not work: the EV charging-rule change lost €200/week across four week
 Limits: mean on time is lower than Early Delta's, and the weakest practice week has only about 1.1 percentage points of headroom above 90%. Nineteen paired practice weeks and one five-week ranking round do not guarantee qualification in the actual final. Runtime/restart repairs have their own engineering evidence; these economic measurements do not establish universal recovery or latency guarantees. Before submission, add the actual final outcome and recheck the latest verified ranking-round result.
 
 Sources: https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-results.md; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/models/delta.json; https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-capacity-levers.md; https://spread.bahnexpress.com/judging.
+
+### Slide 10: 1,685 practice runs
+
+This chart shows gross margin in euros for all 1,685 completed practice runs in the 2026-11-14 22:53 UTC snapshot. Each dot is one server world, deduplicated across traces and summaries. Blue dots marked qualified meet the week's ranking conditions; red crosses marked disqualified do not. The pitch-black plus in each category is its arithmetic mean gross margin, including unranked runs.
+
+Categories: Baseline 2, Alpha 677, Beta 268, Gamma 242, Delta 496. Early and late versions are combined within each model family. These total 1,685 runs across 87 seed-and-level scenarios. Unchanged Gamma controls tested during Delta development belong to Gamma. Delta experiments are combined into one category. Three completed timed practice rehearsals are included; official ranking worlds and the live test final are separate. Repeated seeds and changing settings make observations correlated. Horizontal jitter separates marks visually; it is not elapsed time. Comparing category averages does not measure an idea's effect on the same weeks.
+
+The 193 added worlds all belong to Delta experiments, taking Delta from 303 to 496 runs; they include rejected alternatives as well as selected models. The all-run chart is a development inventory, not a test of the released configuration alone. Delta's historical paired practice and ranking-round results retain their own frozen evidence on slide 8.
