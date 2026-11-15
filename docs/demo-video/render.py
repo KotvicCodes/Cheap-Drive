@@ -325,7 +325,7 @@ FINLAND_BORDER = [
 
 # All 30 real simulator places in Finland
 FINLAND_PLACES = {
-    'helsinki': (60.1699, 24.9384, 'Helsinki', True),
+    'helsinki': (60.2300, 24.9384, 'Helsinki', True),
     'espoo': (60.2055, 24.6559, 'Espoo', False),
     'vantaa': (60.2934, 25.0378, 'Vantaa', False),
     'porvoo': (60.3932, 25.6650, 'Porvoo', False),
@@ -362,14 +362,13 @@ FINLAND_PLACES = {
 FINLAND_ROADS = [
     ('ivalo', 'rovaniemi'),
     ('rovaniemi', 'oulu'),
-    ('oulu', 'vaasa'),
     ('oulu', 'jyvaskyla'),
     ('oulu', 'kuopio'),
     ('vaasa', 'jyvaskyla'),
     ('vaasa', 'tampere'),
     ('kuopio', 'joensuu'),
     ('kuopio', 'jyvaskyla'),
-    ('joensuu', 'helsinki'),
+    ('joensuu', 'jyvaskyla'),
     ('jyvaskyla', 'tampere'),
     ('jyvaskyla', 'helsinki'),
     ('tampere', 'turku'),
@@ -379,8 +378,9 @@ FINLAND_ROADS = [
 
 FINLAND_TRIPS = [
     (['ivalo', 'rovaniemi'], 0.08, 0.17, ORANGE, True),
-    (['vaasa', 'oulu'], 0.05, 0.17, ORANGE, True),
-    (['kuopio', 'jyvaskyla'], 0.10, 0.16, ORANGE, True),
+    (['oulu', 'jyvaskyla'], 0.05, 0.17, ORANGE, True),
+    (['vaasa', 'tampere'], 0.10, 0.16, ORANGE, True),
+    (['joensuu', 'kuopio'], 0.08, 0.16, ORANGE, True),
     (['tampere', 'helsinki'], 0.06, 0.17, ORANGE, True),
     (['turku', 'helsinki'], 0.12, 0.16, ORANGE, True),
 ]
