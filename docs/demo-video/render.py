@@ -279,10 +279,6 @@ def network(im, t, box=(820, 100, 1840, 980), active=True, bg=CARD, border=GOLD_
             circle(im, gx, gy, 1, '#FFD480')
     for a, b in MAP_EDGES:
         line(im, [pts[a], pts[b]], '#FFC266', 2)
-    for i, (a, b) in enumerate(MAP_EDGES):
-        if i % 2 == 0:
-            px, py = route_point([pts[a], pts[b]], (t * .25 + i * .17) % 1)
-            circle(im, px, py, 4, MANGO)
     for i, p in enumerate(pts):
         is_hub = i in [0, 5, 10, 3, 8]
         circle(im, *p, 7 if is_hub else 5, CARD, ORANGE if is_hub else MANGO, 3 if is_hub else 2)
