@@ -790,3 +790,16 @@ finish; no additional workers are allocated.
 | premium1440-buyservice-opening8500-win5500 | Pending4 | — | — | — | Screen next |
 | premium1440-buyservice-fasturgent-win5500 | Pending4 | — | — | — | Screen next |
 | premium1440-buyservice-opening8500-fasturgent-win5500 | Pending4 | — | — | — | Screen next |
+
+At02:44 the quota dropped to4 workers (offers builder gets2). Paused
+launches, drained the six active weeks, stopped only the old sweep processes,
+and resumed with4 workers. The fee batch includes the milder-brake remainder:
+22 completed scores were copied unchanged with provenance; two missing
+week rows are retried alongside the24 fee-grid worlds. No finished week is
+replayed. Gate/controller and hard-stop guard were rechecked live.
+
+Validation:465 unittest tests passed; pytest465 passed plus1779 subtests.
+The new fee-grid commit was transplanted onto authoritative remote history
+after an unintended local history rewrite. Old local state is preserved
+on the unpushed `backup/rewrite-f4768bd` branch. No force push, no builder
+merge, and no final runner/process/files were touched.
