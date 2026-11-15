@@ -376,3 +376,42 @@ Local 433 tests pass; Python 3.9/3.12/3.14 CI passed at `0c7301e`.
 Decision-API pointers remain `docs/research/gemini-notes.md`,
 `models/gemini_notes.py`, `scripts/benchmark_gemini_notes.py`, now explicitly
 parked as future work. There is no live decision-API integration.
+
+
+## Fee measurement before policy work, 00:44 UTC
+
+Four unchanged Delta runs on the standard screen seeds exactly reproduced the
+retained margin, on-time and won-order scores. Gross negative ledger charges
+above the nominal unaged opening were:
+
+| Quantity | Mean per screen week |
+| --- | ---: |
+| All single-gig charges above nominal opening | €4,066.27 |
+| Singles after an earlier successful post, including pair fallback | €3,412.66 |
+| Narrower expired-then-reposted singles | €1,420.56 |
+
+This deliberately hard screening cohort is not an unbiased nineteen-week
+estimate. Pairs/unmatched charges are excluded and tracked as unmeasured.
+Positive fee refunds are not netted from these gross excess charges. The
+€1,421 expired-repost figure is the closest measured counterpart to the
+manager's earlier €1,240/week observation; the broader €3,413 includes pair
+withdrawal/split fallback. Neither number is a counterfactual saving.
+
+Only after this measurement, started the global fee-cap screen below. Opening
+fees and escalation times stay unchanged; each candidate lowers all ramp
+rungs above opening proportionately. Delta's actual default cap is 15000 bps.
+The study changes driver fees, not quote prices by lane or option. Existing
+fee-setting validation/unit coverage applies; no new model implementation.
+
+| Change against current Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Projected brake + fee cap 14000 | Pending (4) | — | — | — | Screen in flight |
+| Projected brake + fee cap 13000 | Pending (4) | — | — | — | Screen in flight |
+| Pickup-opportunity 360/2 + fee cap 14000 | Pending (4) | — | — | — | Screen in flight |
+| Pickup-opportunity 360/2 + fee cap 13000 | Pending (4) | — | — | — | Screen in flight |
+| Projected brake + pairable quote factor 9800 | 4 | −€553.97 | 1/4 | 89.109% | Rejected: service and margin |
+| Projected brake + pairable quote factor 9500 | 4 | −€259.42 | 2/4 | 90.820% | Rejected: service and margin |
+
+The orchestrator expects a vetted shortlist in scratchpad `top7-vetted.md`
+around 01:35 UTC. Its build-ready hypotheses go ahead of remaining speculative
+queue entries. The 03:00 ranking instruction stays in force.
