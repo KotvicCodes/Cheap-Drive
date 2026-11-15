@@ -380,12 +380,11 @@ FINLAND_ROADS = [
 ]
 
 FINLAND_TRIPS = [
-    (['ivalo', 'rovaniemi'], 0.08, 0.17, ORANGE, True),
-    (['oulu', 'jyvaskyla'], 0.05, 0.17, ORANGE, True),
-    (['vaasa', 'tampere'], 0.10, 0.16, ORANGE, True),
-    (['joensuu', 'kuopio'], 0.08, 0.16, ORANGE, True),
-    (['tampere', 'helsinki'], 0.06, 0.17, ORANGE, True),
-    (['turku', 'helsinki'], 0.12, 0.16, ORANGE, True),
+    (['ivalo', 'rovaniemi', 'oulu', 'jyvaskyla'], 0.04, 0.19, ORANGE, True),
+    (['vaasa', 'tampere', 'helsinki'], 0.05, 0.19, ORANGE, True),
+    (['joensuu', 'kuopio', 'oulu'], 0.06, 0.19, ORANGE, True),
+    (['turku', 'helsinki', 'jyvaskyla', 'kuopio'], 0.04, 0.19, ORANGE, True),
+    (['oulu', 'jyvaskyla', 'tampere', 'turku'], 0.05, 0.19, ORANGE, True),
 ]
 
 
