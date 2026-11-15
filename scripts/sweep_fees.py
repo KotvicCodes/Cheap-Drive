@@ -21,6 +21,7 @@ class FeeMetricsJournal(MetricsJournal):
         self.posted_members = set()
         self.expired_members = set()
         self.fees = Counter()
+        self.interventions = Counter()
 
     def successful_posts(self, actions, results):
         for action, result in zip(actions, results):
@@ -62,6 +63,14 @@ class FeeMetricsJournal(MetricsJournal):
 
     def record(self, kind, **fields):
         super().record(kind, **fields)
+        if kind == 'delta_reference_quote_floor':
+            self.interventions['reference_floor_options'] += 1
+            self.interventions['reference_floor_bindings'] += fields['binding']
+            self.interventions['reference_floor_lift_cents'] += fields['finalCents'] - fields['baseCents']
+            ratio = fields['finalCents'] * 10000 // max(1, fields['referenceFeeCents'])
+            self.interventions['quote_reference_ratio_bps_' + str(ratio // 1000 * 1000)] += 1
+        elif kind == 'beta_quote':
+            self.interventions['quote_markup_bps_' + str(fields['markupBps'] // 1000 * 1000)] += 1
         events = []
         if kind == 'action_intent':
             self.intents[fields['batchId']] = fields['actions']
@@ -77,4 +86,5 @@ class FeeMetricsJournal(MetricsJournal):
             self.event_fees(event)
 
     def metrics(self):
-        return {**super().metrics(), 'fee_escalation': dict(self.fees)}
+        return {**super().metrics(), 'fee_escalation': dict(self.fees),
+                'interventions': dict(self.interventions)}
