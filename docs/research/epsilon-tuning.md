@@ -1165,7 +1165,7 @@ it as having a91.5% floor across all newly observed weeks.
 | Original safe9700/backlog10, all completed current pairs | 12 | +€43.54 | 7/12 | 93.548% | Reject |
 
 The missing Early control for the already-started safe9700 confirmation
-week completed naturally: Early€12,855.46/287won/98.258% versus
+week completed naturally: Early€12,854.77/287won/98.258% versus
 candidate€12,700.43/291won/96.907%. No candidate setting qualifies for
 replacement. All own practice weeks and missing controls have now completed;
 no new own candidate weeks are queued. The orchestrator owns remaining
