@@ -1042,7 +1042,7 @@ def epsilon_slide(t):
     txt(im, 'orders won / week (+27/wk)', 116, 858, 29, MUTED_INK, 650)
 
     # Right column: Clean comparison of Epsilon vs Delta (no extra text clutter)
-    rect(im, (800, 236, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
+    rect(im, (800, 236, 1840, 966), CARD, eps_col, r=20, width=3)
     p_cnt = ease((t - 0.2) / 0.9)
     txt(im, f'+€{456.04 * p_cnt:,.0f}', 1320, 520, 196, eps_col, 700, anchor='mm')
     txt(im, 'gross margin / week vs Delta', 1320, 690, 40, INK, 700, anchor='mm')
