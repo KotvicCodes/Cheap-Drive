@@ -83,8 +83,8 @@ def model_from_spec(spec, path="model") -> Model:
 
 
 class MetricsJournal(Journal):
-    def __init__(self, output):
-        super().__init__(output)
+    def __init__(self, output, **kwargs):
+        super().__init__(output, **kwargs)
         self.events = Counter()
         self.rejections = Counter()
         self.visit_failures = Counter()

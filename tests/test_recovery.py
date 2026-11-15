@@ -88,6 +88,7 @@ def rebuild(original, history, snap=None, **settings):
     world = World()
     world.gigs = deepcopy(original.world.gigs)
     world.serial = original.world.serial
+    world.recovery_quote_receipts = deepcopy(original.recovery_quotes)
     snap = snap or snapshot(original)
     world.now = snap['now']
     desk = new_desk(world, snap['now'], **settings)
@@ -97,11 +98,12 @@ def rebuild(original, history, snap=None, **settings):
 
 
 class RecoveryTests(unittest.TestCase):
-    def test_known_open_request_is_quoted_once_through_normal_pricing(self):
+    def test_unreceipted_known_open_request_is_quoted_once_through_normal_pricing(self):
         desk, history = new_desk(), []
         req = request()
         emit(desk, history, 600, 'price_request', request=req)
         expected = desk.world.actions[-1]['prices']
+        desk.recovery_quotes.clear()  # Known metadata alone does not prove submission.
         resumed = rebuild(desk, history, snapshot(desk, at=605, open_requests=[req]))
         quotes = [a for a in resumed.world.actions if a['type'] == 'quote']
         self.assertEqual(len(quotes), 1)
@@ -119,6 +121,7 @@ class RecoveryTests(unittest.TestCase):
         original, history, _ = paired()
         saved = deepcopy(history)
         desk = new_desk(pairs=1)
+        desk.world.recovery_quote_receipts = deepcopy(original.recovery_quotes)
         desk.world.act = lambda actions: self.fail('history replay emitted actions')
         replay_history(desk, snapshot(original), history)
         self.assertEqual(history, saved)
@@ -143,7 +146,7 @@ class RecoveryTests(unittest.TestCase):
                         history.append(deepcopy(event))
                         desk.now = at
                         desk.handle(deepcopy(event))
-                        desk.outbox = []
+                        desk.send()
                 # Dealer mappings and revenue/refund trust do not need a live post.
                 req = gamma_request('won')
                 req.update(arrivedAt=3501, respondBy=3516)
@@ -154,9 +157,10 @@ class RecoveryTests(unittest.TestCase):
                                        (3601, 'ledger', {'line': {'kind': 'late_refund', 'orderId': 'won'}})):
                     event = dict(seq=len(history), at=at, kind=kind, **data)
                     history.append(deepcopy(event)); desk.now = at
-                    desk.handle(deepcopy(event)); desk.outbox = []
+                    desk.handle(deepcopy(event)); desk.send()
                 recovered = make_gamma(GammaWorld(), 8, 3601, Journal(io.StringIO()),
                                        markup_scope=scope, freeze_day_drop_bps=100)
+                recovered.world.recovery_quote_receipts = deepcopy(desk.recovery_quotes)
                 replay_history(recovered, dict(gigs=[]), history)
                 for key in ('markup', 'markups', 'day_starts', 'quote_trackers', 'pending', 'dealers', 'trust'):
                     self.assertEqual(getattr(recovered, key), getattr(desk, key), key)
@@ -310,6 +314,7 @@ class CheckpointTests(unittest.TestCase):
                 emit(original, history, 655, 'order_lost', requestId='lost')
                 world = World(); world.gigs = deepcopy(original.world.gigs)
                 world.recovery_checkpoint = loaded
+                world.recovery_quote_receipts = deepcopy(original.recovery_quotes)
                 resumed = new_desk(world, now=655, pairs=1)
                 resumed.rejoin(snapshot(original), history)
                 for key in ('markup', 'markups', 'day_starts', 'trust', 'dealers', 'pending',
@@ -371,6 +376,131 @@ class CheckpointTests(unittest.TestCase):
 
 
 class ReceiptAndBoundaryTests(unittest.TestCase):
+    def test_restart_does_not_requote_accepted_open_request_or_erase_feedback(self):
+        # In the paced crash drill, the snapshot still listed a request whose
+        # quote had been accepted after the last checkpoint. Requoting returned
+        # "not open", overwrote its receipt and erased pending loss feedback.
+        for factory in (make_gamma, make_delta):
+            for checkpoint_at in ('none', 'before_quote', 'after_quote'):
+                for competitive in (True, False):
+                    with self.subTest(factory=factory.__name__, checkpoint=checkpoint_at,
+                                      competitive=competitive):
+                        settings = {} if competitive else {'max_km': 1}
+                        original, history = new_desk(factory=factory, **settings), []
+                        before = model_state(original)
+                        req = request()
+                        emit(original, history, 600, 'price_request', request=req)
+                        receipt = deepcopy(original.recovery_quotes['one'])
+                        self.assertTrue(receipt['ok'])
+                        self.assertEqual(receipt['competitive'], competitive)
+                        world = World()
+                        world.recovery_quote_receipts = deepcopy(original.recovery_quotes)
+                        if checkpoint_at != 'none':
+                            world.recovery_checkpoint = dict(worldId=world.id,
+                                lastSeq=-1 if checkpoint_at == 'before_quote' else 0,
+                                state=before if checkpoint_at == 'before_quote' else model_state(original))
+                        def reject_duplicate(actions):
+                            world.actions.extend(deepcopy(actions))
+                            return [dict(ok=False, reason='Request one is not open') for _ in actions]
+                        world.act = reject_duplicate
+                        resumed = new_desk(world, now=605, factory=factory, **settings)
+                        resumed.rejoin(snapshot(original, at=605, open_requests=[req]), history)
+                        resumed.send()
+                        self.assertFalse(world.actions)
+                        self.assertEqual(resumed.recovery_quotes['one'], receipt)
+                        self.assertEqual(resumed.pending, original.pending)
+                        self.assertEqual(resumed.quote_trackers, original.quote_trackers)
+                        event = dict(seq=1, at=615, kind='order_lost', requestId='one')
+                        for desk in (original, resumed):
+                            desk.now = 615
+                            desk.handle(deepcopy(event))
+                        self.assertEqual(resumed.markup, original.markup)
+                        self.assertEqual(resumed.pending, original.pending)
+                        if competitive:
+                            self.assertLess(resumed.markup, 15000)
+
+    def test_receipt_free_rebuild_keeps_the_state_of_a_desk_that_never_quoted(self):
+        for factory in (make_gamma, make_delta):
+            for scope in ('global', 'dealer', 'km'):
+                with self.subTest(factory=factory.__name__, scope=scope):
+                    settings = dict(markup_scope=scope, town_caps=1, town_reserve_pending=1,
+                                    freeze_day_drop_bps=100)
+                    if factory is make_delta:
+                        settings['pairs'] = 1
+                    history = []
+                    requests = [request(str(i), at=600 + i) for i in range(40)]
+                    for req in requests:
+                        history.append(dict(seq=len(history), at=req['arrivedAt'],
+                                            kind='price_request', request=req))
+                    for i, req in enumerate(requests):
+                        history.append(dict(seq=len(history), at=700 + i,
+                                            kind='order_lost', requestId=req['id']))
+                    # An unsettled historical request must not reserve capacity either.
+                    req = request('unsettled', at=740)
+                    history.append(dict(seq=len(history), at=740, kind='price_request', request=req))
+                    snap = dict(worldId='world', now=760, endsAt=14280,
+                                orders=[], gigs=[], openRequests=[])
+                    resumed = new_desk(now=760, factory=factory, **settings)
+                    untouched = new_desk(now=760, factory=factory, **settings)
+                    for desk in (resumed, untouched):
+                        desk.near30 = dict(a=1, b=1, c=1)
+                        desk.world.act = lambda actions: self.fail('rebuild emitted actions')
+                    resumed.rejoin(snap, history)
+                    untouched.rejoin(snap, [e for e in history if e['kind'] == 'order_lost'])
+                    actual, expected = model_state(resumed), model_state(untouched)
+                    self.assertEqual(actual.pop('requests'), {r['id']: r for r in [*requests, req]})
+                    expected.pop('requests')
+                    self.assertEqual(actual, expected)
+                    self.assertEqual(resumed.markup, 15000)
+                    self.assertEqual(resumed.orders_without_driver(), untouched.orders_without_driver())
+                    self.assertEqual(resumed.win_target(), untouched.win_target())
+                    self.assertFalse(resumed.outbox)
+
+    def test_receipt_backed_replay_preserves_live_learning_and_pending_capacity(self):
+        original, history = new_desk(town_caps=1, town_reserve_pending=1), []
+        original.near30 = dict(a=10, b=10, c=10)
+        for i in range(5):
+            at = 600 + i * 30
+            req = request(str(i), at=at)
+            emit(original, history, at, 'price_request', request=req)
+            # A gap in receipt coverage must not contaminate neighbouring real quotes.
+            unsubmitted = request(f'unsubmitted-{i}', at=at + 1)
+            history.append(dict(seq=len(history), at=at + 1, kind='price_request', request=unsubmitted))
+            emit(original, history, at + 20, 'order_lost', requestId=req['id'])
+            emit(original, history, at + 21, 'order_lost', requestId=unsubmitted['id'])
+        req = request('pending', at=750)
+        emit(original, history, 750, 'price_request', request=req)
+        resumed = new_desk(now=760, town_caps=1, town_reserve_pending=1)
+        resumed.near30 = deepcopy(original.near30)
+        resumed.world.recovery_quote_receipts = deepcopy(original.recovery_quotes)
+        resumed.world.act = lambda actions: self.fail('replay emitted actions')
+        replay_history(resumed, snapshot(original, at=760), history)
+        self.assertLess(resumed.markup, 15000)
+        self.assertEqual(resumed.pending, {'pending'})
+        for key in ('markup', 'markups', 'day_starts', 'quote_trackers', 'pending',
+                    'town_pending', 'town_wins', 'town_won_ids', 'recovery_quotes'):
+            self.assertEqual(getattr(resumed, key), getattr(original, key), key)
+        self.assertFalse(resumed.outbox)
+
+    def test_receipt_free_rebuild_still_recovers_orders_and_pairs(self):
+        original, history, gig = paired()
+        world = World()
+        world.gigs = deepcopy(original.world.gigs)
+        world.act = lambda actions: self.fail('rebuild emitted actions')
+        resumed = new_desk(world, now=650, pairs=1)
+        resumed.rejoin(snapshot(original, at=650), history)
+        for key in ('requests', 'orders', 'leg_gigs', 'first_posted'):
+            self.assertEqual(getattr(resumed, key), getattr(original, key), key)
+        self.assertEqual(resumed._pairs[gig].orders, ('one', 'two'))
+        for key in ('posted_at', 'latest_safe', 'last_start', 'active', 'typical'):
+            self.assertEqual(getattr(resumed._pairs[gig], key), getattr(original._pairs[gig], key), key)
+        self.assertEqual(resumed.next_pair_wake(), original.next_pair_wake())
+        self.assertEqual(resumed.orders_without_driver(), original.orders_without_driver())
+        self.assertEqual(resumed.win_target(), original.win_target())
+        self.assertEqual(resumed.markup, 15000)
+        self.assertFalse(resumed.pending)
+        self.assertFalse(resumed.outbox)
+
     def test_intercepted_pair_events_do_not_become_new_brake_signals_on_replay(self):
         desk, history, gig = paired(brake=1)
         emit(desk, history, 630, 'gig_booked', gigId=gig, feeCents=17280)
@@ -441,6 +571,7 @@ class ReceiptAndBoundaryTests(unittest.TestCase):
         state['trust'] = {'wrong': 99}
         world = World(); world.gigs = deepcopy(desk.world.gigs)
         world.recovery_checkpoint = dict(worldId=world.id, lastSeq=history[-1]['seq'], state=state)
+        world.recovery_quote_receipts = deepcopy(desk.recovery_quotes)
         resumed = new_desk(world, pairs=1)
         resumed.rejoin(snapshot(desk), history)
         self.assertEqual(resumed.markup, desk.markup)

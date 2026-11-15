@@ -39,7 +39,7 @@ import sys
 import threading
 import time
 
-from capture import CapturedWorld
+from capture import BackgroundFsync, CapturedWorld
 from spread import SpreadError
 from spread.client import Unreachable
 from spread.starter import DAY, WEEKDAYS, report
@@ -339,8 +339,8 @@ def main(argv=None):
     print(f"{mode.title()} world {world.id} with {model.spec['name']}; trace {path}", flush=True)
     print("Ctrl-C stops our system only; run the same command again to rejoin.", flush=True)
     # Append so a restarted process never overwrites an earlier trace of the same world.
-    with gzip.open(path, "at", encoding="utf-8") as stream:
-        journal = MetricsJournal(stream)
+    with gzip.open(path, "at", encoding="utf-8") as stream, BackgroundFsync(stream.fileno()) as sync:
+        journal = MetricsJournal(stream, fsync=sync.request)
         journal.record("run", worldId=world.id, mode=mode, level=level, model=model.spec, **clock_info)
         if pacer:
             pacer.start()
@@ -357,7 +357,8 @@ def main(argv=None):
         except KeyboardInterrupt:
             sys.exit(f"Stopped. World {world.id} keeps running without us; rerun this command to rejoin.")
         journal.record("live_stats", **stats, timing=client.timing(),
-                       clockTiming=clock_client.timing(), scoreTiming=score_client.timing())
+                       clockTiming=clock_client.timing(), scoreTiming=score_client.timing(),
+                       journalFsync=sync.stats())
     if pacer and pacer.error:
         print(f"pacer stopped: {pacer.error!r}", file=sys.stderr)
     report("End", score)

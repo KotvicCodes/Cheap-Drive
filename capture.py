@@ -5,6 +5,8 @@ import io
 import json
 import os
 import re
+import threading
+import time
 from contextlib import contextmanager
 from functools import lru_cache
 from typing import TextIO
@@ -26,15 +28,16 @@ def clean(value):
 
 
 class Journal:
-    def __init__(self, output: TextIO):
+    def __init__(self, output: TextIO, *, fsync=None):
         self.output = output
+        self.fsync = fsync if fsync is not None else os.fsync
         self._batch_depth = 0
         self._dirty = False
 
     def record(self, kind: str, **fields: object) -> None:
         self.output.write(json.dumps(clean({'type': kind, **fields}), ensure_ascii=False, allow_nan=False) + '\n')
         self._dirty = True
-        # Inputs remain durable before handling; intents before the SDK call;
+        # Inputs are flushed before handling; intents before the SDK call;
         # complete returns before their bookkeeping. Only adjacent diagnostics
         # may share a flush inside an explicit batch.
         if not self._batch_depth or kind in ('event', 'action_intent', 'act_result', 'advance_batch',
@@ -44,14 +47,14 @@ class Journal:
     def _flush(self):
         self.output.flush()
         try:
-            os.fsync(self.output.fileno())
+            self.fsync(self.output.fileno())
         except (io.UnsupportedOperation, AttributeError):
             pass  # In-memory fixtures have no durable file descriptor.
         self._dirty = False
 
     @contextmanager
     def batch(self):
-        """Group diagnostic writes, with durable SDK boundaries even when nested."""
+        """Group diagnostics, retaining flushed SDK boundaries even when nested."""
         self._batch_depth += 1
         try:
             yield
@@ -65,11 +68,62 @@ class Journal:
         for event in events:
             self.output.write(json.dumps(clean({'type': 'history_event', 'event': event}),
                                          ensure_ascii=False, allow_nan=False) + '\n')
-        self.output.flush()
-        try:
-            os.fsync(self.output.fileno())
-        except (io.UnsupportedOperation, AttributeError):
-            pass
+        self._flush()
+
+
+class BackgroundFsync:
+    """Keep flush-before-action ordering without waiting for storage on the consumer.
+
+    Journal still flushes complete records through Python/gzip to the kernel at
+    each boundary, preserving them across process SIGKILL. This worker coalesces
+    fsync requests on a duplicate descriptor. A host/power failure can lose the
+    unsynced tail; process-crash recovery does not depend on fsync completing.
+    """
+    def __init__(self, fd, *, interval=0.25):
+        self.fd = os.dup(fd)
+        self.interval = interval
+        self.wake = threading.Event()
+        self.stopping = False
+        self.error = None
+        self.count = 0
+        self.max_seconds = 0.0
+        self.worker = threading.Thread(target=self._run, daemon=True, name="final-journal-fsync")
+        self.worker.start()
+
+    def request(self, fd):
+        if self.error is not None:
+            raise self.error
+        self.wake.set()
+
+    def _run(self):
+        while True:
+            self.wake.wait()
+            time.sleep(self.interval)
+            self.wake.clear()
+            started = time.monotonic()
+            try:
+                os.fsync(self.fd)
+            except OSError as error:
+                self.error = error
+                return
+            self.count += 1
+            self.max_seconds = max(self.max_seconds, time.monotonic() - started)
+            if self.stopping and not self.wake.is_set():
+                return
+
+    def stats(self):
+        return dict(completed=self.count, max_seconds=self.max_seconds)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.stopping = True
+        self.wake.set()
+        self.worker.join()  # only at shutdown, when no more quote windows remain
+        os.close(self.fd)
+        if self.error is not None:
+            raise self.error
 
 
 class CapturedWorld:

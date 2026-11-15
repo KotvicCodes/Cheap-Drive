@@ -206,8 +206,9 @@ def replay_history(desk, snapshot, history, *, after=-1):
     """Replay feedback in event order with the real pricing/learner hooks.
 
     Server history omits quote receipts and our withdrawals/timer decisions.
-    With no checkpoint, assume the normal quote was accepted. The saved public
-    gig posting times restore capacity/link bookkeeping as far as history can.
+    Only durable quote receipts justify replaying a submitted quote. Unreceipted
+    requests remain metadata for recovering orders/pairs, without quote state.
+    Public gig posting times restore capacity/link bookkeeping as far as possible.
     In particular, final snapshot statuses must NOT leak into past quote targets.
     """
     # Preserve the snapshot's creation order for posts sharing one minute.
@@ -265,7 +266,9 @@ def replay_history(desk, snapshot, history, *, after=-1):
                 receipt = receipts.get(event["request"]["id"])
                 if receipt:
                     desk.now = max(desk.now, receipt["at"])
-                desk.quote(event["request"])
+                    desk.quote(event["request"])
+                else:
+                    desk.requests.setdefault(event["request"]["id"], event["request"])
                 if receipt:
                     identity = event["request"]["id"]
                     # Public gig history can miss a rejected/withdrawn post and
@@ -467,6 +470,11 @@ def rejoin_model(desk, snapshot, history):
                 # earlier accepted quote's pending feedback even though a new
                 # quote can no longer be sent.
                 desk.requests.setdefault(identity, deepcopy(request))
+                continue
+            receipt = desk.recovery_quotes.get(identity)
+            if receipt and receipt["ok"]:
+                # Open until settlement does not mean we may quote again.
+                # Keep the accepted quote's receipt and pending feedback.
                 continue
             desk.requests.pop(identity, None)  # known request != answered after rejoin
             desk.pending.discard(identity)
