@@ -509,7 +509,7 @@ def evolution(t):
         ('β', 'Beta', 268, 27, 10048, 'Trust + fee timing', '#EB7300', '#FFB700'),
         ('γ', 'Gamma', 242, 24, 12079, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
         ('δ', 'Delta', 528, 53, 13760, 'Volume + capacity', '#E62E00', '#FF4D2E'),
-        ('ε', 'Epsilon', 910, 91, 14216, 'Brakes + volume', '#C9184A', '#FF758F'),
+        ('ε', 'Epsilon', 910, 91, 14216, 'Brakes + volume', '#7C4DFF', '#B79CFF'),
     ]
 
     curve_pts = []
@@ -743,7 +743,7 @@ def experiments(t):
         (2, 'Beta: 88.1% ranked', '#EB7300', CARD),
         (3, 'Gamma: 97.9% ranked', '#FF5500', CARD),
         (4, 'Delta: 98.7% ranked', '#E62E00', CARD),
-        (5, 'Epsilon: 90.2% ranked', '#C9184A', CARD),
+        (5, 'Epsilon: 90.2% ranked', '#7C4DFF', CARD),
     ]
     if t > 0.30:
         frac = clamp((t - 0.30) / 5.4)
@@ -1014,7 +1014,7 @@ def delta_iteration(t):
 # ---------------------------------------------------------------------------
 def epsilon_slide(t):
     im = base_canvas('sunburst').copy()
-    eps_col = '#C9184A'
+    eps_col = '#7C4DFF'
     enter_model_hdr(im, 'Epsilon:', ' keep experimenting', 80, 88, 78, t, .05, model_color=eps_col, rest_color=INK, weight=700)
 
     # Left column: Two clean top-accented cards ("Test the brakes", "Push the volume") aligned to y = 966
