@@ -3,10 +3,26 @@ import os
 import unittest
 from unittest.mock import Mock, patch
 
-from scripts.sweep import wait_for_team_capacity
+from scripts.sweep import LaunchWindowClosed, wait_for_launch, wait_for_team_capacity
 
 
 class SweepCapacityTests(unittest.TestCase):
+    def test_cutoff_expires_while_paused(self):
+        with patch.dict(os.environ, {'SWEEP_START_BEFORE_UTC':'2000-01-01T05:30:00+00:00',
+                                    'SWEEP_PAUSE_FILE':'/unused'}), \
+                patch('scripts.sweep.time.sleep') as sleep:
+            with self.assertRaises(LaunchWindowClosed):
+                wait_for_launch()
+        sleep.assert_not_called()
+
+    def test_future_cutoff_allows_launch_and_timezone_is_required(self):
+        with patch.dict(os.environ, {'SWEEP_START_BEFORE_UTC':'2100-01-01T05:30:00+00:00',
+                                    'SWEEP_PAUSE_FILE':''}):
+            wait_for_launch()
+        with patch.dict(os.environ, {'SWEEP_START_BEFORE_UTC':'2100-01-01T05:30:00'}):
+            with self.assertRaises(ValueError):
+                wait_for_launch()
+
     def test_disabled_gate_does_not_fetch(self):
         client = Mock()
         with patch.dict(os.environ, {}, clear=True):
