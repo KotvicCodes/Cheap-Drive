@@ -759,11 +759,10 @@ def experiments(t):
 def failure(t):
     im = base_canvas('sunburst').copy()
     enter_model_hdr(im, 'Gamma:', ' higher margin, but one week missed the gate', 80, 88, 68, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
-    txt(im, 'First Gamma holdout', 84, 250, 34, INK, 650)
-    txt(im, f'+€{830.44375 * ease((t - .2) / 1):,.0f}', 76, 314, 142, ORANGE, 700)
-    txt(im, 'gross margin/week vs Beta', 84, 492, 32, INK, 650)
-    badge(im, '7/8 weeks ranked', 84, 582, color=CARD, bg=DANGER, size=30)
-    badge(im, '89.96% worst on time', 84, 668, color=INK, bg=MARIGOLD, border=DANGER, size=30)
+    txt(im, f'+€{830.44375 * ease((t - .2) / 1):,.0f}', 76, 278, 142, ORANGE, 700)
+    txt(im, 'gross margin/week vs Beta', 84, 456, 32, INK, 650)
+    badge(im, '7/8 weeks ranked', 84, 548, color=CARD, bg=DANGER, size=30)
+    badge(im, '89.96% worst on time', 84, 634, color=INK, bg=MARIGOLD, border=DANGER, size=30)
 
     rect(im, (774, 236, 1840, 966), CARD, GOLD_LINE, r=18, width=2)
     txt(im, '8 new practice weeks', 814, 268, 32, INK, 700)
