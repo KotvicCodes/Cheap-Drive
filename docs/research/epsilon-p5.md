@@ -72,11 +72,39 @@ Four-seed settings screen (candidate minus stored Delta, euros/week):
 | Long cap 5, original 24h slack | 4 | +328.48 | 3/4 | 90.323% | +2.00 | Reject: service |
 | Long cap 6, 18h slack | 4 | -109.62 | 2/4 | 90.000% | +6.50 | Reject: margin/service |
 
-The guarded-intake screen is still in flight. Its worker processes imported
-code just before commit `8646d19` (the remaining-leg fee-horizon correction).
-Its trade-in results therefore describe the earlier implementation and cannot
-be pooled with corrected-code confirmation. The two non-trade controls and
-settings-only roster arm are unaffected by that correction, with default-off
-parity covered by the full suite (444 tests passing).
+The orchestrator prioritized the roster arm at 01:23 UTC. The weaker screen
+was drained after three seeds per arm; its fourth-seed jobs were dropped.
+
+| Guarded control | Paired weeks | Mean margin difference | Positive weeks | Worst on time | Status |
+|---|---:|---:|---:|---:|---|
+| Trade-ins, cap 2 | 3 | +76.33 | 2/3 | 90.591% | Stopped; below service floor |
+| Conditional long cap 5, backlog <=12 | 3 | 0.00 | 0/3 | 91.117% | Stopped; no effect |
+| Short-job slack 240 min, backlog <=4 | 3 | -242.98 | 0/3 | 90.883% | Stopped; margin/service |
+
+The guarded screen's workers imported code just before commit `8646d19`
+(the remaining-leg fee-horizon correction). Its trade-in results describe
+the earlier implementation and cannot be pooled with corrected-code
+confirmation. The non-trade controls and settings-only roster arm are
+unaffected, with default-off parity covered by all 444 passing tests.
+
+The roster extension started at approximately 01:25 UTC on all three slots,
+reusing the original four weeks and playing the remaining 15. Fresh paired
+confirmation is conditional on a positive 19-week mean and every week >=91.5%.
+Exact roster overrides on Delta's complete settings are:
+
+```json
+{
+  "supply_scale": 1,
+  "supply_low_roster": 710,
+  "supply_high_roster": 800,
+  "supply_low_target_bps": 4000,
+  "supply_mid_target_bps": 4500,
+  "supply_high_target_bps": 5000
+}
+```
+
+The enabled supply policy inherits long-route maxima of 550 / 700 / 700 km
+for the low / mid / high bands, respectively. Long cap remains 3, long slack
+1440 minutes, and all customer price factors remain Delta's.
 
 Detailed practice outputs are under `runs/epsilon-p5/`.
