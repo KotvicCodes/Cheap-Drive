@@ -955,7 +955,16 @@ def delta_production(t):
     rect(im, (80, 486, 690, 694), CARD, GOLD_LINE, r=18, width=2)
     txt(im, '19/19', 112, 502, 74, ORANGE, 700)
     txt(im, 'practice weeks ranked', 318, 559, 26, INK, 700)
-    badge(im, '17/19 weeks ahead · 91.1% worst on time', 112, 616, color=INK, bg=MARIGOLD, border=ORANGE, size=22)
+    b1_lbl = '17/19 weeks ahead'
+    b1_f = font(21, 700, False)
+    b1_bb = b1_f.getbbox(b1_lbl)
+    b1_cap = b1_f.getbbox('H')
+    b1_w = (b1_bb[2] - b1_bb[0]) + 24
+    b1_h = 34
+    b1_x = 385 - b1_w / 2
+    b1_y = 620
+    rect(im, (b1_x, b1_y, b1_x + b1_w, b1_y + b1_h), MARIGOLD, outline=ORANGE, r=9, width=2)
+    txt(im, b1_lbl, b1_x + b1_w / 2 - (b1_bb[0] + b1_bb[2]) / 2, b1_y + b1_h / 2 - (b1_cap[1] + b1_cap[3]) / 2, 21, INK, weight=700)
 
     # Card 2: €75,764 round 9 total
     rect(im, (80, 718, 690, 966), CARD, GOLD_LINE, r=18, width=2)
