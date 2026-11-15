@@ -34,9 +34,8 @@
       "delta_corridor_open_cap": 5,
       "delta_intake_max_backlog": 12
     },
-    "shortslack240-roster700-backlog4": {
+    "shortslack240-backlog4": {
       "delta_relaxed_slack_minutes": 240,
-      "delta_intake_min_roster": 700,
       "delta_intake_max_backlog": 4
     }
   }
