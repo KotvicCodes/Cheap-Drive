@@ -957,10 +957,10 @@ def delta_production(t):
     txt(im, 'practice weeks ranked', 318, 559, 26, INK, 700)
     badge(im, '17/19 weeks ahead · 91.1% worst on time', 112, 616, color=INK, bg=MARIGOLD, border=ORANGE, size=22)
 
-    # Card 2: €75,764 round 9 total: 5/5 weeks ranked
+    # Card 2: €75,764 round 9 total
     rect(im, (80, 718, 690, 966), CARD, GOLD_LINE, r=18, width=2)
     txt(im, '€75,764', 112, 734, 70, '#E62E00', 700)
-    txt(im, 'round 9 total: 5/5 weeks ranked', 112, 826, 25, INK, 700)
+    txt(im, 'round 9 total', 112, 826, 26, INK, 700)
     badge(im, '1,798 orders won · 96.7% on time', 112, 884, color=INK, bg=APRICOT, border=GOLD_LINE, size=22)
 
     rows = [(r[1], r[2], r[4], r[5]) for r in DELTA_CONFIRM]
