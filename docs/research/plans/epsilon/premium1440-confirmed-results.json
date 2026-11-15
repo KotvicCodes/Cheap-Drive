@@ -1,0 +1,604 @@
+{
+  "settingsDiff": {
+    "premium_min_slack_minutes": {
+      "delta": 600,
+      "epsilon": 1440
+    }
+  },
+  "weeks": [
+    {
+      "seed": "delta-f1-s01",
+      "delta": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1007318,
+        "revenueCents": 2773404,
+        "marginShare": 0.36320637022229724,
+        "wonOrders": 307,
+        "onTimeShare": 0.9609120521172638,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 36214
+    },
+    {
+      "seed": "delta-f1-s02",
+      "delta": {
+        "marginCents": 1521871,
+        "revenueCents": 4447007,
+        "marginShare": 0.34222365739473765,
+        "wonOrders": 363,
+        "onTimeShare": 0.9696969696969697,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1500048,
+        "revenueCents": 4434055,
+        "marginShare": 0.3383016223298989,
+        "wonOrders": 362,
+        "onTimeShare": 0.9613259668508287,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -21823
+    },
+    {
+      "seed": "delta-f1-s03",
+      "delta": {
+        "marginCents": 1437653,
+        "revenueCents": 3613827,
+        "marginShare": 0.39782009487449177,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1456960,
+        "revenueCents": 3636612,
+        "marginShare": 0.40063663651772585,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 19307
+    },
+    {
+      "seed": "delta-f1-s04",
+      "delta": {
+        "marginCents": 1623016,
+        "revenueCents": 4288256,
+        "marginShare": 0.37847926989433467,
+        "wonOrders": 359,
+        "onTimeShare": 0.9777158774373259,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1631470,
+        "revenueCents": 4308286,
+        "marginShare": 0.3786819166601289,
+        "wonOrders": 360,
+        "onTimeShare": 0.9722222222222222,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 8454
+    },
+    {
+      "seed": "delta-f1-s05",
+      "delta": {
+        "marginCents": 1349961,
+        "revenueCents": 3598430,
+        "marginShare": 0.37515277496019095,
+        "wonOrders": 340,
+        "onTimeShare": 0.961764705882353,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1378578,
+        "revenueCents": 3543934,
+        "marginShare": 0.38899652194425743,
+        "wonOrders": 336,
+        "onTimeShare": 0.9672619047619048,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 28617
+    },
+    {
+      "seed": "delta-f1-s06",
+      "delta": {
+        "marginCents": 1836642,
+        "revenueCents": 4642742,
+        "marginShare": 0.39559424150642014,
+        "wonOrders": 364,
+        "onTimeShare": 0.9478021978021978,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1945575,
+        "revenueCents": 4638501,
+        "marginShare": 0.419440461476671,
+        "wonOrders": 361,
+        "onTimeShare": 0.9584487534626038,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 108933
+    },
+    {
+      "seed": "delta-f1-s07",
+      "delta": {
+        "marginCents": 1146267,
+        "revenueCents": 4119106,
+        "marginShare": 0.27828052980428275,
+        "wonOrders": 349,
+        "onTimeShare": 0.9111747851002865,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1215413,
+        "revenueCents": 4160135,
+        "marginShare": 0.2921571054785482,
+        "wonOrders": 348,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 69146
+    },
+    {
+      "seed": "delta-f1-s08",
+      "delta": {
+        "marginCents": 1157592,
+        "revenueCents": 3495230,
+        "marginShare": 0.33119193872792346,
+        "wonOrders": 338,
+        "onTimeShare": 0.9526627218934911,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1158653,
+        "revenueCents": 3497460,
+        "marginShare": 0.3312841319128739,
+        "wonOrders": 336,
+        "onTimeShare": 0.9464285714285714,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 1061
+    },
+    {
+      "seed": "delta-f1-s09",
+      "delta": {
+        "marginCents": 1560846,
+        "revenueCents": 3911408,
+        "marginShare": 0.39904965168553114,
+        "wonOrders": 350,
+        "onTimeShare": 0.9857142857142858,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1540167,
+        "revenueCents": 3820738,
+        "marginShare": 0.40310720075545614,
+        "wonOrders": 347,
+        "onTimeShare": 0.9827089337175793,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -20679
+    },
+    {
+      "seed": "delta-f1-s10",
+      "delta": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1787729,
+        "revenueCents": 4190285,
+        "marginShare": 0.4266366130227419,
+        "wonOrders": 367,
+        "onTimeShare": 0.9727520435967303,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 53309
+    },
+    {
+      "seed": "delta-f1-s11",
+      "delta": {
+        "marginCents": 1309879,
+        "revenueCents": 3571530,
+        "marginShare": 0.36675570413800246,
+        "wonOrders": 321,
+        "onTimeShare": 0.9657320872274143,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1276165,
+        "revenueCents": 3532289,
+        "marginShare": 0.36128555732557555,
+        "wonOrders": 319,
+        "onTimeShare": 0.9686520376175548,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -33714
+    },
+    {
+      "seed": "delta-f2-s01",
+      "delta": {
+        "marginCents": 1602064,
+        "revenueCents": 3963493,
+        "marginShare": 0.40420507870204386,
+        "wonOrders": 337,
+        "onTimeShare": 0.9584569732937686,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1608018,
+        "revenueCents": 3950457,
+        "marginShare": 0.40704607087230665,
+        "wonOrders": 337,
+        "onTimeShare": 0.9673590504451038,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 5954
+    },
+    {
+      "seed": "delta-f2-s02",
+      "delta": {
+        "marginCents": 1271221,
+        "revenueCents": 3393286,
+        "marginShare": 0.3746283101394931,
+        "wonOrders": 298,
+        "onTimeShare": 0.9731543624161074,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1277754,
+        "revenueCents": 3395772,
+        "marginShare": 0.37627791265137944,
+        "wonOrders": 297,
+        "onTimeShare": 0.9629629629629629,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 6533
+    },
+    {
+      "seed": "delta-f2-s03",
+      "delta": {
+        "marginCents": 1116166,
+        "revenueCents": 3891554,
+        "marginShare": 0.28681755411848325,
+        "wonOrders": 375,
+        "onTimeShare": 0.9333333333333333,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1022054,
+        "revenueCents": 3818236,
+        "marginShare": 0.2676770110595573,
+        "wonOrders": 372,
+        "onTimeShare": 0.9220430107526881,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -94112
+    },
+    {
+      "seed": "delta-f2-s04",
+      "delta": {
+        "marginCents": 1420655,
+        "revenueCents": 4111907,
+        "marginShare": 0.34549784321483923,
+        "wonOrders": 371,
+        "onTimeShare": 0.9164420485175202,
+        "undeliveredShare": 0.0026954177897574125,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1372042,
+        "revenueCents": 4110342,
+        "marginShare": 0.3338023940586939,
+        "wonOrders": 372,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0.002688172043010753,
+        "ranked": true
+      },
+      "marginDifferenceCents": -48613
+    },
+    {
+      "seed": "delta-f2-s05",
+      "delta": {
+        "marginCents": 1096742,
+        "revenueCents": 3412047,
+        "marginShare": 0.32143226631989535,
+        "wonOrders": 317,
+        "onTimeShare": 0.9621451104100947,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1101725,
+        "revenueCents": 3419533,
+        "marginShare": 0.3221858072432698,
+        "wonOrders": 319,
+        "onTimeShare": 0.9686520376175548,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 4983
+    },
+    {
+      "seed": "delta-f2-s06",
+      "delta": {
+        "marginCents": 989492,
+        "revenueCents": 3401695,
+        "marginShare": 0.29088204556845926,
+        "wonOrders": 312,
+        "onTimeShare": 0.9423076923076923,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1079956,
+        "revenueCents": 3408027,
+        "marginShare": 0.3168859871121913,
+        "wonOrders": 312,
+        "onTimeShare": 0.9583333333333334,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 90464
+    },
+    {
+      "seed": "delta-f2-s07",
+      "delta": {
+        "marginCents": 1611566,
+        "revenueCents": 4117143,
+        "marginShare": 0.391428230692983,
+        "wonOrders": 358,
+        "onTimeShare": 0.952513966480447,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1680229,
+        "revenueCents": 4143945,
+        "marginShare": 0.40546604744995407,
+        "wonOrders": 357,
+        "onTimeShare": 0.9523809523809523,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 68663
+    },
+    {
+      "seed": "delta-f2-s08",
+      "delta": {
+        "marginCents": 1387246,
+        "revenueCents": 3621106,
+        "marginShare": 0.38310008047265115,
+        "wonOrders": 340,
+        "onTimeShare": 0.9647058823529412,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1335769,
+        "revenueCents": 3676226,
+        "marginShare": 0.3633533411710814,
+        "wonOrders": 342,
+        "onTimeShare": 0.9444444444444444,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -51477
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s01",
+      "delta": {
+        "marginCents": 1580775,
+        "revenueCents": 4718256,
+        "marginShare": 0.3350337497583853,
+        "wonOrders": 364,
+        "onTimeShare": 0.945054945054945,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1800113,
+        "revenueCents": 4663006,
+        "marginShare": 0.38604132184260537,
+        "wonOrders": 360,
+        "onTimeShare": 0.9777777777777777,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 219338
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s02",
+      "delta": {
+        "marginCents": 963261,
+        "revenueCents": 3498907,
+        "marginShare": 0.2753034018909334,
+        "wonOrders": 281,
+        "onTimeShare": 0.9359430604982206,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1040839,
+        "revenueCents": 3434313,
+        "marginShare": 0.30307051221015674,
+        "wonOrders": 281,
+        "onTimeShare": 0.9395017793594306,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": 77578
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s03",
+      "delta": {
+        "marginCents": 1040003,
+        "revenueCents": 3296872,
+        "marginShare": 0.3154514339652859,
+        "wonOrders": 325,
+        "onTimeShare": 0.963076923076923,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1002780,
+        "revenueCents": 3365802,
+        "marginShare": 0.2979319639123157,
+        "wonOrders": 329,
+        "onTimeShare": 0.9452887537993921,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -37223
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s04",
+      "delta": {
+        "marginCents": 1512911,
+        "revenueCents": 3664162,
+        "marginShare": 0.41289413513922146,
+        "wonOrders": 346,
+        "onTimeShare": 0.9797687861271677,
+        "undeliveredShare": 0.002890173410404624,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1518713,
+        "revenueCents": 3668093,
+        "marginShare": 0.4140333955545838,
+        "wonOrders": 346,
+        "onTimeShare": 0.976878612716763,
+        "undeliveredShare": 0.002890173410404624,
+        "ranked": true
+      },
+      "marginDifferenceCents": 5802
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s05",
+      "delta": {
+        "marginCents": 1499769,
+        "revenueCents": 3986247,
+        "marginShare": 0.37623584288680556,
+        "wonOrders": 349,
+        "onTimeShare": 0.9656160458452722,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1497677,
+        "revenueCents": 3984155,
+        "marginShare": 0.37590831682000325,
+        "wonOrders": 349,
+        "onTimeShare": 0.9656160458452722,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -2092
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s06",
+      "delta": {
+        "marginCents": 721516,
+        "revenueCents": 3135687,
+        "marginShare": 0.23009822090023654,
+        "wonOrders": 306,
+        "onTimeShare": 0.9183006535947712,
+        "undeliveredShare": 0.0032679738562091504,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 738369,
+        "revenueCents": 3130054,
+        "marginShare": 0.23589656919656976,
+        "wonOrders": 305,
+        "onTimeShare": 0.921311475409836,
+        "undeliveredShare": 0.003278688524590164,
+        "ranked": true
+      },
+      "marginDifferenceCents": 16853
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s07",
+      "delta": {
+        "marginCents": 1513319,
+        "revenueCents": 3949457,
+        "marginShare": 0.38317140812015427,
+        "wonOrders": 350,
+        "onTimeShare": 0.98,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 1476775,
+        "revenueCents": 3908443,
+        "marginShare": 0.3778422763233339,
+        "wonOrders": 347,
+        "onTimeShare": 0.9711815561959655,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -36544
+    },
+    {
+      "seed": "epsilon-margin-confirm-20261115-s08",
+      "delta": {
+        "marginCents": 944154,
+        "revenueCents": 3543476,
+        "marginShare": 0.26644853810213476,
+        "wonOrders": 328,
+        "onTimeShare": 0.9329268292682927,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "epsilon": {
+        "marginCents": 933549,
+        "revenueCents": 3560856,
+        "marginShare": 0.26216982658102433,
+        "wonOrders": 327,
+        "onTimeShare": 0.9204892966360856,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "marginDifferenceCents": -10605
+    }
+  ]
+}

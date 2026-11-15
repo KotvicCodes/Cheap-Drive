@@ -501,3 +501,35 @@ the clock independently. Accepted-fee evidence must also match the requested
 car count, preventing a two-car trade-in offer from flooring a one-car split.
 Both have regression tests;457 local tests pass. No urgent worlds have been
 started with the preceding implementation.
+
+
+## First confirmed adoption, 01:24 UTC
+
+**Epsilon now changes only `premium_min_slack_minutes`600→1440.** This
+requires a full day of feasible slack for premium-car quote options, allowing
+more time to find experienced drivers. Factory remains `models.delta:make_delta`.
+No quote floor, fee cut, parser or urgent-memory flag is adopted.
+
+| Change / cohort | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Premium slack1440 / all existing | 19 | +€121.69 | 13/19 | 91.667% | Adopted |
+| Same / independent reserved fresh | 8 | +€291.38 | 4/8 | 92.049% | Confirmed; adopted |
+
+All27 observed candidate weeks clear91.5%; gains are means of per-seed
+paired differences, not mixed-cohort averages. Existing mean margin is
+€13,881.91 versus Delta€13,760.21. Fresh candidate mean is€12,511.02.
+The saved paired score artifact is
+`docs/research/plans/epsilon/premium1440-confirmed-results.json`.
+This is a modest validated improvement, not evidence of reaching top7.
+
+The03:00 ranking choice now points to Epsilon; it can change only if a
+stronger candidate completes the same full and fresh gates. Current own
+six-worker queue: raw-floor screens2, readiness/Saturday screens2,
+urgent-memory screen2. P1/P5 extensions remain their owners' work; merges
+await explicit orchestrator instruction. Next: test the best shortlist
+combinations with confirmed premium slack, and prepare the builder combination.
+
+Own pushes since the previous report: `5f71742` quote floor, `b6913be`
+readiness fees, `982c9d6` Saturday parser, `07fdb54` urgency memory,
+`67c1554` urgency recovery edges,
+`e42c6eb` reproducible sweep plans. All defaults remain off for Delta.
