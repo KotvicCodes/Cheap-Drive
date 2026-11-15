@@ -22,10 +22,12 @@ match the complete current Delta JSON. No board or final runs are involved.
 The screen uses `delta-f1-s07`, `delta-f2-s04`, `delta-f1-s01`, `delta-f1-s10`.
 An eligible survivor needs positive paired mean margin and every observed
 week >=91.5% on time, then the complete 19 paired seeds and confirmation.
-The eight `epsilon-confirm-20261115-s01..s08` references are reserved for
-confirmation before choosing a P5 survivor. These are fresh to this P5 lane,
-but already exposed to other Epsilon experiments; they are not a new global
-holdout. No Delta reference worlds are replayed.
+Four new seeds, `epsilon-p5-holdout-20261115-s01..s04`, were reserved at
+01:22 UTC before selecting a survivor on all 19 paired weeks. Delta is measured
+once on these previously unseen seeds because no cached scores exist. The
+existing eight `epsilon-confirm-20261115-s01..s08` references can support extra
+comparisons but were already exposed to other Epsilon experiments, so are not
+a new global holdout. No existing Delta reference worlds are replayed.
 
 ## Default-off controls
 

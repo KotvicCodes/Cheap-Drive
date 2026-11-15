@@ -2,14 +2,10 @@
   "factory": "models.delta:make_delta",
   "level": 8,
   "seeds": [
-    "epsilon-confirm-20261115-s01",
-    "epsilon-confirm-20261115-s02",
-    "epsilon-confirm-20261115-s03",
-    "epsilon-confirm-20261115-s04",
-    "epsilon-confirm-20261115-s05",
-    "epsilon-confirm-20261115-s06",
-    "epsilon-confirm-20261115-s07",
-    "epsilon-confirm-20261115-s08"
+    "epsilon-p5-holdout-20261115-s01",
+    "epsilon-p5-holdout-20261115-s02",
+    "epsilon-p5-holdout-20261115-s03",
+    "epsilon-p5-holdout-20261115-s04"
   ],
   "base": {
     "max_km": 500,
