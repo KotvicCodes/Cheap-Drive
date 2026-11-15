@@ -958,66 +958,42 @@ def delta_production(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 8 (47–53s): Delta: Quantity > the best margins (clean, minimal layout)
+# Slide 8 (47–53s): Delta: Quantity > the best margins (focused Orders won / week graph)
 # ---------------------------------------------------------------------------
 def delta_iteration(t):
     im = base_canvas('citrus').copy()
-    enter_model_hdr(im, 'Delta:', ' Quantity > the best margins', 80, 88, 80, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
+    enter_model_hdr(im, 'Delta:', ' Quantity > the best margins', 80, 88, 84, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
 
-    step = min(3, int(t / 1.45))
-    cards = [
-        (80, 236, '1. Offer wider gig windows'),
-        (565, 236, '2. Rescue overdue deliveries'),
-        (80, 616, '3. Pair across a wider area'),
-        (565, 616, '4. Win more requests'),
-    ]
-    for i, (x, y, title) in enumerate(cards):
-        active = i == step
-        fg_main = INK if active else '#7A6855'
-        fg_acc = '#E62E00' if active else '#A67B4B'
-        rect(im, (x, y, x + 465, y + 350), CARD if active else '#FFF9EE', '#E62E00' if active else GOLD_LINE, r=18, width=4 if active else 2)
-        rect(im, (x + 2, y + 2, x + 463, y + 68), '#E62E00' if active else APRICOT, r=16)
-        txt(im, title, x + 24, y + 16, 26, CARD if active else INK, 700)
+    rect(im, (80, 226, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
+    txt(im, 'Orders won / week', 136, 268, 44, INK, 700)
+    badge(im, '+33% more orders', 1460, 264, color=CARD, bg='#E62E00', size=28, weight=700)
 
-        if i == 0:
-            txt(im, 'Use the time', x + 28, y + 124, 42, fg_main, 700)
-            txt(im, 'the order allows', x + 28, y + 182, 42, fg_acc, 700)
-        elif i == 1:
-            txt(im, 'Repost private', x + 28, y + 124, 42, fg_main, 700)
-            txt(im, 'deliveries', x + 28, y + 182, 42, fg_acc, 700)
-        elif i == 2:
-            txt(im, '≤90 km', x + 28, y + 104, 82, fg_acc, 700)
-            txt(im, 'between cars', x + 28, y + 214, 38, fg_main, 700)
-        else:
-            txt(im, '42%', x + 28, y + 104, 86, fg_acc, 700)
-            txt(im, 'win target (was 30%)', x + 28, y + 214, 34, fg_main, 700)
+    base_y = 824
+    max_h = 430
+    left_x, right_x = 260, 1720
+    for val in [0, 100, 200, 300]:
+        yy = round(base_y - max_h * (val / 360.0))
+        line(im, [(left_x, yy), (right_x, yy)], GOLD_LINE if val == 0 else APRICOT, 3 if val == 0 else 2)
+        txt(im, f'{val}', left_x - 24, yy, 22, MUTED_INK, mono=True, weight=650, anchor='rm')
 
-    # Right panel: Ultra-clean Orders won / week bar comparison
-    rect(im, (1055, 236, 1840, 966), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, 'Orders won / week', 1095, 268, 36, INK, 700)
-    badge(im, '+33% more orders', 1500, 262, color=CARD, bg='#E62E00', size=24, weight=700)
-
-    base_y = 830
-    max_h = 420
-    line(im, [(1110, base_y), (1785, base_y)], GOLD_LINE, 3)
-
+    bw = 360
     # Left bar: Early Delta (257)
     p1 = ease((t - 0.15) / 0.7)
-    h1 = round(max_h * (257.0 / 342.0) * p1)
-    bx1, bw = 1170, 220
-    rect(im, (bx1, base_y - h1, bx1 + bw, base_y), GOLD_TRACK, outline=GOLD_LINE, r=14, width=2)
-    txt(im, f'{round(257 * p1)}', bx1 + bw / 2, base_y - h1 - 68, 56, MUTED_INK, 700, anchor='ma')
-    txt(im, 'Early Delta', bx1 + bw / 2, base_y + 24, 28, MUTED_INK, 700, anchor='ma')
-    txt(im, '30% target', bx1 + bw / 2, base_y + 62, 22, MUTED_INK, 600, anchor='ma')
+    h1 = round(max_h * (257.0 / 360.0) * p1)
+    bx1 = 500
+    rect(im, (bx1, base_y - h1, bx1 + bw, base_y), GOLD_TRACK, outline=GOLD_LINE, r=16, width=2)
+    txt(im, f'{round(257 * p1)}', bx1 + bw / 2, base_y - h1 - 78, 68, MUTED_INK, 700, anchor='ma')
+    txt(im, 'Early Delta', bx1 + bw / 2, base_y + 26, 32, MUTED_INK, 700, anchor='ma')
+    txt(im, '30% win target', bx1 + bw / 2, base_y + 68, 24, MUTED_INK, 600, anchor='ma')
 
     # Right bar: Delta (342)
     p2 = ease((t - 0.30) / 0.8)
-    h2 = round(max_h * p2)
-    bx2 = 1495
-    rect(im, (bx2, base_y - h2, bx2 + bw, base_y), '#E62E00', r=14)
-    txt(im, f'{round(342 * p2)}', bx2 + bw / 2, base_y - h2 - 74, 64, '#E62E00', 700, anchor='ma')
-    txt(im, 'Delta', bx2 + bw / 2, base_y + 24, 28, '#E62E00', 700, anchor='ma')
-    txt(im, '42% target', bx2 + bw / 2, base_y + 62, 22, INK, 650, anchor='ma')
+    h2 = round(max_h * (342.0 / 360.0) * p2)
+    bx2 = 1120
+    rect(im, (bx2, base_y - h2, bx2 + bw, base_y), '#E62E00', r=16)
+    txt(im, f'{round(342 * p2)}', bx2 + bw / 2, base_y - h2 - 86, 76, '#E62E00', 700, anchor='ma')
+    txt(im, 'Delta', bx2 + bw / 2, base_y + 26, 32, '#E62E00', 700, anchor='ma')
+    txt(im, '42% win target', bx2 + bw / 2, base_y + 68, 24, INK, 650, anchor='ma')
 
     return im
 
