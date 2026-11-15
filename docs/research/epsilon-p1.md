@@ -280,3 +280,36 @@ early stopping weak arms. Do not treat it as a promoted model. All workers
 remain filled from the deep queue; at05:30 the gate stops new worlds, active
 worlds finish, and then the controller is stopped. Drain by05:50 and publish
 the final paired report by05:45.
+
+
+## Full-stack and safe-quote handoff (03:36–03:56 UTC)
+
+The orchestrator clarified that volume-stack means the entire saved stack, not
+just its four tilt fields. The earlier four-setting combo is a separate model;
+it was dropped. Reused the exact guarded intake implementation from7ad565e,
+with its11 tests and compatible optional facts argument. Delta defaults stay
+off. The full-stack4400 queue reused three main-loop scores and filled3 slots
+on remaining seeds, then sequentially failed at+€223.26/week over7 pairs,5/7
+positive,worst91.022%. Its3 active worlds were ended on the stop signal.
+
+All stored4600 full-stack evidence was also checked:5 pairs,+€774.75/week,4/5
+positive,but90.144% worst,below the90.5% stop rule. Admission360 was explicitly
+rejected by the orchestrator at−€17.45/week over8 stored pairs. Neither fallback
+was run.
+
+On explicit user instruction,cherry-picked P5'sa2310e2 safe-quote implementation,
+resolved only its intake import and plan-location conflicts,and retained its
+original human commit identity. Full suite:492 tests passing.
+
+Current queue:safe9800-backlog10 on Early Epsilon,with no volume-stack overrides.
+Settings delta_safe_quote_bps9800 and delta_safe_quote_max_backlog10. Reused P5's
+three stored scores;reserved its unfinished fourth screen seed to avoid replay;
+queued the15 remaining paired seeds plus15 fresh seeds with retained Early
+Epsilon controls. All three workers stay fed.
+
+Latest continuation gate:mean paired gain≥€300/week,at least half positive,and
+worst≥91.0%,judged from3 weeks onward against all stored scores,including P5.
+A watcher recomputes after each append and immediately closes the launch gate
+on failure. Final adoption still requires worst≥91.5%;the stored safe-quote
+arm's91.379% worst already misses that final bar despite passing continuation.
+Stop launches05:30,drain by05:50,report by05:45.
