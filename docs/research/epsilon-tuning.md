@@ -914,3 +914,44 @@ server-active at03:13, before the04:00 round-close deadline.
 | 5 | €14,709.62 | 96.275% | 349 | True |
 
 Total margin€69,301.34; mean€13,860.27/week; mean332.8 wins/week; worst on time93.631%; all5ranked. These are new secret ranking weeks, not a paired comparison with Delta. Full verified records: `docs/research/plans/epsilon/board-round11-results.json`.
+
+
+## Immediate four-arm combined stack and new protocol, 03:19 UTC
+
+The orchestrator explicitly ordered immediate combined testing using whatever
+P1/P5 settings exist, without waiting for qualified handoffs. Therefore these
+are experimental components, not adopted survivors. Ported only P5's
+`DeltaIntakeMixin`/settings and its11 unit tests from branch head8985d38;
+kept current parser, fee controls and model JSONs. Adapted the route hook to
+pass the existing optional `facts` argument, preserving note-urgency
+compatibility. All new intake defaults are off. No branch-wide builder merge.
+
+Common settings on Early Epsilon: young re-pairing (`pair_once=0`,
+`pair_max_idle_minutes=120`, pair wait-age180, minimum pair slack480);
+guarded round-trip trade-ins; nonpremium/nonprivate <=150km slack relaxed
+to300 only with backlog<=12; long corridor open-cap5 with the same headroom
+gate. Guarded trade-ins retain540-minute drive/500km leg limits, open cap2
+and opening10000. All quote targets below remain unbraked.
+
+| Stack arm | Extra settings | Paired weeks | Mean margin difference/week vs Early | Positive weeks | Worst on time | Decision |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| volume-stack-win4600 | target4600 | Pending4 | — | — | — | Stage1 |
+| volume-stack-win5000 | target5000 | Pending4 | — | — | — | Stage1 |
+| volume-stack-tilt-win4600 | target4600, short300/9300, long10500 | Pending4 | — | — | — | Stage1 |
+| volume-stack-floor11000-fee8500-win5000 | target5000, reference floor11000, opening8500 | Pending4 | — | — | — | Stage1 |
+
+Launched via sweep.py with6 workers. Preflight found7 other active worlds;
+server cap12 initially admitted5 own worlds while the sixth worker retried.
+No team limit is bypassed. Screens use s07,f2-s04,s01,s05. The four-arm
+composition test covers real floor binding, unchanged45km fee threshold,
+300/500km quote boundaries and checkpoint recovery. Full unittest and pytest
+checks pass478 tests (1797 subtests).
+
+**New user-decided protocol replaces exhaustive19+fresh extension:** stage1
+screens4weeks seeking at least+€500/week versus Early Epsilon, about380+
+wins/week and worst>=91.5%. Reject weak arms promptly and replace them;
+keep at most4 active arms. Stage2 extends only1–2 strongest arms by about8
+paired seeds, starting byabout04:45. Reserved fresh volume seeds remain
+unexposed and can supply this confirmation. No new worlds after05:30;
+report05:45; all own worlds ended before05:50. Early Epsilon remains the
+selected model until a complete combined candidate earns adoption.
