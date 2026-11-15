@@ -234,7 +234,7 @@ main { margin-left: var(--side); padding: 22px 30px 32px; max-width: calc(var(--
   margin-bottom: 20px;
 }
 .run-switcher {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 10px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 10px;
 }
 .run-btn {
   display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
@@ -262,6 +262,7 @@ main { margin-left: var(--side); padding: 22px 30px 32px; max-width: calc(var(--
 .greek.beta { background: #FFD000; color: #141413; }
 .greek.gamma { background: #FF6200; color: #141413; }
 .greek.delta { background: #FF3B1F; color: #141413; }
+.greek.epsilon { background: #B79CFF; color: #141413; }
 .run-title {
   font-size: 12.5px; font-weight: 700; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -662,7 +663,7 @@ footer { display: none !important; }
   .metric-value { font-size: 40px; }
 }
 @media (max-width: 1380px) {
-  .run-switcher { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .run-switcher { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .stat-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stat-strip > div:nth-child(4) { border-left: 0; }
   .stat-strip > div:nth-child(n+4) { border-top: 1px solid var(--line); }

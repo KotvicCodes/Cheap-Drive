@@ -7,6 +7,8 @@
 A Python dispatcher for the Spread challenge, using the official client.
 [How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
 
+[Presentation: from Alpha to Epsilon](presentations/cheap-drive-alpha-to-gamma.html) · [PDF](presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf)
+
 Model code lives in the [models package](models/), alongside its JSON configs
 (for example [models/delta.py](models/delta.py)). Runners and tools stay at the
 root and in `scripts/`. Old imports and saved factory names still work through
