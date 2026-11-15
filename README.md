@@ -132,39 +132,6 @@ on 38 paired weeks, all ranked ([presentation notes](presentations/README.md)).
 Chart source: [run data](presentations/run-data.json), rebuilt by
 [make_model_ladder.py](docs/readme/make_model_ladder.py).
 
-<table>
-  <tr>
-    <td width="33%"><img src="docs/readme/film-01.jpg" alt="Pipeline of five models with run counts and rising margin bars"></td>
-    <td width="33%"><img src="docs/readme/film-02.jpg" alt="Beta's four dispatch rules: filters, dealer trust, timed gig fees, deadlines"></td>
-    <td width="33%"><img src="docs/readme/film-03.jpg" alt="Live report showing a dealer note, a pickup window and a late delivery"></td>
-  </tr>
-  <tr>
-    <td><b>Prototype, test, repeat.</b> 2,627 practice weeks across five models.</td>
-    <td><b>Beta</b> quotes, then delivers: filters, dealer trust, fees that rise after pickup opens.</td>
-    <td><b>Find what broke.</b> The week report traces one late car back to a note.</td>
-  </tr>
-  <tr>
-    <td><img src="docs/readme/film-04.jpg" alt="Gamma's first version: one of eight weeks at 89.96% on time"></td>
-    <td><img src="docs/readme/film-05.jpg" alt="Gamma beats Beta by €2,031 per week on eight new weeks"></td>
-    <td><img src="docs/readme/film-06.jpg" alt="Delta beats Early Delta by €1,664 per week, 19 of 19 weeks ranked"></td>
-  </tr>
-  <tr>
-    <td><b>Gamma, first try:</b> +€830/week, but one week fell to 89.96% on time.</td>
-    <td><b>Gamma, fixed:</b> reads dealer notes, pairs two cars per driver. +€2,031/week, 8/8 ranked.</td>
-    <td><b>Delta:</b> +€1,664/week over Early Delta on 19 paired weeks, all ranked.</td>
-  </tr>
-  <tr>
-    <td><img src="docs/readme/film-07.jpg" alt="Orders won per week: 257 for Early Delta, 342 for Delta"></td>
-    <td><img src="docs/readme/film-08.jpg" alt="Epsilon: test the brakes, push the volume, +€456 per week"></td>
-    <td><img src="docs/readme/film-09.jpg" alt="Scatter of all 2,627 practice weeks by model"></td>
-  </tr>
-  <tr>
-    <td><b>Volume first:</b> a 42% win target takes 342 orders a week instead of 257.</td>
-    <td><b>Epsilon:</b> brake below 95% on time, push volume from 342 to 370 orders.</td>
-    <td><b>Every practice week</b>, by model. Dots are ranked weeks; crosses missed 90% on time.</td>
-  </tr>
-</table>
-
 <p align="center">
   <a href="presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf">
     <img src="docs/readme/slide-cover.jpg" width="560" alt="Title slide: Cheap-Drive, Tale of Loops and Repetition, with Greek-letter model badges">
@@ -370,4 +337,4 @@ Optional browser checks cover report controls, exports, security and mobile layo
 Prototypes take Greek-letter names in order: Alpha, Beta, Gamma, and so on; see [PROTOTYPES.md](PROTOTYPES.md).
 The private story lives in git-ignored `prototype-story/` and must never be committed.
 [The red-car SVG](assets/cheap-drive.svg) is the reusable project icon, with an accessible title and description.
-README visuals live in [docs/readme](docs/readme/); film stills come from the hosted film.
+README visuals live in [docs/readme](docs/readme/); the film preview comes from the hosted film.

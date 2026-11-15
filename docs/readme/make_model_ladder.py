@@ -39,7 +39,7 @@ def build(groups, snapshot):
     desc = "; ".join(
         f"{n} €{groups[n]['mean_margin_eur'] / 1000:.1f}k over {groups[n]['runs']} runs, "
         f"{groups[n]['ranked'] / groups[n]['runs']:.0%} ranked" for n, *_ in MODELS)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="880" height="390" viewBox="0 0 880 390" role="img" aria-labelledby="t d">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="880" height="364" viewBox="0 0 880 364" role="img" aria-labelledby="t d">
   <title id="t">Average practice gross margin per week, Alpha to Epsilon</title>
   <desc id="d">Mean gross margin per completed practice week: {desc}. Snapshot {snapshot}.</desc>
   <style>
@@ -51,11 +51,10 @@ def build(groups, snapshot):
     .r {{ font-size: 12.5px; font-weight: 400; fill: #7a5a35; }}
     .g {{ font-size: 20px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }}
   </style>
-  <rect width="880" height="390" rx="18" fill="#FFF4DD"/>
+  <rect width="880" height="364" rx="18" fill="#FFF4DD"/>
   <text x="32" y="46" class="h">Average practice margin per week, by model</text>
   <text x="32" y="70" class="s">Mean gross margin of every completed practice week, including exploratory variants. A week ranks at 90% on time or better.</text>
 {chr(10).join(rows)}
-  <text x="32" y="372" class="s">{sum(groups[n]["runs"] for n, *_ in MODELS):,} practice weeks, snapshot {snapshot}. Source: presentations/run-data.json</text>
 </svg>
 '''
 

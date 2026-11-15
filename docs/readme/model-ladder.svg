@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="390" viewBox="0 0 880 390" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="364" viewBox="0 0 880 364" role="img" aria-labelledby="t d">
   <title id="t">Average practice gross margin per week, Alpha to Epsilon</title>
   <desc id="d">Mean gross margin per completed practice week: Alpha €4.5k over 677 runs, 85% ranked; Beta €10.6k over 268 runs, 88% ranked; Gamma €11.2k over 242 runs, 98% ranked; Delta €13.0k over 528 runs, 99% ranked; Epsilon €12.7k over 910 runs, 90% ranked. Snapshot 15 Nov 2026 08:07 Helsinki.</desc>
   <style>
@@ -10,7 +10,7 @@
     .r { font-size: 12.5px; font-weight: 400; fill: #7a5a35; }
     .g { font-size: 20px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }
   </style>
-  <rect width="880" height="390" rx="18" fill="#FFF4DD"/>
+  <rect width="880" height="364" rx="18" fill="#FFF4DD"/>
   <text x="32" y="46" class="h">Average practice margin per week, by model</text>
   <text x="32" y="70" class="s">Mean gross margin of every completed practice week, including exploratory variants. A week ranks at 90% on time or better.</text>
   <g transform="translate(0,104)">
@@ -43,5 +43,4 @@
     <rect x="300" y="6" width="339" height="28" rx="6" fill="#7B4DF2"/>
     <text x="649" y="28" class="v">€12.7k<tspan class="r" dx="8">910 runs, 90% ranked</tspan></text>
   </g>
-  <text x="32" y="372" class="s">2,625 practice weeks, snapshot 15 Nov 2026 08:07 Helsinki. Source: presentations/run-data.json</text>
 </svg>
