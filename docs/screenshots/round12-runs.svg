@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="792pt" height="388.8pt" viewBox="0 0 792 388.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:description>Paired secret-week margins from the official round-12 leaderboard. Both teams ranked on all five weeks; bars start at zero.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 388.8
+L 792 388.8
+L 792 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 190.08 342.144
+L 784.08 342.144
+L 784.08 81.648
+L 190.08 81.648
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 190.08 342.144
+L 190.08 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m606a7fe0d7" d="M 0 0
+L 0 3.5
+" style="stroke: #172b40; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="190.08" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="190.08" y="356.741656" transform="rotate(-0 190.08 356.741656)">€0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 281.292198 342.144
+L 281.292198 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="281.292198" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="281.292198" y="356.741656" transform="rotate(-0 281.292198 356.741656)">€5,000</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 372.504395 342.144
+L 372.504395 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="372.504395" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="372.504395" y="356.741656" transform="rotate(-0 372.504395 356.741656)">€10,000</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 463.716593 342.144
+L 463.716593 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="463.716593" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="463.716593" y="356.741656" transform="rotate(-0 463.716593 356.741656)">€15,000</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 554.928791 342.144
+L 554.928791 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="554.928791" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="554.928791" y="356.741656" transform="rotate(-0 554.928791 356.741656)">€20,000</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 646.140988 342.144
+L 646.140988 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="646.140988" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="646.140988" y="356.741656" transform="rotate(-0 646.140988 356.741656)">€25,000</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 737.353186 342.144
+L 737.353186 81.648
+" clip-path="url(#pd6c44ead14)" style="fill: none; stroke: #e5eaf0; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m606a7fe0d7" x="737.353186" y="342.144" style="fill: #172b40; stroke: #172b40; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="737.353186" y="356.741656" transform="rotate(-0 737.353186 356.741656)">€30,000</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #172b40" x="487.08" y="370.742437" transform="rotate(-0 487.08 370.742437)">Gross margin per secret week</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_15"/>
+     <g id="text_9">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 109.421802)">Run 1</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(38.025312 121.424537)">Epsilon Prime 98.2% on time</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_16"/>
+     <g id="text_10">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 159.807876)">Run 2</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(38.025312 171.81061)">Epsilon Prime 98.2% on time</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_17"/>
+     <g id="text_11">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 210.193949)">Run 3</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(38.025312 222.196684)">Epsilon Prime 97.2% on time</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_18"/>
+     <g id="text_12">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 260.580023)">Run 4</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(38.025312 272.582757)">Epsilon Prime 94.0% on time</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_19"/>
+     <g id="text_13">
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(153.364375 310.966096)">Run 5</text>
+      <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; fill: #172b40" transform="translate(38.025312 322.968831)">Epsilon Prime 98.5% on time</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 190.08 93.488727
+L 391.953207 93.488727
+L 391.953207 109.612271
+L 190.08 109.612271
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #1461b8"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 190.08 143.874801
+L 418.0658 143.874801
+L 418.0658 159.998344
+L 190.08 159.998344
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #1461b8"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 190.08 194.260874
+L 452.73282 194.260874
+L 452.73282 210.384418
+L 190.08 210.384418
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #1461b8"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 190.08 244.646948
+L 402.016832 244.646948
+L 402.016832 260.770491
+L 190.08 260.770491
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #1461b8"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 190.08 295.033021
+L 556.038478 295.033021
+L 556.038478 311.156565
+L 190.08 311.156565
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #1461b8"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 190.08 112.635435
+L 466.148493 112.635435
+L 466.148493 128.758979
+L 190.08 128.758979
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #62758a"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 190.08 163.021509
+L 489.515963 163.021509
+L 489.515963 179.145052
+L 190.08 179.145052
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #62758a"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 190.08 213.407582
+L 582.85833 213.407582
+L 582.85833 229.531126
+L 190.08 229.531126
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #62758a"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 190.08 263.793656
+L 513.660562 263.793656
+L 513.660562 279.917199
+L 190.08 279.917199
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #62758a"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 190.08 314.179729
+L 689.239664 314.179729
+L 689.239664 330.303273
+L 190.08 330.303273
+z
+" clip-path="url(#pd6c44ead14)" style="fill: #62758a"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 190.08 342.144
+L 784.08 342.144
+" style="fill: none; stroke: #d9e1e8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="396.953207" y="103.88839" transform="rotate(-0 396.953207 103.88839)">€11,066.13</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="423.0658" y="154.274463" transform="rotate(-0 423.0658 154.274463)">€12,497.55</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="457.73282" y="204.660537" transform="rotate(-0 457.73282 204.660537)">€14,397.90</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="407.016832" y="255.04661" transform="rotate(-0 407.016832 255.04661)">€11,617.79</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="561.038478" y="305.432684" transform="rotate(-0 561.038478 305.432684)">€20,060.83</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="471.148493" y="123.035098" transform="rotate(-0 471.148493 123.035098)">€15,133.31</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="494.515963" y="173.421171" transform="rotate(-0 494.515963 173.421171)">€16,414.25</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="587.85833" y="223.807245" transform="rotate(-0 587.85833 223.807245)">€21,531.02</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="518.660562" y="274.193318" transform="rotate(-0 518.660562 274.193318)">€17,737.79</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="694.239664" y="324.579392" transform="rotate(-0 694.239664 324.579392)">€27,362.55</text>
+   </g>
+  </g>
+  <g id="text_24">
+   <text style="font-weight: 700; font-size: 17px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="19.8" y="17.1072" transform="rotate(-0 19.8 17.1072)">Round 12: our five runs versus the leader</text>
+  </g>
+  <g id="text_25">
+   <text style="font-size: 10px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="19.8" y="34.992" transform="rotate(-0 19.8 34.992)">Level 8 · Sunday 06:00 Helsinki · all five runs qualified</text>
+  </g>
+  <g id="text_26">
+   <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="435.6" y="34.992" transform="rotate(-0 435.6 34.992)">2026-11-15 07:55:28.783 UTC</text>
+  </g>
+  <g id="legend_1">
+   <g id="patch_14">
+    <path d="M 27.9 71.314594
+L 45.9 71.314594
+L 45.9 65.014594
+L 27.9 65.014594
+z
+" style="fill: #1461b8"/>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="53.1" y="71.314594" transform="rotate(-0 53.1 71.314594)">Epsilon Prime / Guardians of the Moonlight (#34)</text>
+   </g>
+   <g id="patch_15">
+    <path d="M 27.9 84.815297
+L 45.9 84.815297
+L 45.9 78.515297
+L 27.9 78.515297
+z
+" style="fill: #62758a"/>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #172b40" x="53.1" y="84.815297" transform="rotate(-0 53.1 84.815297)">Juhus (#1)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pd6c44ead14">
+   <rect x="190.08" y="81.648" width="594" height="260.496"/>
+  </clipPath>
+ </defs>
+</svg>
