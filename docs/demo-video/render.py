@@ -964,36 +964,36 @@ def delta_iteration(t):
     im = base_canvas('citrus').copy()
     enter_model_hdr(im, 'Delta:', ' Quantity > the best margins', 80, 88, 84, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
 
-    rect(im, (80, 226, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
-    txt(im, 'Orders won / week', 136, 268, 44, INK, 700)
-    badge(im, '+33% more orders', 1460, 264, color=CARD, bg='#E62E00', size=28, weight=700)
+    rect(im, (460, 236, 1460, 966), CARD, GOLD_LINE, r=20, width=2)
+    txt(im, 'Orders won / week', 512, 268, 38, INK, 700)
+    badge(im, '+33% more orders', 1106, 264, color=CARD, bg='#E62E00', size=25, weight=700)
 
     base_y = 824
-    max_h = 430
-    left_x, right_x = 260, 1720
+    max_h = 420
+    left_x, right_x = 580, 1380
     for val in [0, 100, 200, 300]:
         yy = round(base_y - max_h * (val / 360.0))
         line(im, [(left_x, yy), (right_x, yy)], GOLD_LINE if val == 0 else APRICOT, 3 if val == 0 else 2)
-        txt(im, f'{val}', left_x - 24, yy, 22, MUTED_INK, mono=True, weight=650, anchor='rm')
+        txt(im, f'{val}', left_x - 20, yy, 21, MUTED_INK, mono=True, weight=650, anchor='rm')
 
-    bw = 360
+    bw = 220
     # Left bar: Early Delta (257)
     p1 = ease((t - 0.15) / 0.7)
     h1 = round(max_h * (257.0 / 360.0) * p1)
-    bx1 = 500
-    rect(im, (bx1, base_y - h1, bx1 + bw, base_y), GOLD_TRACK, outline=GOLD_LINE, r=16, width=2)
-    txt(im, f'{round(257 * p1)}', bx1 + bw / 2, base_y - h1 - 78, 68, MUTED_INK, 700, anchor='ma')
-    txt(im, 'Early Delta', bx1 + bw / 2, base_y + 26, 32, MUTED_INK, 700, anchor='ma')
-    txt(im, '30% win target', bx1 + bw / 2, base_y + 68, 24, MUTED_INK, 600, anchor='ma')
+    bx1 = 680
+    rect(im, (bx1, base_y - h1, bx1 + bw, base_y), GOLD_TRACK, outline=GOLD_LINE, r=14, width=2)
+    txt(im, f'{round(257 * p1)}', bx1 + bw / 2, base_y - h1 - 72, 60, MUTED_INK, 700, anchor='ma')
+    txt(im, 'Early Delta', bx1 + bw / 2, base_y + 24, 28, MUTED_INK, 700, anchor='ma')
+    txt(im, '30% win target', bx1 + bw / 2, base_y + 62, 22, MUTED_INK, 600, anchor='ma')
 
     # Right bar: Delta (342)
     p2 = ease((t - 0.30) / 0.8)
     h2 = round(max_h * (342.0 / 360.0) * p2)
-    bx2 = 1120
-    rect(im, (bx2, base_y - h2, bx2 + bw, base_y), '#E62E00', r=16)
-    txt(im, f'{round(342 * p2)}', bx2 + bw / 2, base_y - h2 - 86, 76, '#E62E00', 700, anchor='ma')
-    txt(im, 'Delta', bx2 + bw / 2, base_y + 26, 32, '#E62E00', 700, anchor='ma')
-    txt(im, '42% win target', bx2 + bw / 2, base_y + 68, 24, INK, 650, anchor='ma')
+    bx2 = 1060
+    rect(im, (bx2, base_y - h2, bx2 + bw, base_y), '#E62E00', r=14)
+    txt(im, f'{round(342 * p2)}', bx2 + bw / 2, base_y - h2 - 78, 68, '#E62E00', 700, anchor='ma')
+    txt(im, 'Delta', bx2 + bw / 2, base_y + 24, 28, '#E62E00', 700, anchor='ma')
+    txt(im, '42% win target', bx2 + bw / 2, base_y + 62, 22, INK, 650, anchor='ma')
 
     return im
 
