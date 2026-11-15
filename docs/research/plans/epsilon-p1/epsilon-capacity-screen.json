@@ -1,0 +1,72 @@
+{
+  "factory": "models.delta:make_delta",
+  "level": 8,
+  "seeds": [
+    "delta-f1-s07",
+    "delta-f2-s04",
+    "delta-f1-s01",
+    "delta-f1-s05"
+  ],
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "variants": {
+    "epsilon-retry-young-win4200": {
+      "pair_once": 0,
+      "pair_max_idle_minutes": 120,
+      "delta_pair_max_wait_minutes": 180,
+      "delta_pair_min_slack_minutes": 480,
+      "win_target_bps": 4200
+    },
+    "epsilon-rescue8500-win4200": {
+      "pair_fee_bps": 7800,
+      "pair_rescue_fee_bps": 8500,
+      "pair_rescue_flat_minutes": 15,
+      "pair_split_minutes": 45,
+      "win_target_bps": 4200
+    },
+    "epsilon-retry-young-win4600": {
+      "pair_once": 0,
+      "pair_max_idle_minutes": 120,
+      "delta_pair_max_wait_minutes": 180,
+      "delta_pair_min_slack_minutes": 480,
+      "win_target_bps": 4600
+    },
+    "epsilon-rescue8500-win4600": {
+      "pair_fee_bps": 7800,
+      "pair_rescue_fee_bps": 8500,
+      "pair_rescue_flat_minutes": 15,
+      "pair_split_minutes": 45,
+      "win_target_bps": 4600
+    },
+    "epsilon-retry-young-win5000": {
+      "pair_once": 0,
+      "pair_max_idle_minutes": 120,
+      "delta_pair_max_wait_minutes": 180,
+      "delta_pair_min_slack_minutes": 480,
+      "win_target_bps": 5000
+    },
+    "epsilon-rescue8500-win5000": {
+      "pair_fee_bps": 7800,
+      "pair_rescue_fee_bps": 8500,
+      "pair_rescue_flat_minutes": 15,
+      "pair_split_minutes": 45,
+      "win_target_bps": 5000
+    }
+  }
+}

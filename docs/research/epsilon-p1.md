@@ -212,3 +212,26 @@ chain gains are not experimental results and are not used as a prior score.
 Full offline suite:487 tests. Against the frozen pre-chain implementation,
 1600 randomized pair plans and400 complete three-order selections produced
 identical reasons, posted actions and plan data with chain3 off.
+
+
+## Settings-only capacity priority (02:49 UTC)
+
+Before any chain or further implementation screen, test the orchestrator's
+capacity-study levers separately at target4200,4600,5000, retaining premium1440:
+
+- Young retry: `pair_once=0`, `pair_max_idle_minutes=120`,
+  `delta_pair_max_wait_minutes=180`, `delta_pair_min_slack_minutes=480`.
+- Rescue offer: `pair_fee_bps=7800`, `pair_rescue_fee_bps=8500`,
+  `pair_rescue_flat_minutes=15`, `pair_split_minutes=45`.
+
+All keys exist. Code verification qualifies the Gemini narrative: unbounded
+pair_once0 does not record or exclude a previously failed combination, unlike
+this branch's opt-in bounded retry policy. The15-minute hold releases an
+existing ramp step; it does not manufacture a raise before the45-minute split.
+The report's feasibility counts and lateness correlations do not establish a
+causal margin gain. This screen uses exactly the requested existing settings
+and the new read-only pooling diagnostics, with two workers and both launch
+cutoffs retained.
+
+Wider reach was drained after both hard seeds so this priority could start.
+The three-car code is implemented and tested but has created no world.
