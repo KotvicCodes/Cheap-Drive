@@ -150,12 +150,14 @@ def circle(im, x, y, r, fill, outline=None, width=1):
 def badge(im, text, x, y, color=INK, bg=MARIGOLD, border=None, size=22, mono=False, weight=650):
     f = font(size, weight, mono)
     b = f.getbbox(str(text))
-    pad_x = max(16, round(size * 0.68))
-    pad_y = max(10, round(size * 0.38))
+    cap_b = f.getbbox('H')
+    pad_x = max(18, round(size * 0.72))
     w = (b[2] - b[0]) + 2 * pad_x
-    h = (b[3] - b[1]) + 2 * pad_y
-    rect(im, (x, y, x + w, y + h), bg, outline=border, r=max(8, round(h * 0.22)), width=2 if border else 0)
-    txt(im, text, x + pad_x - b[0], y + pad_y - b[1], size, color, weight=weight, mono=mono)
+    h = max(36, round(size * 1.90))
+    rect(im, (x, y, x + w, y + h), bg, outline=border, r=max(8, round(h * 0.24)), width=2 if border else 0)
+    tx = x + w / 2 - (b[0] + b[2]) / 2
+    ty = y + h / 2 - (cap_b[1] + cap_b[3]) / 2
+    txt(im, text, tx, ty, size, color, weight=weight, mono=mono)
     return w
 
 
@@ -590,11 +592,20 @@ def observability(t):
     im = base_canvas('juicy').copy()
     enter(im, 'Find what broke', 80, 80, 92, t, .05, weight=700)
     phase = min(2, int(t / 1.9))
-    for i, (label, x) in enumerate([('Note', 80), ('Pickup window', 326), ('Outcome', 810)]):
-        badge(im, label, x, 216, color=SUNBURST if i == phase else INK,
-              bg=INK if i == phase else APRICOT, size=32)
+    pill_y = 216
+    pill_size = 32
+    pill_h = max(36, round(pill_size * 1.90))
+    mid_y = pill_y + pill_h / 2
+    cur_x = 80
+    gap = 96
+    for i, label in enumerate(['Note', 'Pickup window', 'Outcome']):
+        w = badge(im, label, cur_x, pill_y, color=SUNBURST if i == phase else INK,
+                  bg=INK if i == phase else APRICOT, size=pill_size, weight=700)
         if i < 2:
-            txt(im, '→', 268 if i == 0 else 748, 222, 40, INK, 700)
+            ax = cur_x + w + gap / 2
+            line(im, [(ax - 16, mid_y), (ax + 14, mid_y)], INK, 4)
+            line(im, [(ax + 4, mid_y - 10), (ax + 15, mid_y), (ax + 4, mid_y + 10)], INK, 4)
+        cur_x += w + gap
 
     rect(im, (80, 336, 1020, 978), INK, r=18)
     bezel_w, bezel_h = 1004 - 96, 962 - 352
@@ -619,8 +630,8 @@ def observability(t):
         yy = 442 + i * 170
         rect(im, (1084, yy, 1816, yy + 148), APRICOT if i == phase else CREAM,
              ORANGE if i == phase else GOLD_LINE, r=14, width=4 if i == phase else 2)
-        txt(im, label, 1112, yy + 18, 25, ORANGE if i == phase else MUTED_INK, 700)
-        txt(im, principal, 1112, yy + 68, 36, INK, 700)
+        txt(im, label, 1116, yy + 30, 25, ORANGE if i == phase else MUTED_INK, 700)
+        txt(im, principal, 1116, yy + 74, 36, INK, 700)
     return im
 
 
