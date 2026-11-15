@@ -147,12 +147,12 @@ def circle(im, x, y, r, fill, outline=None, width=1):
     ImageDraw.Draw(im).ellipse((round(x - r), round(y - r), round(x + r), round(y + r)), fill=fill, outline=outline, width=width)
 
 
-def badge(im, text, x, y, color=INK, bg=MARIGOLD, border=None, size=22, mono=False, weight=650):
+def badge(im, text, x, y, color=INK, bg=MARIGOLD, border=None, size=22, mono=False, weight=650, fixed_w=None):
     f = font(size, weight, mono)
     b = f.getbbox(str(text))
     cap_b = f.getbbox('H')
     pad_x = max(18, round(size * 0.72))
-    w = (b[2] - b[0]) + 2 * pad_x
+    w = fixed_w if fixed_w is not None else ((b[2] - b[0]) + 2 * pad_x)
     h = max(36, round(size * 1.90))
     rect(im, (x, y, x + w, y + h), bg, outline=border, r=max(8, round(h * 0.24)), width=2 if border else 0)
     tx = x + w / 2 - (b[0] + b[2]) / 2
@@ -663,8 +663,9 @@ def experiments(t):
         cx = 80 + 1760 * (0.09 + 0.89 * (col + 0.55) / 5.00)
         hw = 1760 * (0.89 * 0.45 / 5.00)
         rect(im, (cx - hw, 230 + 825 * 0.03, cx + hw, 230 + 825 * 0.80), None, ORANGE, r=6, width=4)
-        bx = clamp(cx - 175, 80, 1420)
-        badge(im, stages[stage_idx][1], bx, 178, color=INK, bg=ORANGE, size=28)
+        badge_w = 350
+        bx = clamp(cx - badge_w / 2, 80, 1840 - badge_w)
+        badge(im, stages[stage_idx][1], bx, 178, color=INK, bg=ORANGE, size=28, fixed_w=badge_w)
     return im
 
 
