@@ -977,7 +977,7 @@ is exactly Early Epsilon plus P5's four overrides. Unit boundaries prove
 that the combo rejects same-day slack350/470 and accepts490.
 
 All four original stack arms eventually failed91.5%; the tilt nonetheless
-showed+€1,063.57/week over3pairs,2positive,386.3wins,90.144%floor. The user
+showed+€1,063.57/week over3pairs,3positive,386.3wins,90.144%floor. The user
 explicitly ordered further tilt exploration despite this floor miss.
 This is authorization to gather evidence, not an adoption exception for
 tilt. The weak uniform and floor/fee arms were ended and removed. No
