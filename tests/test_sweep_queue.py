@@ -60,3 +60,29 @@ class SequentialGateTests(unittest.TestCase):
         plan = {'variant_workers': {'arm': 2}}
         self.assertEqual(next_job(jobs, [('arm', 'x'), ('arm', 'y')], plan, set()), ('control', 'a'))
         self.assertIsNone(next_job(jobs, [], plan, {'arm'}))
+
+
+class StartedWorldTests(unittest.TestCase):
+    def test_transport_failure_rejoins_same_world_and_never_creates_or_deletes(self):
+        from unittest.mock import Mock, patch
+        from scripts.sweep import finish_started_week
+        world, captured, desk, journal = Mock(), Mock(), Mock(), Mock()
+        world.id = 'practice-world'
+        captured.initial_snapshot = {'now': 500, 'endsAt': 10080}
+        factory = Mock(return_value=desk)
+        def play(w, level, j, make, fast):
+            self.assertIs(w, world)
+            make(captured, level, 500, j)
+            if play.calls == 0:
+                play.calls += 1
+                raise ConnectionError('transient')
+            return {'ranked': True}
+        play.calls = 0
+        with patch('dispatch.play_model', side_effect=play), \
+                patch('final.full_history', return_value=[{'seq': 1}]) as history, \
+                patch('scripts.sweep.time.sleep'):
+            self.assertEqual(finish_started_week(world, 8, journal, factory, fast=True), {'ranked': True})
+        desk.rejoin.assert_called_once_with(captured.initial_snapshot, [{'seq': 1}])
+        world.delete.assert_not_called()
+        world.client.create.assert_not_called()
+        history.assert_called_once_with(world, through=500)

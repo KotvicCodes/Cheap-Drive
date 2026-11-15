@@ -22,7 +22,8 @@ finish. Removing it resumes queued weeks; completed scores are still reused.
 from __future__ import annotations
 
 import concurrent.futures as cf
-from contextlib import redirect_stdout
+from contextlib import contextmanager, nullcontext, redirect_stdout
+from datetime import datetime, timezone
 import gzip
 import io
 import json
@@ -45,11 +46,99 @@ EVENTS = ("price_request", "order_won", "gig_booked", "gig_dropped", "gig_expire
           "visit_failed", "no_show", "order_cancelled")
 
 
+class LaunchWindowClosed(RuntimeError):
+    """A requested launch cutoff has passed; active weeks may still finish."""
+
+
+def check_launch_cutoff():
+    cutoff = os.environ.get('SWEEP_START_BEFORE_UTC')
+    if cutoff:
+        end = datetime.fromisoformat(cutoff)
+        if end.tzinfo is None:
+            raise ValueError('SWEEP_START_BEFORE_UTC must include a timezone')
+        if datetime.now(timezone.utc) >= end:
+            raise LaunchWindowClosed('practice launch cutoff reached')
+
+
 def wait_for_launch():
     """Pause only at world boundaries; never interfere with an active week."""
     path = os.environ.get("SWEEP_PAUSE_FILE")
+    check_launch_cutoff()
     while path and Path(path).exists():
         time.sleep(1)
+        check_launch_cutoff()
+
+
+def wait_for_team_capacity(client):
+    limit = int(os.environ.get('SWEEP_TEAM_WORLD_LIMIT', '0'))
+    if limit < 0:
+        raise ValueError('SWEEP_TEAM_WORLD_LIMIT must be nonnegative')
+    if not limit:
+        return
+    while True:
+        wait_for_launch()
+        if sum(not world['ended'] for world in client.worlds()) < limit:
+            return
+        time.sleep(3)
+
+
+@contextmanager
+def world_launch_slot(client, label=None):
+    """Serialize lane checks through creation and writing its ownership marker."""
+    limit = int(os.environ.get('SWEEP_LANE_WORLD_LIMIT', '0'))
+    root = os.environ.get('SWEEP_LANE_ROOT')
+    if limit < 0 or limit and not root:
+        raise ValueError('a positive lane limit requires SWEEP_LANE_ROOT')
+    if limit:
+        import fcntl
+        lane = Path(root)
+        lane.mkdir(parents=True, exist_ok=True)
+    while True:
+        lock = (lane / '.launch.lock').open('a') if limit else nullcontext()
+        with lock as stream:
+            if limit:
+                fcntl.flock(stream, fcntl.LOCK_EX)
+            wait_for_launch()
+            disabled = os.environ.get('SWEEP_DISABLED_LABELS_FILE')
+            if disabled and label in json.loads(Path(disabled).read_text()):
+                raise LaunchWindowClosed('arm disabled by screen monitor')
+            wait_for_team_capacity(client)
+            full = False
+            if limit:
+                active = {w['worldId'] for w in client.worlds() if not w['ended']}
+                owned = {p.name for directory in lane.glob('*/worlds')
+                         for p in directory.iterdir() if p.is_file()}
+                full = len(active & owned) >= limit
+            if not full:
+                check_launch_cutoff()
+                yield
+                return
+        time.sleep(3)
+
+
+def finish_started_week(world, level, journal, make_desk, *, fast):
+    """A started week always finishes; network failures rejoin the same world."""
+    from dispatch import play_model
+    resumed = False
+    failures = 0
+    while True:
+        def factory(w, l, n, j):
+            desk = make_desk(w, l, n, j)
+            if resumed:
+                from final import full_history
+                snapshot = w.initial_snapshot
+                history = full_history(world, through=snapshot['now'])
+                j.record_history(history)
+                desk.rejoin(snapshot, history)
+            return desk
+        try:
+            return play_model(world, level, journal, factory, fast=fast)
+        except Exception as error:
+            failures += 1
+            resumed = True
+            journal.record('practice_rejoin_retry', worldId=world.id,
+                           failures=failures, errorType=type(error).__name__)
+            time.sleep(min(60, 5 * failures))
 
 
 def play_week(out, factory_name, level, seed, label, settings, fast):
@@ -64,9 +153,9 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     for attempt in range(4):
         world = None
         try:
-            wait_for_launch()
-            world = client.create(level=level, seed=seed, board=False)
-            (out / "worlds" / world.id).write_text(tag)
+            with world_launch_slot(client, label):
+                world = client.create(level=level, seed=seed, board=False)
+                (out / "worlds" / world.id).write_text(tag)
             started = time.time()
             name = tag if attempt == 0 else f"{tag}-attempt{attempt + 1}"
             with gzip.open(out / "traces" / f"{name}.jsonl.gz", "wt", encoding="utf-8") as stream:
@@ -91,7 +180,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                 journal.record("run", worldId=world.id, level=level, seed=seed, factory=factory_name,
                                settings=settings, tag=tag, attempt=attempt + 1, fast=fast)
                 with redirect_stdout(io.StringIO()):
-                    score = play_model(world, level, journal, make_desk, fast=fast)
+                    score = finish_started_week(world, level, journal, make_desk, fast=fast)
                 diag = journal.metrics()
             reveal_file = None
             for wait in (0, 5, 20):
@@ -111,16 +200,16 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
                     "seconds": round(time.time() - started), "attempts": attempt + 1}
+        except LaunchWindowClosed:
+            raise
         except Exception as error:  # network blips, slot races, server restarts
             last = f"{type(error).__name__}: {error}"
             with (out / "errors.log").open("a") as f:
                 f.write(f"{tag} attempt {attempt + 1}\n{traceback.format_exc()}\n")
-            if world is not None:  # only a world this worker made
-                try:
-                    world.delete()
-                    (out / "worlds" / world.id).unlink(missing_ok=True)
-                except Exception:
-                    pass
+            if world is not None:
+                # Post-completion diagnostics may fail; never delete a started world.
+                # Playing itself is retried in finish_started_week on the same identity.
+                raise
             time.sleep(20 * 2 ** attempt)
     raise RuntimeError(last)
 
@@ -161,6 +250,17 @@ def summarize(out, plan):
     return "\n".join(lines[:4 + len(table)])
 
 
+def planned_jobs(plan, done):
+    """Optional explicit ordering keeps different cohorts in one worker queue."""
+    jobs = ([(j['label'], j['seed']) for j in plan['jobs']] if 'jobs' in plan else
+            [(label, seed) for seed in plan['seeds'] for label in plan['variants']])
+    if len(jobs) != len(set(jobs)) or any(label not in plan['variants'] or seed not in plan['seeds']
+                                         for label, seed in jobs):
+        raise ValueError('jobs must be unique known variant/seed pairs')
+    return [(label, seed) for label, seed in jobs if (label, seed) not in done]
+
+
+
 def queued_jobs(plan, done):
     """Allow disjoint per-arm seed assignments when peers share the queue."""
     assignments = plan.get("variant_seeds", {})
@@ -168,8 +268,8 @@ def queued_jobs(plan, done):
         raise ValueError("variant_seeds contains an unknown variant")
     if any(set(seeds) - set(plan["seeds"]) for seeds in assignments.values()):
         raise ValueError("variant_seeds contains an unknown seed")
-    return [(label, seed) for seed in plan["seeds"] for label in plan["variants"]
-            if seed in assignments.get(label, plan["seeds"]) and (label, seed) not in done]
+    return [(label, seed) for label, seed in planned_jobs(plan, done)
+            if seed in assignments.get(label, plan["seeds"])]
 
 
 def gate_failures(plan, rows):

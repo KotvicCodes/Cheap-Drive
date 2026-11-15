@@ -9,6 +9,8 @@ from .delta_b1 import DeltaB1Mixin, validate_b1
 from .delta_lanes import DeltaLanesMixin, validate_lanes
 from .delta_option_spread import DeltaOptionSpreadMixin, validate_option_spread
 from .delta_safe_quote import DeltaSafeQuoteMixin
+from .delta_safe_target import DeltaSafeTargetMixin
+from .delta_segmented_targets import DeltaSegmentedTargetsMixin
 from .delta_service import DeltaServiceMixin
 from .delta_intake import DeltaIntakeMixin, DeltaIntakeSettings
 from .delta_pair_quote import DeltaPairQuoteMixin
@@ -263,6 +265,9 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_pair_max_wait_minutes=0, delta_pair_min_slack_minutes=0,
                delta_reference_quote_floor_bps=0, delta_readiness_early_cut_bps=0,
                delta_urgent_fee_memory=0, delta_note_urgency=0,
+               delta_safe_target_bps=0, delta_safe_target_min_slack_minutes=720,
+               delta_safe_target_max_backlog=15,
+               delta_segmented_targets=0, win_target_safe_bps=5500,
                delta_safe_quote_bps=0, delta_safe_quote_min_slack_minutes=720,
                delta_safe_quote_max_backlog=15,
                delta_service_brake=0,
@@ -277,7 +282,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pair_self_roads must be 0 or 1')
     intake = DeltaIntakeSettings(**{k: settings.pop(k) for k in list(settings)
                                   if k in DeltaIntakeSettings.__dataclass_fields__})
-    class DeltaDesk(DeltaSafeQuoteMixin, DeltaIntakeMixin, DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaNoteUrgencyMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+    class DeltaDesk(DeltaSegmentedTargetsMixin, DeltaSafeTargetMixin, DeltaSafeQuoteMixin, DeltaIntakeMixin, DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaNoteUrgencyMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
@@ -336,6 +341,11 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_readiness_early_cut_bps=delta_readiness_early_cut_bps,
                      delta_urgent_fee_memory=delta_urgent_fee_memory,
                      delta_note_urgency=delta_note_urgency,
+                     delta_safe_target_bps=delta_safe_target_bps,
+                     delta_safe_target_min_slack_minutes=delta_safe_target_min_slack_minutes,
+                     delta_safe_target_max_backlog=delta_safe_target_max_backlog,
+                     delta_segmented_targets=delta_segmented_targets,
+                     win_target_safe_bps=win_target_safe_bps,
                      delta_safe_quote_bps=delta_safe_quote_bps,
                      delta_safe_quote_min_slack_minutes=delta_safe_quote_min_slack_minutes,
                      delta_safe_quote_max_backlog=delta_safe_quote_max_backlog,

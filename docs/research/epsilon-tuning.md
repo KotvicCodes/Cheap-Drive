@@ -1025,3 +1025,39 @@ Medium plus guarded safe quote9800/backlog10. Fresh Medium controls establish
 a direct paired comparison. Continue only at mean gain>=€300 and floor>=91.0%;
 a replacement must beat Medium and preserve or improve its measured floor.
 The target for improving final safety is91.5%. No ranking runs remain.
+
+## Early Epsilon restored; Medium rejected on fresh data, 04:04 UTC
+
+**Final selection: Early Epsilon**, per explicit user decision.
+`models/epsilon.json` has exactly the settings in `epsilon-early.json`.
+`epsilon-medium.json` is retained as the rejected reproducible experiment.
+
+| Change | Paired weeks | Mean margin difference/week vs Early | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Medium, current-code six-week verification | 6 | +€347.32 | 5/6 | 91.022% | Superseded by fresh safety failure |
+| Medium, fresh `eps-bf-s002` | 1 | +€887.06 gross, unqualified | 1/1 gross | 89.329% | Rejected; below90% scores zero |
+
+Fresh s002 server scores: Medium €7,823.20,328won,89.329268% on time,
+`ranked=false`; Early €6,936.14,303won,92.409241%,`ranked=true`.
+The extra gross margin cannot compensate for failing the weekly scoring
+threshold. Source: orchestrator backfill `runs/epsilon/backfill/*-eps-bf-s002/runs.jsonl`.
+No new Medium or Medium-tweak worlds will be queued. All already started
+worlds continue to completion.
+
+Merged P5 branch `t3/epsilon-p5b` at29b25f0, preserving the current recovery
+fixes, note/fee modules, Early manifest and sweep gates. Its guarded safe quote
+module was already ported unchanged; additional separate-target/segmented
+modules remain default off. Retained current versions in conflicts caused by
+rewritten shared history and integrated the new experiment hooks explicitly.
+The sweep also retains P5's launch cutoff, shared-capacity checks and ordered
+jobs. A started week's transport failure now rejoins the same world; no
+practice world is deleted. The deadline guard now blocks launches and drains
+naturally, with no forced end and no killing sweeps that own active worlds.
+
+Only the safe-order grid remains:9800/backlog10,9700/backlog10,
+9900/backlog8,9800/backlog12, all on fresh paired Early seeds. The requested
+Medium+safe arm is cancelled by the later explicit abandonment of all Medium
+tweaks. Start with2seeds per arm, then keep only mean>=€300/week and
+worst>=91.0% after2–3pairs. Final replacement additionally requires a clear
+paired gain and worst>=91.5%; otherwise Early remains selected. No new
+worlds after05:30 UTC; every started world finishes naturally.
