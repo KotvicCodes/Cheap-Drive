@@ -1,4 +1,4 @@
-"""Default-off, week-long return to conservative intake after realized lateness."""
+"""Default-off, week-long return to conservative intake and future pairing."""
 from dataclasses import replace
 
 
@@ -62,6 +62,11 @@ class EpsilonBreakerMixin:
                                 trade_ins=0)
         self.intake_settings = replace(self.intake_settings, delta_relaxed_slack_minutes=0,
                                        delta_corridor_open_cap=0)
+        # These gates affect future pair search only. Active pairs retain their
+        # stored route, deadlines, fees and timers; no gig is withdrawn here.
+        self.driver_settings = replace(self.driver_settings, pair_once=1, pair_max_idle_minutes=60)
+        self.delta_pair_max_wait_minutes = 0
+        self.delta_pair_min_slack_minutes = 0
         # Keep guarded trade routing/fees for previously accepted two-leg work.
         # trade_ins=0 prevents any new trade admission through Gamma's gate.
 

@@ -93,7 +93,10 @@ class EpsilonBreakerTests(unittest.TestCase):
         trade['legs'].append(deepcopy(trade['legs'][0]))
         self.assertTrue(desk._guarded_trade(trade))
         self.assertFalse(desk.eligible_options(trade, 200, 0)[0])
-        self.assertEqual(desk.driver_settings.pair_once, 0)
+        self.assertEqual(desk.driver_settings.pair_once, 1)
+        self.assertEqual(desk.driver_settings.pair_max_idle_minutes, 60)
+        self.assertEqual(desk.delta_pair_max_wait_minutes, 0)
+        self.assertEqual(desk.delta_pair_min_slack_minutes, 0)
 
     def test_partial_delivery_and_duplicate_late_refunds_count_orders_once(self):
         desk = self.desk(epsilon_breaker_min_orders=2)
