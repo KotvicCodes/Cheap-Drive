@@ -1017,18 +1017,18 @@ def epsilon_slide(t):
     eps_col = '#7C4DFF'
     enter_model_hdr(im, 'Epsilon:', ' keep experimenting', 80, 88, 78, t, .05, model_color=eps_col, rest_color=INK, weight=700)
 
-    # Left column: Card 1 ("Test the brakes") and Card 2 ("Push the volume" with the volume numbers)
-    rect(im, (80, 236, 760, 584), CARD, None, r=18)
-    rect(im, (80, 236, 760, 252), eps_col, None, r=18)
-    rect(im, (80, 244, 760, 252), eps_col, None, r=0)
-    rect(im, (80, 236, 760, 584), None, eps_col, r=18, width=3)
+    # Left column: Card 1 ("Test the brakes") and Card 2 ("Push the volume") with identical borders and masked top accent
+    for y0, y1 in [(236, 584), (618, 966)]:
+        card_im = Image.new('RGB', (680, y1 - y0), CARD)
+        ImageDraw.Draw(card_im).rectangle((0, 0, 680, 16), fill=eps_col)
+        c_mask = Image.new('L', (680, y1 - y0), 0)
+        ImageDraw.Draw(c_mask).rounded_rectangle((0, 0, 679, y1 - y0 - 1), radius=18, fill=255)
+        im.paste(card_im, (80, y0), c_mask)
+        rect(im, (80, y0, 760, y1), None, eps_col, r=18, width=3)
+
     txt(im, 'Test the', 120, 326, 76, INK, 700)
     txt(im, 'brakes', 120, 418, 76, eps_col, 700)
 
-    rect(im, (80, 618, 760, 966), CARD, None, r=18)
-    rect(im, (80, 618, 760, 634), eps_col, None, r=18)
-    rect(im, (80, 626, 760, 634), eps_col, None, r=0)
-    rect(im, (80, 618, 760, 966), None, GOLD_LINE, r=18, width=2)
     txt(im, 'Push the volume', 116, 662, 40, INK, 700)
     txt(im, '342 → 370', 116, 742, 82, eps_col, 700)
     txt(im, 'orders won / week (+27/wk)', 116, 858, 29, MUTED_INK, 650)
