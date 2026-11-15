@@ -415,3 +415,28 @@ fee-setting validation/unit coverage applies; no new model implementation.
 The orchestrator expects a vetted shortlist in scratchpad `top7-vetted.md`
 around 01:35 UTC. Its build-ready hypotheses go ahead of remaining speculative
 queue entries. The 03:00 ranking instruction stays in force.
+
+
+## Vetted shortlist and schedule update, 01:12 UTC
+
+Own allocation is six workers; P1 and P5 own three each. Vetted items 1, 2,
+4 and 5 are assigned here; latest-feasible pair windows belong to P1.
+Freeze moves to 04:30 UTC, rehearsal/practice cutoff to 06:15 UTC, final to
+07:00 UTC. The five sequential 03:00 UTC ranking runs remain authorized.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Premium slack threshold 1440 minutes | 19 | +€121.69 | 13/19 | 91.667% | Fresh eight-week confirmation running; not adopted |
+| Projected brake + cap14000 | 4 | −€603.51 | 1/4 | 90.823% | Reject |
+| Projected brake + cap13000 | 4 | −€208.19 | 1/4 | 89.562% | Reject |
+| Raw-reference quote floor11000 | Pending4 | — | — | — | Screen prepared |
+| Raw-reference quote floor11500 | Pending4 | — | — | — | Screen prepared |
+
+Raw-reference floors apply after normal rounding to competitive single-leg
+quotes at level4+, road distance45km+. Practical declines, low levels,
+trade-ins and short routes retain their original paths. The integer-cent
+ceiling uses the raw reference, with no admission or learning changes.
+Default-off action replay of the complete hard s07 week matched all2277
+batches and1943 actions, including clocks; explicit0 matched too. Local439
+tests and1689 subtests pass. This replay establishes equivalence, not
+counterfactual profit. Epsilon JSON still equals Delta.

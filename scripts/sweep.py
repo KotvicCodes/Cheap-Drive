@@ -107,6 +107,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
             (out / "worlds" / world.id).unlink(missing_ok=True)
             return {"score": score, "ledger": diag["ledger"], "events": diag["events"],
                     **({'fee_escalation': diag['fee_escalation']} if 'fee_escalation' in diag else {}),
+                    **({'interventions': diag['interventions']} if 'interventions' in diag else {}),
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
                     "seconds": round(time.time() - started), "attempts": attempt + 1}
