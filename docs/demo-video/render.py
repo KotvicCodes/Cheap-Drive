@@ -38,9 +38,9 @@ SCENES = [
     (20, 26),
     (26, 33),
     (33, 40),
-    (40, 47),
-    (47, 55),
-    (55, 60),
+    (40, 46),
+    (46, 52),
+    (52, 60),
 ]
 
 GRAPH = json.loads((ROOT / 'data/graph-data.json').read_text())
@@ -465,8 +465,28 @@ def hero(t):
 # ---------------------------------------------------------------------------
 def evolution(t):
     im = base_canvas('sunburst').copy()
-    enter(im, 'Prototype. Test. Loop. Repeat.', 80, 80, 88, t, .05, color=INK, weight=700)
-    txt(im, 'Each dot ≈10 practice runs', 84, 190, 24, MUTED_INK)
+    enter(im, 'Prototype. Test. Loop. Repeat.', 80, 80, 84, t, .05, color=INK, weight=700)
+    txt(im, 'Each dot ≈10 practice runs', 84, 188, 24, MUTED_INK, 600)
+
+    # 3 headline summary pills from Slide 3 of the updated presentation,
+    # right-aligned to x = 1840 along the subtitle row (y = 182).
+    summary_pills = [
+        '1,685 testing runs',
+        '5 models',
+        '1.5B tokens burned',
+    ]
+    pill_size = 20
+    pill_weight = 700
+    pill_gap = 12
+    pill_widths = []
+    for label in summary_pills:
+        b = font(pill_size, pill_weight, False).getbbox(label)
+        pad_x = max(18, round(pill_size * 0.72))
+        pill_widths.append((b[2] - b[0]) + 2 * pad_x)
+    px = 1840 - (sum(pill_widths) + pill_gap * (len(summary_pills) - 1))
+    for label, pw in zip(summary_pills, pill_widths):
+        badge(im, label, px, 182, color=INK, bg=CARD, border=ORANGE, size=pill_size, weight=pill_weight, fixed_w=pw)
+        px += pw + pill_gap
 
     p_car = clamp((t - 0.4) / 7.5)
     focus_idx = min(3, int(p_car * 3.999))
@@ -493,9 +513,14 @@ def evolution(t):
         rect(im, (cx, cy + 70, cx + cw, cy + 92), hdr_bg, None, r=0)
         rect(im, (cx, cy, cx + cw, cy2), None, col if is_focus else GOLD_LINE, r=20, width=5 if is_focus else 2)
 
-        # Greek letter & Name
-        circle(im, cx + 48, cy + 46, 26, INK)
-        ImageDraw.Draw(im).text((round(cx + 48), round(cy + 46)), greek_sym, font=GREEK_FONT, fill=greek_col, anchor='mm')
+        # Greek letter & Name (with animated glow ring on active column)
+        gx_c, gy_c = cx + 48, cy + 46
+        if is_focus:
+            pulse = 0.5 + 0.5 * math.sin(t * 6.0)
+            circle(im, gx_c, gy_c, 32 + 3.0 * pulse, None, outline=SUNBURST, width=3)
+            circle(im, gx_c, gy_c, 28, None, outline=CARD, width=2)
+        circle(im, gx_c, gy_c, 26, INK)
+        ImageDraw.Draw(im).text((round(gx_c), round(gy_c)), greek_sym, font=GREEK_FONT, fill=greek_col, anchor='mm')
         txt(im, name, cx + 90, cy + 28, 34, hdr_fg, 700)
 
         # Run count & dot matrix
@@ -510,7 +535,17 @@ def evolution(t):
             active_dot = d_idx < round(n_dots * appear)
             circle(im, dx, dy, 8 if active_dot else 4, col if active_dot else '#F7E6C4')
 
-        badge(im, tag, cx + 28, cy + 442, color=CARD if is_focus else INK, bg=col if is_focus else APRICOT, size=20)
+        badge(
+            im,
+            tag,
+            cx + 28,
+            cy + 442,
+            color=CARD if is_focus else INK,
+            bg=col if is_focus else APRICOT,
+            border=None if is_focus else GOLD_LINE,
+            size=20,
+            fixed_w=cw - 56,
+        )
 
         # Rising weekly margin bar at bottom of card
         bar_base = cy2 - 32
@@ -694,7 +729,10 @@ def failure(t):
 
     rect(im, (774, 236, 1840, 966), CARD, GOLD_LINE, r=18, width=2)
     txt(im, '8 new practice weeks', 814, 268, 32, INK, 700)
-    badge(im, '1 of 8 weeks failed', 1500, 262, color=CARD, bg=DANGER, size=24)
+
+    line_p = clamp((t - 0.25) / 2.2)
+    if line_p >= 6 / 7.0:
+        badge(im, '1 of 8 weeks failed', 1500, 262, color=CARD, bg=DANGER, size=24)
 
     holdout_rows = [r for r in PAIRED_WEEKS if r['comparison'] == 'Original candidate: fresh holdout']
     left, right = 885, 1780
@@ -719,15 +757,19 @@ def failure(t):
         ot_g = float(r['candidate_on_time']) * 100.0
         pts_b.append((cx, oy(ot_b)))
         pts_g.append((cx, oy(ot_g)))
-        txt(im, f'W{i + 1}', cx, 896, 22, DANGER if i == 6 else INK, mono=True, weight=700, anchor='ma')
+        txt(im, f'W{i + 1}', cx, 896, 22, DANGER if (i == 6 and line_p >= 6 / 7.0) else INK, mono=True, weight=700, anchor='ma')
 
-    line(im, pts_b, MUTED_INK, 3)
-    line(im, pts_g, ORANGE, 4)
+    path_partial(im, pts_b, line_p, MUTED_INK, 3)
+    path_partial(im, pts_g, line_p, ORANGE, 4, glow='#FFE066')
     for i, ((xb, yb), (xg, yg)) in enumerate(zip(pts_b, pts_g)):
+        if line_p < i / 7.0:
+            continue
         circle(im, xb, yb, 6, CARD, MUTED_INK, 2)
         if i == 6:
+            pulse = ((t - 2.14) * 1.2) % 1.0
+            circle(im, xg, yg, round(15 + 5 * pulse), None, DANGER, 2)
             circle(im, xg, yg, 12, DANGER, CARD, 3)
-            badge(im, '89.96%', xg - 68, yg + 20, color=CARD, bg=DANGER, size=26, mono=True)
+            badge(im, '89.96%', xg - 72, yg + 22, color=CARD, bg=DANGER, size=26, mono=True)
         else:
             circle(im, xg, yg, 8, ORANGE, INK, 2)
 
@@ -816,11 +858,40 @@ def gain(t):
 
     rect(im, (84, 738, 690, 948), CARD, GOLD_LINE, r=18, width=2)
     txt(im, 'One driver gig carries two sequential cars', 114, 762, 23, INK, 700)
-    line(im, [(150, 868), (620, 868)], ORANGE, 6)
-    for cx_p in [150, 385, 620]:
-        circle(im, cx_p, 868, 10, CARD, ORANGE, 3)
-    car(im, 265, 868, color=INK, scale=1.15, angle=0)
-    car(im, 505, 868, color=ORANGE, scale=1.15, angle=0)
+
+    gig_route = [(150, 868), (385, 868), (620, 868)]
+    cycle = ((t + 2.45) / 3.5) % 1.0
+    if cycle < 0.5:
+        leg1_p = smooth(cycle / 0.5)
+        leg2_p = 0.0
+        route_p = 0.5 * leg1_p
+        active_leg = 1
+    else:
+        leg1_p = 1.0
+        leg2_p = smooth((cycle - 0.5) / 0.5)
+        route_p = 0.5 + 0.5 * leg2_p
+        active_leg = 2
+
+    # Base route track + glowing active route segment
+    line(im, gig_route, GOLD_TRACK, 8)
+    path_segment(im, gig_route, 0.0, route_p, color=ORANGE, width=6, glow=MARIGOLD)
+    trail_p0 = 0.0 if active_leg == 1 else 0.5
+    path_segment(im, gig_route, max(trail_p0, route_p - 0.26), route_p, color='#FF5500', width=7, glow=SUNBURST)
+
+    # Sequential leg labels above each segment
+    txt(im, 'Car 1', 268, 818, 21, ORANGE if active_leg == 1 else INK, 700, anchor='mm')
+    txt(im, 'Car 2', 502, 818, 21, ORANGE if active_leg == 2 else MUTED_INK, 700, anchor='mm')
+
+    # Route nodes (start, handoff, finish)
+    for idx_p, cx_p in enumerate([150, 385, 620]):
+        reached = route_p >= (idx_p * 0.5 - 0.02)
+        circle(im, cx_p, 868, 10, ORANGE if reached else CARD, INK if reached else ORANGE, 3)
+
+    # Smooth sequential car positions along Leg 1 (150 -> 385) and Leg 2 (385 -> 620)
+    car1_x = mix(188, 336, leg1_p)
+    car2_x = mix(434, 582, leg2_p)
+    car(im, car1_x, 868, color=INK, scale=1.15, angle=0)
+    car(im, car2_x, 868, color=ORANGE, scale=1.15, angle=0)
 
     rows = [(float(r['baseline_margin_eur']), float(r['candidate_margin_eur']),
              100 * float(r['baseline_on_time']), 100 * float(r['candidate_on_time'])) for r in CONFIRM_WEEKS]
@@ -829,25 +900,25 @@ def gain(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 8 (48–55s): Sol's Delta slide with updated 19-week quantity + rescue numbers
+# Slide 7 (40–46s): Delta in production (matching presentation Slide 8)
 # ---------------------------------------------------------------------------
-def delta_confirm(t):
+def delta_production(t):
     im = base_canvas('sunburst').copy()
-    enter_model_hdr(im, 'Delta:', ' Quantity > the best margins', 80, 88, 76, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
-    txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 278, 134, ORANGE, 700)
-    txt(im, 'gross margin/week vs Early Delta', 84, 448, 30, INK, 650)
-    badge(im, '19/19 weeks ranked (17/19 ahead)', 84, 538, color=INK, bg=MARIGOLD, border=ORANGE, size=27)
-    badge(im, '342 orders/wk (vs 257) · 91.1% worst OT', 84, 616, color=INK, bg=ORANGE, size=26)
+    enter_model_hdr(im, 'Delta:', ' in production', 80, 88, 78, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
+    txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 240, 134, ORANGE, 700)
+    txt(im, 'gross margin/week vs Early Delta', 84, 404, 30, INK, 650)
 
-    rect(im, (84, 726, 690, 948), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, 'Rescue windows + wider gigs → more quantity', 108, 752, 21, INK, 700)
-    rect(im, (114, 826, 314, 902), APRICOT, outline=GOLD_LINE, r=10, width=2)
-    txt(im, '257 orders/wk', 214, 864, 21, MUTED_INK, 700, anchor='mm')
-    line(im, [(330, 864), (398, 864)], ORANGE, 5)
-    line(im, [(383, 852), (398, 864), (383, 876)], ORANGE, 4)
-    rect(im, (414, 826, 662, 902), ORANGE, r=10)
-    car(im, 460, 864, color=INK, scale=0.90, angle=0)
-    txt(im, '342 orders/wk', 574, 864, 21, CARD, 700, anchor='mm')
+    # Card 1: 19/19 practice weeks ranked
+    rect(im, (84, 486, 690, 694), CARD, GOLD_LINE, r=18, width=2)
+    txt(im, '19/19', 112, 502, 74, ORANGE, 700)
+    txt(im, 'practice weeks ranked', 318, 550, 26, INK, 700)
+    badge(im, '17/19 weeks ahead · 91.1% worst on time', 112, 616, color=INK, bg=MARIGOLD, border=ORANGE, size=22)
+
+    # Card 2: €75,764 round 9 total: 5/5 weeks ranked
+    rect(im, (84, 718, 690, 948), CARD, GOLD_LINE, r=18, width=2)
+    txt(im, '€75,764', 112, 728, 70, '#E62E00', 700)
+    txt(im, 'round 9 total: 5/5 weeks ranked', 112, 820, 25, INK, 700)
+    badge(im, '1,798 orders won · 96.7% on time', 112, 874, color=INK, bg=APRICOT, border=GOLD_LINE, size=22)
 
     rows = [(r[1], r[2], r[4], r[5]) for r in DELTA_CONFIRM]
     paired_chart(im, t, rows, 'Early Delta', 'Delta', '19 paired practice weeks', diff_only=True)
@@ -855,32 +926,114 @@ def delta_confirm(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 9 (55–60s): Sol's closing highway slide
+# Slide 8 (46–52s): Delta: Quantity > the best margins (matching presentation Slide 9)
 # ---------------------------------------------------------------------------
-def ending(t):
-    im = base_canvas('juicy').copy()
-    road_layer = im.copy()
-    for offset in [-210, 0, 210]:
-        line(road_layer, [(1160 + offset, 1080), (1600 + offset, 650), (1400 + offset, 350), (1830 + offset, -50)], ORANGE, 46)
-    line(road_layer, [(1160, 1080), (1600, 650), (1400, 350), (1830, -50)], SUNBURST, 6)
-    im.paste(road_layer, (0, 0))
+def delta_iteration(t):
+    im = base_canvas('citrus').copy()
+    enter_model_hdr(im, 'Delta:', ' Quantity > the best margins', 80, 68, 76, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
+    txt(im, 'Use freed capacity to win more requests', 84, 166, 30, MUTED_INK, 650)
 
-    im.paste(LOGO_BADGE_SM, (80, 128), LOGO_BADGE_SM)
-    enter(im, 'Cheap-Drive', 176, 138, 52, t, .02, color='#231A14', weight=700)
-    enter(im, 'Win the right work.', 80, 346, 108, t, .08, color=INK, weight=700)
-    enter(im, 'Deliver it.', 80, 492, 138, t, .20, color=CARD, weight=700)
+    step = min(3, int(t / 1.45))
+    cards = [
+        (80, 236, '1. Offer wider gig windows'),
+        (565, 236, '2. Rescue overdue deliveries'),
+        (80, 616, '3. Pair across a wider area'),
+        (565, 616, '4. Win more requests'),
+    ]
+    for i, (x, y, title) in enumerate(cards):
+        active = i == step
+        rect(im, (x, y, x + 465, y + 350), CARD if active else '#FFF9EE', '#E62E00' if active else GOLD_LINE, r=18, width=4 if active else 2)
+        rect(im, (x + 2, y + 2, x + 463, y + 68), '#E62E00' if active else APRICOT, r=16)
+        txt(im, title, x + 24, y + 16, 26, CARD if active else INK, 700)
 
-    road = [(1370, 1020), (1690, 650), (1490, 350), (1825, 15)]
-    for idx_c, offset_p in enumerate([0.12, 0.54]):
-        p = (offset_p + t * .11) % 1
-        pos = route_point(road, p)
-        ahead = route_point(road, min(p + .002, 1))
-        heading = math.degrees(math.atan2(ahead[1] - pos[1], ahead[0] - pos[0]))
-        car(im, *pos, INK if idx_c == 0 else CARD, 2.8, heading)
+        if i == 0:
+            txt(im, 'Use the time', x + 28, y + 96, 36, INK, 700)
+            txt(im, 'the order allows', x + 28, y + 146, 36, INK, 700)
+            badge(im, '141 → 25 expired gigs/wk', x + 28, y + 240,
+                  color=CARD if active else INK,
+                  bg='#E62E00' if active else MARIGOLD,
+                  border=None if active else '#E62E00',
+                  size=23, weight=700)
+        elif i == 1:
+            txt(im, 'Repost private', x + 28, y + 96, 36, INK, 700)
+            txt(im, 'deliveries in rules', x + 28, y + 146, 36, INK, 700)
+            rect(im, (x + 28, y + 236, x + 190, y + 298), '#FFE5E5', outline=DANGER, r=12, width=2)
+            txt(im, 'Expired', x + 109, y + 267, 24, DANGER, 700, anchor='mm')
+            line(im, [(x + 202, y + 267), (x + 256, y + 267)], '#E62E00', 5)
+            line(im, [(x + 242, y + 255), (x + 258, y + 267), (x + 242, y + 279)], '#E62E00', 5)
+            rect(im, (x + 272, y + 236, x + 437, y + 298), '#E62E00' if active else ORANGE, r=12)
+            txt(im, 'Rescued', x + 354, y + 267, 24, CARD, 700, anchor='mm')
+        elif i == 2:
+            txt(im, '≤90 km', x + 28, y + 92, 68, '#E62E00', 700)
+            txt(im, 'between paired cars', x + 28, y + 184, 28, INK, 700)
+            line(im, [(x + 56, y + 282), (x + 408, y + 282)], GOLD_TRACK, 6)
+            line(im, [(x + 56, y + 282), (x + 408, y + 282)], '#E62E00' if active else ORANGE, 4)
+            for cx_p in [x + 56, x + 232, x + 408]:
+                circle(im, cx_p, y + 282, 8, CARD, '#E62E00', 3)
+            car(im, x + 144, y + 282, color=INK, scale=0.88, angle=0)
+            car(im, x + 320, y + 282, color='#E62E00', scale=0.88, angle=0)
+        else:
+            txt(im, '30% → 42%', x + 28, y + 96, 58, '#E62E00', 700)
+            txt(im, 'request win target', x + 28, y + 184, 28, INK, 700)
+            rect(im, (x + 28, y + 258, x + 437, y + 298), APRICOT, outline=GOLD_LINE, r=10, width=2)
+            rect(im, (x + 28, y + 258, x + 340, y + 298), '#E62E00' if active else ORANGE, r=10)
+            rect(im, (x + 28, y + 258, x + 232, y + 298), GOLD_TRACK, outline='#E62E00', r=10, width=2)
+            txt(im, '30%', x + 130, y + 278, 19, INK, 700, anchor='mm')
+            txt(im, '42%', x + 286, y + 278, 19, CARD, 700, anchor='mm')
+
+    # Right panel: Order volume / week comparison card
+    rect(im, (1060, 236, 1840, 966), CARD, GOLD_LINE, r=18, width=2)
+    txt(im, 'More capacity → more orders won', 1096, 266, 32, INK, 700)
+    txt(im, 'Order volume / week (19 paired practice weeks)', 1096, 314, 22, MUTED_INK, 650)
+
+    track_x0, track_x1 = 1122, 1778
+    track_w = track_x1 - track_x0
+
+    # Track 1: Early Delta (30% target) -> 257 orders / wk
+    rect(im, (1096, 362, 1804, 552), CREAM, outline=GOLD_LINE, r=16, width=2)
+    txt(im, 'Early Delta (30% target)', 1122, 384, 26, MUTED_INK, 700)
+    txt(im, '257 orders / wk', 1778, 380, 30, INK, 700, anchor='ra')
+
+    w_early = round(track_w * (257.0 / 342.0) * ease((t - 0.15) / 0.7))
+    rect(im, (track_x0, 442, track_x1, 526), APRICOT, outline=GOLD_LINE, r=12, width=2)
+    if w_early > 24:
+        rect(im, (track_x0, 442, track_x0 + w_early, 526), GOLD_TRACK, outline=MANGO, r=12, width=2)
+        for dx in range(track_x0 + 24, track_x0 + w_early - 24, 48):
+            line(im, [(dx, 484), (min(dx + 24, track_x0 + w_early - 18), 484)], CARD, 3)
+        span_e = max(1, w_early - 64)
+        for k in range(4):
+            p_c = (k / 4.0 + t * 0.22) % 1.0
+            cx = track_x0 + 32 + span_e * p_c
+            car(im, cx, 484, color=INK, scale=0.90, angle=0)
+
+    # Track 2: Delta (42% target) -> 342 orders / wk (+33% order quantity)
+    rect(im, (1096, 576, 1804, 852), '#FFF3E6', outline='#E62E00', r=16, width=3)
+    txt(im, 'Delta (42% target)', 1122, 598, 28, '#E62E00', 700)
+    txt(im, '342 orders / wk', 1778, 594, 32, '#E62E00', 700, anchor='ra')
+    badge(im, '+33% order quantity', 1122, 644, color=CARD, bg='#E62E00', size=20, weight=700)
+    txt(im, '+85 more orders / wk delivered', 1372, 650, 21, INK, 650)
+
+    w_delta = round(track_w * ease((t - 0.30) / 0.8))
+    rect(im, (track_x0, 698, track_x1, 828), APRICOT, outline=GOLD_LINE, r=14, width=2)
+    if w_delta > 32:
+        rect(im, (track_x0, 698, track_x0 + w_delta, 828), ORANGE, outline='#E62E00', r=14, width=3)
+        for dx in range(track_x0 + 24, track_x0 + w_delta - 24, 48):
+            line(im, [(dx, 763), (min(dx + 24, track_x0 + w_delta - 18), 763)], SUNBURST, 3)
+        span_d = max(1, w_delta - 72)
+        for k in range(5):
+            p1 = (k / 5.0 + t * 0.26) % 1.0
+            p2 = ((k + 0.5) / 5.0 + t * 0.26) % 1.0
+            cx1 = track_x0 + 36 + span_d * p1
+            cx2 = track_x0 + 36 + span_d * p2
+            car(im, cx1, 731, color=INK if k % 2 == 0 else CARD, scale=0.90, angle=0)
+            car(im, cx2, 795, color=CARD if k % 2 == 0 else INK, scale=0.90, angle=0)
+
+    badge(im, 'All 19/19 practice weeks & 5/5 Round 9 weeks ranked', 1096, 880,
+          color=INK, bg=MARIGOLD, border='#E62E00', size=23, weight=700, fixed_w=708)
     return im
 
 
-FUNCS = [hero, evolution, dispatcher, observability, failure, gain, delta_confirm, experiments, ending]
+FUNCS = [hero, evolution, dispatcher, observability, failure, gain, delta_production, delta_iteration, experiments]
 
 
 def frame(t):
@@ -897,7 +1050,9 @@ def frame(t):
 
 
 def soundtrack(path):
-    """Energetic 128 BPM instrumental for the 60s cut; seeded percussion, no third-party samples."""
+    """Energetic 128 BPM instrumental for the 60s cut; seeded percussion, no third-party samples,
+    layered with frame-accurate micro-sonic UI and data sound design for all 9 scenes.
+    """
     sr = 44100
     n = sr * DURATION
     audio = np.zeros((n, 2), dtype=np.float32)
@@ -922,6 +1077,29 @@ def soundtrack(path):
         if kind == 'pad':
             env = np.minimum(ts / .25, 1) * np.minimum((sec - ts) / .4, 1)
             return ((np.sin(2 * np.pi * f * ts) + .25 * np.sin(2 * np.pi * f * 1.003 * ts) + .12 * np.sin(4 * np.pi * f * ts)) * env).astype(np.float32)
+        if kind == 'chime':
+            env = (1 - np.exp(-ts * 320)) * np.exp(-ts * 4.8)
+            sig = (
+                np.sin(2 * np.pi * f * ts)
+                + .38 * np.sin(2 * np.pi * (f * 2.0) * ts) * np.exp(-ts * 7.0)
+                + .18 * np.sin(2 * np.pi * (f * 3.0) * ts) * np.exp(-ts * 11.0)
+                + .09 * np.sin(2 * np.pi * (f * 4.02) * ts) * np.exp(-ts * 16.0)
+            )
+            return (sig * env).astype(np.float32)
+        if kind == 'click':
+            env = (1 - np.exp(-ts * 600)) * np.exp(-ts * 38.0)
+            f_inst = f * (1.0 + 0.35 * np.exp(-ts * 180))
+            phase = 2 * np.pi * np.cumsum(f_inst) / sr
+            sig = np.sin(phase) + .32 * np.sin(2 * phase) + .14 * np.sin(3 * phase)
+            return (sig * env).astype(np.float32)
+        if kind == 'sonar':
+            env = (1 - np.exp(-ts * 180)) * np.exp(-ts * 7.5)
+            sig = np.sin(2 * np.pi * f * ts) + .20 * np.sin(2 * np.pi * (f * 2.0) * ts) * np.exp(-ts * 12.0)
+            return (sig * env).astype(np.float32)
+        if kind == 'tick':
+            env = (1 - np.exp(-ts * 800)) * np.exp(-ts * 65.0)
+            sig = np.sin(2 * np.pi * f * ts) + .30 * np.sin(2 * np.pi * (f * 2.5) * ts)
+            return (sig * env).astype(np.float32)
         env = (1 - np.exp(-ts * 210)) * np.exp(-ts * 6.5)
         return ((np.sin(2 * np.pi * f * ts) + .26 * np.sin(4 * np.pi * f * ts) + .10 * np.sin(6 * np.pi * f * ts)) * env).astype(np.float32)
 
@@ -954,12 +1132,83 @@ def soundtrack(path):
                 noise = rng.standard_normal(len(ts))
                 noise = np.diff(np.r_[0, noise]) * np.exp(-ts * 95)
                 add(start + j * (beat_sec / 2), noise, .012 if j % 2 else .006, (-1 if j % 2 else 1) * .3)
-    for cut in [5, 13, 20, 26, 33, 40, 47, 55]:
+
+    # 1. Transition whooshes + bells at the new scene cuts
+    for cut in [5, 13, 20, 26, 33, 40, 46, 52]:
         ts = np.arange(round(sr * 0.7)) / sr
         noise = rng.standard_normal(len(ts))
         noise = np.convolve(noise, np.ones(12) / 12, mode='same')
         add(cut - .55, noise * np.sin(np.pi * ts / 0.7) ** 2, .055)
         add(cut + .04, note(86, .14), .032, .25)
+
+    def add_counter_ticks(t_start, t_end, count=12, midi_start=72, midi_end=84, vol=0.022):
+        for i in range(count):
+            frac = i / max(1, count - 1)
+            t_tick = t_start + frac * (t_end - t_start)
+            m_tick = midi_start + frac * (midi_end - midi_start)
+            pan = -0.25 + 0.5 * frac
+            add(t_tick, note(m_tick, 0.04, 'tick'), vol * (0.85 + 0.3 * frac), pan)
+
+    # 2. Slide 2 (5-13s, evolution): 4 ascending crystalline harmonic chimes
+    for i, (t_chime, m) in enumerate(zip([5.9, 7.6, 9.3, 11.0], [74, 77, 81, 86])):
+        pan = -0.36 + i * 0.24
+        add(t_chime, note(m, 0.48, 'chime'), .036, pan)
+        add(t_chime + 0.018, note(m + 12, 0.32, 'chime'), .016, -pan * 0.5)
+
+    # 3. Slide 3 (13-20s, dispatcher): 4 subtle, crisp tactile UI clicks/plucks
+    for i, (t_click, m) in enumerate(zip([13.3, 15.0, 16.7, 18.4], [69, 72, 76, 81])):
+        pan = -0.3 + i * 0.2
+        add(t_click, note(m, 0.095, 'click'), .034, pan)
+        add(t_click + 0.008, note(m + 12, 0.055, 'tick'), .015, pan)
+
+    # 4. Slide 4 (20-26s, observability): 3 diagnostic sonar/pulse tones
+    for i, (t_ping, m) in enumerate(zip([20.2, 22.0, 23.9], [72, 76, 67])):
+        pan = -0.25 + i * 0.25
+        add(t_ping, note(m, 0.36, 'sonar'), .035, pan)
+        add(t_ping + 0.095, note(m, 0.22, 'sonar'), .013, -pan * 0.6)
+
+    # 5. Slide 5 (26-33s, failure): Fast pitch-rising counter ticks (26.2..27.1) + low warning drop (180Hz -> 95Hz) at 28.4
+    add_counter_ticks(26.2, 27.1, count=11, midi_start=72, midi_end=82, vol=0.022)
+    warn_dur = 0.58
+    ts_w = np.arange(round(warn_dur * sr)) / sr
+    f_slide = 180.0 - (180.0 - 95.0) * (ts_w / warn_dur) ** 0.85
+    phase_w = 2 * np.pi * np.cumsum(f_slide) / sr
+    tri_w = (2.0 / np.pi) * np.arcsin(np.sin(phase_w))
+    sin_w = np.sin(phase_w) + 0.25 * np.sin(2 * phase_w)
+    env_w = np.minimum(ts_w / 0.025, 1.0) * np.exp(-ts_w * 3.8)
+    warn_sig = ((0.62 * sin_w + 0.38 * tri_w) * env_w).astype(np.float32)
+    add(28.4, warn_sig, .065, 0.0)
+
+    # 6. Slide 6 (33-40s, gain): Counter ticks (33.2..34.2) + 8 soft ascending bar-pop plucks + warm two-note harmony at 35.5
+    add_counter_ticks(33.2, 34.2, count=13, midi_start=72, midi_end=84, vol=0.022)
+    bar_midis = [69, 71, 72, 74, 76, 77, 79, 81]
+    for i, m in enumerate(bar_midis):
+        t_pop = 33.4 + i * 0.11
+        add(t_pop, note(m, 0.14, 'pluck'), .025, -0.35 + i * 0.1)
+    add(35.5, note(74, 0.65, 'chime'), .032, -0.2)
+    add(35.53, note(77, 0.65, 'chime'), .030, 0.2)
+    add(35.5, note(62, 0.70, 'pad'), .024, 0.0)
+
+    # 7. Slide 7 (40-46s, delta_production): Counter ticks (40.2..41.2) + bright triumphant major triad chime at 42.0
+    add_counter_ticks(40.2, 41.2, count=13, midi_start=74, midi_end=86, vol=0.022)
+    for j, m in enumerate([74, 78, 81, 86]):
+        add(42.0 + j * 0.018, note(m, 0.58, 'chime'), .030, -0.3 + j * 0.2)
+
+    # 8. Slide 8 (46-52s, delta_iteration): 4 snappy ascending lever-activation plucks at 46.3, 47.7, 49.1, 50.5
+    for i, (t_lev, m) in enumerate(zip([46.3, 47.7, 49.1, 50.5], [74, 77, 81, 86])):
+        pan = -0.3 + i * 0.2
+        add(t_lev, note(m, 0.18, 'pluck'), .034, pan)
+        add(t_lev, note(m + 12, 0.08, 'click'), .018, pan)
+
+    # 9. Slide 9 (52-60s, experiments): 4 ascending lock-in chimes at 52.8, 54.5, 56.2, 57.9 + warm D-major / F-major swell
+    for i, (t_lock, m) in enumerate(zip([52.8, 54.5, 56.2, 57.9], [72, 76, 79, 84])):
+        pan = -0.3 + i * 0.2
+        add(t_lock, note(m, 0.46, 'chime'), .034, pan)
+        add(t_lock + 0.015, note(m + 12, 0.28, 'chime'), .015, -pan * 0.5)
+    swell_notes = [(50, -0.4), (57, 0.35), (62, -0.25), (65, 0.25), (66, -0.15), (69, 0.15), (74, -0.3), (77, 0.3), (81, 0.0)]
+    for m, pan in swell_notes:
+        add(57.85, note(m, 2.05, 'pad'), .018, pan)
+
     tt = np.arange(n) / sr
     fade = np.minimum(tt / 1.2, 1) * np.minimum((DURATION - tt) / 2.2, 1)
     audio *= fade[:, None]
@@ -972,7 +1221,7 @@ def soundtrack(path):
 
 
 def stills(out):
-    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 29.5, 36.5, 43.5, 49.0, 53.0, 57.5]
+    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 29.5, 36.5, 43.0, 49.5, 54.0, 58.0]
     thumbs = []
     for p in out.glob('frame-*.png'):
         p.unlink()
