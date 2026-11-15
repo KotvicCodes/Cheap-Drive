@@ -26,7 +26,7 @@ SETS = ("booked", "urgent", "pending", "brake_warned", "brake_late", "town_won_i
         "_split_orders", "_failed_orders", "_picked", "_started", "_skip_logged")
 DICTS = ("requests", "orders", "leg_gigs", "posts", "trust", "dealers", "markups",
          "quote_trackers", "day_starts", "brake_last_held", "near30", "town_pending",
-         "first_posted", "delta_b1_pending", "delta_lane_counts", "delta_b1_counts")
+         "first_posted", "delta_b1_pending", "delta_lane_counts", "delta_b1_counts", "delta_urgent_since")
 SCALARS = ("markup", "brake_mode", "supply_roster_size", "now")
 DEQUES = ("brake_warnings", "brake_drops")
 

@@ -13,6 +13,7 @@ from .delta_pair_quote import DeltaPairQuoteMixin
 from .delta_pair_guard import DeltaPairGuardMixin
 from .delta_reference_floor import DeltaReferenceFloorMixin
 from .delta_readiness_fee import DeltaReadinessFeeMixin
+from .delta_urgent_fee import DeltaUrgentFeeMixin
 from .gamma_notes import GammaNotesMixin, _daily_window, visit_window
 from .gamma_pairs import DriverSideMixin, _split_settings
 from .notes import NoteFacts, parse_note
@@ -258,6 +259,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_pair_self_roads=0,
                delta_pair_max_wait_minutes=0, delta_pair_min_slack_minutes=0,
                delta_reference_quote_floor_bps=0, delta_readiness_early_cut_bps=0,
+               delta_urgent_fee_memory=0,
                delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
                delta_service_hard_orders=6, delta_service_target_bps=3000,
@@ -268,13 +270,14 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pair_same_audience must be 0 or 1')
     if type(delta_pair_self_roads) is not int or delta_pair_self_roads not in (0, 1):
         raise ValueError('delta_pair_self_roads must be 0 or 1')
-    class DeltaDesk(DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+    class DeltaDesk(DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
 
         def fees_for(self, order, cars):
             schedule = self._note_fees(order, cars, super().fees_for)
+            schedule = self._urgent_memory_schedule(order, cars, schedule)
             return self._readiness_fee_schedule(order, cars, schedule)
 
         def _plan(self, first, second):
@@ -323,6 +326,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      delta_pair_min_slack_minutes=delta_pair_min_slack_minutes,
                      delta_reference_quote_floor_bps=delta_reference_quote_floor_bps,
                      delta_readiness_early_cut_bps=delta_readiness_early_cut_bps,
+                     delta_urgent_fee_memory=delta_urgent_fee_memory,
                      delta_service_brake=delta_service_brake,
                      delta_service_horizon_minutes=delta_service_horizon_minutes,
                      delta_service_soft_orders=delta_service_soft_orders,

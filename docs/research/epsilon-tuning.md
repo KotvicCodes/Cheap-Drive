@@ -473,3 +473,23 @@ slots and explicit dates retain their constraints. Five focused tests pass;
 | Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
 | --- | ---: | ---: | ---: | ---: | --- |
 | Bare weekday phrases preserve Saturday | Pending4 | — | — | — | Prepared; independent screen |
+
+
+## Urgent escalation clock implementation
+
+`delta_urgent_fee_memory=0` preserves Delta exactly. Enabled single fees use
+the first actual deadline warning, remembered before pair interception and
+by side-effect-free history observation. Checkpoints retain that dictionary;
+receipt-free reconstruction derives it from warnings before reconciliation.
+Elapsed steep rungs fold to one current step; unique future rungs retain
+original times. Stronger accepted single current fees are preserved; pair
+schedules and nonurgent fees remain unchanged. No final-runner edit.
+Tests cover0/30/120+minutes, repeat warnings, pair split, drop/expiry, moved
+private windows, checkpoint and receipt-free recovery. Local455 tests pass;
+explicit0 exactly replays2277 batches/1943 actions on s07. Fee diagnostics
+export urgency age/reset counts and readiness first-rung offered reductions;
+paid ledger cost remains the economic measure.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Urgent fee clock memory | Pending4 | — | — | — | Prepared; service gain must pay for increased fees |
