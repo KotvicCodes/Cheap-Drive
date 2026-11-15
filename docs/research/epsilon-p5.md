@@ -219,3 +219,18 @@ Epsilon with all weeks >=91.5%; target uplift must also be compared against the
 A queue handoff briefly duplicated the first guarded screen. The duplicate
 sweep was stopped, its single extra world deleted, and the intended three
 workers retained. All reported scores come from completed intended worlds.
+
+
+At 02:30 UTC all three tighter discount arms had failed service on the two
+hard seeds: 1%/backlog10 and 1%/slack1440 reached 91.444%, while 2%/backlog10
+reached 91.379%. Their pending jobs were cancelled after draining in-flight
+third-seed weeks. None extends. The separate target screen follows that drain
+and inherits all team, pause and launch-cutoff gates.
+
+The orchestrator renamed the confirmed premium1440 base **Early Epsilon**.
+All 34 exact-matching `premium-slack1440` seed references were verified with
+no score conflicts and cached locally; the first target extension retains
+the specified 19-seed cohort. The target fresh cohort remains unseen.
+Tests: 463 passing, including cutoff expiration during both pause and team
+capacity waits. A lane-local 05:48 cleanup guard ends any remaining own practice
+worlds before the 05:50 hard deadline without touching any other runner.
