@@ -108,6 +108,29 @@ class GammaSettings:
     town_delivery_weight_pct: int = 5
     town_starved_near30: int = 4
     town_starved_opening_fee_bps: int = 0
+    supply_risk: int = 0
+    supply_risk_radius_km: int = 60
+    supply_risk_min_nearby: int = 6
+    supply_risk_same_day_bps: int = 600
+    supply_risk_future_day_bps: int = 140
+    supply_risk_missing_driver_bps: int = 120
+    supply_risk_drive_hour_bps: int = 40
+    supply_risk_tight_slack_minutes: int = 720
+    supply_risk_tight_slack_bps: int = 400
+    supply_risk_max_bps: int = 1800
+    supply_risk_safe_bps: int = 300
+    supply_risk_safe_quote_bps: int = 9800
+    supply_risk_price_bps_per_1000: int = 1500
+    arrival_buffer: int = 0
+    arrival_buffer_minutes: int = 30
+    stuck_work: int = 0
+    stuck_work_age_minutes: int = 45
+    stuck_work_radius_km: int = 120
+    stuck_work_local_limit: int = 16
+    stuck_work_national_limit: int = 60
+    stuck_work_yard_limit: int = 20
+    stuck_work_backlog_limit: int = 120
+    stuck_work_pending_weight_pct: int = 50
 
     def __post_init__(self):
         if self.long_max_km is None:
@@ -123,7 +146,7 @@ class GammaSettings:
                 raise ValueError(f"{name} must be a nonnegative integer")
         for name in ("trade_ins", "dealer_table", "place_table", "trust_guard", "capacity_valve",
                      "brake", "brake_drop_same_day", "brake_blocks_long", "supply_scale",
-                     "town_caps", "town_reserve_pending"):
+                     "town_caps", "town_reserve_pending", "supply_risk", "arrival_buffer", "stuck_work"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
         for name in ("win_target_bps", "win_target_low_bps", "win_target_mid_bps", "win_target_high_bps",
@@ -138,6 +161,12 @@ class GammaSettings:
                 raise ValueError(f"{name} outside its allowed range")
         if self.brake_min_orders < 1:
             raise ValueError("brake_min_orders must be positive")
+        if not self.supply_risk_safe_bps <= self.supply_risk_max_bps <= 10000:
+            raise ValueError("supply risk thresholds must be ordered in 0..10000")
+        if not 0 < self.supply_risk_safe_quote_bps <= 10000:
+            raise ValueError("supply_risk_safe_quote_bps must be in 1..10000")
+        if self.stuck_work_pending_weight_pct > 100:
+            raise ValueError("stuck_work_pending_weight_pct must be in 0..100")
         for name in ("brake_caution_bump_bps", "brake_bump_bps"):
             if getattr(self, name) == 0:
                 raise ValueError(f"{name} must be positive; use 10000 for no bump")
@@ -187,6 +216,7 @@ class GammaDesk(BetaDesk):
         self.brake_late: set[str] = set()
         self.brake_warnings: deque[int] = deque()
         self.brake_drops: deque[int] = deque()
+        self.stuck_work_progress: dict[str, int] = {}
         self.capture_supply(world)
         self.town_wins: dict[int, Counter] = {}
         self.town_won_ids: set[str] = set()
@@ -213,6 +243,7 @@ class GammaDesk(BetaDesk):
         roster = getattr(world, "initial_roster", None)
         self.supply_roster_size = None
         self.near30: dict[str, int | None] = {}
+        self.supply_risk_nearby: dict[str, int | None] = {}
         if roster is None:
             return
         homes = {}
@@ -227,20 +258,25 @@ class GammaDesk(BetaDesk):
         if captured_map is not None:
             places.update(place["id"] for place in captured_map.get("places", []))
         for place in places:
-            count = 0
+            count, risk_count = 0, 0
             for home in homes.values():
                 if not isinstance(home, str) or home not in places:
                     count = None
+                    risk_count = None
                     break
                 if home == place:  # no self-road is required
                     count += 1
+                    risk_count += 1
                     continue
                 road = self.roads.get((home, place))
                 if road is None or not isinstance(road.get("km"), (int, float)) or not road["km"] >= 0:
                     count = None
+                    risk_count = None
                     break
                 count += road["km"] <= 30
+                risk_count += road["km"] <= self.settings.supply_risk_radius_km
             self.near30[place] = count
+            self.supply_risk_nearby[place] = risk_count
 
     def supply_band(self):
         if not self.settings.supply_scale or self.supply_roster_size is None:
@@ -406,8 +442,96 @@ class GammaDesk(BetaDesk):
         return {identity for identity in self.orders_without_driver()
                 if self.is_long_route(self.route_km(self.requests[identity]))}
 
+    def option_late_risk_bps(self, request, option):
+        """A tunable prior, not a fitted probability or live driver availability.
+
+        Use the last feasible pickup day, so even a next-day delivery option
+        can be priced as same-day pickup when a yard closes today.
+        Unknown home supply leaves the original quote policy intact.
+        """
+        s = self.settings
+        if not s.supply_risk:
+            return None
+        nearby = self.supply_risk_nearby.get(request['legs'][0]['pickup']['placeId'])
+        if nearby is None:
+            return None
+        slack = self.slack(request, option)
+        latest = request['respondBy'] + slack
+        if hasattr(self, '_latest_note_route'):
+            route = self._latest_note_route(request, option['deadline'])
+            if route is not None:
+                latest = route[0]
+        today = latest // DAY <= request['respondBy'] // DAY
+        drive = sum(self.roads[leg['pickup']['placeId'], leg['delivery']['placeId']]['minutes']
+                    for leg in request['legs'])
+        risk = (s.supply_risk_same_day_bps if today else s.supply_risk_future_day_bps)
+        risk += max(0, s.supply_risk_min_nearby - nearby) * s.supply_risk_missing_driver_bps
+        risk += int(drive * s.supply_risk_drive_hour_bps // HOUR)
+        if slack < s.supply_risk_tight_slack_minutes:
+            risk += s.supply_risk_tight_slack_bps
+        return min(10000, risk)
+
+    @staticmethod
+    def work_pickup(work):
+        remaining = [i for i, at in enumerate(work.get('deliveredAt', [None] * len(work['legs'])))
+                     if at is None]
+        return work['legs'][remaining[0] if remaining else 0]['pickup']['placeId']
+
+    def work_yard(self, work):
+        # The public request has no yard ID; separate dealers in the same town.
+        return work['dealerId'], self.work_pickup(work)
+
+    def stuck_work_counts(self, request):
+        s = self.settings
+        open_orders = {i: o for i, o in self.orders.items()
+                       if o['status'] not in ('cancelled', 'delivered') and undelivered(o)}
+        stuck = []
+        for identity, order in open_orders.items():
+            first = getattr(self, 'first_posted', {}).get(identity,
+                        self.requests.get(identity, {}).get('respondBy', self.now))
+            last = self.stuck_work_progress.get(identity, first)
+            if self.now - last >= s.stuck_work_age_minutes:
+                stuck.append(order)
+        pending = [self.requests[i] for i in self.pending
+                   if i in self.requests and i not in self.orders and i != request['id']]
+        pickup, yard = self.work_pickup(request), self.work_yard(request)
+
+        def local(order):
+            place = self.work_pickup(order)
+            road = self.roads.get((place, pickup))
+            return place == pickup or road is not None and road['km'] <= s.stuck_work_radius_km
+
+        return dict(national=len(stuck), local=sum(local(o) for o in stuck),
+                    yard=sum(self.work_yard(o) == yard for o in stuck) +
+                         sum(self.work_yard(q) == yard for q in pending) * s.stuck_work_pending_weight_pct / 100,
+                    backlog=len(self.orders_without_driver()) + len(pending) * s.stuck_work_pending_weight_pct / 100)
+
+    def stuck_work_at_cap(self, request):
+        if not self.settings.stuck_work:
+            return False
+        counts = self.stuck_work_counts(request)
+        self.journal.record('stuck_work_gate', at=self.now, requestId=request['id'], **counts)
+        return any(counts[name] > getattr(self.settings, 'stuck_work_' + name + '_limit')
+                   for name in ('national', 'local', 'yard', 'backlog'))
+
+    def observe_work_progress(self, event):
+        if not self.settings.stuck_work:
+            return
+        kind = event['kind']
+        identities = set()
+        if kind == 'order_won':
+            identities.add(event['order']['id'])
+        elif kind in ('picked_up', 'delivered'):
+            identities.add(event['orderId'])
+        elif kind in ('gig_booked', 'gig_started'):
+            identities.update(s['orderId'] for s in self.posts.get(event['gigId'], {}).get('stops', []))
+        for identity in identities:
+            self.stuck_work_progress[identity] = max(event['at'], self.stuck_work_progress.get(identity, 0))
+
     def eligible_options(self, request, km, trust):
         s = self.settings
+        if self.stuck_work_at_cap(request):
+            return [], 'aged workload capacity'
         if len(request["legs"]) > 1 and not s.trade_ins:
             return [], "trade-in"
         if s.max_km and km > s.max_km and not self.is_long_route(km):
@@ -442,6 +566,13 @@ class GammaDesk(BetaDesk):
                        and (o["kind"] == "same_day" or self.slack(request, o) >= s.brake_min_slack_minutes)]
         if not options:
             return [], "on-time brake"
+        if s.supply_risk:
+            risks = {o['kind']: self.option_late_risk_bps(request, o) for o in options}
+            self.journal.record('supply_risk', at=self.now, requestId=request['id'], riskBps=risks,
+                                nearby=self.supply_risk_nearby.get(request['legs'][0]['pickup']['placeId']))
+            options = [o for o in options if risks[o['kind']] is None or risks[o['kind']] <= s.supply_risk_max_bps]
+            if not options:
+                return [], 'supply timing risk'
         return self.select_options(options), ""
 
     def select_options(self, options):
@@ -498,10 +629,15 @@ class GammaDesk(BetaDesk):
         build = bool(s.trust_build_bps and request["dealerId"] in self.big_dealers and trust < TRUST_CAP
                      and km <= 200 and self.slack(request, option) >= 720
                      and (s.trust_build_until_day == 7 or self.now // DAY < s.trust_build_until_day))
-        return {"optionBps": getattr(s, option["kind"] + "_bps"),
+        factors = {"optionBps": getattr(s, option["kind"] + "_bps"),
                 "shortBps": s.short_bps if km < s.short_km else 10000,
                 "longBps": s.long_markup_bps if self.is_long_route(km) else 10000,
                 "trustBuildBps": 10000 - s.trust_build_bps if build else 10000}
+        risk = self.option_late_risk_bps(request, option)
+        if risk is not None:
+            factors['supplyRiskBps'] = (s.supply_risk_safe_quote_bps if risk <= s.supply_risk_safe_bps
+                                      else 10000 + risk * s.supply_risk_price_bps_per_1000 // 1000)
+        return factors
 
     def price_option(self, option, markup, trust, table, factors):
         # Exact factors and one final ceiling retain Beta's cent rounding.
@@ -611,6 +747,7 @@ class GammaDesk(BetaDesk):
 
     def observe_history(self, event):
         """Bookkeeping shared by live handling and side-effect-free replay."""
+        self.observe_work_progress(event)
         kind = event["kind"]
         self.observe_town_outcome(event)
         if kind in ("order_won", "order_cancelled", "order_changed", "delivered", "deadline_close",

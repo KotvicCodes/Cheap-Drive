@@ -148,9 +148,9 @@ class DeltaIntakeMixin:
             minute = pickup - (30 if scoped.plates else 0)
         return (pickup, minute) if pickup is not None and minute >= floor else None
 
-    def _post_windows(self, order, legs, facts, retry):
+    def _build_post_windows(self, order, legs, facts, retry):
         if not self._guarded_trade(order):
-            return super()._post_windows(order, legs, facts, retry)
+            return super()._build_post_windows(order, legs, facts, retry)
         stops, minute = [], self.now
         horizon = max(order['deadline'], self.now + 14 * DAY)
         for index in legs:

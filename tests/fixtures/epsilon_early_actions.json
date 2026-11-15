@@ -1,0 +1,87 @@
+{
+  "actions": [
+    {
+      "prices": {
+        "next_day": 30002,
+        "same_day": 37500,
+        "within_3_days": 27000
+      },
+      "requestId": "one",
+      "type": "quote"
+    },
+    {
+      "audience": {
+        "experienced": false,
+        "manualLicence": false
+      },
+      "schedule": [
+        {
+          "at": 515,
+          "feeCents": 9600
+        },
+        {
+          "at": 575,
+          "feeCents": 10800
+        },
+        {
+          "at": 635,
+          "feeCents": 12000
+        },
+        {
+          "at": 695,
+          "feeCents": 13200
+        },
+        {
+          "at": 755,
+          "feeCents": 14400
+        },
+        {
+          "at": 815,
+          "feeCents": 15600
+        },
+        {
+          "at": 875,
+          "feeCents": 16800
+        },
+        {
+          "at": 935,
+          "feeCents": 18000
+        }
+      ],
+      "stops": [
+        {
+          "kind": "pickup",
+          "leg": 0,
+          "orderId": "one",
+          "window": {
+            "from": 515,
+            "to": 1115
+          },
+          "withCharging": false,
+          "withPlates": false
+        },
+        {
+          "kind": "delivery",
+          "leg": 0,
+          "orderId": "one",
+          "window": {
+            "from": 695,
+            "to": 1295
+          }
+        }
+      ],
+      "type": "post"
+    },
+    {
+      "prices": {
+        "next_day": 30654
+      },
+      "requestId": "three",
+      "type": "quote"
+    }
+  ],
+  "markup": 15174.0,
+  "trust": {
+    "D01": 1
+  }
+}

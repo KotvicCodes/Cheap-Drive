@@ -1,6 +1,8 @@
 """Note-aware Gamma variants; the historical Beta and Gamma factories stay intact."""
 from __future__ import annotations
 
+from copy import deepcopy
+
 from .gamma import GammaCoreDesk, GammaSettings
 from .notes import parse_note
 from spread.starter import DAY, Retry
@@ -142,6 +144,56 @@ class GammaNotesMixin:
         return self._note_fees(order, cars, super().fees_for)
 
     def _post_windows(self, order, legs, facts, retry):
+        stops = self._build_post_windows(order, legs, facts, retry)
+        if (stops is None or not self.settings.arrival_buffer or not self.settings.arrival_buffer_minutes or
+                getattr(self, '_arrival_buffer_suspended', False)):
+            return stops
+        buffered = deepcopy(stops)
+        # Start from the chosen real business windows, including note/site
+        # closings. Propagate latest times backwards through the whole route.
+        latest = None
+        for index in reversed(range(len(buffered))):
+            stop = buffered[index]
+            window = stop.get('window')
+            # Shared trade-in pickups can omit their explicit window, but
+            # their travel and charging still constrain the previous delivery.
+            end = window['to'] if window is not None else latest
+            if stop['kind'] == 'delivery':
+                end -= self.settings.arrival_buffer_minutes
+            if latest is not None:
+                following = buffered[index + 1]
+                origin = order['legs'][stop['leg']][stop['kind']]['placeId']
+                target = order['legs'][following['leg']][following['kind']]['placeId']
+                travel = 0 if origin == target else self.roads[origin, target]['minutes']
+                travel += 40 if stop.get('withCharging') else 0
+                travel += 30 if following.get('withPlates') else 0
+                end = min(end, latest - travel)
+            if window is not None and end < window['from']:
+                return stops
+            if window is not None:
+                place = order['legs'][stop['leg']][stop['kind']]
+                scoped = facts
+                if hasattr(self, '_trade_facts') and self._guarded_trade(order):
+                    scoped = self._trade_facts(facts, stop['leg'])
+                # A wide multi-day span can contain closed nights/weekends.
+                # Find a real latest visit before propagating to earlier stops.
+                for day in reversed(range(window['from'] // DAY, end // DAY + 1)):
+                    daily = _daily_window(place, stop['kind'], scoped, day)
+                    if daily is None:
+                        continue
+                    close = daily[1] - (self.settings.arrival_buffer_minutes
+                                        if stop['kind'] == 'delivery' else 0)
+                    candidate = min(end, close)
+                    if candidate >= max(window['from'], daily[0]):
+                        end = candidate
+                        break
+                else:
+                    return stops
+                window['to'] = end
+            latest = end
+        return buffered
+
+    def _build_post_windows(self, order, legs, facts, retry):
         stops, minute, previous = [], self.now, None
         # A booked order still needs a driver after a missed promise. Keep its
         # physical restrictions when rolling forward into the rescue horizon.

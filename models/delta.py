@@ -168,7 +168,7 @@ class DeltaNotesMixin(GammaNotesMixin):
                                  private_delivery=bool(self.delta_private_delivery_rescue))
         return visit_window(place, kind, facts, low, high, rescue=True)
 
-    def _post_windows(self, order, legs, facts, retry):
+    def _build_post_windows(self, order, legs, facts, retry):
         if self.delta_wide_windows:
             stops = self._wide_post_windows(order, legs, facts, retry)
             if stops is not None:
@@ -176,7 +176,7 @@ class DeltaNotesMixin(GammaNotesMixin):
             # Already impossible promises retain the existing rescue policy;
             # the widening experiment itself never relaxes an absolute end.
         if not (self.delta_rescue_windows or self.delta_private_delivery_rescue or self.delta_wide_windows):
-            return super()._post_windows(order, legs, facts, retry)
+            return super()._build_post_windows(order, legs, facts, retry)
         # Retain Gamma's sequential route construction, using the repaired
         # window intersection for this experiment only. Fee policy is unchanged.
         stops, minute, previous = [], self.now, None

@@ -292,6 +292,18 @@ class DriverSideMixin:
         return {"km": 0, "minutes": 0} if start == end else self.roads[start, end]
 
     def _plan(self, first, second):
+        plan, reason = self._build_pair_plan(first, second)
+        if plan is not None or not getattr(self.settings, 'arrival_buffer', 0):
+            return plan, reason
+        # Individually feasible buffered singles may fail as one route. Retry
+        # the original windows before rejecting a feasible pairing.
+        self._arrival_buffer_suspended = True
+        try:
+            return self._build_pair_plan(first, second)
+        finally:
+            del self._arrival_buffer_suspended
+
+    def _build_pair_plan(self, first, second):
         """Return a feasible four-stop post, its timing and diagnostics, or a reason.
 
         Search both directions outside this method. Forward planning waits for
