@@ -1,0 +1,210 @@
+{
+  "season": 11,
+  "model": "models/epsilon-early.json",
+  "model_commit": "1dc923ae5de11e1d004e012c43299d18b1910869",
+  "model_spec": {
+    "name": "Early Epsilon",
+    "factory": "models.delta:make_delta",
+    "settings": {
+      "max_km": 500,
+      "win_target_bps": 4200,
+      "opening_fee_bps": 8000,
+      "long_max_km": 700,
+      "pairs": 1,
+      "short_fee_km": 45,
+      "short_opening_fee_bps": 11000,
+      "short_km": 45,
+      "short_bps": 9200,
+      "premium_opening_fee_bps": 10500,
+      "premium_min_slack_minutes": 1440,
+      "delta_note_fixes": 1,
+      "delta_rescue_windows": 1,
+      "delta_wide_windows": 1,
+      "delta_private_delivery_rescue": 1,
+      "delta_pairing": "extended"
+    }
+  },
+  "selection_exception_authorized": true,
+  "verified_at": "2026-11-15T03:16:07.503617+00:00",
+  "runs": [
+    {
+      "run": 1,
+      "marginCents": 1398511,
+      "onTimeShare": 0.964516129032258,
+      "wonOrders": 310,
+      "ranked": true,
+      "deletedAt": null,
+      "season": 11,
+      "model": "models/epsilon-early.json",
+      "modelSpec": {
+        "name": "Early Epsilon",
+        "factory": "models.delta:make_delta",
+        "settings": {
+          "max_km": 500,
+          "win_target_bps": 4200,
+          "opening_fee_bps": 8000,
+          "long_max_km": 700,
+          "pairs": 1,
+          "short_fee_km": 45,
+          "short_opening_fee_bps": 11000,
+          "short_km": 45,
+          "short_bps": 9200,
+          "premium_opening_fee_bps": 10500,
+          "premium_min_slack_minutes": 1440,
+          "delta_note_fixes": 1,
+          "delta_rescue_windows": 1,
+          "delta_wide_windows": 1,
+          "delta_private_delivery_rescue": 1,
+          "delta_pairing": "extended"
+        }
+      },
+      "commit": "1dc923ae5de11e1d004e012c43299d18b1910869",
+      "completedAt": "2026-11-15T03:02:57.651546+00:00"
+    },
+    {
+      "run": 2,
+      "marginCents": 1212231,
+      "onTimeShare": 0.9712460063897763,
+      "wonOrders": 313,
+      "ranked": true,
+      "deletedAt": null,
+      "season": 11,
+      "model": "models/epsilon-early.json",
+      "modelSpec": {
+        "name": "Early Epsilon",
+        "factory": "models.delta:make_delta",
+        "settings": {
+          "max_km": 500,
+          "win_target_bps": 4200,
+          "opening_fee_bps": 8000,
+          "long_max_km": 700,
+          "pairs": 1,
+          "short_fee_km": 45,
+          "short_opening_fee_bps": 11000,
+          "short_km": 45,
+          "short_bps": 9200,
+          "premium_opening_fee_bps": 10500,
+          "premium_min_slack_minutes": 1440,
+          "delta_note_fixes": 1,
+          "delta_rescue_windows": 1,
+          "delta_wide_windows": 1,
+          "delta_private_delivery_rescue": 1,
+          "delta_pairing": "extended"
+        }
+      },
+      "commit": "1dc923ae5de11e1d004e012c43299d18b1910869",
+      "completedAt": "2026-11-15T03:06:00.729681+00:00"
+    },
+    {
+      "run": 3,
+      "marginCents": 922995,
+      "onTimeShare": 0.9363057324840764,
+      "wonOrders": 314,
+      "ranked": true,
+      "deletedAt": null,
+      "season": 11,
+      "model": "models/epsilon-early.json",
+      "modelSpec": {
+        "name": "Early Epsilon",
+        "factory": "models.delta:make_delta",
+        "settings": {
+          "max_km": 500,
+          "win_target_bps": 4200,
+          "opening_fee_bps": 8000,
+          "long_max_km": 700,
+          "pairs": 1,
+          "short_fee_km": 45,
+          "short_opening_fee_bps": 11000,
+          "short_km": 45,
+          "short_bps": 9200,
+          "premium_opening_fee_bps": 10500,
+          "premium_min_slack_minutes": 1440,
+          "delta_note_fixes": 1,
+          "delta_rescue_windows": 1,
+          "delta_wide_windows": 1,
+          "delta_private_delivery_rescue": 1,
+          "delta_pairing": "extended"
+        }
+      },
+      "commit": "1dc923ae5de11e1d004e012c43299d18b1910869",
+      "completedAt": "2026-11-15T03:09:09.730902+00:00"
+    },
+    {
+      "run": 4,
+      "marginCents": 1925435,
+      "onTimeShare": 0.9576719576719577,
+      "wonOrders": 378,
+      "ranked": true,
+      "deletedAt": null,
+      "season": 11,
+      "model": "models/epsilon-early.json",
+      "modelSpec": {
+        "name": "Early Epsilon",
+        "factory": "models.delta:make_delta",
+        "settings": {
+          "max_km": 500,
+          "win_target_bps": 4200,
+          "opening_fee_bps": 8000,
+          "long_max_km": 700,
+          "pairs": 1,
+          "short_fee_km": 45,
+          "short_opening_fee_bps": 11000,
+          "short_km": 45,
+          "short_bps": 9200,
+          "premium_opening_fee_bps": 10500,
+          "premium_min_slack_minutes": 1440,
+          "delta_note_fixes": 1,
+          "delta_rescue_windows": 1,
+          "delta_wide_windows": 1,
+          "delta_private_delivery_rescue": 1,
+          "delta_pairing": "extended"
+        }
+      },
+      "commit": "1dc923ae5de11e1d004e012c43299d18b1910869",
+      "completedAt": "2026-11-15T03:12:07.956858+00:00"
+    },
+    {
+      "run": 5,
+      "marginCents": 1470962,
+      "onTimeShare": 0.9627507163323782,
+      "wonOrders": 349,
+      "ranked": true,
+      "deletedAt": null,
+      "season": 11,
+      "model": "models/epsilon-early.json",
+      "modelSpec": {
+        "name": "Early Epsilon",
+        "factory": "models.delta:make_delta",
+        "settings": {
+          "max_km": 500,
+          "win_target_bps": 4200,
+          "opening_fee_bps": 8000,
+          "long_max_km": 700,
+          "pairs": 1,
+          "short_fee_km": 45,
+          "short_opening_fee_bps": 11000,
+          "short_km": 45,
+          "short_bps": 9200,
+          "premium_opening_fee_bps": 10500,
+          "premium_min_slack_minutes": 1440,
+          "delta_note_fixes": 1,
+          "delta_rescue_windows": 1,
+          "delta_wide_windows": 1,
+          "delta_private_delivery_rescue": 1,
+          "delta_pairing": "extended"
+        }
+      },
+      "commit": "1dc923ae5de11e1d004e012c43299d18b1910869",
+      "completedAt": "2026-11-15T03:15:15.049666+00:00"
+    }
+  ],
+  "server_team_result": {
+    "rank": 28,
+    "team": "guardians-of-the-moonlight",
+    "name": "Guardians of the Moonlight",
+    "played": 5,
+    "ranked": true,
+    "marginCents": 6930134,
+    "onTimeShare": 0.9585336538461539
+  }
+}

@@ -855,3 +855,62 @@ from9200 to9300bps;45–300km receive9300;300–500km remain10000.
 The optional roster/backlog arm also uses existing keys, but is lower
 priority than combining the builders' actual survivors and stays within
 the same4-arm cap. No branch-wide builder merge is performed.
+
+
+## Complete Early Epsilon reference tally
+
+All34 saved premium1440 weeks have matching exact current-Delta reference
+scores. Reuse these scores; no baseline world was replayed for this tally.
+The extra package cohort is7 completed weeks of a cancelled8-week block,
+not a second completed8-week confirmation.
+
+| Early Epsilon versus Delta cohort | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time |
+| --- | ---: | ---: | ---: | ---: |
+| existing19 | 19 | €+121.69 | 13/19 | 91.666667% |
+| fresh8 | 8 | €+291.38 | 4/8 | 92.048930% |
+| additional7 | 7 | €-66.34 | 4/7 | 91.495601% |
+| all34 | 34 | €+122.91 | 21/34 | 91.495601% |
+
+Thus the original27-week+€171.97 estimate becomes+€122.91 acrossall34,
+21/34positive. The91.495601% worst week and explicit ranking/final selection
+exception remain documented; new volume candidates retain strict91.5%.
+
+Requested reference-floor stack arm: use existing
+`delta_reference_quote_floor_bps=11000` on the best high-target combination,
+replacing a weaker arm within the4-arm cap. This floor is raw reference
+for single-leg routes>=45km, not a supply/slack expected-cost estimator.
+Full prior screens qualify the one-week anecdote: premium1440+floor11000
+was+€21.78/week versus Early Epsilon over4pairs,2/4positive, worst91.066%;
+the older floor11000 on Delta600 was+€141.69 versus Early over4pairs,
+3/4positive, worst90.296%. Neither qualified alone. The new proposed
+higher-target combination must earn its own full and fresh evidence.
+
+P1's02:59 `pairing-best.json` reports no eligible retry/rescue survivor:
+all4 settings arms failed service on the first hard seed and had negative
+margin. No such component is imported or treated as confirmed capacity.
+Await actual admission/capacity handoffs; current extended pairing remains
+the capacity baseline. Optional roster/capacity/longcap6 is lower priority
+than the requested tilt and reference floor under the4-arm cap.
+
+
+## Authorized 03:00 UTC ranking: round11 completed
+
+Used **Early Epsilon**, `models/epsilon-early.json`, source/model commit
+`1dc923ae5de11e1d004e012c43299d18b1910869`. Settings differ from Delta only in
+`premium_min_slack_minutes:600→1440`. The explicit91.495601% practice-floor
+exception controlled selection. Controller selected at03:00:00 UTC and
+played five level8 runs strictly sequentially with `scripts/board.py`.
+Every completed score/count was server-confirmed before the next creation;
+final verification matched all5 stored rows to the current server round,
+`played=5`, and found no unfinished level8 ranking world. Fifth was already
+server-active at03:13, before the04:00 round-close deadline.
+
+| Run | Margin | On time | Won | Ranked |
+| --- | ---: | ---: | ---: | --- |
+| 1 | €13,985.11 | 96.452% | 310 | True |
+| 2 | €12,122.31 | 97.125% | 313 | True |
+| 3 | €9,229.95 | 93.631% | 314 | True |
+| 4 | €19,254.35 | 95.767% | 378 | True |
+| 5 | €14,709.62 | 96.275% | 349 | True |
+
+Total margin€69,301.34; mean€13,860.27/week; mean332.8 wins/week; worst on time93.631%; all5ranked. These are new secret ranking weeks, not a paired comparison with Delta. Full verified records: `docs/research/plans/epsilon/board-round11-results.json`.
