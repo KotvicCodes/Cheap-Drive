@@ -88,7 +88,7 @@ class EpsilonPrimeFinalTests(unittest.TestCase):
         self.assertEqual(model.spec['name'], 'Epsilon Prime')
         self.assertEqual(model.spec['factory'], 'delta:make_delta')
         self.assertEqual(model.spec['settings'], {
-            **medium['settings'], 'epsilon_breaker': 1,
+            **medium['settings'], 'win_target_bps': 4300, 'epsilon_breaker': 1,
             'epsilon_breaker_on_time_bps': 9500,
             'epsilon_breaker_window_minutes': 1440,
             'epsilon_breaker_risk_orders': 0,
