@@ -86,3 +86,35 @@ class StartedWorldTests(unittest.TestCase):
         world.delete.assert_not_called()
         world.client.create.assert_not_called()
         history.assert_called_once_with(world, through=500)
+
+    def test_repeated_setup_failures_preserve_the_created_world_until_it_finishes(self):
+        import gzip
+        from pathlib import Path
+        import tempfile
+        from unittest.mock import Mock, patch
+        from scripts.sweep import play_week
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory)
+            for name in ('worlds', 'traces', 'reveals'):
+                (out / name).mkdir()
+            world, client = Mock(id='same-started-world'), Mock()
+            client.create.return_value = world
+            client.call.return_value = {}
+            real_open = gzip.open
+            failures = [0]
+            def flaky_open(*args, **kwargs):
+                if failures[0] < 5:
+                    failures[0] += 1
+                    raise OSError('temporary trace failure')
+                return real_open(*args, **kwargs)
+            with patch('performance.PracticeClient', return_value=client), \
+                    patch('scripts.sweep.gzip.open', side_effect=flaky_open), \
+                    patch('scripts.sweep.finish_started_week', return_value={'marginCents': 1}) as finish, \
+                    patch('scripts.sweep.time.sleep'):
+                result = play_week(out, 'models.delta:make_delta', 8, 'seed', 'arm', {}, True)
+            self.assertEqual(result['score']['marginCents'], 1)
+            self.assertEqual(result['attempts'], 6)
+            client.create.assert_called_once()
+            world.delete.assert_not_called()
+            self.assertTrue(finish.call_args.kwargs['resumed'])
+            self.assertFalse((out / 'worlds' / world.id).exists())

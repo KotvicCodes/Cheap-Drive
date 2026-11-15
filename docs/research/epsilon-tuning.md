@@ -1172,3 +1172,15 @@ no new own candidate weeks are queued. The orchestrator owns remaining
 split/fee backfill; its started weeks continue untouched. Pooled results
 match full settings rather than labels and have no conflicting duplicate
 scores. Snapshot: `plans/epsilon/current-pooled-results.json`.
+
+## Started-week retry ownership, 04:43 UTC
+
+Closed the remaining setup/trace failure path in the sweep. Once creation
+returns an owned world ID, retries retain that same world, restore its
+ownership marker, rejoin its current history, and continue beyond the
+four-attempt creation budget. Failure to write the error log also preserves
+the world. Result rows expose rejoin counts; elapsed time includes retries.
+A meaningful offline test injects five trace-open failures before success
+and verifies exactly one creation, same-world resume, completion and no
+delete. Full suites pass525 tests/1860 subtests. Model/final-runner behavior
+and selected Early settings are unchanged.

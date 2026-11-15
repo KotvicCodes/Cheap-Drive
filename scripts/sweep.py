@@ -116,11 +116,11 @@ def world_launch_slot(client, label=None):
         time.sleep(3)
 
 
-def finish_started_week(world, level, journal, make_desk, *, fast):
+def finish_started_week(world, level, journal, make_desk, *, fast, resumed=False):
     """A started week always finishes; network failures rejoin the same world."""
     from dispatch import play_model
-    resumed = False
     failures = 0
+    journal.practice_recoveries = int(resumed)
     while True:
         def factory(w, l, n, j):
             desk = make_desk(w, l, n, j)
@@ -135,6 +135,7 @@ def finish_started_week(world, level, journal, make_desk, *, fast):
             return play_model(world, level, journal, factory, fast=fast)
         except Exception as error:
             failures += 1
+            journal.practice_recoveries += 1
             resumed = True
             journal.record('practice_rejoin_retry', worldId=world.id,
                            failures=failures, errorType=type(error).__name__)
@@ -150,13 +151,18 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     factory = resolve_factory(factory_name)
     client = Client(url=os.environ.get("SPREAD_URL") or "https://spread.bahnexpress.com")
     tag, last = f"{label}--{seed}", None
-    for attempt in range(4):
-        world = None
+    world, attempt, started = None, -1, None
+    while True:
+        attempt += 1
+        resumed = world is not None
         try:
-            with world_launch_slot(client, label):
-                world = client.create(level=level, seed=seed, board=False)
+            if world is None:
+                with world_launch_slot(client, label):
+                    world = client.create(level=level, seed=seed, board=False)
+                    started = time.time()
+                    (out / "worlds" / world.id).write_text(tag)
+            else:
                 (out / "worlds" / world.id).write_text(tag)
-            started = time.time()
             name = tag if attempt == 0 else f"{tag}-attempt{attempt + 1}"
             with gzip.open(out / "traces" / f"{name}.jsonl.gz", "wt", encoding="utf-8") as stream:
                 journal = MetricsJournal(stream)
@@ -180,7 +186,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                 journal.record("run", worldId=world.id, level=level, seed=seed, factory=factory_name,
                                settings=settings, tag=tag, attempt=attempt + 1, fast=fast)
                 with redirect_stdout(io.StringIO()):
-                    score = finish_started_week(world, level, journal, make_desk, fast=fast)
+                    score = finish_started_week(world, level, journal, make_desk, fast=fast, resumed=resumed)
                 diag = journal.metrics()
             reveal_file = None
             for wait in (0, 5, 20):
@@ -199,19 +205,22 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                     **({'interventions': diag['interventions']} if 'interventions' in diag else {}),
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
-                    "seconds": round(time.time() - started), "attempts": attempt + 1}
+                    "seconds": round(time.time() - started), "attempts": attempt + 1,
+                    "rejoins": getattr(journal, "practice_recoveries", int(resumed))}
         except LaunchWindowClosed:
             raise
         except Exception as error:  # network blips, slot races, server restarts
             last = f"{type(error).__name__}: {error}"
-            with (out / "errors.log").open("a") as f:
-                f.write(f"{tag} attempt {attempt + 1}\n{traceback.format_exc()}\n")
-            if world is not None:
-                # Post-completion diagnostics may fail; never delete a started world.
-                # Playing itself is retried in finish_started_week on the same identity.
-                raise
-            time.sleep(20 * 2 ** attempt)
-    raise RuntimeError(last)
+            try:
+                with (out / "errors.log").open("a") as f:
+                    f.write(f"{tag} attempt {attempt + 1}\n{traceback.format_exc()}\n")
+            except OSError:
+                pass  # A temporary disk failure must not abandon a created world.
+            if world is None and attempt >= 3:
+                raise RuntimeError(last) from error
+            # A created world remains owned across setup, trace and transport
+            # failures. Never delete it, replace it, or exhaust its retry budget.
+            time.sleep(min(60, 20 * 2 ** min(attempt, 2)))
 
 
 def load(path):
