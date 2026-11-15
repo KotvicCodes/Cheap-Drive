@@ -46,10 +46,6 @@ class DriverSideSettings:
     pair_stop_spare: int = 0
     pair_earliest_finish: int = 0
     pair_finish_band_minutes: int = 0
-    pair_chain3: int = 0
-    chain_transfer_km: int = 35
-    chain_max_drive_minutes: int = 540
-    chain_fee_bps: int = 6800
 
     def __post_init__(self):
         if self.fee_shape not in ("ramp", "review"):
@@ -59,20 +55,16 @@ class DriverSideSettings:
                 raise ValueError(f"{name} must be a nonnegative integer")
         for name in ("review_skip_night", "pairs", "pair_with_waiting", "pair_once", "pair_tight_windows",
                      "pair_cancel_cleanup", "pair_self_time", "pair_economic_rank", "pair_stop_spare",
-                     "pair_earliest_finish", "pair_chain3"):
+                     "pair_earliest_finish"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
         if not 0 < self.pair_max_drive_minutes <= 720:
             raise ValueError("pair_max_drive_minutes must be between 1 and 720")
-        if not 0 < self.chain_max_drive_minutes <= 720:
-            raise ValueError("chain_max_drive_minutes must be between 1 and 720")
         for name in ("review_fee_bps", "pair_fee_bps", "pair_rescue_fee_bps", "pair_split_minutes"):
             if getattr(self, name) == 0:
                 raise ValueError(f"{name} must be positive")
         if self.pair_rescue_floor_bps > 10000:
             raise ValueError("pair_rescue_floor_bps must be <= 10000")
-        if not self.chain_fee_bps:
-            raise ValueError("chain_fee_bps must be positive")
         if sum(bool(value) for value in (self.pair_economic_rank, self.pair_earliest_finish,
                                         self.pair_finish_band_minutes)) > 1:
             raise ValueError("pair_earliest_finish, pair_economic_rank and pair_finish_band_minutes are mutually exclusive")
@@ -80,7 +72,7 @@ class DriverSideSettings:
 
 @dataclass
 class _Pair:
-    orders: tuple[str, ...]
+    orders: tuple[str, str]
     action: dict
     transfer_km: float
     drive_minutes: int
@@ -152,8 +144,6 @@ class DriverSideMixin:
             for name in ("pair_fee_bps", "pair_rescue_fee_bps"):
                 if getattr(driver_settings, name) > self._fee_cap():
                     raise ValueError(f"{name} must be <= the base fee_cap_bps")
-            if driver_settings.pair_chain3 and driver_settings.chain_fee_bps > self._fee_cap():
-                raise ValueError("chain_fee_bps must be <= the base fee_cap_bps")
         self._busy = 0
         if driver_settings.pairs:
             # dispatch.play_model owns the clock. Limit its ordinary advance to
@@ -265,10 +255,10 @@ class DriverSideMixin:
     def _pair_error(self, phase, **details):
         self.journal.record("gamma_pair_error", at=self.now, phase=phase, **details)
 
-    def _pair_schedule(self, typical, last_pickup, rescue, *, opening_bps=None):
+    def _pair_schedule(self, typical, last_pickup, rescue):
         """A new gig starts a new fee clock; singles keep their fallback age."""
         s = self.driver_settings
-        opening = (s.pair_rescue_fee_bps if rescue else s.pair_fee_bps) if opening_bps is None else opening_bps
+        opening = s.pair_rescue_fee_bps if rescue else s.pair_fee_bps
         schedule = (self._review_schedule if s.fee_shape == "review" else self._ramp_schedule)(
             typical, opening, self.now, last_pickup)
         if not rescue or not s.pair_rescue_flat_minutes:
@@ -334,47 +324,36 @@ class DriverSideMixin:
         return {"km": 0, "minutes": 0} if start == end else self.roads[start, end]
 
     def _plan(self, first, second):
-        return self._plan_orders((first, second))
-
-    def _plan_chain(self, orders):
-        if (not self.driver_settings.pair_chain3 or len(orders) != 3
-                or len({o['id'] for o in orders}) != 3
-                or any(len(o['legs']) != 1 or o['legs'][0]['car']['premium'] for o in orders)):
-            return None, "chain_ineligible"
-        return self._plan_orders(orders, chain=True)
-
-    def _plan_orders(self, orders, *, chain=False):
-        """Return a feasible sequential-car post, its timing and diagnostics, or a reason.
+        """Return a feasible four-stop post, its timing and diagnostics, or a reason.
 
         Search both directions outside this method. Forward planning waits for
         openings; backward planning recomputes the first pickup's last start.
         """
         s = self.driver_settings
-        if s.pair_retry_limit and frozenset(o["id"] for o in orders) in self._failed_pairs:
+        if s.pair_retry_limit and frozenset((first["id"], second["id"])) in self._failed_pairs:
             return None, "failed_pair"
-        transfers = [self._road(a["legs"][0]["delivery"]["placeId"],
-                                b["legs"][0]["pickup"]["placeId"])
-                     for a, b in zip(orders, orders[1:])]
-        limit = s.chain_transfer_km if chain else s.pair_transfer_km
-        if any(t["km"] > limit for t in transfers):
+        transfer = self._road(first["legs"][0]["delivery"]["placeId"],
+                              second["legs"][0]["pickup"]["placeId"])
+        if transfer["km"] > s.pair_transfer_km:
             return None, "transfer_too_far"
-        if (s.pair_retry_limit and any(self._pair_failures[o["id"]] for o in orders)
-                and any(t["km"] > s.pair_retry_transfer_km for t in transfers)):
+        if (s.pair_retry_limit and any(self._pair_failures[o["id"]] for o in (first, second))
+                and transfer["km"] > s.pair_retry_transfer_km):
             return None, "retry_transfer_too_far"
+        orders = [first, second]
         actions = [self._single_action(order) for order in orders]
-        stops = [stop for action in actions for stop in action["stops"]]
+        stops = actions[0]["stops"] + actions[1]["stops"]
         places = [o["legs"][0][kind] for o in orders for kind in ("pickup", "delivery")]
         durations = []
         for a, b in zip(places, places[1:]):
             route = (a["placeId"], b["placeId"])
             road = self._road(*route)
-            if (s.pair_self_time or chain) and route[0] == route[1]:
+            if s.pair_self_time and route[0] == route[1]:
                 # Correct driving time without changing the transfer-distance
                 # preference that favors two orders meeting in the same town.
                 road = self.roads.get(route, road)
             durations.append(road["minutes"])
         drive = sum(durations)
-        if drive > min(720, s.chain_max_drive_minutes if chain else s.pair_max_drive_minutes):
+        if drive > min(720, s.pair_max_drive_minutes):
             return None, "drive_too_long"
         audience = {key: any(a["audience"][key] for a in actions) for key in ("experienced", "manualLicence")}
         roster = getattr(self.world, "initial_roster", None)
@@ -405,10 +384,10 @@ class DriverSideMixin:
                 minute = _next_open(place, max(arrived, low), high)
                 if minute is None or minute > high:
                     return None, "windows"
-                if index >= 2 and index % 2 == 0 and minute - arrived > s.pair_max_idle_minutes:
+                if index == 2 and minute - arrived > s.pair_max_idle_minutes:
                     return None, "idle_too_long"
                 order = orders[index // 2]
-                delivery_bound = min(order["deadline"], high) if s.pair_stop_spare or chain else order["deadline"]
+                delivery_bound = min(order["deadline"], high) if s.pair_stop_spare else order["deadline"]
                 if index % 2 and minute > delivery_bound - spare:
                     return None, "windows"
                 if stops[index].get("withCharging"):
@@ -421,11 +400,11 @@ class DriverSideMixin:
 
         def latest(spare, bounds=None):
             minute = float("inf")
-            for index in range(len(stops) - 1, -1, -1):
+            for index in range(3, -1, -1):
                 low, high = windows[index]
                 if index % 2:
                     deadline = orders[index // 2]["deadline"]
-                    high = min(high, deadline) - spare if s.pair_stop_spare or chain else min(high, deadline - spare)
+                    high = min(high, deadline) - spare if s.pair_stop_spare else min(high, deadline - spare)
                 # Charging takes time after pickup. Plates precede pickup.
                 minute = min(minute - (40 if stops[index].get("withCharging") else 0), high)
                 minute = _previous_open(places[index], int(minute), low)
@@ -441,7 +420,7 @@ class DriverSideMixin:
                     minute -= durations[index - 1]
             return minute
 
-        bounds = [None] * len(stops) if s.pair_tight_windows or chain else None
+        bounds = [None] * len(stops) if s.pair_tight_windows else None
         last, safe = latest(0, bounds), latest(s.pair_spare_minutes)
         if last is None or safe is None:
             return None, "windows"
@@ -452,8 +431,7 @@ class DriverSideMixin:
                      for index, stop in enumerate(stops)]
         typical = sum(self.requests[o["id"]]["referenceFeeCents"] for o in orders)
         rescue = any(self.gigs_of(o["id"]) for o in orders)
-        schedule = (self._pair_schedule(typical, last, rescue, opening_bps=s.chain_fee_bps) if chain else
-                    self._pair_schedule(typical, last, rescue))
+        schedule = self._pair_schedule(typical, last, rescue)
         if rescue and (s.pair_rescue_floor_bps or s.pair_rescue_step_minutes):
             # Preserve a fraction of the actual singles' current combined
             # offer. Their schedules already include age and opening rules.
@@ -475,7 +453,7 @@ class DriverSideMixin:
                     else:
                         schedule.append({"at": at, "feeCents": fee})
         action = dict(type="post", stops=stops, audience=audience, schedule=schedule)
-        return _Pair(tuple(o["id"] for o in orders), action, sum(t["km"] for t in transfers), drive,
+        return _Pair(tuple(o["id"] for o in orders), action, transfer["km"], drive,
                      finish, last, safe, typical, self.now,
                      fee_policy="rescue" if rescue else "fresh"), None
 
@@ -498,24 +476,6 @@ class DriverSideMixin:
             self.journal.record("gamma_pair_skip", at=self.now, orderId=order["id"], counts=dict(reasons))
         if not plans:
             return False
-        if self.driver_settings.pair_chain3:
-            chains, seen = [], set()
-            for plan in plans:
-                if (plan.drive_minutes > self.driver_settings.chain_max_drive_minutes
-                        or plan.transfer_km > self.driver_settings.chain_transfer_km):
-                    continue
-                for other in candidates:
-                    if other['id'] in plan.orders:
-                        continue
-                    for members in ((other['id'], *plan.orders), (*plan.orders, other['id'])):
-                        if members in seen:
-                            continue
-                        seen.add(members)
-                        chain, _ = self._plan_chain([self.orders[m] if m != order['id'] else order for m in members])
-                        if chain:
-                            chains.append(chain)
-            if chains:
-                plans = chains
         if self.driver_settings.pair_economic_rank:
             pair = min(plans, key=lambda p: (p.action["schedule"][0]["feeCents"] - p.typical,
                                              p.transfer_km, p.finish, p.orders))
@@ -716,10 +676,8 @@ class DriverSideMixin:
                 elif kind == "order_cancelled":
                     outcomes = {g["gigId"]: g["outcome"] for g in event["gigs"]}
                     outcome = outcomes.get(pair.gig_id)
-                    if (self.driver_settings.pair_cancel_cleanup or self.driver_settings.pair_chain3) and outcome in ("shortened", "continues"):
-                        pair.orders = tuple(m for m in pair.orders if m != identity)
-                        pair.active = len(pair.orders) > 1
-                        pair.action["stops"] = [stop for stop in pair.action["stops"] if stop["orderId"] != identity]
+                    if self.driver_settings.pair_cancel_cleanup and outcome in ("shortened", "continues"):
+                        pair.active = False
                         if pair.gig_id in self.posts:
                             self.posts[pair.gig_id]["stops"] = [
                                 stop for stop in self.posts[pair.gig_id]["stops"]

@@ -184,36 +184,6 @@ opening7000/7500 must also include a wider-pair policy. Existing saved Early
 Epsilon controls are reused.
 
 
-## Three-car chain implementation
-
-`pair_chain3=0` is the independent default-off switch. The enabled selector
-extends already-legal pair permutations with an eligible third unbooked single,
-checks all distinct resulting orders, and prefers a legal triple to a pair.
-It keeps existing pairs as fallback when no triple passes. Chain controls are
-`chain_transfer_km=35` per connection, `chain_max_drive_minutes=540`, and
-`chain_fee_bps=6800` against the combined raw references. These numeric defaults
-have no effect while the switch is off. The chain uses the ordinary ramp,
-rescue hold, 60-minute split, and confirmed withdrawals.
-
-Each chain excludes premium cars, checks the existing audience/calendar/note/
-plates/charging constraints, counts same-town map travel minutes, applies spare
-to actual delivery bounds, and posts latest(0) bounds on all six stops. No
-booked or working gig can be withdrawn. Failure restores all remaining singles.
-A shortened three-car gig keeps its two surviving orders protected; checkpoints
-and public reconstruction preserve six-stop plans. No three-car active-pair
-swapping or waiting buffer was introduced.
-
-Verified API fact: the live `/openapi.json` Action/post schema (02:42 UTC) has
-`stops.minItems=2` and no maxItems; the SDK also exposes List[StopRef]. This
-permits six stops structurally but is not proof of semantic server acceptance
-or profitability. The first practice screen must verify both. Gemini's claimed
-chain gains are not experimental results and are not used as a prior score.
-
-Full offline suite:487 tests. Against the frozen pre-chain implementation,
-1600 randomized pair plans and400 complete three-order selections produced
-identical reasons, posted actions and plan data with chain3 off.
-
-
 ## Settings-only capacity priority (02:49 UTC)
 
 Before any chain or further implementation screen, test the orchestrator's
@@ -235,3 +205,18 @@ cutoffs retained.
 
 Wider reach was drained after both hard seeds so this priority could start.
 The three-car code is implemented and tested but has created no world.
+
+
+## Convergence (02:57 UTC)
+
+Only the young-retry and rescue-offer arms at target4200/4600 remain active.
+The orchestrator canceled target5000 and all three-car/new-code ideas before
+any chain world began. The untested chain implementation and its plan/tests
+were removed from the branch; the read-only pooling instrumentation remains.
+Resume uses epsilon-capacity-converge.json and reuses completed rows in the
+same output directory after the03:00–03:45 pause.
+
+After four seeds per arm, publish the complete setting diff and paired table
+to the orchestrator's scratchpad/pairing-best.json. Extend only a qualifying
+positive-margin arm with every week at least91.5% on time; if none qualifies,
+report Early Epsilon as the fallback rather than promote an unsafe screen.
