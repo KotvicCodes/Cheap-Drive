@@ -463,7 +463,7 @@ def evolution(t):
         ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', MARIGOLD),
         ('β', 'Beta', 268, 27, 10602, 'Trust + fee timing', MANGO),
         ('γ', 'Gamma', 242, 24, 11157, 'Notes + two-car gigs', MANGO),
-        ('δ', 'Delta', 496, 50, 12975, 'Capacity + 42% target', MANGO),
+        ('δ', 'Delta', 496, 50, 12975, 'Rescue windows + quantity', MANGO),
     ]
 
     curve_pts = []
@@ -806,25 +806,25 @@ def gain(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 8 (48–55s): Sol's Delta slide with updated 19-week capacity numbers
+# Slide 8 (48–55s): Sol's Delta slide with updated 19-week quantity + rescue numbers
 # ---------------------------------------------------------------------------
 def delta_confirm(t):
     im = base_canvas('sunburst').copy()
-    enter(im, 'Delta: use freed capacity (+42% target)', 80, 88, 72, t, .05, weight=700)
+    enter(im, 'Delta: rescue windows and order quantity', 80, 88, 70, t, .05, weight=700)
     txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 278, 134, ORANGE, 700)
     txt(im, 'gross margin/week vs Early Delta', 84, 448, 30, INK, 650)
     badge(im, '19/19 weeks ranked (17/19 ahead)', 84, 538, color=INK, bg=MARIGOLD, border=ORANGE, size=27)
-    badge(im, '91.1% worst on time · 342 won/wk', 84, 616, color=INK, bg=ORANGE, size=27)
+    badge(im, '342 orders/wk (vs 257) · 91.1% worst OT', 84, 616, color=INK, bg=ORANGE, size=26)
 
     rect(im, (84, 726, 690, 948), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, 'Wider windows + 90 km pairs → 42% target', 110, 752, 22, INK, 700)
-    rect(im, (114, 826, 310, 902), APRICOT, outline=GOLD_LINE, r=10, width=2)
-    txt(im, '30% · 257 won', 212, 864, 21, MUTED_INK, 700, anchor='mm')
-    line(im, [(328, 864), (398, 864)], ORANGE, 5)
+    txt(im, 'Rescue windows + wider gigs → more quantity', 108, 752, 21, INK, 700)
+    rect(im, (114, 826, 314, 902), APRICOT, outline=GOLD_LINE, r=10, width=2)
+    txt(im, '257 orders/wk', 214, 864, 21, MUTED_INK, 700, anchor='mm')
+    line(im, [(330, 864), (398, 864)], ORANGE, 5)
     line(im, [(383, 852), (398, 864), (383, 876)], ORANGE, 4)
-    rect(im, (416, 826, 660, 902), ORANGE, r=10)
-    car(im, 464, 864, color=INK, scale=0.92, angle=0)
-    txt(im, '42% · 342 won', 575, 864, 21, CARD, 700, anchor='mm')
+    rect(im, (414, 826, 662, 902), ORANGE, r=10)
+    car(im, 460, 864, color=INK, scale=0.90, angle=0)
+    txt(im, '342 orders/wk', 574, 864, 21, CARD, 700, anchor='mm')
 
     rows = [(r[1], r[2], r[4], r[5]) for r in DELTA_CONFIRM]
     paired_chart(im, t, rows, 'Early Delta', 'Delta', '19 paired practice weeks', diff_only=True)
