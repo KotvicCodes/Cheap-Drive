@@ -718,3 +718,34 @@ braked targets from3000/2400 to3600/3000 or4200/3600, each with outside
 target4600/5000/5500. This tests whether less drastic cuts preserve volume
 while the same trouble signal still protects service. It changes existing
 settings only; no fee, note or service-code micro-item is resumed.
+
+
+## Early Epsilon baseline, 02:28 UTC
+
+The user named Delta + `premium_min_slack_minutes=1440` **Early Epsilon**.
+`models/epsilon-early.json` freezes that exact specification, named "Early Epsilon";
+`models/epsilon.json` currently matches it. The authorized 03:00 ranking
+selection is the named Early Epsilon file, with the previously documented
+91.495601% rounding-level floor exception. All subsequent test-plan bases
+include premium1440, and all decisions compare paired margin against Early
+Epsilon using its existing 34 per-seed scores, rather than replaying Delta.
+Historical Delta comparisons remain as historical evidence. Volume screens
+continue at targets4600/5000/5500 with brakes; new adoption still requires
+strict worst-week91.5%, at least8 paired weeks and fresh confirmation.
+
+Initial volume screen against Early Epsilon (02:30 UTC):
+
+| Change on Early Epsilon | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| premium1440-opportunity360-2-win4600 | 4 | €-263.99 | 1/4 | 90.663% | Reject: floor below91.5%; margin loss |
+| premium1440-opportunity360-2-win5000 | 4 | €-332.84 | 2/4 | 91.420% | Reject: floor below91.5%; margin loss |
+| premium1440-opportunity360-2-win5500 | 4 | €-993.08 | 0/4 | 90.268% | Reject: floor below91.5%; margin loss |
+| premium1440-projected350-win4600 | 4 | €-686.44 | 1/4 | 90.331% | Reject: floor below91.5%; margin loss |
+| premium1440-projected350-win5000 | 4 | €-1608.85 | 1/4 | 89.189% | Reject: floor below91.5%; margin loss |
+| premium1440-projected350-win5500 | 3 | €-488.05 | 1/3 | 90.828% | Reject: floor below91.5%; margin loss |
+
+Projected5500 has3 completed pairs; its fourth row exhausted creation
+retries while other agents filled all12 team slots. It already fails the
+service gate and is not extended. The remaining five arms have all4 pairs.
+The six-arm milder-brake follow-up is now running, base Early Epsilon.
+Local CI-equivalent suite:464 tests passed.

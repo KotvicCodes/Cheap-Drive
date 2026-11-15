@@ -1,5 +1,5 @@
 {
-  "name": "Epsilon",
+  "name": "Early Epsilon",
   "factory": "models.delta:make_delta",
   "settings": {
     "max_km": 500,
