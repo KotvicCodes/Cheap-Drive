@@ -172,6 +172,20 @@ def enter(im, text, x, y, size, t, delay=0, color=INK, weight=600, mono=False, s
     im.paste(layer, (0, 0), layer)
 
 
+def enter_model_hdr(im, model_prefix, rest_text, x, y, size, t, delay=0, model_color=ORANGE, rest_color=INK, weight=700, span=0.38):
+    p = ease((t - delay) / span)
+    if p <= 0:
+        return
+    layer = Image.new('RGBA', (W, H))
+    yy = y + (1 - p) * 28
+    txt(layer, model_prefix, x, yy, size, model_color, weight)
+    pw = font(size, weight).getbbox(model_prefix)[2]
+    txt(layer, rest_text, x + pw, yy, size, rest_color, weight)
+    if p < 1:
+        layer.putalpha(layer.getchannel('A').point(lambda a: round(a * p)))
+    im.paste(layer, (0, 0), layer)
+
+
 def route_point(points, p):
     p = clamp(p)
     ds = [math.dist(points[i], points[i + 1]) for i in range(len(points) - 1)]
@@ -462,14 +476,14 @@ def evolution(t):
     focus_idx = min(3, int(p_car * 3.999))
 
     protos = [
-        ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', MARIGOLD),
-        ('β', 'Beta', 268, 27, 10602, 'Trust + fee timing', MANGO),
-        ('γ', 'Gamma', 242, 24, 11157, 'Notes + two-car gigs', MANGO),
-        ('δ', 'Delta', 496, 50, 12975, 'Rescue windows + quantity', MANGO),
+        ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', '#E59400', '#FFE066'),
+        ('β', 'Beta', 268, 27, 10602, 'Trust + fee timing', '#EB7300', '#FFB700'),
+        ('γ', 'Gamma', 242, 24, 11157, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
+        ('δ', 'Delta', 496, 50, 12975, 'Rescue windows + quantity', '#E62E00', '#FF4D2E'),
     ]
 
     curve_pts = []
-    for i, (greek_sym, name, r_cnt, n_dots, mgn, tag, col) in enumerate(protos):
+    for i, (greek_sym, name, r_cnt, n_dots, mgn, tag, col, greek_col) in enumerate(protos):
         cx = 80 + i * 448
         cw = 416
         cy, cy2 = 236, 976
@@ -477,20 +491,20 @@ def evolution(t):
         is_focus = i == focus_idx
 
         rect(im, (cx, cy, cx + cw, cy2), CARD, None, r=20)
-        hdr_bg = ORANGE if is_focus else (MARIGOLD if i < focus_idx else APRICOT)
-        hdr_fg = CARD if is_focus else INK
+        hdr_bg = col if is_focus else (col if i < focus_idx else APRICOT)
+        hdr_fg = CARD if i <= focus_idx else INK
         rect(im, (cx, cy, cx + cw, cy + 92), hdr_bg, None, r=20)
         rect(im, (cx, cy + 70, cx + cw, cy + 92), hdr_bg, None, r=0)
-        rect(im, (cx, cy, cx + cw, cy2), None, ORANGE if is_focus else GOLD_LINE, r=20, width=5 if is_focus else 2)
+        rect(im, (cx, cy, cx + cw, cy2), None, col if is_focus else GOLD_LINE, r=20, width=5 if is_focus else 2)
 
         # Greek letter & Name
         circle(im, cx + 48, cy + 46, 26, INK)
-        ImageDraw.Draw(im).text((round(cx + 48), round(cy + 46)), greek_sym, font=GREEK_FONT, fill=SUNBURST, anchor='mm')
+        ImageDraw.Draw(im).text((round(cx + 48), round(cy + 46)), greek_sym, font=GREEK_FONT, fill=greek_col, anchor='mm')
         txt(im, name, cx + 90, cy + 28, 34, hdr_fg, 700)
 
         # Run count & dot matrix
         cnt_now = round(r_cnt * appear)
-        txt(im, f'{cnt_now}', cx + 28, cy + 114, 82, ORANGE if is_focus else INK, 700)
+        txt(im, f'{cnt_now}', cx + 28, cy + 114, 82, col if is_focus else INK, 700)
         txt(im, 'runs', cx + 28 + font(82, 700).getbbox(f'{cnt_now}')[2] + 14, cy + 156, 26, MUTED_INK, 650)
 
         gx0, gy0 = cx + 30, cy + 232
@@ -498,9 +512,9 @@ def evolution(t):
             dx = gx0 + (d_idx % 10) * 36
             dy = gy0 + (d_idx // 10) * 28
             active_dot = d_idx < round(n_dots * appear)
-            circle(im, dx, dy, 8 if active_dot else 4, (ORANGE if is_focus else col) if active_dot else '#F7E6C4')
+            circle(im, dx, dy, 8 if active_dot else 4, col if active_dot else '#F7E6C4')
 
-        badge(im, tag, cx + 28, cy + 442, color=CARD if is_focus else INK, bg=ORANGE if is_focus else APRICOT, size=20)
+        badge(im, tag, cx + 28, cy + 442, color=CARD if is_focus else INK, bg=col if is_focus else APRICOT, size=20)
 
         # Rising weekly margin bar at bottom of card
         bar_base = cy2 - 32
@@ -508,10 +522,10 @@ def evolution(t):
         bh = max_h * (mgn / 14000.0) * appear
         by = bar_base - bh
         rect(im, (cx + 28, bar_base - max_h, cx + cw - 28, bar_base), '#FFF3D6', outline=GOLD_LINE, r=10)
-        rect(im, (cx + 28, by, cx + cw - 28, bar_base), ORANGE if is_focus else col, r=10)
+        rect(im, (cx + 28, by, cx + cw - 28, bar_base), col, r=10)
         lbl_mgn = f'€{mgn / 1000:.1f}k / wk'
         if appear > 0.35:
-            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD if is_focus else INK, mono=True, weight=700, anchor='ma')
+            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD, mono=True, weight=700, anchor='ma')
         if i == 0:
             curve_pts.append((cx + 48, by + 10))
         curve_pts.append((cx + cw / 2, by))
@@ -542,7 +556,7 @@ def evolution(t):
 # ---------------------------------------------------------------------------
 def dispatcher(t):
     im = base_canvas('citrus').copy()
-    enter(im, 'Beta: quote, then deliver', 80, 90, 84, t, .05, weight=700)
+    enter_model_hdr(im, 'Beta:', ' quote, then deliver', 80, 90, 84, t, .05, model_color='#EB7300', rest_color=INK, weight=700)
     phase = min(3, int(t / 1.7))
     cards = [
         (80, 236, '1. Filter requests'),
@@ -650,22 +664,23 @@ def experiments(t):
     txt(im, '1,685 practice runs', 84, 148, 28, MUTED_INK, 650)
 
     stages = [
-        (1, 'Alpha: 84.6% ranked'),
-        (2, 'Beta: 88.1% ranked'),
-        (3, 'Gamma: 97.9% ranked'),
-        (4, 'Delta: 98.6% ranked'),
+        (1, 'Alpha: 84.6% ranked', '#E59400', INK),
+        (2, 'Beta: 88.1% ranked', '#EB7300', CARD),
+        (3, 'Gamma: 97.9% ranked', '#FF5500', CARD),
+        (4, 'Delta: 98.6% ranked', '#E62E00', CARD),
     ]
     if t > 0.4:
         frac = clamp((t - 0.4) / 6.8)
         pos = mix(0.0, 3.0, smooth(frac))
         col = 1.0 + pos
         stage_idx = min(3, int(pos + 0.5))
+        _, stage_lbl, stage_bg, stage_fg = stages[stage_idx]
         cx = 80 + 1760 * (0.09 + 0.89 * (col + 0.55) / 5.00)
         hw = 1760 * (0.89 * 0.45 / 5.00)
-        rect(im, (cx - hw, 230 + 825 * 0.03, cx + hw, 230 + 825 * 0.80), None, ORANGE, r=6, width=4)
+        rect(im, (cx - hw, 230 + 825 * 0.03, cx + hw, 230 + 825 * 0.80), None, stage_bg, r=6, width=4)
         badge_w = 350
         bx = clamp(cx - badge_w / 2, 80, 1840 - badge_w)
-        badge(im, stages[stage_idx][1], bx, 178, color=INK, bg=ORANGE, size=28, fixed_w=badge_w)
+        badge(im, stage_lbl, bx, 178, color=stage_fg, bg=stage_bg, size=28, fixed_w=badge_w)
     return im
 
 
@@ -674,7 +689,7 @@ def experiments(t):
 # ---------------------------------------------------------------------------
 def failure(t):
     im = base_canvas('sunburst').copy()
-    enter(im, 'Gamma: more margin. One week missed the gate.', 80, 88, 70, t, .05, weight=700)
+    enter_model_hdr(im, 'Gamma:', ' higher margin, but one week missed the gate', 80, 88, 68, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
     txt(im, 'First Gamma holdout', 84, 250, 34, INK, 650)
     txt(im, f'+€{830.44375 * ease((t - .2) / 1):,.0f}', 76, 314, 142, ORANGE, 700)
     txt(im, 'gross margin/week vs Beta', 84, 492, 32, INK, 650)
@@ -797,7 +812,7 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
 # ---------------------------------------------------------------------------
 def gain(t):
     im = base_canvas('citrus').copy()
-    enter(im, 'Gamma reads notes and pairs two cars', 80, 88, 74, t, .05, weight=700)
+    enter_model_hdr(im, 'Gamma:', ' read notes and pair two cars', 80, 88, 74, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
     txt(im, f'+€{2030.845 * ease((t - .2) / 1):,.0f}', 76, 278, 132, ORANGE, 700)
     txt(im, 'gross margin/week vs Beta', 84, 448, 32, INK, 650)
     badge(im, '8/8 weeks qualified', 84, 540, color=INK, bg=MARIGOLD, border=ORANGE, size=29)
@@ -822,7 +837,7 @@ def gain(t):
 # ---------------------------------------------------------------------------
 def delta_confirm(t):
     im = base_canvas('sunburst').copy()
-    enter(im, 'Delta: rescue windows and order quantity', 80, 88, 70, t, .05, weight=700)
+    enter_model_hdr(im, 'Delta:', ' rescue windows and order quantity', 80, 88, 70, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
     txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 278, 134, ORANGE, 700)
     txt(im, 'gross margin/week vs Early Delta', 84, 448, 30, INK, 650)
     badge(im, '19/19 weeks ranked (17/19 ahead)', 84, 538, color=INK, bg=MARIGOLD, border=ORANGE, size=27)
