@@ -171,9 +171,9 @@ separate readiness, bounded/invalid text and validation.
 | Pickup-opportunity brake, 720 min horizon | 4 | −€416.89 | 1/4 | 92.14% | Rejected: screen cost and weaker floor |
 | Require matching pair driver audiences | 4 | +€7.59 | 1/4 | 90.63% | Rejected: service floor |
 | English negative pickup-closing repair | 4 | €0.00 | 0/4 | 91.12% | No effect in screen; not selected |
-| Wide pickup cushion 20 min | Pending (4 planned) | — | — | — | Screen in flight |
-| Wide pickup cushion 30 min | Pending (4 planned) | — | — | — | Screen in flight |
-| Count map self roads in pair planning | Pending (4 planned) | — | — | — | Screen in flight |
+| Wide pickup cushion 20 min | 4 | −€57.82 | 2/4 | 90.52% | Rejected: service floor |
+| Wide pickup cushion 30 min | 4 | −€25.59 | 2/4 | 91.14% | Rejected: service floor |
+| Count map self roads in pair planning | 4 | +€158.53 | 3/4 | 91.71% | Survived screen; remaining 15 paired weeks in flight |
 | Pairable waiting-order quote factor 9800 bps | Pending (4 planned) | — | — | — | Queued |
 | Pairable waiting-order quote factor 9500 bps | Pending (4 planned) | — | — | — | Queued |
 | Premium service slack 1440 min | Pending (4 planned) | — | — | — | Screen in flight |
@@ -193,8 +193,8 @@ neutral behavior and strict validation.
 
 | Additional hypothesis | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Rescue-pair waiting age ≤240 min | Pending (4 planned) | — | — | — | Screen in flight |
-| Rescue-pair remaining pickup slack ≥600 min | Pending (4 planned) | — | — | — | Screen in flight |
+| Rescue-pair waiting age ≤240 min | 4 | +€118.60 | 2/4 | 91.26% | Rejected: service floor |
+| Rescue-pair remaining pickup slack ≥600 min | 4 | −€193.66 | 1/4 | 89.70% | Rejected: unranked week |
 
 
 At 23:50 UTC the completed pickup-opportunity screens selected the 360-minute,
@@ -205,3 +205,21 @@ observed floor. Eight previously reserved fresh Delta references started on
 one worker; fresh reference outcomes will not be used to tune candidate settings.
 The candidate itself must still pass its complete 19-week comparison and
 fresh paired confirmation.
+
+
+At 00:01 UTC the same-town road repair completed its four-week screen and
+advanced to the remaining fifteen paired weeks. Both pickup cushions and both
+selective rescue-pair guards failed the service floor and are rejected as
+standalone candidates. Every active sweep now uses the shared launch-pause
+flag; pre-gate controllers have all finished.
+
+The stronger pickup-opportunity brake retained its floor over ten paired weeks
+but cost €228/week at that intermediate point. A separate screen tests milder
+3600/3000 target caps (rather than 3000/2400); the normal/global win target
+remains 4200. This is service-policy refinement before volume expansion.
+
+| Additional hypothesis | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Pickup opportunity 360 min, thresholds 2/4, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
+| Pickup opportunity 360 min, thresholds 3/6, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
+| Pickup opportunity 180 min, thresholds 2/4, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
