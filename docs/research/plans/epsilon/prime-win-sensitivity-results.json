@@ -2,9 +2,10 @@
   "schema_version": 1,
   "generated_at": "2026-11-15T06:06:20.936062+00:00",
   "status": "complete",
+  "provenance_path_base": "Shared parent directory of the source repository checkouts; original checkout names and artifact suffixes retained.",
   "experiment": {
     "name": "Epsilon Prime final win-target sensitivity",
-    "worktree": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c",
+    "worktree": "rehearse-717c",
     "commit": "717c00af257b0996daf4c8a4ea0ca6f446a38538",
     "level": 8,
     "board": false,
@@ -116,15 +117,15 @@
         ],
         "expected_runs": 16,
         "completed_runs": 16,
-        "plan": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win43-45-plan.json",
+        "plan": "rehearse-717c/runs/epsilon/prime-win43-45-plan.json",
         "scheduler_pid": 1308415
       }
     }
   },
   "methodology": {
     "paired_seeds": true,
-    "baseline_reference": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/docs/research/plans/epsilon/prime-final-results.json",
-    "baseline_display_table": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/docs/research/epsilon-tuning.md#epsilon-prime-final-pooled-confirmation-2026-11-15",
+    "baseline_reference": "t3-cb1f1e60-3100c14e73a0d169/docs/research/plans/epsilon/prime-final-results.json",
+    "baseline_display_table": "t3-cb1f1e60-3100c14e73a0d169/docs/research/epsilon-tuning.md#epsilon-prime-final-pooled-confirmation-2026-11-15",
     "baseline_display_margins_validated": true,
     "baseline_precision": "Exact archived cents and shares; displayed table percentages are rounded.",
     "ranked_rule": "onTimeShare >= 0.90",
@@ -163,9 +164,9 @@
           "on_time_delta_vs_prime_percentage_points": -0.18751648094070816,
           "on_time_delta_vs_early_percentage_points": -2.5038781480671735,
           "world_id": "w7968c0116a678a08181a",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-bf-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-bf-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-bf-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-bf-s002.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "prime-win4300": {
@@ -190,9 +191,9 @@
           "on_time_delta_vs_prime_percentage_points": 1.2917361276494455,
           "on_time_delta_vs_early_percentage_points": -1.0246255394770198,
           "world_id": "w5ce32aa698b0a189b56e",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-bf-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-bf-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-bf-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-bf-s002.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -217,7 +218,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": -2.3163616671264653,
           "world_id": "w863e4e77d5de45fa72cc",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-bf-s002/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-bf-s002/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -244,9 +245,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.2685665261665915,
           "on_time_delta_vs_early_percentage_points": -2.047795140959874,
           "world_id": "wf6bf9c697827f64a24f9",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-bf-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-bf-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-bf-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-bf-s002.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -271,9 +272,9 @@
           "on_time_delta_vs_prime_percentage_points": -2.479586205606421,
           "on_time_delta_vs_early_percentage_points": -4.795947872732887,
           "world_id": "w8a2eb3e3e725a92e804e",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-bf-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-bf-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-bf-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-bf-s002.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "early-epsilon": {
@@ -298,7 +299,7 @@
           "on_time_delta_vs_prime_percentage_points": 2.3163616671264653,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "wec3d97e6a9b84a26fdc9",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-bf-s002/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-bf-s002/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -331,9 +332,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.8673439078001555,
           "on_time_delta_vs_early_percentage_points": 2.265193370165741,
           "world_id": "w00bd6517b3e803c436c0",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-sp-s001.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-sp-s001.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-sp-s001.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-sp-s001.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "prime-win4300": {
@@ -358,9 +359,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.40542922615900423,
           "on_time_delta_vs_early_percentage_points": 1.80327868852459,
           "world_id": "w7bee3d83c28388b9385d",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-sp-s001.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-sp-s001.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-sp-s001.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-sp-s001.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -385,7 +386,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": 1.3978494623655857,
           "world_id": "wa25817429fee65bb4fa2",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-priority/runs.jsonl",
+          "source": "t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-priority/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -412,9 +413,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.09151223976207046,
           "on_time_delta_vs_early_percentage_points": 1.4893617021276562,
           "world_id": "w61691048529ec208319d",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-sp-s001.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-sp-s001.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-sp-s001.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-sp-s001.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -439,9 +440,9 @@
           "on_time_delta_vs_prime_percentage_points": -4.134976833639303,
           "on_time_delta_vs_early_percentage_points": -2.7371273712737176,
           "world_id": "w267627216f3b72a5b59b",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-sp-s001.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-sp-s001.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-sp-s001.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-sp-s001.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "early-epsilon": {
@@ -466,7 +467,7 @@
           "on_time_delta_vs_prime_percentage_points": -1.3978494623655857,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "wa1dc1abbb6badbff949f",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-sp-s001/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-sp-s001/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -499,9 +500,9 @@
           "on_time_delta_vs_prime_percentage_points": 1.384360320530531,
           "on_time_delta_vs_early_percentage_points": 2.329727802210857,
           "world_id": "w5fdaeab895b0be0d4d47",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-px-s010.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-px-s010.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-px-s010.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-px-s010.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "prime-win4300": {
@@ -526,9 +527,9 @@
           "on_time_delta_vs_prime_percentage_points": 2.042657081821575,
           "on_time_delta_vs_early_percentage_points": 2.988024563501901,
           "world_id": "w08f6ca837cc4f7e228ef",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-px-s010.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-px-s010.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-px-s010.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-px-s010.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -553,7 +554,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": 0.9453674816803259,
           "world_id": "w6e0bd1fda55982ce5758",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-px-s010/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-px-s010/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -580,9 +581,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.6049477514773138,
           "on_time_delta_vs_early_percentage_points": 1.5503152331576397,
           "world_id": "wb72afa398b9577a96ce4",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-px-s010.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-px-s010.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-px-s010.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-px-s010.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -607,9 +608,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.7792207792207795,
           "on_time_delta_vs_early_percentage_points": 1.7245882609011054,
           "world_id": "wcaf2e3ad63b3d1ee893e",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-px-s010.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-px-s010.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-px-s010.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-px-s010.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "early-epsilon": {
@@ -634,7 +635,7 @@
           "on_time_delta_vs_prime_percentage_points": -0.9453674816803259,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "w4dcb72798337957b05fd",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-px-s010/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-px-s010/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -667,9 +668,9 @@
           "on_time_delta_vs_prime_percentage_points": -2.434981556707283,
           "on_time_delta_vs_early_percentage_points": -0.9887005649717451,
           "world_id": "wcd6598ea0b39b74fc92d",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--delta-f1-s07.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--delta-f1-s07.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--delta-f1-s07.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--delta-f1-s07.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "prime-win4300": {
@@ -694,9 +695,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.4981634527089107,
           "on_time_delta_vs_early_percentage_points": 1.9444444444444486,
           "world_id": "w8225c2af4b89251375de",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--delta-f1-s07.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--delta-f1-s07.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--delta-f1-s07.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--delta-f1-s07.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -721,7 +722,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": 1.446280991735538,
           "world_id": "w8eaf0b65879721c48691",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-24h/runs.jsonl",
+          "source": "t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-24h/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -748,9 +749,9 @@
           "on_time_delta_vs_prime_percentage_points": -2.0318665773211175,
           "on_time_delta_vs_early_percentage_points": -0.5855855855855796,
           "world_id": "wc456a71412f42bfdbdff",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--delta-f1-s07.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--delta-f1-s07.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--delta-f1-s07.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--delta-f1-s07.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -775,9 +776,9 @@
           "on_time_delta_vs_prime_percentage_points": -2.5724071178616637,
           "on_time_delta_vs_early_percentage_points": -1.1261261261261257,
           "world_id": "w8f0829c52fecc18073dc",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--delta-f1-s07.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--delta-f1-s07.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--delta-f1-s07.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--delta-f1-s07.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "early-epsilon": {
@@ -802,7 +803,7 @@
           "on_time_delta_vs_prime_percentage_points": -1.446280991735538,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "w536ca03da42a45780066",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/verify-top/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/verify-top/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -835,9 +836,9 @@
           "on_time_delta_vs_prime_percentage_points": -0.4710938757796157,
           "on_time_delta_vs_early_percentage_points": 0.29043789097408235,
           "world_id": "wf1cc8bbcf403d3dfb1bf",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--delta-f2-s04.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--delta-f2-s04.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--delta-f2-s04.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--delta-f2-s04.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "prime-win4300": {
@@ -862,9 +863,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.41067624688654325,
           "on_time_delta_vs_early_percentage_points": 1.1722080136402413,
           "world_id": "w1b6012ea75d9248b35b6",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--delta-f2-s04.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--delta-f2-s04.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--delta-f2-s04.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--delta-f2-s04.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -889,7 +890,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": 0.761531766753698,
           "world_id": "wd9ad7e6528893a8189d8",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-24h/runs.jsonl",
+          "source": "t3-24824582-1c11cd2862e10457/runs/epsilon/medium-breaker-24h/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -916,9 +917,9 @@
           "on_time_delta_vs_prime_percentage_points": -1.1910850313585075,
           "on_time_delta_vs_early_percentage_points": -0.42955326460480947,
           "world_id": "w0c0bd4935f552a01ebb6",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--delta-f2-s04.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--delta-f2-s04.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--delta-f2-s04.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--delta-f2-s04.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -943,9 +944,9 @@
           "on_time_delta_vs_prime_percentage_points": -0.31623914588855273,
           "on_time_delta_vs_early_percentage_points": 0.4452926208651453,
           "world_id": "w4711e6e5067d720ddc88",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--delta-f2-s04.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--delta-f2-s04.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--delta-f2-s04.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--delta-f2-s04.reveal.json.gz",
           "recovered_from_completed_trace": true
         },
         "early-epsilon": {
@@ -970,7 +971,7 @@
           "on_time_delta_vs_prime_percentage_points": -0.761531766753698,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "wfa88b093d13c17e3e33d",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/verify-top/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/verify-top/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -1003,9 +1004,9 @@
           "on_time_delta_vs_prime_percentage_points": 1.6706223628691896,
           "on_time_delta_vs_early_percentage_points": 0.6668351302785203,
           "world_id": "w1083230a7bbe8a7625c0",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-fd-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-fd-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-fd-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-fd-s002.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4300": {
@@ -1030,9 +1031,9 @@
           "on_time_delta_vs_prime_percentage_points": -1.1268432728696376,
           "on_time_delta_vs_early_percentage_points": -2.130630505460307,
           "world_id": "w1165588c5d6dc6b2cc1d",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-fd-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-fd-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-fd-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-fd-s002.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -1057,7 +1058,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": -1.0037872325906694,
           "world_id": "w7e0cac5a14a66da4741a",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-fd-s002/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-fd-s002/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -1084,9 +1085,9 @@
           "on_time_delta_vs_prime_percentage_points": -1.7187201831944554,
           "on_time_delta_vs_early_percentage_points": -2.722507415785125,
           "world_id": "w83a41a33d538788441e1",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-fd-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-fd-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-fd-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-fd-s002.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -1111,9 +1112,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.8938512735981008,
           "on_time_delta_vs_early_percentage_points": -0.10993595899256858,
           "world_id": "wd14ef77551a7ed31d2c5",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-fd-s002.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-fd-s002.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-fd-s002.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-fd-s002.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "early-epsilon": {
@@ -1138,7 +1139,7 @@
           "on_time_delta_vs_prime_percentage_points": 1.0037872325906694,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "w1e1a6fc6005b165b24fa",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-fd-s002/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-fd-s002/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -1171,9 +1172,9 @@
           "on_time_delta_vs_prime_percentage_points": 1.2134562686409,
           "on_time_delta_vs_early_percentage_points": 2.0763224640684363,
           "world_id": "w263e3b4f4ffbc6f50b7b",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-sf-s003.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-sf-s003.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-sf-s003.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-sf-s003.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4300": {
@@ -1198,9 +1199,9 @@
           "on_time_delta_vs_prime_percentage_points": 1.0707552727701186,
           "on_time_delta_vs_early_percentage_points": 1.933621468197655,
           "world_id": "w9417e3a922acec1c53da",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-sf-s003.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-sf-s003.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-sf-s003.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-sf-s003.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -1225,7 +1226,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": 0.8628661954275363,
           "world_id": "wf9f9af1bfe5afafeef2c",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-sf-s003/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-sf-s003/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -1252,9 +1253,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.6850147657149419,
           "on_time_delta_vs_early_percentage_points": 1.5478809611424782,
           "world_id": "w175983165be84eddc34c",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-sf-s003.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-sf-s003.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-sf-s003.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-sf-s003.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -1279,9 +1280,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.04946321956792454,
           "on_time_delta_vs_early_percentage_points": 0.9123294149954608,
           "world_id": "w464238f4b9ba04231b18",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-sf-s003.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-sf-s003.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-sf-s003.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-sf-s003.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "early-epsilon": {
@@ -1306,7 +1307,7 @@
           "on_time_delta_vs_prime_percentage_points": -0.8628661954275363,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "w4d849d0b9b791c981f77",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-sf-s003/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-sf-s003/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -1339,9 +1340,9 @@
           "on_time_delta_vs_prime_percentage_points": -0.9592622690174246,
           "on_time_delta_vs_early_percentage_points": -1.7462254079609663,
           "world_id": "w5d0d21e4203d2bde56ad",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-fd-s005.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-fd-s005.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4200--eps-fd-s005.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4200--eps-fd-s005.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4300": {
@@ -1366,9 +1367,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.2670716380393734,
           "on_time_delta_vs_early_percentage_points": -0.5198915009041682,
           "world_id": "we57061a0368800b52828",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-fd-s005.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-fd-s005.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4300--eps-fd-s005.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4300--eps-fd-s005.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime4400": {
@@ -1393,7 +1394,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.0,
           "on_time_delta_vs_early_percentage_points": -0.7869631389435416,
           "world_id": "w272050c89f4b453c3295",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-fd-s005/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/breaker24h95-early-eps-fd-s005/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -1420,9 +1421,9 @@
           "on_time_delta_vs_prime_percentage_points": 0.9260253603733837,
           "on_time_delta_vs_early_percentage_points": 0.13906222142984204,
           "world_id": "w22977df877189ab6e041",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-fd-s005.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-fd-s005.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4500--eps-fd-s005.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4500--eps-fd-s005.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "prime-win4600": {
@@ -1447,9 +1448,9 @@
           "on_time_delta_vs_prime_percentage_points": -0.2135030280876915,
           "on_time_delta_vs_early_percentage_points": -1.0004661670312331,
           "world_id": "w5d3069e169fc45edc71d",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
-          "trace": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-fd-s005.jsonl.gz",
-          "reveal": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-fd-s005.reveal.json.gz",
+          "source": "rehearse-717c/runs/epsilon/prime-win-sweep/runs.jsonl",
+          "trace": "rehearse-717c/runs/epsilon/prime-win-sweep/traces/prime-win4600--eps-fd-s005.jsonl.gz",
+          "reveal": "rehearse-717c/runs/epsilon/prime-win-sweep/reveals/prime-win4600--eps-fd-s005.reveal.json.gz",
           "recovered_from_completed_trace": false
         },
         "early-epsilon": {
@@ -1474,7 +1475,7 @@
           "on_time_delta_vs_prime_percentage_points": 0.7869631389435416,
           "on_time_delta_vs_early_percentage_points": 0.0,
           "world_id": "wcde1e217430afdec5336",
-          "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-fd-s005/runs.jsonl",
+          "source": "t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/backfill/early-epsilon-eps-fd-s005/runs.jsonl",
           "trace": null,
           "reveal": null,
           "recovered_from_completed_trace": false
@@ -2868,7 +2869,7 @@
     "initial_42_46": {
       "overlap_detected": "Original A plan queued all 16 pairs; B plan overlapped the 8 normal pairs.",
       "action": "Paused scheduler parents only; all 10 submitted worlds finished with their original workers. Remaining 6 unique jobs used a serialized 12-world team capacity gate and explicit launch cutoff. Recovered rows were checked against terminal API scores. Original pools retired only after their assigned worlds ended.",
-      "audit_file": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/manager-audit.jsonl",
+      "audit_file": "rehearse-717c/runs/epsilon/prime-win-sweep/manager-audit.jsonl",
       "capacity_max_observed": 12,
       "latest_capacity": {
         "at": "2026-11-15T05:56:43.413962+00:00",
@@ -2899,7 +2900,7 @@
       "sweep_completed_at": "2026-11-15T05:56:43.414160+00:00"
     },
     "final_43_45": {
-      "audit_file": "/home/agent/.t3/worktrees/Cheap-Drive/rehearse-717c/runs/epsilon/prime-win-sweep/final-43-45-monitor.jsonl",
+      "audit_file": "rehearse-717c/runs/epsilon/prime-win-sweep/final-43-45-monitor.jsonl",
       "capacity_max_observed": 12,
       "latest_capacity": {
         "at": "2026-11-15T06:06:19.615865+00:00",

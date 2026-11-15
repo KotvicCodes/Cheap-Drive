@@ -13,7 +13,7 @@ from make_browser_fixture import fixture
 def main():
     from playwright.sync_api import sync_playwright
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--real-trace',type=Path,help='optional local completed level-4 trace; never uploaded')
+    parser.add_argument('--real-trace',type=Path,help='optional local completed trace; never uploaded')
     args=parser.parse_args()
     cache=ROOT/'.cache';cache.mkdir(exist_ok=True)
     path=cache/'browser-fixture.html';path.write_text(render(analyze(fixture())))

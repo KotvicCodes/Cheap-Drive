@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic 60-second Cheap-Drive motion film combining the best of v1 and v2.
+"""Deterministic 72-second Cheap-Drive motion film tracing Alpha through Epsilon.
 
 No simulator or network requests.
 """
@@ -45,16 +45,9 @@ SCENES = [
     (67, 72),
 ]
 
-GRAPH = json.loads((ROOT / 'data/graph-data.json').read_text())
-RUN_DATA = json.loads((ROOT / 'data/run-data.json').read_text())
-CHART_DATA = json.loads((ROOT / 'data/chart-data.json').read_text())
+RUN_DATA = json.loads((REPO / 'presentations/run-data.json').read_text())
 PAIRED_WEEKS = list(csv.DictReader((ROOT / 'data/paired-weeks.csv').open()))
 CONFIRM_WEEKS = [r for r in PAIRED_WEEKS if r['comparison'] == 'Revised candidate: fresh confirmation']
-OFFICIAL_ROUNDS = list(csv.DictReader((ROOT / 'data/official-rounds.csv').open()))
-OFFICIAL_RUNS = [r for r in GRAPH['runs'] if r['family'] == 'Official ranking']
-ROUND5_RUNS = OFFICIAL_RUNS[:5]
-ROUND6_RUNS = OFFICIAL_RUNS[5:10]
-PAIRED_OLD = list(csv.DictReader((ROOT / 'data/per-seed-comparisons.csv').open()))
 
 DELTA_CONFIRM = [
     ('W1', 8178.10, 9711.04, 1532.94, 96.60, 95.74),
@@ -78,8 +71,7 @@ DELTA_CONFIRM = [
     ('W19', 11391.33, 13872.46, 2481.13, 98.81, 96.47),
 ]
 
-CHART_ALL = Image.open(ROOT / 'assets/all-run-margins.png').convert('RGB')
-CHART_STAGES = Image.open(ROOT / 'assets/learning-stages.png').convert('RGB')
+CHART_ALL = Image.open(REPO / 'presentations/all-run-margins.png').convert('RGB')
 LIVE_DEMO = Image.open(ROOT / 'assets/live-demo-overview.png').convert('RGB')
 LIVE_DEMO_SCROLL = Image.open(ROOT / 'assets/live-demo-scroll.png').convert('RGB')
 LOGO_BADGE = Image.open(ROOT / 'assets/cheap-drive-badge.png').convert('RGBA').resize((124, 124), Image.Resampling.LANCZOS)
@@ -203,23 +195,9 @@ def route_point(points, p):
 
 
 def path_partial(im, points, p, color=ORANGE, width=5, glow=None):
-    if p <= 0:
-        return
-    distances = [math.dist(points[i], points[i + 1]) for i in range(len(points) - 1)]
-    target = sum(distances) * clamp(p)
-    pts = [points[0]]
-    for i, dist in enumerate(distances):
-        if target >= dist:
-            pts.append(points[i + 1])
-            target -= dist
-        else:
-            frac = target / dist
-            pts.append((mix(points[i][0], points[i + 1][0], frac), mix(points[i][1], points[i + 1][1], frac)))
-            break
-    if len(pts) > 1:
-        if glow:
-            line(im, pts, glow, width + 8)
-        line(im, pts, color, width)
+    if glow:
+        path_segment(im, points, 0, p, glow, width + 8)
+    path_segment(im, points, 0, p, color, width)
 
 
 def path_segment(im, points, p0, p1, color=ORANGE, width=5, glow=None):
@@ -327,40 +305,18 @@ FINLAND_BORDER = [
     (65.859, 24.628), (65.780, 24.404), (65.812, 24.238), (65.805, 24.155),
 ]
 
-# All 30 real simulator places in Finland
+# The ten major simulator places drawn by the film's Finland map.
 FINLAND_PLACES = {
-    'helsinki': (60.2300, 24.9384, 'Helsinki', True),
-    'espoo': (60.2055, 24.6559, 'Espoo', False),
-    'vantaa': (60.2934, 25.0378, 'Vantaa', False),
-    'porvoo': (60.3932, 25.6650, 'Porvoo', False),
-    'kotka': (60.4664, 26.9458, 'Kotka', False),
-    'salo': (60.3833, 23.1333, 'Salo', False),
-    'turku': (60.4518, 22.2666, 'Turku', True),
-    'raisio': (60.4859, 22.1689, 'Raisio', False),
-    'hyvinkaa': (60.6311, 24.8616, 'Hyvinkää', False),
-    'hameenlinna': (60.9959, 24.4643, 'Hämeenlinna', False),
-    'lahti': (60.9827, 25.6612, 'Lahti', False),
-    'kouvola': (60.8679, 26.7042, 'Kouvola', False),
-    'lappeenranta': (61.0587, 28.1887, 'Lappeenranta', False),
-    'rauma': (61.1287, 21.5113, 'Rauma', False),
-    'pori': (61.4851, 21.7975, 'Pori', False),
-    'lempaala': (61.3139, 23.7529, 'Lempäälä', False),
-    'tampere': (61.4978, 23.7610, 'Tampere', True),
-    'mikkeli': (61.6886, 27.2723, 'Mikkeli', False),
-    'savonlinna': (61.8699, 28.8799, 'Savonlinna', False),
-    'jyvaskyla': (62.2426, 25.7473, 'Jyväskylä', True),
-    'joensuu': (62.6010, 29.7636, 'Joensuu', True),
-    'seinajoki': (62.7903, 22.8403, 'Seinäjoki', False),
-    'kuopio': (62.8924, 27.6770, 'Kuopio', True),
-    'vaasa': (63.0951, 21.6165, 'Vaasa', True),
-    'kokkola': (63.8385, 23.1307, 'Kokkola', False),
-    'ylivieska': (64.0731, 24.5395, 'Ylivieska', False),
-    'kajaani': (64.2273, 27.7285, 'Kajaani', False),
-    'oulu': (65.0121, 25.4651, 'Oulu', True),
-    'kemi': (65.7364, 24.5637, 'Kemi', False),
-    'rovaniemi': (66.5039, 25.7294, 'Rovaniemi', True),
-    'sodankyla': (67.4160, 26.5890, 'Sodankylä', False),
-    'ivalo': (68.6576, 27.5397, 'Ivalo', True),
+    'helsinki': (60.2300, 24.9384, 'Helsinki'),
+    'turku': (60.4518, 22.2666, 'Turku'),
+    'tampere': (61.4978, 23.7610, 'Tampere'),
+    'jyvaskyla': (62.2426, 25.7473, 'Jyväskylä'),
+    'joensuu': (62.6010, 29.7636, 'Joensuu'),
+    'kuopio': (62.8924, 27.6770, 'Kuopio'),
+    'vaasa': (63.0951, 21.6165, 'Vaasa'),
+    'oulu': (65.0121, 25.4651, 'Oulu'),
+    'rovaniemi': (66.5039, 25.7294, 'Rovaniemi'),
+    'ivalo': (68.6576, 27.5397, 'Ivalo'),
 }
 
 FINLAND_ROADS = [
@@ -436,9 +392,7 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
         p = clamp(p0 + t * spd)
         path_partial(im, pts, p, ORANGE, 5)
 
-    for pid, (lat, lon, name, is_major) in FINLAND_PLACES.items():
-        if not is_major:
-            continue
+    for pid, (lat, lon, name) in FINLAND_PLACES.items():
         pt = proj(lat, lon)
         if not in_box(pt):
             continue
@@ -1088,8 +1042,8 @@ def frame(t):
 
 
 def soundtrack(path):
-    """Energetic 128 BPM instrumental for the 60s cut; seeded percussion, no third-party samples,
-    layered with frame-accurate micro-sonic UI and data sound design for all 9 scenes.
+    """Energetic 128 BPM instrumental for the 72s cut; seeded percussion, no third-party samples,
+    layered with frame-accurate micro-sonic UI and data sound design for all 11 scenes.
     """
     sr = 44100
     n = sr * DURATION
@@ -1334,19 +1288,18 @@ def validate():
     assert {name: round(group['ranked'] / group['runs'] * 100, 1)
             for name, group in RUN_DATA['groups'].items() if name != 'Baseline'} == {
                 'Alpha': 84.6, 'Beta': 88.1, 'Gamma': 97.9, 'Delta': 98.7, 'Epsilon': 90.2}
-    first_holdout = next(c for c in CHART_DATA['cohorts']
-                         if c['comparison'] == 'Original candidate: fresh holdout')
-    assert round(first_holdout['mean_delta_eur']) == 830
-    assert first_holdout['candidate_qualified'] == 7
-    assert round(first_holdout['candidate_worst_on_time'] * 100, 2) == 89.96
+    first_holdout = [r for r in PAIRED_WEEKS
+                     if r['comparison'] == 'Original candidate: fresh holdout']
+    assert len(first_holdout) == 8
+    assert round(sum(float(r['delta_eur']) for r in first_holdout) / len(first_holdout)) == 830
+    assert sum(r['candidate_qualified'] == 'True' for r in first_holdout) == 7
+    assert round(min(float(r['candidate_on_time']) for r in first_holdout) * 100, 2) == 89.96
     assert len(CONFIRM_WEEKS) == 8
     assert all(r['candidate_qualified'] == 'True' and float(r['delta_eur']) > 0 for r in CONFIRM_WEEKS)
     assert round(sum(float(r['delta_eur']) for r in CONFIRM_WEEKS) / 8, 3) == 2030.845
     assert len(DELTA_CONFIRM) == 19
     assert sum(d[3] > 0 for d in DELTA_CONFIRM) == 17
     assert round(sum(d[3] for d in DELTA_CONFIRM) / 19, 2) == 1663.82
-    stress = next(r for r in PAIRED_OLD if r['suite'] == 't1' and r['variant'] == 'km600-t38' and r['seed'] == 'gamma-t04')
-    assert int(stress['won_orders']) == 294 and round(float(stress['on_time_share']) * 100, 2) == 89.80
     edge_set = set(MAP_EDGES) | {(b, a) for a, b in MAP_EDGES}
     for nodes, *_ in MAP_TRIPS:
         for u, v in zip(nodes, nodes[1:]):

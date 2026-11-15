@@ -484,7 +484,7 @@ comparison against the deterministic parser on the same seeds.
 ### Provenance and verification limits
 
 The three supplied Gemini write-ups were read only from
-`/home/agent/.t3/worktrees/Cheap-Drive/t3-d9eb04e0-62fae69aa9551399/docs/research/`.
+`t3-d9eb04e0-62fae69aa9551399/docs/research/`.
 They were checked against [Delta results](delta-results.md),
 [challenge constraints](../challenge.md), [operational reference](../reference.md),
 the SDK at the supplied `t3-a14884b2-9968a1fe51ca69bf/.venv/` path, and the

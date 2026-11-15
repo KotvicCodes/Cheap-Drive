@@ -10,10 +10,10 @@ Only existing local artifacts, offline model execution and GET requests were use
 
 Code references below are pinned to audited source revision `e595cdd96e3aa98a96b799f4d1b027745b1cecb8`. Primary local sources:
 
-- Checkout: `/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169`.
+- Checkout: `t3-cb1f1e60-3100c14e73a0d169`.
 - Trace: `runs/final/20261114T231711Z-final-f361626ab97b2bcdfa5ea.jsonl.gz`; SHA-256 `7c414a76b033379fe8dd9e8245e81e352c5a169b61b68227b619c19c8b24a263`. Row numbers below mean **decompressed JSONL rows**, not compressed-file byte offsets.
 - Console: `runs/final/live-2317.log`; checkpoint: `runs/final/f361626ab97b2bcdfa5ea-checkpoint.json`.
-- Exact-settings practice comparison: sibling `t3-4d9ed6f5-d50ae2340a835fbb/runs/queue/out/volume-tap/weeks/cap-4200--<seed>/traces/cap-4200--<seed>.jsonl.gz`, relative to `/home/agent/.t3/worktrees/Cheap-Drive/`. All 19 completed seeds `delta-f1-s01`–`s11` and `delta-f2-s01`–`s08`; rehearsals, other settings and incomplete attempts were excluded. The suggested `t3-54bca21f-.../runs/queue/` was absent; the retained queue artifacts were found in this sibling.
+- Exact-settings practice comparison: sibling `t3-4d9ed6f5-d50ae2340a835fbb/runs/queue/out/volume-tap/weeks/cap-4200--<seed>/traces/cap-4200--<seed>.jsonl.gz`, relative to the shared parent directory of these repository checkouts. All 19 completed seeds `delta-f1-s01`–`s11` and `delta-f2-s01`–`s08`; rehearsals, other settings and incomplete attempts were excluded. The suggested `t3-54bca21f-.../runs/queue/` was absent; the retained queue artifacts were found in this sibling.
 
 Events were deduplicated by `seq`: **1,391 history events + 3,652 streamed events = 5,043**, sequences 0–5042 without gaps. Practice events come from `advance_batch.response.events`; final events come from `history_event` and `event`. Money is the sum of **ledger `line.cents`**, which reconciles exactly to every included terminal score. “Booked margin” means ledger money recorded in a time interval. “Arrival-cohort margin” means all eventual revenue, refunds and costs attributed to requests arriving in that interval, including money recorded later. Pair fees with null `orderId` are divided equally among the distinct orders in that gig; mixed-cutoff pair allocations are an approximation, and the cohort totals still reconcile exactly.
 

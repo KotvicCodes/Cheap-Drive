@@ -22,7 +22,7 @@ class FinalOutputTests(unittest.TestCase):
             client.create.return_value = client.world.return_value = world
             client.timing.return_value = {}
             score = dict(marginCents=12000, onTimeShare=1, wonOrders=3, ranked=True)
-            model = Path(final.ROOT) / 'models/epsilon.json'
+            model = Path(final.ROOT) / 'models/epsilon-early.json'
             args = [str(model), '--rehearse', 'offline-seed', '--quiet', '--output', str(out)]
             with patch.object(final, 'ROOT', root), \
                     patch.dict(os.environ, {'SPREAD_KEY': 'offline-fixture'}), \

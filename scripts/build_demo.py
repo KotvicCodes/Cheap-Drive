@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Build the standalone multi-run live demo HTML bundle (runs/live-demo/index.html)."""
+"""Build the standalone multi-run live demo HTML bundle (runs/live-demo/index.html).
+
+CHEAP_DRIVE_WORKTREES selects the parent of the historical source checkouts
+(default: this checkout's parent); CHEAP_DRIVE_RUNS selects the archived runs
+folder (default: runs/ in this checkout). Requires the original local traces.
+"""
 from __future__ import annotations
 
 import gzip
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -12,8 +18,10 @@ sys.path.insert(0, str(ROOT))
 
 from week_report import analyze, render
 
-WORKTREES = Path('/home/agent/.t3/worktrees/Cheap-Drive')
-MAIN_RUNS = Path('/Users/kotvic/Desktop/GitHub/Cheap-Drive/runs')
+# Historical source checkout names below are provenance, not machine locations.
+# Override these roots when the saved run archives are stored elsewhere.
+WORKTREES = Path(os.environ.get('CHEAP_DRIVE_WORKTREES', ROOT.parent))
+MAIN_RUNS = Path(os.environ.get('CHEAP_DRIVE_RUNS', ROOT / 'runs'))
 
 RUN_SPECS = [
     {
@@ -22,7 +30,6 @@ RUN_SPECS = [
         'tone': 'alpha',
         'title': 'Alpha',
         'margin': '€5,488',
-        'meta': '98.1% · 154 won',
         'trace': MAIN_RUNS / 'archives/alpha-2026-11-14/alpha-tune/traces/t0007-alpha-night-05.jsonl.gz',
         'reveal': MAIN_RUNS / 'archives/alpha-2026-11-14/alpha-tune/reveals/t0007-alpha-night-05.reveal.json.gz',
         'map': MAIN_RUNS / 'archives/alpha-2026-11-14/alpha-research/map.json',
@@ -33,7 +40,6 @@ RUN_SPECS = [
         'tone': 'beta',
         'title': 'Early Beta',
         'margin': '€7,635',
-        'meta': '97.6% · 210 won',
         'trace': WORKTREES / 't3-437fb841-d1220585f744b28e/runs/speed-baseline/gamma-speed-01-full.jsonl',
         'reveal': None,
     },
@@ -43,7 +49,6 @@ RUN_SPECS = [
         'tone': 'beta',
         'title': 'Late Beta',
         'margin': '€8,529',
-        'meta': '94.7% · 246 won',
         'trace': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/beta-validation/traces/beta--gamma-v04.jsonl.gz',
         'reveal': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/beta-validation/reveals/beta--gamma-v04.reveal.json.gz',
     },
@@ -53,7 +58,6 @@ RUN_SPECS = [
         'tone': 'gamma',
         'title': 'Early Gamma',
         'margin': '€10,165',
-        'meta': '94.6% · 258 won',
         'trace': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/screen-notes/weeks/notes-pairs-segments--gamma-v04/traces/notes-pairs-segments--gamma-v04.jsonl.gz',
         'reveal': WORKTREES / 't3-9a1daff8-628ee799c13b40c1/runs/gamma/recovery/screen-notes/weeks/notes-pairs-segments--gamma-v04/reveals/notes-pairs-segments--gamma-v04.reveal.json.gz',
     },
@@ -63,7 +67,6 @@ RUN_SPECS = [
         'tone': 'gamma',
         'title': 'Late Gamma',
         'margin': '€16,139',
-        'meta': '98.2% · 275 won',
         'trace': WORKTREES / 't3-94dc0dd7-f7cb1a8ad1e3f596/runs/board/20261114T145051Z-level8-wf9f88cfd3ce1a2c5ea44.jsonl.gz',
         'reveal': None,
     },
@@ -73,7 +76,6 @@ RUN_SPECS = [
         'tone': 'delta',
         'title': 'Early Delta',
         'margin': '€16,631',
-        'meta': '97.0% · 271 won',
         'trace': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/delta-final/b6/traces/rescue-notes--delta-f1-s06.jsonl.gz',
         'reveal': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/delta-final/b6/reveals/rescue-notes--delta-f1-s06.reveal.json.gz',
     },
@@ -83,7 +85,6 @@ RUN_SPECS = [
         'tone': 'delta',
         'title': 'Late Delta',
         'margin': '€18,058',
-        'meta': '98.4% · 374 won',
         'trace': WORKTREES / 't3-4d9ed6f5-d50ae2340a835fbb/runs/queue/src/589daf7ad8b17d6c2402bb45f7cab7856cd777b9/runs/board/20261114T211547Z-level8-w1da3b90c477fb654f429.jsonl.gz',
         'reveal': None,
     },
@@ -93,7 +94,6 @@ RUN_SPECS = [
         'tone': 'epsilon',
         'title': 'Epsilon',
         'margin': '€20,061',
-        'meta': '98.5% · 402 won',
         'trace': WORKTREES / 'final-prime/runs/board/20261115T062903Z-level8-w06d2acc243c40c384159.jsonl.gz',
         'reveal': None,
         'default': True,
@@ -177,7 +177,6 @@ def main():
             'tone': spec['tone'],
             'title': spec['title'],
             'margin': spec['margin'],
-            'meta': spec['meta'],
             'default': is_default,
             'model': None if is_default else model,
         })

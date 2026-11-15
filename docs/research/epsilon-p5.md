@@ -1,7 +1,9 @@
 # Epsilon P5: selective intake experiments
 
 Published branch: `t3/epsilon-p5b` (continued from `t3/epsilon-p5`, originally based on `origin/t3/epsilon-model`).
-Production `models/delta.json` and `models/epsilon.json` remain unchanged.
+Production `models/delta.json` and the then-named `models/epsilon.json` remained unchanged
+during this experiment. The latter was later deduplicated into
+[`models/epsilon-early.json`](../../models/epsilon-early.json).
 
 **Current protocol (03:54 UTC user order):** validate `safe9800-backlog10`
 on new nonce seeds, with three workers and paired Early Epsilon controls.

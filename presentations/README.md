@@ -61,7 +61,7 @@ A ranking round sums five secret weeks and every week must meet the delivery min
 
 ## Evidence sources
 
-Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 4's notes below. They are historical comparisons, not new experiments.
+Gamma's claims are in [original results](../docs/research/gamma-results.md), [recovery results](../docs/research/gamma-recovery-results.md), [prototype conventions](../PROTOTYPES.md#gamma) and the [selected settings](../models/gamma.json). Beta's mechanisms are in [Beta results](../docs/research/beta-results.md) and [beta.py](../models/beta.py). The cent-exact small Beta comparisons were preserved in the local presentation handoff, `EVIDENCE.md` sections 3–4: Beta s2 `B` versus `B-ramp` on `beta-01` to `beta-03`, and s4 `notrust` versus `base` on `beta-01` to `beta-04`. Their key figures are reproduced in slide 4's notes below. They are historical comparisons, not new experiments.
 
 Delta prioritises more work over further polishing margin per order. Its main visible result is **257 → 342 won orders/week** on 19 paired weeks; the €1,664/week margin gain is supporting evidence. The saved Test Final 2 snapshot shows pre-capacity Delta at **€50.07 gross margin per won order**, higher than every top-ten team, while winning only 256 orders versus the leader's 469. It ranked seventh of all 75 ranked teams on that ratio, so the deck does not claim the highest unit margin across the whole board. This is euros per order, not margin percentage. [Saved public snapshot](https://github.com/KotvicCodes/Cheap-Drive/blob/cae1e58b8ce3234260328f78dcf2283cd2ebced7/docs/research/delta-test-final-2-public.json).
 
@@ -123,7 +123,7 @@ Why we tested: one profitable practice week can hide a delivery failure on anoth
 
 The frozen final presentation inventory is 2,627 completed practice runs at the 2026-11-15 06:07 UTC saved-file snapshot, 76 more than the previous 2,551-run snapshot. It includes 5 completed timed practice rehearsals; restarting a world does not add another run. We deduplicate by world ID and require a completed result or terminal trace score. The 30 saved official ranking worlds, 2 saved final/test-final worlds, synthetic demos and 191 identified worlds without final-score evidence are excluded from this practice total.
 
-The audit includes worktree run folders and the host-mounted Alpha, Epsilon and models archives at /Users/kotvic/Desktop/GitHub/Cheap-Drive/runs/archives. Resolved file paths and world IDs prevent symlinks from counting as extra runs. All 76 added worlds are Epsilon experiments and controls within that family, with terminal trace evidence; 0 of these additions have host-archive evidence. Previously audited archived worlds remain in the inventory. All previous 2,551 records and scores were preserved unchanged. The audit found no score conflicts. No simulation was launched for the refresh.
+The audit includes worktree run folders and the host-mounted Alpha, Epsilon and models archives at runs/archives in the source checkout. Resolved file paths and world IDs prevent symlinks from counting as extra runs. All 76 added worlds are Epsilon experiments and controls within that family, with terminal trace evidence; 0 of these additions have host-archive evidence. Previously audited archived worlds remain in the inventory. All previous 2,551 records and scores were preserved unchanged. The audit found no score conflicts. No simulation was launched for the refresh.
 
 Those 2,627 runs cover 171 seed-and-level scenarios with repeated configurations; they are not 2,627 independent unseen weeks. Counts show development effort, not the effect of an idea. The five models are Alpha, Beta, Gamma, Delta and Epsilon. The chart includes Epsilon experiments as one combined category. We report 2,1B+ tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality. This is a fixed presentation snapshot; subsequent runs do not change it automatically.
 
@@ -135,7 +135,7 @@ Why: a flat price ignores how far the car travels and how hard it is to find a s
 
 The effect shown here is a descriptive gross-margin range of roughly €0–9k per practice week, read from the all-run chart across 677 Alpha runs. It is not a same-week with/without comparison or a guarantee that every Alpha week was ranked. The overnight automatic tuner did not beat the researched manual settings. Use the formula to explain the decision; do not infer an isolated profit gain from the stage range.
 
-Sources: ../docs/research/alpha-results.md; ../PROTOTYPES.md; ../alpha.py.
+Sources: ../docs/research/alpha-results.md; ../PROTOTYPES.md; ../models/alpha.py.
 
 ### Slide 4: Beta: two decisions that paid off
 
@@ -153,7 +153,7 @@ The effect of using trust in quotes on the same four practice weeks: gross margi
 
 These are two small historical development comparisons, with different settings and sample sizes. Do not add the gains or present them as Gamma's measured component effects.
 
-Sources: saved presentation handoff, EVIDENCE.md sections 3–4 (Beta s2 B versus B-ramp; Beta s4 notrust versus base); ../docs/research/beta-results.md; ../beta.py; https://spread.bahnexpress.com/kit/RULES.md.
+Sources: saved presentation handoff, EVIDENCE.md sections 3–4 (Beta s2 B versus B-ramp; Beta s4 notrust versus base); ../docs/research/beta-results.md; ../models/beta.py; https://spread.bahnexpress.com/kit/RULES.md.
 
 ### Slide 5: Gamma: a try and a fail
 
@@ -183,7 +183,7 @@ The effect: on the same four development weeks, adding corrected two-car gigs to
 
 What did not work: the corrected-brake variant lost €329.89 gross margin/week; supply scaling alone failed one of four weeks at 88.768% on time. Brakes, roster scaling and town caps stayed disabled. The comparison on this slide tests the complete chosen combination after its code and settings were frozen.
 
-Sources: ../PROTOTYPES.md#gamma; ../docs/research/gamma-results.md; ../docs/research/gamma-recovery-results.md; ../models/gamma.json; ../gamma_notes.py; ../gamma_pairs.py; ../gamma.py.
+Sources: ../PROTOTYPES.md#gamma; ../docs/research/gamma-results.md; ../docs/research/gamma-recovery-results.md; ../models/gamma.json; ../models/gamma_notes.py; ../models/gamma_pairs.py; ../models/gamma.py.
 
 Results shown on this slide
 

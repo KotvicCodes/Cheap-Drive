@@ -77,7 +77,7 @@ breaker with risk orders and pairing restoration both zero. The full settings
 match [the final's saved configuration](final-board.md#model-and-local-provenance).
 Every inspected run header has the same name and settings, using the compatible
 `delta:make_delta` factory alias. Provenance is in the sibling worktree
-`/home/agent/.t3/worktrees/Cheap-Drive/final-prime/runs/board/` (git-ignored):
+`final-prime/runs/board/` (git-ignored):
 
 | Run | World ID | Completed trace filename |
 | --- | --- | --- |

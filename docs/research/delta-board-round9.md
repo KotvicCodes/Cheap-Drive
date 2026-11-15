@@ -119,5 +119,5 @@ game worlds or runs were created, played or deleted, and no existing processes
 were changed for this update. The existing README Test final block is preserved.
 
 Validation: the CI-style offline command
-`/home/agent/.t3/worktrees/Cheap-Drive/t3-a14884b2-9968a1fe51ca69bf/.venv/bin/python -m unittest discover -s tests`
+`.venv/bin/python -m unittest discover -s tests`
 passed **337 tests**.

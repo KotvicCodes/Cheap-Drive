@@ -85,8 +85,11 @@ commands live in the [operational reference](reference.md).
 
 ## Final integration requirements
 
-No repository runner implements final mode yet. Practice qualification alone
-does not validate Alpha, Beta or Gamma on final clocks.
+`final.py` implements final mode with live event handling, paced practice
+rehearsals, and restart recovery through `recovery.py`. Practice qualification
+alone does not validate a model on final clocks; see the
+[final results](research/final-board.md) and
+[recovery evidence](research/final-rejoin-recovery.md).
 
 - Practice pauses until `advance`; final time moves independently. During normal
   weekday daytime, a fifteen-world-minute quote window is only 4.5 real seconds;

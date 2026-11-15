@@ -257,11 +257,11 @@ class Pacer(threading.Thread):
     repay a slow HTTP call by advancing across the accumulated wall-clock debt.
     """
 
-    def __init__(self, world, minutes_per_second, step=1):
+    def __init__(self, world, minutes_per_second):
         super().__init__(daemon=True)
-        if not math.isfinite(minutes_per_second) or minutes_per_second <= 0 or step != 1:
+        if not math.isfinite(minutes_per_second) or minutes_per_second <= 0:
             raise ValueError("a rehearsal requires a positive pace and one-minute ticks")
-        self.world, self.rate, self.step = world, minutes_per_second, step
+        self.world, self.rate = world, minutes_per_second
         self.snapshot = world.snapshot()
         self.now, self.ends_at = self.snapshot["now"], self.snapshot["endsAt"]
         self.error = None

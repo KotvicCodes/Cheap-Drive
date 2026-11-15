@@ -10,7 +10,7 @@ from unittest.mock import patch
 from compare import MetricsJournal, load_model, main, run_comparison
 from demo import DemoWorld
 from dispatch import JournalDesk
-from leaderboard import render_markdown
+from compare import render_markdown
 
 
 ROOT = Path(__file__).resolve().parents[1]

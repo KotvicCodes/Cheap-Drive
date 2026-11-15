@@ -1,6 +1,12 @@
 # Epsilon tuning log
 
-Epsilon starts as an exact copy of Delta's settings ([models/epsilon.json](../../models/epsilon.json))
+Archive note: `models/epsilon.json` below is the filename used during the
+experiments. Its final contents were identical to
+[`models/epsilon-early.json`](../../models/epsilon-early.json); the duplicate
+file was removed during repository cleanup. Dated observations below retain
+their original meaning.
+
+Epsilon starts as an exact copy of Delta's settings (the original `models/epsilon.json`, now retained as [models/epsilon-early.json](../../models/epsilon-early.json))
 and is tuned on paired practice weeks against Delta. Goal: enough margin per week to reach the
 top 7 on the official board while every week stays above 90% on time.
 

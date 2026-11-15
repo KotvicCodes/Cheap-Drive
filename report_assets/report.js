@@ -187,7 +187,7 @@ function renderNav() {
   }
 }
 
-function loadModel(nextD, labelOverride) {
+function loadModel(nextD) {
   D = nextD;
   sourceBytes = null;
   cache.clear();
@@ -196,14 +196,6 @@ function loadModel(nextD, labelOverride) {
   R = D.reconciliation;
   lookup = {order: new Map(D.orders.map(x => [x.id, x])), gig: new Map(D.gigs.map(x => [x.id, x])), driver: new Map(D.drivers.map(x => [x.id, x]))};
   incidentRows = D.timeline.filter(x => x.incident || x.status === 'rejected' || x.conflict);
-  $('version').textContent = '';
-  $('run-label').textContent = '';
-  const modeLabel = labelOverride || (D.run.mode === 'demo' ? 'Synthetic demo' : D.run.mode === 'practice' ? 'Practice' : 'Level ' + (D.run.level ?? 8));
-  $('mode').hidden = true;
-  const card = $('run-card'); clear(card);
-  for (const [k, v] of [['Level', D.run.level ?? '8'], ['Margin', fmt(recorded.marginCents)], ['On time', pct(recorded.onTimeShare)]]) {
-    add(card, add(N('div', null, 'row'), N('span', k), N('b', v)));
-  }
   renderNav();
 }
 
@@ -413,17 +405,6 @@ function overview() {
     metric('On time', pct(recorded.onTimeShare), recorded.ranked === true ? 'Ranked' : recorded.ranked === false ? 'Unranked' : ''),
     metric('Orders won', recorded.wonOrders === undefined ? 'Unavailable' : num(recorded.wonOrders), num(D.gigs.length) + ' gigs'));
   root.append(metrics);
-
-  const strip = N('div', null, 'stat-strip'), requests = D.stats.price_request || 0;
-  for (const [label, value] of [
-    ['Requests', num(requests)],
-    ['Win rate', requests ? pct((D.stats.order_won || 0) / requests) : 'Unavailable'],
-    ['Gigs', num(D.gigs.length)],
-    ['Drivers', num(D.drivers.length)],
-    ['Ledger', num(D.ledger.length)],
-    ['Incidents', num(incidentRows.length)]
-  ]) strip.append(add(N('div'), N('span', label), N('b', value)));
-  root.append(strip);
 
   let net = 0, rev = 0, cost = 0;
   const netPts = [[0, 0]], revPts = [[0, 0]], costPts = [[0, 0]], perDay = new Map();
@@ -911,17 +892,8 @@ function polySlice(pts, p0, p1) {
 
 function capturedContext() {
   const root = $('captures'); clear(root);
-  const grid = N('div', null, 'capture-grid');
-  let mapRecord = null;
-  for (const kind of ['snapshot', 'map', 'roster', 'reveal']) {
-    const lines = D.captures[kind] || [];
-    const panel = section({snapshot: 'Snapshots', map: 'Map', roster: 'Rosters', reveal: 'Reveal'}[kind]);
-    panel.querySelector('.panel-header').append(badge(lines.length ? num(lines.length) : 'none', lines.length ? 'good' : 'warn'));
-    for (const line of lines) { const rec = D.records[line - 1].value; add(panel, add(N('div', null, 'capture-row'), N('span', human(rec.phase || 'captured') + ' · ' + time(rec.at)), button('L' + line, () => openDetail(() => rawDetail(line))))); }
-    if (kind === 'map' && lines.length) mapRecord = D.records[lines[lines.length - 1] - 1].value.map;
-    grid.append(panel);
-  }
-  root.append(grid);
+  const lines = D.captures.map || [];
+  const mapRecord = lines.length ? D.records[lines[lines.length - 1] - 1].value.map : null;
   if (mapRecord && Array.isArray(mapRecord.places)) {
     const panel = N('section', null, 'panel');
     panel.append(mapView(mapRecord)); root.append(panel);
@@ -1140,15 +1112,15 @@ function mapView(map) {
 
 /* Routing */
 const titles = {
-  overview: ['Overview', ''],
-  orders: ['Requests & orders', ''],
-  timeline: ['Event timeline', ''],
-  gigs: ['Gigs & stops', ''],
-  drivers: ['Drivers', ''],
-  incidents: ['Incidents', ''],
-  ledger: ['Financial ledger', ''],
-  source: ['Source & integrity', ''],
-  captures: ['Map', '']
+  overview: 'Overview',
+  orders: 'Requests & orders',
+  timeline: 'Event timeline',
+  gigs: 'Gigs & stops',
+  drivers: 'Drivers',
+  incidents: 'Incidents',
+  ledger: 'Financial ledger',
+  source: 'Source & integrity',
+  captures: 'Map'
 };
 function navigate(id, preset) {
   if (stopReplay && id !== 'captures') { stopReplay(); stopReplay = null; }
@@ -1159,8 +1131,7 @@ function navigate(id, preset) {
     if (b.dataset.tab === active) { b.setAttribute('aria-current', 'page'); if (b.scrollIntoView && innerWidth <= 900) b.scrollIntoView({block: 'nearest', inline: 'nearest'}); }
     else b.removeAttribute('aria-current');
   }
-  $('title').textContent = titles[active][0];
-  $('subtitle').textContent = '';
+  $('title').textContent = titles[active];
   $('overview').hidden = active !== 'overview';
   $('workspace').hidden = ['overview', 'captures'].includes(active);
   $('captures').hidden = active !== 'captures';
@@ -1171,7 +1142,6 @@ function navigate(id, preset) {
     if (active === 'source') $('section-intro').append(sourceIntro());
     setupFilters();
     if (preset) for (const [k, v] of Object.entries(preset)) { const el = $(k); if (el && (el.tagName !== 'SELECT' || [...el.options].some(o => o.value === v))) el.value = v; }
-    $('filter-help').textContent = '';
     applyFilters();
   }
   if (active !== 'overview' || location.hash) history.replaceState(null, '', '#' + active);
@@ -1179,7 +1149,7 @@ function navigate(id, preset) {
   requestAnimationFrame(() => window.scrollTo(0, 0));
 }
 
-/* Multi-Run Live Demo Switcher & Quick Jump Bar */
+/* Multi-Run Live Demo Switcher */
 const runsScript = $('report-runs');
 if (runsScript) {
   const allOpt = $('page-size').querySelector('option[value="all"]');
@@ -1189,17 +1159,8 @@ if (runsScript) {
   const RUNS = JSON.parse(runsScript.textContent);
   const defaultRun = RUNS.find(r => r.default) || RUNS.at(-1) || RUNS[0];
   for (const r of RUNS) if (!r.model && r.id === defaultRun?.id) r.model = D;
-  if (defaultRun) loadModel(defaultRun.model, defaultRun.title);
-  const TOUR = [
-    {num: '1', label: 'Paired gig g124', run: 'gamma-late', tab: 'gigs', entity: ['gig', 'g124']},
-    {num: '2', label: 'Finnish note R00013', run: 'gamma-late', tab: 'orders', entity: ['order', 'R00013']},
-    {num: '3', label: 'Delta rescue R00739', run: 'delta', tab: 'orders', entity: ['order', 'R00739']},
-    {num: '4', label: 'Gamma miss R00207', run: 'gamma-early', tab: 'orders', entity: ['order', 'R00207']},
-    {num: '5', label: 'Finland map', run: 'beta-early', tab: 'captures', entity: null},
-    {num: '6', label: 'Reveal R00001', run: 'beta-early', tab: 'orders', entity: ['order', 'R00001']}
-  ];
+  if (defaultRun) loadModel(defaultRun.model);
   let currentRunId = defaultRun?.id || '';
-  let activeTourIdx = -1;
   const demoBar = $('demo-bar');
   demoBar.hidden = false;
 
@@ -1211,38 +1172,21 @@ if (runsScript) {
       btn.type = 'button';
       btn.dataset.run = r.id;
       const top = add(N('div', null, 'run-btn-top'), N('span', r.badge, 'greek ' + r.tone), N('span', r.title, 'run-title'));
-      add(btn, top, N('div', r.margin, 'run-margin'), N('div', r.meta, 'run-meta'));
-      btn.addEventListener('click', () => {
-        activeTourIdx = -1;
-        selectRun(r.id);
-      });
+      add(btn, top, N('div', r.margin, 'run-margin'));
+      btn.addEventListener('click', () => selectRun(r.id));
       switcher.append(btn);
     }
-    const tourStrip = N('div', null, 'tour-strip');
-    TOUR.forEach((item, idx) => {
-      const pill = N('button', null, 'tour-pill' + (idx === activeTourIdx ? ' active' : ''));
-      pill.type = 'button';
-      add(pill, N('span', item.num, 'num'), N('span', item.label));
-      pill.addEventListener('click', () => {
-        activeTourIdx = idx;
-        selectRun(item.run, item.tab, item.entity);
-      });
-      tourStrip.append(pill);
-    });
-    add(demoBar, switcher, tourStrip);
+    demoBar.append(switcher);
   }
 
-  function selectRun(runId, targetTab, entityTarget) {
+  function selectRun(runId) {
     const found = RUNS.find(r => r.id === runId);
     if (!found) return;
     if ($('detail').open) $('detail').close();
     currentRunId = found.id;
-    loadModel(found.model, found.title);
+    loadModel(found.model);
     renderDemoBar();
-    navigate(targetTab || active);
-    if (entityTarget) {
-      openDetail(() => entityDetail(entityTarget[0], entityTarget[1]));
-    }
+    navigate(active);
   }
 
   renderDemoBar();
