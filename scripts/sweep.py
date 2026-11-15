@@ -200,6 +200,16 @@ def load(path):
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()] if path.exists() else []
 
 
+def planned_jobs(plan, done):
+    """Optional explicit ordering keeps different cohorts in one worker queue."""
+    jobs = ([(j['label'], j['seed']) for j in plan['jobs']] if 'jobs' in plan else
+            [(label, seed) for seed in plan['seeds'] for label in plan['variants']])
+    if len(jobs) != len(set(jobs)) or any(label not in plan['variants'] or seed not in plan['seeds']
+                                         for label, seed in jobs):
+        raise ValueError('jobs must be unique known variant/seed pairs')
+    return [(label, seed) for label, seed in jobs if (label, seed) not in done]
+
+
 def summarize(out, plan):
     rows = [r for r in load(out / "runs.jsonl") if "score" in r]
     seeds = plan["seeds"]
@@ -243,7 +253,7 @@ def main():
         (out / sub).mkdir(parents=True, exist_ok=True)
     (out / "plan.json").write_text(json.dumps(plan, indent=2) + "\n")
     done = {(r["label"], r["seed"]) for r in load(out / "runs.jsonl") if "score" in r}
-    jobs = [(label, seed) for seed in plan["seeds"] for label in plan["variants"] if (label, seed) not in done]
+    jobs = planned_jobs(plan, done)
     print(f"{len(jobs)} weeks to play, {len(done)} already done", flush=True)
     with cf.ProcessPoolExecutor(WORKERS) as pool:
         futures = {pool.submit(play_week, str(out), plan["factory"], plan["level"], seed, label,

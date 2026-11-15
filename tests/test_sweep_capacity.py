@@ -5,10 +5,21 @@ import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
-from scripts.sweep import LaunchWindowClosed, wait_for_launch, wait_for_team_capacity, world_launch_slot
+from scripts.sweep import LaunchWindowClosed, planned_jobs, wait_for_launch, wait_for_team_capacity, world_launch_slot
 
 
 class SweepCapacityTests(unittest.TestCase):
+    def test_explicit_job_order_reuses_finished_weeks_and_rejects_invalid_work(self):
+        plan={'variants':{'admission':{},'segmented':{}},'seeds':['paired','fresh'],
+              'jobs':[{'label':'admission','seed':'paired'},{'label':'admission','seed':'fresh'},
+                      {'label':'segmented','seed':'paired'},{'label':'segmented','seed':'fresh'}]}
+        self.assertEqual(planned_jobs(plan,{('admission','paired')}),
+                         [('admission','fresh'),('segmented','paired'),('segmented','fresh')])
+        plan['jobs'].append({'label':'admission','seed':'paired'})
+        with self.assertRaises(ValueError):planned_jobs(plan,set())
+        plan['jobs']=[{'label':'unknown','seed':'paired'}]
+        with self.assertRaises(ValueError):planned_jobs(plan,set())
+
     def test_disabled_screen_arm_never_checks_capacity_or_creates_a_world(self):
         with tempfile.TemporaryDirectory() as tmp:
             disabled=Path(tmp)/'disabled.json'

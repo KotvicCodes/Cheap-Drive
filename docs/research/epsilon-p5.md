@@ -3,11 +3,13 @@
 Published branch: `t3/epsilon-p5b` (continued from `t3/epsilon-p5`, originally based on `origin/t3/epsilon-model`).
 Production `models/delta.json` and `models/epsilon.json` remain unchanged.
 
-**Current protocol (03:20 UTC update):** screen four seeds; require >=500 euros/
-week versus Early Epsilon, approximately380+ wins, and every week>=91.5%.
-Stop unsafe arms at once; only the strongest arm gets eight additional paired
-seeds, starting before04:45. No full19/27 extension or automatic fresh run is
-queued. Earlier full-cohort protocols below describe completed/abandoned stages.
+**Current protocol (03:28 UTC user order):** one ordered deep queue with
+three workers: admission360/cap4/max700 on all19 paired then four reserved fresh
+seeds, followed by segmented SAFE5000 and5500 on the same cohorts. Fresh Delta/
+Early Epsilon references run last; retained baseline worlds are never replayed.
+Every new world checks the team12 and own-lane3 limits. Launches stop05:30;
+active worlds drain, with own-world cleanup before05:50. No PR or merge.
+Earlier protocols below are historical and superseded.
 
 ## Evidence and selection rule
 
@@ -367,3 +369,22 @@ Only the strongest four-seed arm reaching +500/week,380wins and91.5% service
 will get eight more seeds. Those eight were fixed before screen outcomes:
 f1-s02,s03,s04,s08 and f2-s01,s02,s03,s05. No admission-control extension or
 full19/fresh cohort is queued under the revised protocol.
+
+
+### Ordered deep queue (latest user direction)
+
+The user explicitly replaced the four-plus-eight screening protocol with a
+deep queue. `volume-deep-queue.json` uses the optional explicit `jobs` list to
+order whole cohorts in one three-worker ProcessPoolExecutor: primary admission
+19+fresh4, segmented5000 19+fresh4, segmented5500 19+fresh4, and the eight new
+fresh-reference worlds. No disabled-arm flag is supplied to this requested
+research queue, so known service failures remain visible rather than causing
+the ordered cohort to be silently shortened. Existing exact-setting scores are
+reused across output directories; no known Delta/Early Epsilon week is replayed.
+
+The primary admission control failed its second hard seed (91.223% worst over
+two); segmented5500 failed its first (88.773%). These findings cannot qualify
+for promotion, irrespective of later cohort averages. The user nevertheless
+requested completing their research queue. The runner's05:30 cutoff drains
+pending jobs without starting worlds; active weeks still finish. Tests:474
+passing, including explicit job ordering, reuse and invalid-job rejection.

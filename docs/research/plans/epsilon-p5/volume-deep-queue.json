@@ -1,0 +1,400 @@
+{
+  "factory": "models.delta:make_delta",
+  "level": 8,
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "seeds": [
+    "delta-f1-s01",
+    "delta-f1-s02",
+    "delta-f1-s03",
+    "delta-f1-s04",
+    "delta-f1-s05",
+    "delta-f1-s06",
+    "delta-f1-s07",
+    "delta-f1-s08",
+    "delta-f1-s09",
+    "delta-f1-s10",
+    "delta-f1-s11",
+    "delta-f2-s01",
+    "delta-f2-s02",
+    "delta-f2-s03",
+    "delta-f2-s04",
+    "delta-f2-s05",
+    "delta-f2-s06",
+    "delta-f2-s07",
+    "delta-f2-s08",
+    "epsilon-p5-admission-holdout-20261115-s01",
+    "epsilon-p5-admission-holdout-20261115-s02",
+    "epsilon-p5-admission-holdout-20261115-s03",
+    "epsilon-p5-admission-holdout-20261115-s04"
+  ],
+  "variants": {
+    "admit360-cap4-max700": {
+      "min_slack_minutes": 360,
+      "same_day_min_slack_minutes": 480,
+      "long_open_cap": 4,
+      "long_max_km": 700
+    },
+    "segmented-safe5000": {
+      "min_slack_minutes": 360,
+      "same_day_min_slack_minutes": 480,
+      "long_open_cap": 4,
+      "long_max_km": 700,
+      "delta_segmented_targets": 1,
+      "win_target_safe_bps": 5000
+    },
+    "segmented-safe5500": {
+      "min_slack_minutes": 360,
+      "same_day_min_slack_minutes": 480,
+      "long_open_cap": 4,
+      "long_max_km": 700,
+      "delta_segmented_targets": 1,
+      "win_target_safe_bps": 5500
+    },
+    "Delta": {
+      "max_km": 500,
+      "win_target_bps": 4200,
+      "opening_fee_bps": 8000,
+      "long_max_km": 700,
+      "pairs": 1,
+      "short_fee_km": 45,
+      "short_opening_fee_bps": 11000,
+      "short_km": 45,
+      "short_bps": 9200,
+      "premium_opening_fee_bps": 10500,
+      "premium_min_slack_minutes": 600,
+      "delta_note_fixes": 1,
+      "delta_rescue_windows": 1,
+      "delta_wide_windows": 1,
+      "delta_private_delivery_rescue": 1,
+      "delta_pairing": "extended"
+    },
+    "Early Epsilon": {}
+  },
+  "jobs": [
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s01"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s02"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s03"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s04"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s05"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s06"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s07"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s08"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s09"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s10"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f1-s11"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s01"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s02"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s03"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s04"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s05"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s06"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s07"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "delta-f2-s08"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "epsilon-p5-admission-holdout-20261115-s01"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "epsilon-p5-admission-holdout-20261115-s02"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "epsilon-p5-admission-holdout-20261115-s03"
+    },
+    {
+      "label": "admit360-cap4-max700",
+      "seed": "epsilon-p5-admission-holdout-20261115-s04"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s01"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s02"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s03"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s04"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s05"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s06"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s07"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s08"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s09"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s10"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f1-s11"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s01"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s02"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s03"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s04"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s05"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s06"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s07"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "delta-f2-s08"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "epsilon-p5-admission-holdout-20261115-s01"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "epsilon-p5-admission-holdout-20261115-s02"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "epsilon-p5-admission-holdout-20261115-s03"
+    },
+    {
+      "label": "segmented-safe5000",
+      "seed": "epsilon-p5-admission-holdout-20261115-s04"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s01"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s02"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s03"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s04"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s05"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s06"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s07"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s08"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s09"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s10"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f1-s11"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s01"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s02"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s03"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s04"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s05"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s06"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s07"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "delta-f2-s08"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "epsilon-p5-admission-holdout-20261115-s01"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "epsilon-p5-admission-holdout-20261115-s02"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "epsilon-p5-admission-holdout-20261115-s03"
+    },
+    {
+      "label": "segmented-safe5500",
+      "seed": "epsilon-p5-admission-holdout-20261115-s04"
+    },
+    {
+      "label": "Delta",
+      "seed": "epsilon-p5-admission-holdout-20261115-s01"
+    },
+    {
+      "label": "Delta",
+      "seed": "epsilon-p5-admission-holdout-20261115-s02"
+    },
+    {
+      "label": "Delta",
+      "seed": "epsilon-p5-admission-holdout-20261115-s03"
+    },
+    {
+      "label": "Delta",
+      "seed": "epsilon-p5-admission-holdout-20261115-s04"
+    },
+    {
+      "label": "Early Epsilon",
+      "seed": "epsilon-p5-admission-holdout-20261115-s01"
+    },
+    {
+      "label": "Early Epsilon",
+      "seed": "epsilon-p5-admission-holdout-20261115-s02"
+    },
+    {
+      "label": "Early Epsilon",
+      "seed": "epsilon-p5-admission-holdout-20261115-s03"
+    },
+    {
+      "label": "Early Epsilon",
+      "seed": "epsilon-p5-admission-holdout-20261115-s04"
+    }
+  ]
+}
