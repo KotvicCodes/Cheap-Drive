@@ -62,4 +62,19 @@ arm with that explicit setting.
 
 ## Results
 
-Pending. Detailed practice outputs are under `runs/epsilon-p5/`.
+Four-seed settings screen (candidate minus stored Delta, euros/week):
+
+| Candidate | Paired weeks | Mean margin difference | Positive weeks | Worst on time | Mean wins difference | Status |
+|---|---:|---:|---:|---:|---:|---|
+| Roster 4000/4500/5000, low-band long max 550 | 4 | +786.13 | 3/4 | 92.749% | +8.25 | Extend to 19 |
+| Long cap 5, original 24h slack | 4 | +328.48 | 3/4 | 90.323% | +2.00 | Reject: service |
+| Long cap 6, 18h slack | 4 | -109.62 | 2/4 | 90.000% | +6.50 | Reject: margin/service |
+
+The guarded-intake screen is still in flight. Its worker processes imported
+code just before commit `8646d19` (the remaining-leg fee-horizon correction).
+Its trade-in results therefore describe the earlier implementation and cannot
+be pooled with corrected-code confirmation. The two non-trade controls and
+settings-only roster arm are unaffected by that correction, with default-off
+parity covered by the full suite (444 tests passing).
+
+Detailed practice outputs are under `runs/epsilon-p5/`.
