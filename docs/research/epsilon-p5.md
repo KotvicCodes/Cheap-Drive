@@ -1,6 +1,6 @@
 # Epsilon P5: selective intake experiments
 
-Branch: `t3/epsilon-p5`, based on `origin/t3/epsilon-model`.
+Published branch: `t3/epsilon-p5b` (continued from `t3/epsilon-p5`, originally based on `origin/t3/epsilon-model`).
 Production `models/delta.json` and `models/epsilon.json` remain unchanged.
 
 ## Evidence and selection rule
@@ -253,3 +253,11 @@ prior guarded-trade screen failed service. None of these mechanisms has an
 established gain. Four unused admission holdout seeds were reserved at 02:42
 UTC before any admission-screen outcomes. All existing slot, pause, cutoff,
 full-cohort and fresh confirmation requirements remain unchanged.
+
+
+Publication moved to `t3/epsilon-p5b` after shared ref/history rewrites caused
+non-fast-forward push rejections. The current local history was retained at
+the orchestrator's direction; no force push, merge or PR was performed. The
+model/test source is unchanged by this publication issue. Retained paired
+reference scores are copied to `plans/epsilon-p5/paired-references.json` so
+result differences are reviewable without an API call or replaying baselines.
