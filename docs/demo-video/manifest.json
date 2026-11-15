@@ -1,23 +1,23 @@
 {
   "README.md": {
-    "bytes": 5892,
-    "sha256": "55be4715f348aab56943e9c66fc65a7aab179095a8102e1326e440b659b8274b"
+    "bytes": 6164,
+    "sha256": "4e2c96da7c90eab7e2e40a412cffcb6d8d398c2d34ceeefde2811a045b446d44"
   },
   "requirements.txt": {
     "bytes": 50,
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 61545,
-    "sha256": "70ac47a01513d0ad74df66d8ef4c9e5722d5aa1f223952b10570bdd6c81e1345"
+    "bytes": 64439,
+    "sha256": "29a65f0865948685c314760b3f9b0e43d5c77c474692dabac4e3376bd88ef68e"
   },
   "captions.vtt": {
-    "bytes": 1379,
-    "sha256": "9c214d4531e761ad1b241cb94aaa49167d41c8b5de4d86beeecf045663bb5198"
+    "bytes": 1578,
+    "sha256": "5ee86416fd033742b7ac23cbafb0bdab70d62e2057c2275d2718517c134f2d7c"
   },
   "captions.srt": {
-    "bytes": 1392,
-    "sha256": "bee687cf758e353b4b1ec8880e9d4b3fe8cadb0e2febffcf2e4e6146b927f8b6"
+    "bytes": 1594,
+    "sha256": "814eab6d197c78a0a6d0fc7ff7b8d7756d8fd955361b21b88b339a069bb8f5b9"
   },
   "data/graph-data.json": {
     "bytes": 526287,
@@ -64,8 +64,8 @@
     "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
   },
   "assets/all-run-margins.png": {
-    "bytes": 324424,
-    "sha256": "11fb90433b9dcc21198aae1ef0165ba12a7f857e22802eea68458afdd7e6df55"
+    "bytes": 432500,
+    "sha256": "ac2c017b60b86b1c7c8848363303a3d7236e514e26d4a9451d2262a0757eb4d4"
   },
   "assets/learning-stages.png": {
     "bytes": 368953,
@@ -84,24 +84,24 @@
     "sha256": "633775a6992b4b429285e2e414fdb1e7c6234de42a87b328a1e36ff5a35e00e2"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 597477,
-    "sha256": "1251111830d63e4a27c24b33415002bf5236413edc3ed791e97cf1cf2638d9ef"
+    "bytes": 587871,
+    "sha256": "7d9dacc1961b783d8ead81742c96a60546d29534504cd4502b844f64a4b5191c"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
     "sha256": "d3e3f873a5ea26a536ac74dcabf0aba8b5e7518f5382db913d9083186e2733eb"
   },
   "index.html": {
-    "bytes": 1241,
-    "sha256": "38baf1c622b3c99b201e6620cf19f1d30d289c85815d1ab6f2b0302b885f724b"
+    "bytes": 1238,
+    "sha256": "47839a73be671fb4b44a6850b56ba55d11f25663a45c9b62b503e48820c2888d"
   },
   "assets/cheap-drive-badge.png": {
     "bytes": 13475,
     "sha256": "590f32752efa5fd27b352eb1e6d6d15db5f5d95736e4f4335f22e09b8c81eba9"
   },
   "data/run-data.json": {
-    "bytes": 897960,
-    "sha256": "a2841b92fd565c1fbf8d894191e935f92bc28ca04cac4a76b39e32ee8eed2c00"
+    "bytes": 1426567,
+    "sha256": "21b727e3a5b9b1ad95484348f447f06a50b9f0e6e436236982aa43ca40f0e692"
   },
   "assets/DejaVuSans-Bold.ttf": {
     "bytes": 704128,

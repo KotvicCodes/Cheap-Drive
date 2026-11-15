@@ -14,7 +14,7 @@ import imageio_ffmpeg
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 OUT = REPO / 'runs/demo-video'
-W, H, FPS, DURATION = 1920, 1080, 30, 66
+W, H, FPS, DURATION = 1920, 1080, 30, 72
 
 # Juicy yellow-orange, golden marigold, and sunlit citrus palette (zero brown/taupe/umber).
 INK = '#141416'          # Crisp neutral carbon ink for typography & vehicle silhouettes
@@ -40,8 +40,9 @@ SCENES = [
     (33, 40),
     (40, 47),
     (47, 53),
-    (53, 61),
-    (61, 66),
+    (53, 60),
+    (60, 67),
+    (67, 72),
 ]
 
 GRAPH = json.loads((ROOT / 'data/graph-data.json').read_text())
@@ -472,19 +473,18 @@ def hero(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 2 (5–13s): Sol header + Greek letters in circles + vertical score car
+# Slide 2 (5–13s): Sol header + 5 Greek models (Alpha..Epsilon) + vertical score car
 # ---------------------------------------------------------------------------
 def evolution(t):
     im = base_canvas('sunburst').copy()
     enter(im, 'Prototype. Test. Loop. Repeat.', 80, 80, 84, t, .05, color=INK, weight=700)
     txt(im, 'Each dot ≈10 practice runs', 84, 188, 24, MUTED_INK, 600)
 
-    # 3 headline summary pills from Slide 3 of the updated presentation,
-    # right-aligned to x = 1840 along the subtitle row (y = 182).
+    # 3 headline summary pills from Slide 2 of the updated presentation
     summary_pills = [
-        '1,685 testing runs',
+        '2,627 testing runs',
         '5 models',
-        '1.5B tokens burned',
+        '2B tokens burned',
     ]
     pill_size = 20
     pill_weight = 700
@@ -500,85 +500,86 @@ def evolution(t):
         px += pw + pill_gap
 
     p_car = clamp((t - 0.4) / 7.5)
-    focus_idx = min(3, int(p_car * 3.999))
+    focus_idx = min(4, int(p_car * 4.999))
 
     protos = [
         ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', '#E59400', '#FFE066'),
         ('β', 'Beta', 268, 27, 10048, 'Trust + fee timing', '#EB7300', '#FFB700'),
         ('γ', 'Gamma', 242, 24, 12079, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
-        ('δ', 'Delta', 496, 50, 13760, 'Rescue windows + quantity', '#E62E00', '#FF4D2E'),
+        ('δ', 'Delta', 528, 53, 13760, 'Rescue + quantity', '#E62E00', '#FF4D2E'),
+        ('ε', 'Epsilon', 910, 91, 14216, 'Brakes + volume', '#C9184A', '#FF758F'),
     ]
 
     curve_pts = []
     for i, (greek_sym, name, r_cnt, n_dots, mgn, tag, col, greek_col) in enumerate(protos):
-        cx = 80 + i * 448
-        cw = 416
+        cx = 80 + i * 358
+        cw = 328
         cy, cy2 = 236, 976
-        appear = ease((t - 0.15 - i * 0.20) / 0.50)
+        appear = ease((t - 0.12 - i * 0.16) / 0.48)
         is_focus = i == focus_idx
 
-        rect(im, (cx, cy, cx + cw, cy2), CARD, None, r=20)
+        rect(im, (cx, cy, cx + cw, cy2), CARD, None, r=18)
         hdr_bg = col if is_focus else (col if i < focus_idx else APRICOT)
         hdr_fg = CARD if i <= focus_idx else INK
-        rect(im, (cx, cy, cx + cw, cy + 92), hdr_bg, None, r=20)
-        rect(im, (cx, cy + 70, cx + cw, cy + 92), hdr_bg, None, r=0)
-        rect(im, (cx, cy, cx + cw, cy2), None, col if is_focus else GOLD_LINE, r=20, width=5 if is_focus else 2)
+        rect(im, (cx, cy, cx + cw, cy + 84), hdr_bg, None, r=18)
+        rect(im, (cx, cy + 64, cx + cw, cy + 84), hdr_bg, None, r=0)
+        rect(im, (cx, cy, cx + cw, cy2), None, col if is_focus else GOLD_LINE, r=18, width=5 if is_focus else 2)
 
         # Greek letter & Name (with animated glow ring on active column)
-        gx_c, gy_c = cx + 48, cy + 46
+        gx_c, gy_c = cx + 42, cy + 42
         if is_focus:
             pulse = 0.5 + 0.5 * math.sin(t * 6.0)
-            circle(im, gx_c, gy_c, 32 + 3.0 * pulse, None, outline=SUNBURST, width=3)
-            circle(im, gx_c, gy_c, 28, None, outline=CARD, width=2)
-        circle(im, gx_c, gy_c, 26, INK)
+            circle(im, gx_c, gy_c, 28 + 3.0 * pulse, None, outline=SUNBURST, width=3)
+            circle(im, gx_c, gy_c, 25, None, outline=CARD, width=2)
+        circle(im, gx_c, gy_c, 23, INK)
         ImageDraw.Draw(im).text((round(gx_c), round(gy_c)), greek_sym, font=GREEK_FONT, fill=greek_col, anchor='mm')
-        txt(im, name, cx + 90, cy + 28, 34, hdr_fg, 700)
+        txt(im, name, cx + 78, cy + 25, 30, hdr_fg, 700)
 
-        # Run count & dot matrix
+        # Run count & 10x10 dot matrix (up to 100 dots so Epsilon's 910 runs = 91 dots fit)
         cnt_now = round(r_cnt * appear)
-        txt(im, f'{cnt_now}', cx + 28, cy + 114, 82, col if is_focus else INK, 700)
-        txt(im, 'runs', cx + 28 + font(82, 700).getbbox(f'{cnt_now}')[2] + 14, cy + 156, 26, MUTED_INK, 650)
+        txt(im, f'{cnt_now}', cx + 22, cy + 98, 66, col if is_focus else INK, 700)
+        txt(im, 'runs', cx + 22 + font(66, 700).getbbox(f'{cnt_now}')[2] + 10, cy + 132, 23, MUTED_INK, 650)
 
-        gx0, gy0 = cx + 30, cy + 232
-        for d_idx in range(70):
-            dx = gx0 + (d_idx % 10) * 36
-            dy = gy0 + (d_idx // 10) * 28
+        gx0, gy0 = cx + 28, cy + 194
+        for d_idx in range(100):
+            dx = gx0 + (d_idx % 10) * 30.2
+            dy = gy0 + (d_idx // 10) * 23
             active_dot = d_idx < round(n_dots * appear)
-            circle(im, dx, dy, 8 if active_dot else 4, col if active_dot else '#F7E6C4')
+            circle(im, dx, dy, 6 if active_dot else 3, col if active_dot else '#F7E6C4')
 
         badge(
             im,
             tag,
-            cx + 28,
-            cy + 442,
+            cx + 20,
+            cy + 440,
             color=CARD if is_focus else INK,
             bg=col if is_focus else APRICOT,
             border=None if is_focus else GOLD_LINE,
-            size=20,
-            fixed_w=cw - 56,
+            size=18,
+            fixed_w=cw - 40,
         )
 
         # Rising weekly margin bar at bottom of card
-        bar_base = cy2 - 32
+        bar_base = cy2 - 28
         max_h = 195
-        bh = max_h * (mgn / 14000.0) * appear
+        bh = max_h * (mgn / 15000.0) * appear
         by = bar_base - bh
-        rect(im, (cx + 28, bar_base - max_h, cx + cw - 28, bar_base), '#FFF3D6', outline=GOLD_LINE, r=10)
-        rect(im, (cx + 28, by, cx + cw - 28, bar_base), col, r=10)
+        rect(im, (cx + 20, bar_base - max_h, cx + cw - 20, bar_base), '#FFF3D6', outline=GOLD_LINE, r=10)
+        rect(im, (cx + 20, by, cx + cw - 20, bar_base), col, r=10)
         lbl_mgn = f'€{mgn / 1000:.1f}k / wk'
         if appear > 0.35:
-            txt(im, lbl_mgn, cx + cw / 2, bar_base - 36, 24, CARD, mono=True, weight=700, anchor='ma')
+            txt(im, lbl_mgn, cx + cw / 2, bar_base - 34, 21, CARD, mono=True, weight=700, anchor='ma')
         if i == 0:
-            curve_pts.append((cx + 48, by + 10))
+            curve_pts.append((cx + 36, by + 10))
         curve_pts.append((cx + cw / 2, by))
-        if i == 3:
-            curve_pts.append((cx + cw - 48, by - 4))
+        if i == 4:
+            curve_pts.append((cx + cw - 36, by - 4))
 
-        if i < 3:
-            ax = cx + cw + 16
+        if i < 4:
+            ax = cx + cw + 15
             ay = cy + 360
-            circle(im, ax, ay, 14, ORANGE if i < focus_idx else APRICOT)
-            line(im, [(ax - 5, ay - 6), (ax + 5, ay), (ax - 5, ay + 6)], CARD if i < focus_idx else MUTED_INK, 3)
+            circle(im, ax, ay, 12, ORANGE if i < focus_idx else APRICOT)
+            line(im, [(ax - 4, ay - 5), (ax + 4, ay), (ax - 4, ay + 5)], CARD if i < focus_idx else MUTED_INK, 3)
 
     if len(curve_pts) > 1 and t > 0.4:
         path_partial(im, curve_pts, p_car, INK, 5, glow=SUNBURST)
@@ -588,7 +589,7 @@ def evolution(t):
         q0 = route_point(curve_pts, p_prev)
         q1 = route_point(curve_pts, p_next)
         heading = math.degrees(math.atan2(q1[1] - q0[1], q1[0] - q0[0]))
-        car(im, *q, color=ORANGE, scale=1.15, angle=heading)
+        car(im, *q, color=ORANGE, scale=1.10, angle=heading)
 
     return im
 
@@ -730,26 +731,26 @@ def experiments(t):
     im = base_canvas('chart').copy()
     im.paste(graph_all_small(), (80, 230))
     enter(im, 'More runs cleared the ranking gate', 80, 56, 72, t, 0.05, color=INK, weight=700)
-    txt(im, '1,685 practice runs', 84, 148, 28, MUTED_INK, 650)
+    txt(im, '2,627 practice runs', 84, 148, 28, MUTED_INK, 650)
 
     stages = [
         (1, 'Alpha: 84.6% ranked', '#E59400', INK),
         (2, 'Beta: 88.1% ranked', '#EB7300', CARD),
         (3, 'Gamma: 97.9% ranked', '#FF5500', CARD),
-        (4, 'Delta: 98.6% ranked', '#E62E00', CARD),
+        (4, 'Delta: 98.7% ranked', '#E62E00', CARD),
+        (5, 'Epsilon: 90.2% ranked', '#C9184A', CARD),
     ]
-    if t > 0.4:
-        frac = clamp((t - 0.4) / 6.8)
-        pos = mix(0.0, 3.0, smooth(frac))
-        col = 1.0 + pos
-        stage_idx = min(3, int(pos + 0.5))
+    if t > 0.30:
+        frac = clamp((t - 0.30) / 5.4)
+        pos = mix(0.0, 4.0, smooth(frac))
+        stage_idx = min(4, int(pos + 0.5))
         _, stage_lbl, stage_bg, stage_fg = stages[stage_idx]
-        cx = 80 + 1760 * (0.09 + 0.89 * (col + 0.55) / 5.00)
-        hw = 1760 * (0.89 * 0.45 / 5.00)
+        cx = 80 + 556.0 + pos * 256.75
+        hw = 126.0
         rect(im, (cx - hw, 230 + 825 * 0.03, cx + hw, 230 + 825 * 0.80), None, stage_bg, r=6, width=4)
-        badge_w = 350
+        badge_w = 360
         bx = clamp(cx - badge_w / 2, 80, 1840 - badge_w)
-        badge(im, stage_lbl, bx, 178, color=stage_fg, bg=stage_bg, size=28, fixed_w=badge_w)
+        badge(im, stage_lbl, bx, 178, color=stage_fg, bg=stage_bg, size=27, fixed_w=badge_w)
     return im
 
 
@@ -1004,7 +1005,54 @@ def delta_iteration(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 10 (61–66s): Sol's closing highway slide + QR code ("Try it yourself")
+# Slide 9 (53–60s): Epsilon: keep experimenting (matching presentation Slide 9)
+# ---------------------------------------------------------------------------
+def epsilon_slide(t):
+    im = base_canvas('sunburst').copy()
+    eps_col = '#C9184A'
+    enter_model_hdr(im, 'Epsilon:', ' keep experimenting', 80, 88, 78, t, .05, model_color=eps_col, rest_color=INK, weight=700)
+
+    # Left column: The two presentation pillars ("Test the brakes", "Push the volume") + "Keep what survives new weeks"
+    rect(im, (80, 236, 760, 540), CARD, eps_col, r=18, width=3)
+    rect(im, (82, 238, 758, 304), eps_col, r=16)
+    txt(im, '1. Test the brakes', 108, 254, 28, CARD, 700)
+    txt(im, 'Brake intake when', 112, 340, 42, INK, 700)
+    txt(im, '24h on-time < 95%', 112, 400, 42, eps_col, 700)
+    badge(im, 'Protects the 90% delivery minimum', 112, 466, color=INK, bg=APRICOT, border=GOLD_LINE, size=21, weight=700)
+
+    rect(im, (80, 568, 760, 872), CARD, GOLD_LINE, r=18, width=2)
+    rect(im, (82, 570, 758, 636), APRICOT, r=16)
+    txt(im, '2. Push the volume', 108, 586, 28, INK, 700)
+    txt(im, '343 → 370', 112, 660, 72, eps_col, 700)
+    txt(im, 'orders won / week (+27/wk)', 112, 754, 30, INK, 700)
+    badge(im, 'Keep what survives new weeks', 112, 808, color=CARD, bg=eps_col, size=21, weight=700)
+
+    # Right column: Epsilon Prime across 38 paired practice weeks + 910 practice runs
+    rect(im, (800, 236, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
+    txt(im, 'Epsilon Prime · 38 paired practice weeks', 844, 268, 32, INK, 700)
+    badge(im, '910 Epsilon runs', 1524, 262, color=CARD, bg=eps_col, size=24, weight=700)
+
+    p_cnt = ease((t - 0.2) / 0.9)
+    txt(im, f'+€{456.04 * p_cnt:,.0f}', 844, 344, 128, eps_col, 700)
+    txt(im, 'gross margin / week vs Early Epsilon (28/38 ahead)', 848, 498, 28, INK, 650)
+
+    # Three clean metric cards at bottom of right panel
+    stat_cards = [
+        (844, '38/38', 'weeks ≥ 90% on time', '90.09% worst week'),
+        (1168, '370', 'orders won / week', 'up from 343 / wk'),
+        (1492, '€69,301', 'Round 11 total', '5/5 weeks ranked'),
+    ]
+    for sx, big_v, line1, line2 in stat_cards:
+        rect(im, (sx, 586, sx + 300, 916), CREAM, outline=GOLD_LINE, r=16, width=2)
+        txt(im, big_v, sx + 26, 616, 54, eps_col, 700)
+        txt(im, line1, sx + 26, 716, 25, INK, 700)
+        badge(im, line2, sx + 26, 822, color=INK, bg=APRICOT, border=GOLD_LINE, size=20, weight=700)
+
+    return im
+
+
+# ---------------------------------------------------------------------------
+# Slide 11 (67–72s): Sol's closing highway slide + QR code ("Try it yourself")
 # ---------------------------------------------------------------------------
 def ending(t):
     im = base_canvas('juicy').copy()
@@ -1038,7 +1086,7 @@ def ending(t):
     return im
 
 
-FUNCS = [hero, evolution, dispatcher, observability, failure, gain, delta_production, delta_iteration, experiments, ending]
+FUNCS = [hero, evolution, dispatcher, observability, failure, gain, delta_production, delta_iteration, epsilon_slide, experiments, ending]
 
 
 def frame(t):
@@ -1050,7 +1098,7 @@ def frame(t):
         xx = round(W * ease(dt / .30))
         prev = FUNCS[idx - 1](SCENES[idx - 1][1] - SCENES[idx - 1][0] + dt)
         im.paste(prev.crop((xx, 0, W, H)), (xx, 0))
-        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 9] else INK)
+        rect(im, (max(0, xx - 12), 0, xx + 2, H), ORANGE if idx not in [0, 3, 10] else INK)
     return im
 
 
@@ -1139,7 +1187,7 @@ def soundtrack(path):
                 add(start + j * (beat_sec / 2), noise, .012 if j % 2 else .006, (-1 if j % 2 else 1) * .3)
 
     # 1. Transition whooshes + bells at the new scene cuts
-    for cut in [5, 13, 20, 26, 33, 40, 47, 53, 61]:
+    for cut in [5, 13, 20, 26, 33, 40, 47, 53, 60, 67]:
         ts = np.arange(round(sr * 0.7)) / sr
         noise = rng.standard_normal(len(ts))
         noise = np.convolve(noise, np.ones(12) / 12, mode='same')
@@ -1154,11 +1202,11 @@ def soundtrack(path):
             pan = -0.25 + 0.5 * frac
             add(t_tick, note(m_tick, 0.04, 'tick'), vol * (0.85 + 0.3 * frac), pan)
 
-    # 2. Slide 2 (5-13s, evolution): 4 ascending crystalline harmonic chimes
-    for i, (t_chime, m) in enumerate(zip([5.9, 7.6, 9.3, 11.0], [74, 77, 81, 86])):
-        pan = -0.36 + i * 0.24
-        add(t_chime, note(m, 0.48, 'chime'), .036, pan)
-        add(t_chime + 0.018, note(m + 12, 0.32, 'chime'), .016, -pan * 0.5)
+    # 2. Slide 2 (5-13s, evolution): 5 ascending crystalline harmonic chimes (Alpha..Epsilon)
+    for i, (t_chime, m) in enumerate(zip([5.7, 7.1, 8.5, 9.9, 11.3], [72, 74, 77, 81, 86])):
+        pan = -0.4 + i * 0.2
+        add(t_chime, note(m, 0.45, 'chime'), .035, pan)
+        add(t_chime + 0.018, note(m + 12, 0.30, 'chime'), .015, -pan * 0.5)
 
     # 3. Slide 3 (13-20s, dispatcher): 4 subtle, crisp tactile UI clicks/plucks
     for i, (t_click, m) in enumerate(zip([13.3, 15.0, 16.7, 18.4], [69, 72, 76, 81])):
@@ -1199,22 +1247,26 @@ def soundtrack(path):
     for j, m in enumerate([74, 78, 81, 86]):
         add(42.0 + j * 0.018, note(m, 0.58, 'chime'), .030, -0.3 + j * 0.2)
 
-    # 8. Slide 8 (47-53s, delta_iteration): 4 snappy ascending lever-activation plucks at 47.3, 48.7, 50.1, 51.5
-    for i, (t_lev, m) in enumerate(zip([47.3, 48.7, 50.1, 51.5], [74, 77, 81, 86])):
-        pan = -0.3 + i * 0.2
-        add(t_lev, note(m, 0.18, 'pluck'), .034, pan)
-        add(t_lev, note(m + 12, 0.08, 'click'), .018, pan)
+    # 8. Slide 8 (47-53s, delta_iteration): 2 rising bar chimes for 257 -> 342
+    for i, (t_lev, m) in enumerate(zip([47.4, 48.2], [76, 84])):
+        pan = -0.2 + i * 0.4
+        add(t_lev, note(m, 0.32, 'chime'), .035, pan)
 
-    # 9. Slide 9 (53-61s, experiments): 4 ascending lock-in chimes at 53.8, 55.5, 57.2, 58.9
-    for i, (t_lock, m) in enumerate(zip([53.8, 55.5, 57.2, 58.9], [72, 76, 79, 84])):
-        pan = -0.3 + i * 0.2
-        add(t_lock, note(m, 0.46, 'chime'), .034, pan)
-        add(t_lock + 0.015, note(m + 12, 0.28, 'chime'), .015, -pan * 0.5)
+    # 9. Slide 9 (53-60s, epsilon_slide): Counter ticks (53.2..54.1) + Epsilon Prime chord
+    add_counter_ticks(53.2, 54.1, count=11, midi_start=74, midi_end=86, vol=0.022)
+    for j, m in enumerate([76, 79, 83, 88]):
+        add(55.0 + j * 0.02, note(m, 0.55, 'chime'), .028, -0.3 + j * 0.2)
 
-    # 10. Slide 10 (61-66s, ending): Warm sustained D-major / F-major swell
+    # 10. Slide 10 (60-67s, experiments): 5 ascending lock-in chimes (Alpha..Epsilon)
+    for i, (t_lock, m) in enumerate(zip([60.6, 61.9, 63.2, 64.5, 65.8], [72, 74, 77, 81, 86])):
+        pan = -0.35 + i * 0.175
+        add(t_lock, note(m, 0.42, 'chime'), .034, pan)
+        add(t_lock + 0.015, note(m + 12, 0.26, 'chime'), .015, -pan * 0.5)
+
+    # 11. Slide 11 (67-72s, ending): Warm sustained D-major / F-major swell
     swell_notes = [(50, -0.4), (57, 0.35), (62, -0.25), (65, 0.25), (66, -0.15), (69, 0.15), (74, -0.3), (77, 0.3), (81, 0.0)]
     for m, pan in swell_notes:
-        add(61.2, note(m, 4.2, 'pad'), .018, pan)
+        add(67.2, note(m, 4.2, 'pad'), .018, pan)
 
     tt = np.arange(n) / sr
     fade = np.minimum(tt / 1.2, 1) * np.minimum((DURATION - tt) / 2.2, 1)
@@ -1228,7 +1280,7 @@ def soundtrack(path):
 
 
 def stills(out):
-    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 29.5, 36.5, 43.5, 51.8, 59.5, 63.5]
+    times = [2.2, 11.8, 15.0, 18.2, 23.0, 29.5, 36.5, 43.5, 51.0, 56.5, 65.8, 69.5]
     thumbs = []
     for p in out.glob('frame-*.png'):
         p.unlink()
@@ -1285,17 +1337,18 @@ def render(out, draft=False):
 
 
 def validate():
-    assert RUN_DATA['summary']['completed_practice'] == 1685
+    assert RUN_DATA['summary']['completed_practice'] == 2627
     assert RUN_DATA['summary']['chart_groups'] == {
         'Baseline': 2,
         'Alpha': 677,
         'Beta': 268,
         'Gamma': 242,
-        'Delta': 496,
+        'Delta': 528,
+        'Epsilon': 910,
     }
     assert {name: round(group['ranked'] / group['runs'] * 100, 1)
             for name, group in RUN_DATA['groups'].items() if name != 'Baseline'} == {
-                'Alpha': 84.6, 'Beta': 88.1, 'Gamma': 97.9, 'Delta': 98.6}
+                'Alpha': 84.6, 'Beta': 88.1, 'Gamma': 97.9, 'Delta': 98.7, 'Epsilon': 90.2}
     first_holdout = next(c for c in CHART_DATA['cohorts']
                          if c['comparison'] == 'Original candidate: fresh holdout')
     assert round(first_holdout['mean_delta_eur']) == 830

@@ -29,16 +29,17 @@ Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path
 
 | Time | Scene |
 | --- | --- |
-| 00:00–00:05 | Cheap-Drive — Move cars, Win margins. Full Finland map with 30 simulator towns. |
-| 00:05–00:13 | Prototype. Test. Loop. Repeat.: Graphical `α Alpha → β Beta → γ Gamma → δ Delta` iteration pipeline (`677`, `268`, `242`, `496` runs; `1,685 testing runs`, `5 models`, `1.5B tokens burned`) with run-volume matrices and rising margin trajectory (`€4.5k → €10.0k → €12.1k → €13.8k/wk`). |
+| 00:00–00:05 | Cheap-Drive — Move cars, Win margins. Full Finland map with multi-city inland routes. |
+| 00:05–00:13 | Prototype. Test. Loop. Repeat.: Graphical `α Alpha → β Beta → γ Gamma → δ Delta → ε Epsilon` iteration pipeline (`677`, `268`, `242`, `528`, `910` runs; `2,627 testing runs`, `5 models`, `2B tokens burned`) with run-volume matrices and rising margin trajectory (`€4.5k → €10.0k → €12.1k → €13.8k → €14.2k/wk`). |
 | 00:13–00:20 | Beta: quote, then deliver — 2×2 Dispatch Bento (`Filter requests`, `Price dealer trust`, `Time gig fees 0.80× → 1.50×`, `Meet deadlines ≥90%`). |
-| 00:20–00:26 | Find what broke: Live demo app preview (`assets/live-demo-overview.png`) + `Note → Pickup window → Outcome` order inspection. |
+| 00:20–00:26 | Find what broke: Smooth-scrolling live demo app preview + `Note → Pickup window → Outcome` order inspection. |
 | 00:26–00:33 | Gamma: higher margin, but one week missed the gate (`+€830/wk`, `7/8 weeks ranked`, `W7` at `89.96%` on time). |
 | 00:33–00:40 | Gamma: read dealer notes and combine cars in one gig (`+€2,031/week vs Beta` across 8 new practice weeks, `8/8 weeks qualified`, `96.95%` worst on time). |
-| 00:40–00:47 | Delta: in production (`+€1,664/week vs Early Delta` across 19 paired practice weeks, `19/19 practice weeks ranked`, `€75,764` Round 9 total across `5/5 ranked weeks`). |
-| 00:47–00:53 | Delta: Quantity > the best margins (2×2 Bento: wider gig windows, overdue rescue, `≤90 km` pairing, `42%` win target lifting volume from `257` to `342 orders/wk`). |
-| 00:53–01:01 | More runs cleared the ranking gate (`1,685 practice runs` across `Baseline: 2`, `Alpha: 677`, `Beta: 268`, `Gamma: 242`, `Delta: 496`). |
-| 01:01–01:06 | Highway close (`Win the right work. Deliver it.`). |
+| 00:40–00:47 | Delta in production (`+€1,664/week vs Early Delta` across 19 paired practice weeks, `19/19 practice weeks ranked`, `€75,764` Round 9 total across `5/5 ranked weeks`). |
+| 00:47–00:53 | Delta: Quantity > the best margins (`Orders won / week`: `257` at `30%` win target → `342` at `42%` win target, `+33% more orders`). |
+| 00:53–01:00 | Epsilon: keep experimenting (`Test the brakes` < 95% trailing 24h on-time, `Push the volume` `343 → 370 orders/wk`, `+€456/wk` across 38 paired practice weeks, `€69,301` Round 11 total across `5/5 ranked weeks`). |
+| 01:00–01:07 | More runs cleared the ranking gate (`2,627 practice runs` across `Baseline: 2`, `Alpha: 677`, `Beta: 268`, `Gamma: 242`, `Delta: 528`, `Epsilon: 910`). |
+| 01:07–01:12 | Highway close (`Win the right work. Deliver it.` + QR code `Try it yourself`). |
 
 ## Evidence and limits
 
