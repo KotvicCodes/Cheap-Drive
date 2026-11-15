@@ -759,3 +759,34 @@ only and tests whether earlier protection with a smaller intake reduction
 can keep both order volume and service. Eighteen composition cases now
 check premium1440 bases, actual brake targets/release and checkpoint
 recovery. Future fresh-reference plan contains Early Epsilon only.
+
+
+## Buy service with fees, 02:39 UTC
+
+New orchestrator priority: keep high win targets and pay for faster bookings,
+instead of suppressing intake. Queued six arms on Early Epsilon: targets5000
+and5500 crossed with opening8500 only, faster fee policy only, or both.
+Faster policy uses existing `fee_shape=review`, `review_after_minutes=180`,
+`review_fee_bps=11000`, `cap_before_last_pickup_minutes=720`, plus
+`delta_urgent_fee_memory=1`. The note-aware effective latest pickup drives
+the cap; it arrives12hours before that cutoff rather than3hours. The110%
+review comes3hours after first post (normal review default6hours). Existing
+night review handling remains enabled. Urgent memory preserves the original
+warning clock across reposts/recovery; the standard urgent curve stays
+150%→250% over120minutes. This policy affects ordinary unbooked gigs as
+well as near-cutoff ones; it is not a new backlog-triggered fee rule.
+Short/premium/long opening floors remain in effect. No intake brakes are
+enabled in these arms, and no production source/default changes.
+Six integration cases check target retention, actual opening/review/cap
+fees and the urgent clock after checkpoint restoration. It takes priority
+over the prepared earlier-brake screen as soon as the current six workers
+finish; no additional workers are allocated.
+
+| Change on Early Epsilon | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| premium1440-buyservice-opening8500-win5000 | Pending4 | — | — | — | Screen next |
+| premium1440-buyservice-fasturgent-win5000 | Pending4 | — | — | — | Screen next |
+| premium1440-buyservice-opening8500-fasturgent-win5000 | Pending4 | — | — | — | Screen next |
+| premium1440-buyservice-opening8500-win5500 | Pending4 | — | — | — | Screen next |
+| premium1440-buyservice-fasturgent-win5500 | Pending4 | — | — | — | Screen next |
+| premium1440-buyservice-opening8500-fasturgent-win5500 | Pending4 | — | — | — | Screen next |
