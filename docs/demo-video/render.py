@@ -508,7 +508,7 @@ def evolution(t):
         ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', '#E59400', '#FFE066'),
         ('β', 'Beta', 268, 27, 10048, 'Trust + fee timing', '#EB7300', '#FFB700'),
         ('γ', 'Gamma', 242, 24, 12079, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
-        ('δ', 'Delta', 528, 53, 13760, 'Volume + capacity', '#E62E00', '#FF4D2E'),
+        ('δ', 'Delta', 528, 53, 13760, 'Capacity', '#E62E00', '#FF4D2E'),
         ('ε', 'Epsilon', 910, 91, 14216, 'Brakes + volume', '#7C4DFF', '#B79CFF'),
     ]
 

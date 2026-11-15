@@ -8,8 +8,8 @@
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 63769,
-    "sha256": "8be17ee9d2274f42707e4eb5ca51a094ae0f1c28b6424511f28cc4660896041c"
+    "bytes": 63760,
+    "sha256": "8bed39dae08675bd7649c9f7d1e2030f13891b788db0a226fc66e5942e0a5121"
   },
   "captions.vtt": {
     "bytes": 1581,
@@ -84,8 +84,8 @@
     "sha256": "717363041794e8d90490c1763c267ce71491e104d49b8ca8e4aab372f872e921"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 570172,
-    "sha256": "07d6ced0f1eb68ec8ebef4f59f44261e3800196d274510b3903c3b6ab89d8047"
+    "bytes": 569861,
+    "sha256": "ed81fd062b4b303cacc38e085b5212bbf44a1877e9e65c9f06327ef581a30763"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
@@ -93,7 +93,7 @@
   },
   "index.html": {
     "bytes": 1233,
-    "sha256": "53e4da9e54de6846195cb2a6de87cf1ac64192d06be6c0300663de8e3f0a946e"
+    "sha256": "0aed5f5ee00e31e363fb838968c28d499c3fe66e09f1c7e3e66e26a7f39966a3"
   },
   "assets/cheap-drive-badge.png": {
     "bytes": 13475,
