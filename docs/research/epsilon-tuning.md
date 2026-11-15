@@ -749,3 +749,13 @@ retries while other agents filled all12 team slots. It already fails the
 service gate and is not extended. The remaining five arms have all4 pairs.
 The six-arm milder-brake follow-up is now running, base Early Epsilon.
 Local CI-equivalent suite:464 tests passed.
+
+Reusable Early Epsilon scores are archived in
+`docs/research/plans/epsilon/early-epsilon-baseline.json` (34 unique seeds).
+Prepared next screen: projected350 with higher braked targets4200/3600,
+and pickup protection moved from360 to720 minutes with targets4200/3600;
+each crosses external target4600/5000/5500. This changes existing knobs
+only and tests whether earlier protection with a smaller intake reduction
+can keep both order volume and service. Eighteen composition cases now
+check premium1440 bases, actual brake targets/release and checkpoint
+recovery. Future fresh-reference plan contains Early Epsilon only.
