@@ -118,3 +118,18 @@ class StartedWorldTests(unittest.TestCase):
             world.delete.assert_not_called()
             self.assertTrue(finish.call_args.kwargs['resumed'])
             self.assertFalse((out / 'worlds' / world.id).exists())
+
+
+class StrictCandidateFloorTests(unittest.TestCase):
+    def test_new_rule_requires_above_ninety_and_positive_gain(self):
+        from scripts.sweep import gate_failures
+        plan = {'variants': {'early': {}, 'arm': {}}, 'sequential_gate': {
+            'control': 'early', 'min_pairs': 1, 'min_gain_cents': 0,
+            'min_on_time': .9, 'strict_on_time': True, 'strict_gain': True,
+            'half_positive': False}}
+        control = {'label': 'early', 'seed': 'hard', 'score': {'marginCents': 10000, 'onTimeShare': .9}}
+        for margin, on_time, fails in ((10001, .9, True), (10000, .95, True),
+                                       (10001, .90000001, False), (9999, .99, True)):
+            with self.subTest(margin=margin, on_time=on_time):
+                arm = {'label': 'arm', 'seed': 'hard', 'score': {'marginCents': margin, 'onTimeShare': on_time}}
+                self.assertEqual('arm' in gate_failures(plan, [control, arm]), fails)

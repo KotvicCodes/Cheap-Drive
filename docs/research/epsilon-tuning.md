@@ -1184,3 +1184,29 @@ A meaningful offline test injects five trace-open failures before success
 and verifies exactly one creation, same-world resume, completion and no
 delete. Full suites pass525 tests/1860 subtests. Model/final-runner behavior
 and selected Early settings are unchanged.
+
+## User changes the candidate gate, 04:45 UTC
+
+The latest explicit user rule supersedes the91.5% final floor and earlier
+€300 continuation cutoff: **every observed candidate week must be strictly
+above90.0%, and its paired mean margin must be positive against Early**.
+Exactly90.0% fails the new candidate test. Early remains the explicitly
+selected fallback despite its exact90.0% fresh baseline week. Historical
+rejections above retain their then-applicable gate; they are not rewritten.
+Adequate paired/fresh confirmation is still required before adoption.
+
+The sweep supports explicit `strict_on_time` and `strict_gain` switches,
+retaining inclusive comparisons for old plans. A unit test checks exact90%,
+zero mean gain and values just above each boundary. New confirmation plans
+use90%/€0 with both strict switches and no positive-week-count cutoff.
+
+Safe9800/backlog10 is the leading revived policy: six pairs with available
+current controls show+€505.43/week,4/6positive, worst91.379%. Three additional
+completed P1 candidate weeks (f2-s06,s07,s08) need current-code Early controls;
+these are being rerun. The new plan prioritizes safe9800 on `eps-sp-s001`
+(where Early scored90.0%), those three controls, then untouched paired fresh
+seeds `epsilon-safe9800-final-20261115-s01..s08`. Other completed exact-policy
+rows are reused by seed. No candidate is selected before this confirmation;
+`epsilon.json` still equals Early. Source settings on Early are only
+`delta_safe_quote_bps:9800, delta_safe_quote_max_backlog:10`.
+Plan: `plans/epsilon/safe9800-final-confirm.json`.

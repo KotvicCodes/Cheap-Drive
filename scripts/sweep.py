@@ -300,8 +300,12 @@ def gate_failures(plan, rows):
         limits = {**gate, **gate.get('overrides', {}).get(label, {})}
         gains = [w['score']['marginCents'] - c['score']['marginCents'] for w, c in pairs]
         worst = min(w['score']['onTimeShare'] for w in weeks.values())
-        if (statistics.fmean(gains) < limits['min_gain_cents'] or
-                worst < limits['min_on_time'] or
+        mean_gain = statistics.fmean(gains)
+        gain_fails = (mean_gain <= limits['min_gain_cents'] if limits.get('strict_gain')
+                      else mean_gain < limits['min_gain_cents'])
+        service_fails = (worst <= limits['min_on_time'] if limits.get('strict_on_time')
+                         else worst < limits['min_on_time'])
+        if (gain_fails or service_fails or
                 (limits.get('half_positive', True) and sum(g > 0 for g in gains) * 2 < len(gains))):
             failures[label] = dict(pairs=len(pairs), mean_gain_cents=statistics.fmean(gains),
                                    positive=sum(g > 0 for g in gains), worst_on_time=worst)
