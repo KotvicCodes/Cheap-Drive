@@ -264,11 +264,11 @@ MAP_NODES = [(120, 590), (280, 500), (410, 610), (530, 415), (710, 460), (810, 2
 MAP_EDGES = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 1), (7, 3), (4, 9), (9, 10), (10, 11), (11, 5), (11, 4), (2, 9), (0, 2)]
 
 MAP_TRIPS = [
-    ([8, 7, 6, 5, 11, 10], 0.04, 0.14, INK, True),
-    ([0, 1, 2, 3, 4, 11], 0.05, 0.14, ORANGE, True),
-    ([0, 2, 9, 10, 11, 5], 0.03, 0.14, INK, True),
-    ([5, 6, 7, 3, 2, 1, 8], 0.06, 0.13, ORANGE, True),
-    ([10, 9, 4, 3, 7, 8, 1], 0.04, 0.13, INK, True),
+    ([8, 7, 6, 5, 11], 0.04, 0.14, INK, True),
+    ([0, 1, 2, 3, 4, 11], 0.05, 0.14, INK, True),
+    ([0, 2, 9, 10, 11], 0.03, 0.14, INK, True),
+    ([8, 1, 2, 9, 10], 0.06, 0.13, INK, True),
+    ([6, 7, 3, 4, 9], 0.04, 0.13, INK, True),
 ]
 
 
@@ -385,7 +385,7 @@ FINLAND_TRIPS = [
     (['vaasa', 'tampere', 'helsinki'], 0.05, 0.19, ORANGE, True),
     (['joensuu', 'kuopio', 'oulu'], 0.06, 0.19, ORANGE, True),
     (['turku', 'helsinki', 'jyvaskyla', 'kuopio'], 0.04, 0.19, ORANGE, True),
-    (['oulu', 'jyvaskyla', 'tampere', 'turku'], 0.05, 0.19, ORANGE, True),
+    (['vaasa', 'jyvaskyla', 'tampere', 'turku'], 0.05, 0.19, ORANGE, True),
 ]
 
 
@@ -443,9 +443,11 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
         if not in_box(pt):
             continue
         circle(im, *pt, 6, CARD, ORANGE, 3)
-        lx_off = -12 if pid in ('vaasa', 'turku') else 12
-        anc = 'rm' if pid in ('vaasa', 'turku') else 'lm'
-        txt(im, name, pt[0] + lx_off, pt[1], 17, INK, weight=700, anchor=anc)
+        left_side = pid in ('vaasa', 'turku', 'tampere', 'ivalo')
+        lx_off = -12 if left_side else 12
+        ly_off = -10 if pid == 'kuopio' else (10 if pid == 'jyvaskyla' else 0)
+        anc = 'rm' if left_side else 'lm'
+        txt(im, name, pt[0] + lx_off, pt[1] + ly_off, 17, INK, weight=700, anchor=anc)
 
     for c_idx, (corr, p0, spd, col, is_prim) in enumerate(FINLAND_TRIPS):
         pts = [proj(*FINLAND_PLACES[pid][:2]) for pid in corr if in_box(proj(*FINLAND_PLACES[pid][:2]))]
@@ -456,7 +458,7 @@ def finland_map(im, t, box=(820, 80, 1840, 1000), zoom_south=False, bg=CARD, bor
             q = route_point(pts, p)
             ahead = route_point(pts, min(p + 0.008, 1.0))
             heading = math.degrees(math.atan2(ahead[1] - q[1], ahead[0] - q[0]))
-            car(im, *q, color=INK if c_idx % 2 == 0 else ORANGE, scale=0.72, angle=heading)
+            car(im, *q, color=INK, scale=0.72, angle=heading)
 
 
 # ---------------------------------------------------------------------------
@@ -466,7 +468,7 @@ def hero(t):
     im = base_canvas('juicy').copy()
     finland_map(im, t, (950, 64, 1840, 1016), zoom_south=False, bg=CARD, border='#E05500')
     im.paste(LOGO_BADGE, (80, 132), LOGO_BADGE)
-    enter(im, 'Cheap-Drive', 232, 134, 102, t, .02, color='#231A14', weight=700)
+    enter(im, 'Cheap-Drive', 232, 128, 102, t, .02, color='#231A14', weight=700)
     enter(im, 'Move cars,', 80, 415, 130, t, .12, color=INK, weight=700)
     enter(im, 'Win margins', 80, 575, 130, t, .22, color=INK, weight=700)
     return im
@@ -478,13 +480,13 @@ def hero(t):
 def evolution(t):
     im = base_canvas('sunburst').copy()
     enter(im, 'Prototype. Test. Loop. Repeat.', 80, 80, 84, t, .05, color=INK, weight=700)
-    txt(im, 'Each dot ≈10 practice runs', 84, 188, 24, MUTED_INK, 600)
+    txt(im, 'Each dot ≈10 practice runs', 80, 185, 24, MUTED_INK, 600)
 
     # 3 headline summary pills from Slide 2 of the updated presentation
     summary_pills = [
         '2,627 testing runs',
         '5 models',
-        '2B tokens burned',
+        '2,1B+ tokens burned',
     ]
     pill_size = 20
     pill_weight = 700
@@ -506,7 +508,7 @@ def evolution(t):
         ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', '#E59400', '#FFE066'),
         ('β', 'Beta', 268, 27, 10048, 'Trust + fee timing', '#EB7300', '#FFB700'),
         ('γ', 'Gamma', 242, 24, 12079, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
-        ('δ', 'Delta', 528, 53, 13760, 'Rescue + quantity', '#E62E00', '#FF4D2E'),
+        ('δ', 'Delta', 528, 53, 13760, 'Volume + capacity', '#E62E00', '#FF4D2E'),
         ('ε', 'Epsilon', 910, 91, 14216, 'Brakes + volume', '#C9184A', '#FF758F'),
     ]
 
@@ -532,13 +534,14 @@ def evolution(t):
             circle(im, gx_c, gy_c, 28 + 3.0 * pulse, None, outline=SUNBURST, width=3)
             circle(im, gx_c, gy_c, 25, None, outline=CARD, width=2)
         circle(im, gx_c, gy_c, 23, INK)
-        ImageDraw.Draw(im).text((round(gx_c), round(gy_c)), greek_sym, font=GREEK_FONT, fill=greek_col, anchor='mm')
-        txt(im, name, cx + 78, cy + 25, 30, hdr_fg, 700)
+        gb = GREEK_FONT.getbbox(greek_sym)
+        ImageDraw.Draw(im).text((round(gx_c - (gb[0] + gb[2]) / 2), round(gy_c - (gb[1] + gb[3]) / 2)), greek_sym, font=GREEK_FONT, fill=greek_col)
+        txt(im, name, cx + 78, cy + 22, 30, hdr_fg, 700)
 
         # Run count & 10x10 dot matrix (up to 100 dots so Epsilon's 910 runs = 91 dots fit)
         cnt_now = round(r_cnt * appear)
         txt(im, f'{cnt_now}', cx + 22, cy + 98, 66, col if is_focus else INK, 700)
-        txt(im, 'runs', cx + 22 + font(66, 700).getbbox(f'{cnt_now}')[2] + 10, cy + 132, 23, MUTED_INK, 650)
+        txt(im, 'runs', cx + 22 + font(66, 700).getbbox(f'{cnt_now}')[2] + 10, cy + 141, 23, MUTED_INK, 650)
 
         gx0, gy0 = cx + 28, cy + 194
         for d_idx in range(100):
@@ -577,9 +580,9 @@ def evolution(t):
 
         if i < 4:
             ax = cx + cw + 15
-            ay = cy + 360
-            circle(im, ax, ay, 12, ORANGE if i < focus_idx else APRICOT)
-            line(im, [(ax - 4, ay - 5), (ax + 4, ay), (ax - 4, ay + 5)], CARD if i < focus_idx else MUTED_INK, 3)
+            ay = cy + 298
+            circle(im, ax, ay, 10, ORANGE if i < focus_idx else APRICOT)
+            line(im, [(ax - 3, ay - 4), (ax + 3, ay), (ax - 3, ay + 4)], CARD if i < focus_idx else MUTED_INK, 3)
 
     if len(curve_pts) > 1 and t > 0.4:
         path_partial(im, curve_pts, p_car, INK, 5, glow=SUNBURST)
@@ -611,17 +614,19 @@ def dispatcher(t):
         active = i == phase
         fg_main = INK if active else '#7A6855'
         fg_acc = ORANGE if active else '#A67B4B'
-        rect(im, (x, y, x + 465, y + 350), CARD if active else '#FFF9EE', ORANGE if active else GOLD_LINE, r=18, width=4 if active else 2)
-        rect(im, (x + 2, y + 2, x + 463, y + 68), ORANGE if active else APRICOT, r=16)
-        txt(im, title, x + 24, y + 16, 26, CARD if active else INK, 700)
+        rect(im, (x, y, x + 465, y + 350), CARD if active else '#FFF9EE', None, r=18)
+        rect(im, (x, y, x + 465, y + 68), ORANGE if active else APRICOT, None, r=18)
+        rect(im, (x, y + 50, x + 465, y + 68), ORANGE if active else APRICOT, None, r=0)
+        rect(im, (x, y, x + 465, y + 350), None, ORANGE if active else GOLD_LINE, r=18, width=4 if active else 2)
+        txt(im, title, x + 24, y + 18, 26, CARD if active else INK, 700)
         if i == 0:
             for j, line_s in enumerate(['≥8h slack', '≤500 km', 'No trade-in']):
-                yy = y + 98 + j * 76
+                yy = y + 110 + j * 76
                 circle(im, x + 34, yy + 20, 8, fg_acc)
                 txt(im, line_s, x + 56, yy, 33, fg_main, 700 if active else 600)
         elif i == 1:
-            txt(im, 'Price for', x + 28, y + 124, 42, fg_main, 700)
-            txt(im, 'dealer trust', x + 28, y + 182, 42, fg_acc, 700)
+            txt(im, 'Price for', x + 28, y + 150, 42, fg_main, 700)
+            txt(im, 'dealer trust', x + 28, y + 208, 42, fg_acc, 700)
         elif i == 2:
             progress = clamp((t - .6) / 5.5)
             usable = clamp((progress - .4) / .6)
@@ -636,18 +641,18 @@ def dispatcher(t):
             circle(im, *end, 10, fg_acc)
             line(im, [(x + 192, y + 214), (x + 192, y + 314)], MUTED_INK, 2)
         else:
-            txt(im, '≥90%', x + 28, y + 104, 86, fg_acc, 700)
-            txt(im, 'on time', x + 28, y + 214, 40, fg_main, 700)
+            txt(im, '≥90%', x + 28, y + 120, 86, fg_acc, 700)
+            txt(im, 'on time', x + 28, y + 230, 40, fg_main, 700)
     network(im, t, (1055, 236, 1840, 966))
     return im
 
 
 @lru_cache(maxsize=1)
 def live_demo_tall_main():
-    """Seamless 1182px-wide tall scrollable main column (x=248..1430) with zero cut lines or overlays."""
-    main_w = 1430 - 248
-    top_bar = LIVE_DEMO.crop((248, 0, 1430, 149))
-    body_src = LIVE_DEMO_SCROLL.crop((232, 238, 1430, 1715))
+    """Seamless 1192px-wide tall scrollable main column (x=248..1440) with zero cut lines or overlays."""
+    main_w = 1440 - 248
+    top_bar = LIVE_DEMO.crop((248, 0, 1440, 149))
+    body_src = LIVE_DEMO_SCROLL.crop((232, 238, 1440, 1715))
     body_h = round(body_src.height * (main_w / body_src.width))
     body_resized = body_src.resize((main_w, body_h), Image.Resampling.LANCZOS)
     tall = Image.new('RGB', (main_w, 14 + top_bar.height + body_h), '#141413')
@@ -680,20 +685,20 @@ def observability(t):
 
     rect(im, (80, 336, 1020, 978), INK, r=18)
     bezel_w, bezel_h = 1004 - 96, 962 - 352
-    viewport = Image.new('RGB', (1430, 960), '#141413')
+    viewport = Image.new('RGB', (1440, 960), '#141413')
     # Fixed left sidebar (exact 248px width including vertical divider at x=247)
     side_top = LIVE_DEMO.crop((0, 0, 248, 1)).resize((248, 14), Image.Resampling.NEAREST)
     viewport.paste(side_top, (0, 0))
     viewport.paste(LIVE_DEMO.crop((0, 0, 248, 946)), (0, 14))
 
-    # Smoothly scroll the entire right-hand main column (x=248..1430, y=0..960) with no overlays
+    # Smoothly scroll the entire right-hand main column (x=248..1440, y=0..960) with no overlays
     tall_main = live_demo_tall_main()
     max_scroll = float(tall_main.height - 960)
     crop_top = mix(0.0, max_scroll, smooth((t - 0.35) / 4.8))
     scrolled_main = tall_main.resize(
-        (1430 - 248, 960),
+        (1440 - 248, 960),
         Image.Resampling.BICUBIC,
-        box=(0.0, crop_top, float(1430 - 248), crop_top + 960.0),
+        box=(0.0, crop_top, float(1440 - 248), crop_top + 960.0),
     )
     viewport.paste(scrolled_main, (248, 0))
 
@@ -711,16 +716,16 @@ def observability(t):
         ('Outcome', 'Missed window. Late delivery.'),
     ]
     for i, (label, principal) in enumerate(details):
-        yy = 442 + i * 170
+        yy = 450 + i * 170
         rect(im, (1084, yy, 1816, yy + 148), APRICOT if i == phase else CREAM,
              ORANGE if i == phase else GOLD_LINE, r=14, width=4 if i == phase else 2)
-        txt(im, label, 1116, yy + 30, 25, ORANGE if i == phase else MUTED_INK, 700)
-        txt(im, principal, 1116, yy + 74, 36, INK, 700)
+        txt(im, label, 1116, yy + 27, 25, ORANGE if i == phase else MUTED_INK, 700)
+        txt(im, principal, 1116, yy + 71, 36, INK, 700)
     return im
 
 
 # ---------------------------------------------------------------------------
-# Slide 5 (26–34s): Sol heading & ranked % + smooth moving border of old video
+# Slide 10 (60–67s): Sol heading & ranked % + smooth moving border
 # ---------------------------------------------------------------------------
 @lru_cache(maxsize=1)
 def graph_all_small():
@@ -731,7 +736,7 @@ def experiments(t):
     im = base_canvas('chart').copy()
     im.paste(graph_all_small(), (80, 230))
     enter(im, 'More runs cleared the ranking gate', 80, 56, 72, t, 0.05, color=INK, weight=700)
-    txt(im, '2,627 practice runs', 84, 148, 28, MUTED_INK, 650)
+    txt(im, '2,627 practice runs', 84, 148, 30, MUTED_INK, 700)
 
     stages = [
         (1, 'Alpha: 84.6% ranked', '#E59400', INK),
@@ -745,32 +750,32 @@ def experiments(t):
         pos = mix(0.0, 4.0, smooth(frac))
         stage_idx = min(4, int(pos + 0.5))
         _, stage_lbl, stage_bg, stage_fg = stages[stage_idx]
-        cx = 80 + 556.0 + pos * 256.75
-        hw = 126.0
-        rect(im, (cx - hw, 230 + 825 * 0.03, cx + hw, 230 + 825 * 0.80), None, stage_bg, r=6, width=4)
-        badge_w = 360
+        cx = 80 + 556.46 + pos * 256.75
+        hw = 124.0
+        rect(im, (cx - hw, 254, cx + hw, 889), None, stage_bg, r=6, width=4)
+        badge_w = 348
         bx = clamp(cx - badge_w / 2, 80, 1840 - badge_w)
         badge(im, stage_lbl, bx, 178, color=stage_fg, bg=stage_bg, size=27, fixed_w=badge_w)
     return im
 
 
 # ---------------------------------------------------------------------------
-# Slide 6 (34–41s): Sol's version with "Gamma" in the header
+# Slide 5 (26–33s): Sol's version with "Gamma" in the header
 # ---------------------------------------------------------------------------
 def failure(t):
     im = base_canvas('sunburst').copy()
     enter_model_hdr(im, 'Gamma:', ' higher margin, but one week missed the gate', 80, 88, 68, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
-    txt(im, f'+€{830.44375 * ease((t - .2) / 1):,.0f}', 76, 278, 142, ORANGE, 700)
-    txt(im, 'gross margin/week vs Beta', 84, 456, 32, INK, 650)
-    badge(im, '7/8 weeks ranked', 84, 548, color=CARD, bg=DANGER, size=30)
-    badge(im, '89.96% worst on time', 84, 634, color=INK, bg=MARIGOLD, border=DANGER, size=30)
+    txt(im, f'+€{830.44375 * ease((t - .2) / 1):,.0f}', 80, 278, 142, ORANGE, 700)
+    txt(im, 'gross margin/week vs Beta', 80, 456, 32, INK, 650)
+    badge(im, '7/8 weeks ranked', 80, 548, color=CARD, bg=DANGER, size=30)
+    badge(im, '89.96% worst on time', 80, 634, color=INK, bg=MARIGOLD, border=DANGER, size=30)
 
     rect(im, (774, 236, 1840, 966), CARD, GOLD_LINE, r=18, width=2)
     txt(im, '8 new practice weeks', 814, 268, 32, INK, 700)
 
     line_p = clamp((t - 0.25) / 2.2)
     if line_p >= 6 / 7.0:
-        badge(im, '1 of 8 weeks failed', 1500, 262, color=CARD, bg=DANGER, size=24)
+        badge(im, '1 of 8 weeks failed', 1547, 269, color=CARD, bg=DANGER, size=24)
 
     holdout_rows = [r for r in PAIRED_WEEKS if r['comparison'] == 'Original candidate: fresh holdout']
     left, right = 885, 1780
@@ -807,7 +812,7 @@ def failure(t):
             pulse = ((t - 2.14) * 1.2) % 1.0
             circle(im, xg, yg, round(15 + 5 * pulse), None, DANGER, 2)
             circle(im, xg, yg, 12, DANGER, CARD, 3)
-            badge(im, '89.96%', xg - 72, yg + 22, color=CARD, bg=DANGER, size=26, mono=True)
+            badge(im, '89.96%', xg - 66, yg + 22, color=CARD, bg=DANGER, size=26, mono=True)
         else:
             circle(im, xg, yg, 8, ORANGE, INK, 2)
 
@@ -831,17 +836,17 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
             rect(im, (x, 325, x + 26, 345), col, r=4)
             txt(im, name, x + 38, 319, 23, INK, 650)
 
-    base_y, left, right = (615 if diff_only else 650), 842, 1796
+    base_y, left, right = (615 if diff_only else 650), 864, 1796
     if diff_only:
         for value in [0, 1500, 3000]:
             yy = base_y - 235 * value / 3500
             line(im, [(left - 16, yy), (right + 12, yy)], GOLD_LINE if value == 0 else APRICOT, 2 if value == 0 else 1)
-            txt(im, f'+€{value / 1000:.1f}k' if value == 1500 else (f'+€{value // 1000}k' if value else '€0'), 818, yy, 17, MUTED_INK, mono=True, anchor='rm')
+            txt(im, f'+€{value / 1000:.1f}k' if value == 1500 else (f'+€{value // 1000}k' if value else '€0'), 840, yy, 17, MUTED_INK, mono=True, anchor='rm')
     else:
         for value in [0, 5000, 10000, 15000]:
             yy = base_y - 268 * value / 18000
             line(im, [(left - 16, yy), (right + 12, yy)], APRICOT, 1)
-            txt(im, f'€{value // 1000}k', 818, yy, 17, MUTED_INK, mono=True, anchor='rm')
+            txt(im, f'€{value // 1000}k', 840, yy, 17, MUTED_INK, mono=True, anchor='rm')
 
     n = len(rows)
     step = (right - left) / n
@@ -873,9 +878,9 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
     txt(im, candidate, 1658, 695, 21, ORANGE, 700)
 
     gate_y = 882 - 130 / 11
-    line(im, [(826, gate_y), (1808, gate_y)], DANGER, 2)
-    txt(im, '90%', 818, gate_y, 18, DANGER, mono=True, anchor='rm')
-    txt(im, '100%', 818, 752, 17, MUTED_INK, mono=True, anchor='rm')
+    line(im, [(848, gate_y), (1808, gate_y)], DANGER, 2)
+    txt(im, '90%', 840, gate_y, 18, DANGER, mono=True, anchor='rm')
+    txt(im, '100%', 840, 752, 17, MUTED_INK, mono=True, anchor='rm')
     line(im, ot_b, MUTED_INK, 3)
     line(im, ot_c, ORANGE, 4)
     for pb, pc in zip(ot_b, ot_c):
@@ -884,20 +889,20 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
 
 
 # ---------------------------------------------------------------------------
-# Slide 7 (41–48s): Sol's Gamma slide with normal sentences (no dotted fragments)
+# Slide 6 (33–40s): Sol's Gamma slide with normal sentences (no dotted fragments)
 # ---------------------------------------------------------------------------
 def gain(t):
     im = base_canvas('citrus').copy()
     enter_model_hdr(im, 'Gamma:', ' read dealer notes and combine cars in one gig', 80, 88, 62, t, .05, model_color='#FF5500', rest_color=INK, weight=700)
-    txt(im, f'+€{2030.845 * ease((t - .2) / 1):,.0f}', 76, 278, 132, ORANGE, 700)
-    txt(im, 'gross margin/week vs Beta', 84, 448, 32, INK, 650)
-    badge(im, '8/8 weeks qualified', 84, 540, color=INK, bg=MARIGOLD, border=ORANGE, size=29)
-    badge(im, '96.95% worst on time', 84, 622, color=INK, bg=ORANGE, size=29)
+    txt(im, f'+€{2030.845 * ease((t - .2) / 1):,.0f}', 80, 278, 132, ORANGE, 700)
+    txt(im, 'gross margin/week vs Beta', 80, 448, 32, INK, 650)
+    badge(im, '8/8 weeks ranked', 80, 540, color=INK, bg=MARIGOLD, border=ORANGE, size=29)
+    badge(im, '96.95% worst on time', 80, 622, color=INK, bg=ORANGE, size=29)
 
-    rect(im, (84, 738, 690, 948), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, 'One driver gig carries two sequential cars', 114, 762, 23, INK, 700)
+    rect(im, (80, 738, 690, 966), CARD, GOLD_LINE, r=18, width=2)
+    txt(im, 'One driver gig carries two sequential cars', 114, 766, 23, INK, 700)
 
-    gig_route = [(150, 868), (385, 868), (620, 868)]
+    gig_route = [(150, 876), (385, 876), (620, 876)]
     cycle = ((t + 2.45) / 3.5) % 1.0
     if cycle < 0.5:
         leg1_p = smooth(cycle / 0.5)
@@ -917,19 +922,19 @@ def gain(t):
     path_segment(im, gig_route, max(trail_p0, route_p - 0.26), route_p, color='#FF5500', width=7, glow=SUNBURST)
 
     # Sequential leg labels above each segment
-    txt(im, 'Car 1', 268, 818, 21, ORANGE if active_leg == 1 else INK, 700, anchor='mm')
-    txt(im, 'Car 2', 502, 818, 21, ORANGE if active_leg == 2 else MUTED_INK, 700, anchor='mm')
+    txt(im, 'Car 1', 268, 826, 21, ORANGE if active_leg == 1 else INK, 700, anchor='mm')
+    txt(im, 'Car 2', 502, 826, 21, ORANGE if active_leg == 2 else MUTED_INK, 700, anchor='mm')
 
     # Route nodes (start, handoff, finish)
     for idx_p, cx_p in enumerate([150, 385, 620]):
         reached = route_p >= (idx_p * 0.5 - 0.02)
-        circle(im, cx_p, 868, 10, ORANGE if reached else CARD, INK if reached else ORANGE, 3)
+        circle(im, cx_p, 876, 10, ORANGE if reached else CARD, INK if reached else ORANGE, 3)
 
     # Smooth sequential car positions along Leg 1 (150 -> 385) and Leg 2 (385 -> 620)
     car1_x = mix(188, 336, leg1_p)
     car2_x = mix(434, 582, leg2_p)
-    car(im, car1_x, 868, color=INK, scale=1.15, angle=0)
-    car(im, car2_x, 868, color=ORANGE, scale=1.15, angle=0)
+    car(im, car1_x, 876, color=INK, scale=1.15, angle=0)
+    car(im, car2_x, 876, color=ORANGE, scale=1.15, angle=0)
 
     rows = [(float(r['baseline_margin_eur']), float(r['candidate_margin_eur']),
              100 * float(r['baseline_on_time']), 100 * float(r['candidate_on_time'])) for r in CONFIRM_WEEKS]
@@ -938,25 +943,25 @@ def gain(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 7 (40–46s): Delta in production (matching presentation Slide 8)
+# Slide 7 (40–47s): Delta in production
 # ---------------------------------------------------------------------------
 def delta_production(t):
     im = base_canvas('sunburst').copy()
     enter_model_hdr(im, 'Delta', ' in production', 80, 88, 78, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
-    txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 240, 134, ORANGE, 700)
-    txt(im, 'gross margin/week vs Early Delta', 84, 404, 30, INK, 650)
+    txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 80, 240, 134, ORANGE, 700)
+    txt(im, 'gross margin/week vs Early Delta', 80, 404, 30, INK, 650)
 
     # Card 1: 19/19 practice weeks ranked
-    rect(im, (84, 486, 690, 694), CARD, GOLD_LINE, r=18, width=2)
+    rect(im, (80, 486, 690, 694), CARD, GOLD_LINE, r=18, width=2)
     txt(im, '19/19', 112, 502, 74, ORANGE, 700)
-    txt(im, 'practice weeks ranked', 318, 550, 26, INK, 700)
+    txt(im, 'practice weeks ranked', 318, 559, 26, INK, 700)
     badge(im, '17/19 weeks ahead · 91.1% worst on time', 112, 616, color=INK, bg=MARIGOLD, border=ORANGE, size=22)
 
     # Card 2: €75,764 round 9 total: 5/5 weeks ranked
-    rect(im, (84, 718, 690, 948), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, '€75,764', 112, 728, 70, '#E62E00', 700)
-    txt(im, 'round 9 total: 5/5 weeks ranked', 112, 820, 25, INK, 700)
-    badge(im, '1,798 orders won · 96.7% on time', 112, 874, color=INK, bg=APRICOT, border=GOLD_LINE, size=22)
+    rect(im, (80, 718, 690, 966), CARD, GOLD_LINE, r=18, width=2)
+    txt(im, '€75,764', 112, 734, 70, '#E62E00', 700)
+    txt(im, 'round 9 total: 5/5 weeks ranked', 112, 826, 25, INK, 700)
+    badge(im, '1,798 orders won · 96.7% on time', 112, 884, color=INK, bg=APRICOT, border=GOLD_LINE, size=22)
 
     rows = [(r[1], r[2], r[4], r[5]) for r in DELTA_CONFIRM]
     paired_chart(im, t, rows, 'Early Delta', 'Delta', '19 paired practice weeks', diff_only=True)
@@ -972,7 +977,7 @@ def delta_iteration(t):
 
     rect(im, (460, 236, 1460, 966), CARD, GOLD_LINE, r=20, width=2)
     txt(im, 'Orders won / week', 512, 268, 38, INK, 700)
-    badge(im, '+33% more orders', 1106, 264, color=CARD, bg='#E62E00', size=25, weight=700)
+    badge(im, '+33% more orders', 1132, 264, color=CARD, bg='#E62E00', size=25, weight=700)
 
     base_y = 824
     max_h = 420
@@ -1012,41 +1017,40 @@ def epsilon_slide(t):
     eps_col = '#C9184A'
     enter_model_hdr(im, 'Epsilon:', ' keep experimenting', 80, 88, 78, t, .05, model_color=eps_col, rest_color=INK, weight=700)
 
-    # Left column: The two presentation pillars ("Test the brakes", "Push the volume") + "Keep what survives new weeks"
-    rect(im, (80, 236, 760, 540), CARD, eps_col, r=18, width=3)
-    rect(im, (82, 238, 758, 304), eps_col, r=16)
-    txt(im, '1. Test the brakes', 108, 254, 28, CARD, 700)
-    txt(im, 'Brake intake when', 112, 340, 42, INK, 700)
-    txt(im, '24h on-time < 95%', 112, 400, 42, eps_col, 700)
-    badge(im, 'Protects the 90% delivery minimum', 112, 466, color=INK, bg=APRICOT, border=GOLD_LINE, size=21, weight=700)
+    # Left column: Two clean top-accented cards ("Test the brakes", "Push the volume") aligned to y = 966
+    rect(im, (80, 236, 760, 584), CARD, None, r=18)
+    rect(im, (80, 236, 760, 250), eps_col, None, r=18)
+    rect(im, (80, 244, 760, 250), eps_col, None, r=0)
+    rect(im, (80, 236, 760, 584), None, eps_col, r=18, width=3)
+    txt(im, 'Test the brakes', 116, 276, 36, INK, 700)
+    txt(im, '24h on-time < 95%', 116, 356, 56, eps_col, 700)
+    txt(im, 'Throttle intake to protect ≥90% on time', 116, 452, 26, MUTED_INK, 650)
 
-    rect(im, (80, 568, 760, 872), CARD, GOLD_LINE, r=18, width=2)
-    rect(im, (82, 570, 758, 636), APRICOT, r=16)
-    txt(im, '2. Push the volume', 108, 586, 28, INK, 700)
-    txt(im, '343 → 370', 112, 660, 72, eps_col, 700)
-    txt(im, 'orders won / week (+27/wk)', 112, 754, 30, INK, 700)
-    badge(im, 'Keep what survives new weeks', 112, 808, color=CARD, bg=eps_col, size=21, weight=700)
+    rect(im, (80, 618, 760, 966), CARD, None, r=18)
+    rect(im, (80, 618, 760, 632), eps_col, None, r=18)
+    rect(im, (80, 626, 760, 632), eps_col, None, r=0)
+    rect(im, (80, 618, 760, 966), None, GOLD_LINE, r=18, width=2)
+    txt(im, 'Push the volume', 116, 658, 36, INK, 700)
+    txt(im, '343 → 370', 116, 734, 76, eps_col, 700)
+    txt(im, 'orders won / week (+27/wk)', 116, 846, 28, MUTED_INK, 650)
 
-    # Right column: Epsilon Prime across 38 paired practice weeks + 910 practice runs
+    # Right column: Epsilon Prime across 38 paired practice weeks + Keep what survives new weeks
     rect(im, (800, 236, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
     txt(im, 'Epsilon Prime · 38 paired practice weeks', 844, 268, 32, INK, 700)
-    badge(im, '910 Epsilon runs', 1524, 262, color=CARD, bg=eps_col, size=24, weight=700)
+    badge(im, '910 Epsilon runs', 1528, 262, color=CARD, bg=eps_col, size=24, weight=700)
 
     p_cnt = ease((t - 0.2) / 0.9)
-    txt(im, f'+€{456.04 * p_cnt:,.0f}', 844, 344, 128, eps_col, 700)
-    txt(im, 'gross margin / week vs Early Epsilon (28/38 ahead)', 848, 498, 28, INK, 650)
+    txt(im, f'+€{456.04 * p_cnt:,.0f}', 844, 356, 142, eps_col, 700)
+    txt(im, 'gross margin / week vs Early Epsilon', 848, 524, 30, INK, 650)
 
-    # Three clean metric cards at bottom of right panel
-    stat_cards = [
-        (844, '38/38', 'weeks ≥ 90% on time', '90.09% worst week'),
-        (1168, '370', 'orders won / week', 'up from 343 / wk'),
-        (1492, '€69,301', 'Round 11 total', '5/5 weeks ranked'),
-    ]
-    for sx, big_v, line1, line2 in stat_cards:
-        rect(im, (sx, 586, sx + 300, 916), CREAM, outline=GOLD_LINE, r=16, width=2)
-        txt(im, big_v, sx + 26, 616, 54, eps_col, 700)
-        txt(im, line1, sx + 26, 716, 25, INK, 700)
-        badge(im, line2, sx + 26, 822, color=INK, bg=APRICOT, border=GOLD_LINE, size=20, weight=700)
+    line(im, [(844, 616), (1796, 616)], GOLD_LINE, 2)
+    txt(im, '38/38', 844, 648, 72, eps_col, 700)
+    txt(im, 'weeks ≥ 90% on time (90.09% worst)', 844, 744, 26, INK, 650)
+
+    txt(im, '28/38', 1340, 648, 72, eps_col, 700)
+    txt(im, 'weeks ahead in gross margin', 1340, 744, 26, INK, 650)
+
+    txt(im, 'Keep what survives new weeks', 844, 864, 34, eps_col, 700)
 
     return im
 
@@ -1063,12 +1067,12 @@ def ending(t):
     im.paste(road_layer, (0, 0))
 
     im.paste(LOGO_BADGE_SM, (80, 96), LOGO_BADGE_SM)
-    enter(im, 'Cheap-Drive', 176, 106, 52, t, .02, color='#231A14', weight=700)
+    enter(im, 'Cheap-Drive', 176, 96, 52, t, .02, color='#231A14', weight=700)
     enter(im, 'Win the right work.', 80, 236, 102, t, .08, color=INK, weight=700)
     enter(im, 'Deliver it.', 80, 370, 128, t, .18, color=CARD, weight=700)
 
     # QR code + "Try it yourself" lockup
-    qr_x, qr_y = 80, 628
+    qr_x, qr_y = 80, 668
     qr_mask = Image.new('L', (268, 268), 0)
     ImageDraw.Draw(qr_mask).rounded_rectangle((0, 0, 267, 267), radius=24, fill=255)
     im.paste(QR_CODE, (qr_x, qr_y), qr_mask)

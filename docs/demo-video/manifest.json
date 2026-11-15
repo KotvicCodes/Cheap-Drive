@@ -8,16 +8,16 @@
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 64439,
-    "sha256": "29a65f0865948685c314760b3f9b0e43d5c77c474692dabac4e3376bd88ef68e"
+    "bytes": 64423,
+    "sha256": "774c1e0c04e29ed421d2d5e0e93ce49288b1fd631b1b552d38dc1fd9cf7dfabd"
   },
   "captions.vtt": {
-    "bytes": 1578,
-    "sha256": "5ee86416fd033742b7ac23cbafb0bdab70d62e2057c2275d2718517c134f2d7c"
+    "bytes": 1581,
+    "sha256": "efac248e577c79f927690465fd377910112852ef150c4a477910a58588c0de50"
   },
   "captions.srt": {
-    "bytes": 1594,
-    "sha256": "814eab6d197c78a0a6d0fc7ff7b8d7756d8fd955361b21b88b339a069bb8f5b9"
+    "bytes": 1597,
+    "sha256": "de973dfed891aaa6f257dba5d2f4c4c0a994a46e16f74506cecfddc5fd48c3ed"
   },
   "data/graph-data.json": {
     "bytes": 526287,
@@ -80,12 +80,12 @@
     "sha256": "7c004ffecce341d28c72a51ab9b6b20c5543a5bfdd938739598c6d049acc91fa"
   },
   "assets/poster.png": {
-    "bytes": 149005,
-    "sha256": "633775a6992b4b429285e2e414fdb1e7c6234de42a87b328a1e36ff5a35e00e2"
+    "bytes": 149010,
+    "sha256": "717363041794e8d90490c1763c267ce71491e104d49b8ca8e4aab372f872e921"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 587871,
-    "sha256": "7d9dacc1961b783d8ead81742c96a60546d29534504cd4502b844f64a4b5191c"
+    "bytes": 584031,
+    "sha256": "6e22f637e23eb094bd93e847615c95b548d7beec50513358877c7a90bb1b6cad"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
@@ -93,7 +93,7 @@
   },
   "index.html": {
     "bytes": 1238,
-    "sha256": "47839a73be671fb4b44a6850b56ba55d11f25663a45c9b62b503e48820c2888d"
+    "sha256": "19bfd1b476e7689ad699b6699a40ed090f1e92ae378250bba2dbfe59ac8f5127"
   },
   "assets/cheap-drive-badge.png": {
     "bytes": 13475,
