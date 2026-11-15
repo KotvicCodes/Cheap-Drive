@@ -71,10 +71,27 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
             name = tag if attempt == 0 else f"{tag}-attempt{attempt + 1}"
             with gzip.open(out / "traces" / f"{name}.jsonl.gz", "wt", encoding="utf-8") as stream:
                 journal = MetricsJournal(stream)
+                if os.environ.get('SWEEP_FEE_DIAGNOSTICS') == '1':
+                    from scripts.sweep_fees import FeeMetricsJournal
+
+                    def nominal_opening(action):
+                        stop = action['stops'][0]
+                        order = desk.orders[stop['orderId']]
+                        typical = desk.requests[order['id']]['referenceFeeCents'] / len(order['legs'])
+                        return max(1, int(typical * desk._opening_bps(order) / 10000 + 0.5))
+
+                    journal = FeeMetricsJournal(stream, nominal_opening)
+
+                def make_desk(w, l, n, j):
+                    nonlocal desk
+                    desk = factory(w, l, n, j, **settings)
+                    return desk
+
+                desk = None
                 journal.record("run", worldId=world.id, level=level, seed=seed, factory=factory_name,
                                settings=settings, tag=tag, attempt=attempt + 1, fast=fast)
                 with redirect_stdout(io.StringIO()):
-                    score = play_model(world, level, journal, lambda w, l, n, j: factory(w, l, n, j, **settings), fast=fast)
+                    score = play_model(world, level, journal, make_desk, fast=fast)
                 diag = journal.metrics()
             reveal_file = None
             for wait in (0, 5, 20):
@@ -89,6 +106,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                     pass
             (out / "worlds" / world.id).unlink(missing_ok=True)
             return {"score": score, "ledger": diag["ledger"], "events": diag["events"],
+                    **({'fee_escalation': diag['fee_escalation']} if 'fee_escalation' in diag else {}),
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
                     "seconds": round(time.time() - started), "attempts": attempt + 1}
