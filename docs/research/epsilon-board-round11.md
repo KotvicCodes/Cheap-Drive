@@ -1,5 +1,26 @@
 # Early Epsilon: round 11 leaderboard runs
 
+## Closed-round update
+
+Retrieved **2026-11-15 07:55:28.783 UTC** from the public
+[`/v1/leaderboards/practice?level=8`](https://spread.bahnexpress.com/v1/leaderboards/practice?level=8)
+feed's `previous` object, now season 11. The
+[complete frozen response](round12-board-public.json) confirms the closed
+result: **32 of 48 ranked teams**, **€69,301.34**, **95.85% on time**,
+**1,664 orders won**, all five runs ranked. Our score and per-run results
+are unchanged; the earlier open snapshot was **28 of 44**.
+
+The closed-round leader is **Progresful, €88,416.32**; tenth place is
+**Granmamas Belotas, €77,119.38**, **€7,818.04 ahead of us**.
+House best remains **€56,128.21**, without a public rank.
+Only non-null public ranks count toward 48.
+The historical charts and screenshots below preserve the original open-round
+capture; their ranks, leader and denominator are not the closed standings.
+See [round 12](epsilon-prime-board-round12.md) and [the real final](final-board.md)
+for the newer results.
+
+## Original open-round evidence
+
 All five official level-8 ranking runs completed in round **11, "Sunday 03:00"
 (Helsinki, 15 November 2026)**. Team: **Guardians of the Moonlight**
 (`guardians-of-the-moonlight`). The public feed says the round opened at

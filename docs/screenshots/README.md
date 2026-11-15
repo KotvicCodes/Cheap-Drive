@@ -11,7 +11,32 @@ They were captured from a compact renderer copy that omits the redundant embedde
 
 ## Leaderboard visuals
 
-Current round 11 (Early Epsilon), level 8, "Sunday 03:00" Helsinki,
+Real final (Epsilon Prime, 43% win target), Sunday **09:00 Helsinki**,
+15 November 2026; moved from 08:00, ended at 09:34:18 Helsinki:
+
+- [final-totals.svg](final-totals.svg): top ten and our neighbours; our team highlighted, exact cents, zero-based bars. Feed retrieved 2026-11-15 07:55:28.929 UTC: **29 of 58**, **€16,760.47**, **97.61% on time**, **376 orders**. No House best entry is published for the final.
+- [final-leaders.png](final-leaders.png): unaltered real public-page “The final”, ended status and leaders; captured **2026-11-15 07:58:29 UTC**.
+- [final-team.png](final-team.png): unaltered real public-page rank 29 and neighbours; captured **2026-11-15 07:56:53 UTC**.
+
+[Exact final figures, public JSON, model provenance and chart reproduction](../research/final-board.md).
+
+Latest ranking round 12 (Epsilon Prime, 43% win target), level 8,
+"Sunday 06:00" Helsinki, 15 November 2026:
+
+- [round12-totals.svg](round12-totals.svg): top ten, our neighbours and House best; our team highlighted. Feed retrieved **2026-11-15 07:55:28.783 UTC**: **34 of 51**, **€69,640.20**, **97.25% on time**, **1779 orders**.
+- [round12-runs.svg](round12-runs.svg): all five qualified Epsilon Prime runs versus leader Juhus on the same numbered weeks; exact cents and zero-based bars.
+- [leaderboard-round12.png](leaderboard-round12.png): unaltered public-page round label, selected level 8 and leaders; captured **2026-11-15 07:58:45 UTC**.
+- [leaderboard-round12-team.png](leaderboard-round12-team.png): unaltered public-page rank 34 and neighbours; captured **2026-11-15 07:57:18 UTC**.
+
+All four new PNGs use a **1280 × 1000 CSS-pixel viewport**
+(**2560 × 2000 image pixels**), scrolling only, with no data changed, rows
+hidden, cropping or annotation. The page rounds euros and on-time shares.
+Round 12 is still `current` in the feed, which provides no explicit closed
+flag; these are its latest public standings at retrieval. Its separate page
+counter, 65 of 67 teams complete, is not the ranked denominator.
+[Exact round-12 results, public JSON and provenance](../research/epsilon-prime-board-round12.md).
+
+Historical round 11 (Early Epsilon), level 8, "Sunday 03:00" Helsinki,
 15 November 2026; our runs launched at 05:00 Helsinki:
 
 - [round11-totals.svg](round11-totals.svg): top ten, our neighbours and House best, with our team highlighted; 2026-11-15 03:16:23.416 UTC, rank 28 of 44, €69,301.34, 95.85% on time.
@@ -22,7 +47,9 @@ Current round 11 (Early Epsilon), level 8, "Sunday 03:00" Helsinki,
 PNG viewport: 1280 × 1000 CSS pixels. Scrolling only; no changed data,
 hidden rows, cropping or annotation. All five runs are present and ranked.
 **The round was open until 06:00 Helsinki (04:00 UTC)** at retrieval and both
-captures; positions can change. The page rounds euros and percentages.
+captures. The later closed result was **32 of 48**, retrieved
+**2026-11-15 07:55:28.783 UTC**, with the same score; the preserved images below
+show the original open-round position. The page rounds euros and percentages.
 [Exact results, provenance and offline chart reproduction](../research/epsilon-board-round11.md).
 
 Historical round 9 (Delta), level 8, Saturday 21:00 Helsinki,

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="364" viewBox="0 0 880 364" role="img" aria-labelledby="t d">
+  <title id="t">Average practice gross margin per week, Alpha to Epsilon</title>
+  <desc id="d">Mean gross margin per completed practice week: Alpha €4.5k over 677 runs, 85% ranked; Beta €10.6k over 268 runs, 88% ranked; Gamma €11.2k over 242 runs, 98% ranked; Delta €13.0k over 528 runs, 99% ranked; Epsilon €12.7k over 910 runs, 90% ranked. Snapshot 15 Nov 2026 08:07 Helsinki.</desc>
+  <style>
+    text { font-family: "Space Grotesk", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #2a1a0a; }
+    .h { font-size: 22px; font-weight: 700; }
+    .s { font-size: 13px; fill: #7a5a35; }
+    .m { font-size: 17px; font-weight: 700; }
+    .v { font-size: 20px; font-weight: 700; }
+    .r { font-size: 12.5px; font-weight: 400; fill: #7a5a35; }
+    .g { font-size: 20px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+  </style>
+  <rect width="880" height="364" rx="18" fill="#FFF4DD"/>
+  <text x="32" y="46" class="h">Average practice margin per week, by model</text>
+  <text x="32" y="70" class="s">Mean gross margin of every completed practice week, including exploratory variants. A week ranks at 90% on time or better.</text>
+  <g transform="translate(0,104)">
+    <circle cx="48" cy="20" r="17" fill="#F2A31B"/><text x="48" y="21" class="g">α</text>
+    <text x="78" y="17" class="m">Alpha</text><text x="78" y="35" class="r">Formula quotes</text>
+    <rect x="300" y="6" width="119" height="28" rx="6" fill="#F2A31B"/>
+    <text x="429" y="28" class="v">€4.5k<tspan class="r" dx="8">677 runs, 85% ranked</tspan></text>
+  </g>
+  <g transform="translate(0,154)">
+    <circle cx="48" cy="20" r="17" fill="#EE8213"/><text x="48" y="21" class="g">β</text>
+    <text x="78" y="17" class="m">Beta</text><text x="78" y="35" class="r">Dealer trust and fee timing</text>
+    <rect x="300" y="6" width="283" height="28" rx="6" fill="#EE8213"/>
+    <text x="593" y="28" class="v">€10.6k<tspan class="r" dx="8">268 runs, 88% ranked</tspan></text>
+  </g>
+  <g transform="translate(0,204)">
+    <circle cx="48" cy="20" r="17" fill="#E8590C"/><text x="48" y="21" class="g">γ</text>
+    <text x="78" y="17" class="m">Gamma</text><text x="78" y="35" class="r">Dealer notes and two-car gigs</text>
+    <rect x="300" y="6" width="298" height="28" rx="6" fill="#E8590C"/>
+    <text x="608" y="28" class="v">€11.2k<tspan class="r" dx="8">242 runs, 98% ranked</tspan></text>
+  </g>
+  <g transform="translate(0,254)">
+    <circle cx="48" cy="20" r="17" fill="#D9300F"/><text x="48" y="21" class="g">δ</text>
+    <text x="78" y="17" class="m">Delta</text><text x="78" y="35" class="r">Capacity and a 42% win target</text>
+    <rect x="300" y="6" width="347" height="28" rx="6" fill="#D9300F"/>
+    <text x="657" y="28" class="v">€13.0k<tspan class="r" dx="8">528 runs, 99% ranked</tspan></text>
+  </g>
+  <g transform="translate(0,304)">
+    <circle cx="48" cy="20" r="17" fill="#7B4DF2"/><text x="48" y="21" class="g">ε</text>
+    <text x="78" y="17" class="m">Epsilon</text><text x="78" y="35" class="r">On-time brakes and more volume</text>
+    <rect x="300" y="6" width="339" height="28" rx="6" fill="#7B4DF2"/>
+    <text x="649" y="28" class="v">€12.7k<tspan class="r" dx="8">910 runs, 90% ranked</tspan></text>
+  </g>
+</svg>

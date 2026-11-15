@@ -1,18 +1,171 @@
 <p align="center">
-  <img src="assets/cheap-drive.svg" width="240" height="240" alt="Cheap-Drive: a red car with flames behind it">
+  <a href="https://kotviccodes.github.io/Cheap-Drive/video/">
+    <img src="docs/readme/film-preview.gif" width="800" alt="Cheap-Drive film, sped up: Finland route map, the Alpha to Epsilon pipeline, Beta's dispatch rules, Gamma's failed and fixed weeks, Delta's volume, Epsilon's brakes and the 2,627-run chart">
+  </a>
 </p>
 
-# Cheap-Drive
+<h1 align="center">
+  <img src="assets/cheap-drive.svg" width="44" height="44" alt=""> Cheap-Drive
+</h1>
 
-A Python dispatcher for the Spread challenge, using the official client.
-[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
+<p align="center">
+  <b>Win the right work. Deliver it.</b><br>
+  A Python dispatcher for the Spread challenge at Junction 2026, using the official client.<br>
+  Team <b>Guardians of the Moonlight</b>.
+</p>
 
-[Presentation: from Alpha to Epsilon](presentations/cheap-drive-alpha-to-gamma.html) · [PDF](presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf)
+<p align="center">
+  <a href="https://kotviccodes.github.io/Cheap-Drive/video/"><b>Watch the film</b></a> (72 s) &nbsp;|&nbsp;
+  <a href="presentations/cheap-drive-alpha-to-gamma.html"><b>Slides</b></a> (<a href="presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf">PDF</a>) &nbsp;|&nbsp;
+  <a href="https://kotviccodes.github.io/Cheap-Drive/"><b>Try the live report</b></a> &nbsp;|&nbsp;
+  <a href="https://spread.bahnexpress.com/leaderboard">Leaderboard</a>
+</p>
 
-Model code lives in the [models package](models/), alongside its JSON configs
-(for example [models/delta.py](models/delta.py)). Runners and tools stay at the
-root and in `scripts/`. Old imports and saved factory names still work through
-one-line module aliases; see [model compatibility](docs/reference.md#model-package-compatibility).
+<p align="center">
+  <a href="https://github.com/KotvicCodes/Cheap-Drive/actions/workflows/checks.yml"><img src="https://github.com/KotvicCodes/Cheap-Drive/actions/workflows/checks.yml/badge.svg" alt="Checks"></a>
+  <img src="https://img.shields.io/badge/python-3.9%E2%80%933.14-3776AB" alt="Python 3.9 to 3.14">
+  <img src="https://img.shields.io/badge/practice%20weeks-2%2C627-E8590C" alt="2,627 practice weeks">
+  <img src="https://img.shields.io/badge/models-%CE%B1%20%CE%B2%20%CE%B3%20%CE%B4%20%CE%B5-7B4DF2" alt="Models alpha to epsilon">
+</p>
+
+## Standings
+
+**We finished the real final 29th of 58 ranked teams: €16,760.47 gross margin,
+97.61% on time, 376 orders won.** Epsilon Prime played it live on Sunday
+15 November 2026, 09:00–09:34 Helsinki (the final moved from 08:00). Leader
+**Juhus** made €22,930.87; tenth-place **Evil Club** €19,083.95.
+
+| Event (Helsinki) | Model | Rank | Gross margin | On time | Orders won |
+| --- | --- | ---: | ---: | ---: | ---: |
+| [Real final, Sun 09:00](docs/research/final-board.md) | Epsilon Prime | **29 / 58** | **€16,760.47** | **97.61%** | **376** |
+| [Round 12, Sun 06:00](docs/research/epsilon-prime-board-round12.md) | Epsilon Prime | 34 / 51 | €69,640.20 | 97.25% | 1,779 |
+| [Round 11, Sun 03:00](docs/research/epsilon-board-round11.md#closed-round-update) | Early Epsilon | 32 / 48 | €69,301.34 | 95.85% | 1,664 |
+| [Round 10, Sun 00:00](docs/research/delta-board-round10.md) | Delta | 38 / 58 | €72,322.03 | 96.27% | 1,742 |
+| [Round 9, Sat 21:00](docs/research/delta-board-round9.md) | Delta | 31 / 52 | €75,763.55 | 96.72% | 1,798 |
+| [Round 8, Sat 18:00](docs/research/delta-board-round8.md) | Early Delta | 37 / 58 | €55,639.62 | 96.96% | 1,248 |
+| [Round 7, Sat 15:00](docs/research/gamma-board-round7.md) | Gamma | 41 / 62 | €66,880.48 | 96.75% | 1,383 |
+
+Rounds are five secret weeks each and the final is one; different events use
+different weeks, so totals are not a paired model comparison. Every ranking
+round we entered qualified on all five weeks. Rounds 8, 9 and 12 are open-round
+or latest-at-retrieval snapshots; see each evidence page.
+
+<p align="center">
+  <img src="docs/screenshots/final-totals.svg" width="820" alt="Real final totals: top ten and our neighbours, Guardians of the Moonlight highlighted at rank 29">
+</p>
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/final-leaders.png" alt="Public leaderboard for the real final: ended status and the leading teams"></td>
+    <td width="50%"><img src="docs/screenshots/final-team.png" alt="Public leaderboard for the real final: Guardians of the Moonlight at rank 29 with 376 orders, €16,760 and 97.6% on time"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><sub>Real public-page screenshots and exact-cent feed figures, retrieved 15 November 2026 at 09:55 Helsinki.
+    Model settings and scores match local traces; the runtime source commit is unverified.
+    <a href="docs/research/final-board.md">Final evidence</a>.</sub></td>
+  </tr>
+</table>
+
+<details>
+<summary><b>Round 12, round 11 and the test finals</b>: charts and screenshots</summary>
+
+**Round 12** ("Sunday 06:00"): all five Epsilon Prime weeks qualified, worst
+94.00% on time. The feed gives no closed flag, so 34 of 51 is the latest
+standing at retrieval. [Round-12 evidence](docs/research/epsilon-prime-board-round12.md).
+
+![Round 12 totals: top ten, our neighbours and House best](docs/screenshots/round12-totals.svg)
+![Epsilon Prime's five round-12 runs versus the round leader](docs/screenshots/round12-runs.svg)
+![Public leaderboard: round 12, Sunday 06:00, level 8, leaders](docs/screenshots/leaderboard-round12.png)
+![Public leaderboard: Guardians of the Moonlight at rank 34 in round 12](docs/screenshots/leaderboard-round12-team.png)
+
+**Round 11** ("Sunday 03:00") closed at **32nd of 48** with Early Epsilon
+([models/epsilon-early.json](models/epsilon-early.json): Delta plus
+`premium_min_slack_minutes: 1440`). The charts below are the open-round capture
+from 05:16 Helsinki, when we stood 28th of 44.
+
+| Early Epsilon run | Gross margin | On time | Orders won | Ranked |
+| --- | ---: | ---: | ---: | :---: |
+| 1 | €13,985.11 | 96.45% | 310 | Yes |
+| 2 | €12,122.31 | 97.12% | 313 | Yes |
+| 3 | €9,229.95 | 93.63% | 314 | Yes |
+| 4 | €19,254.35 | 95.77% | 378 | Yes |
+| 5 | €14,709.62 | 96.28% | 349 | Yes |
+| **Total** | **€69,301.34** | **95.85%** | **1,664** | **5 / 5** |
+
+![Round 11 totals at the open-round snapshot: top ten, our neighbours and House best](docs/screenshots/round11-totals.svg)
+![Early Epsilon's five round-11 margins versus the round leader](docs/screenshots/round11-runs.svg)
+
+**Round 10** used `models/delta.json` (`premium_min_slack_minutes: 600`) at
+[`cae1e58`](https://github.com/KotvicCodes/Cheap-Drive/commit/cae1e58b8ce3234260328f78dcf2283cd2ebced7),
+confirmed by saved provenance and all five trace headers.
+
+**Test final**, 14 November 2026, 20:00 Helsinki: Delta via `final.py` finished
+**42nd of 75**, €12,816.67, 99.61% on time, 256 orders. A server restart dropped
+the connection twice around simulated Friday and the runner rebuilt its desk on
+Saturday; requests in that gap went unanswered.
+[Test-final evidence](docs/research/delta-test-final-2.md).
+
+![Public test final: Guardians of the Moonlight at rank 42 and neighbouring teams](docs/screenshots/test-final-2-team.png)
+
+**Unannounced live event**, night of 14–15 November: no dispatcher was waiting
+when a scored final-mode world started seven hours early; Delta joined late and
+finished 38th of 41 with €2,374.14.
+[Post-mortem](docs/research/surprise-final-postmortem.md).
+
+Older rounds and charts: [screenshots index](docs/screenshots/README.md).
+
+</details>
+
+## Five models, one loop
+
+Every model was a hypothesis about a car-delivery market: quote a price for each
+request, win the order, then hire drivers who deliver it on time. Each one was
+tested on hundreds of simulated practice weeks before it touched a ranking round.
+
+<p align="center">
+  <img src="docs/readme/model-ladder.svg" width="820" alt="Average practice margin per week by model: Alpha €4.5k over 677 runs, Beta €10.6k over 268, Gamma €11.2k over 242, Delta €13.0k over 528, Epsilon €12.7k over 910">
+</p>
+
+Epsilon's average sits just under Delta's because its 910 weeks include every
+exploratory variant. The selected Epsilon Prime added €456/week over Early Epsilon
+on 38 paired weeks, all ranked ([presentation notes](presentations/README.md)).
+Chart source: [run data](presentations/run-data.json), rebuilt by
+[make_model_ladder.py](docs/readme/make_model_ladder.py).
+
+<p align="center">
+  <a href="presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf">
+    <img src="docs/readme/slide-cover.jpg" width="560" alt="Title slide: Cheap-Drive, Tale of Loops and Repetition, with Greek-letter model badges">
+  </a><br>
+  <sub>Ten slides from Alpha to Epsilon: <a href="presentations/cheap-drive-alpha-to-gamma.html">HTML</a> or <a href="presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf">PDF</a>. The film's sources and timeline are in <a href="docs/demo-video/README.md">docs/demo-video</a>.</sub>
+</p>
+
+### What drove the changes
+
+- List price ≈ driver cost away from the shortest routes; price each option from its own list.
+- The markup must find each week's market; a fixed markup won very different volumes across weeks.
+- Drivers learned to wait for fee raises. Open lower and spread the rise over the order's own time.
+- Long routes caused half the late orders; the 500 km limit made all eight weeks rank.
+
+## See a week
+
+`week_report.py` turns one saved trace into an offline HTML report: margin over
+time, every order with its note, pickup window and outcome. The
+[live report](https://kotviccodes.github.io/Cheap-Drive/) puts real practice weeks
+from each model side by side.
+
+<p align="center">
+  <a href="https://kotviccodes.github.io/Cheap-Drive/"><img src="docs/demo-video/assets/live-demo-overview.png" width="800" alt="Live report overview for a Delta week: €18,058 margin, €42,514 revenue, 98.4% on time, 374 orders won, with cumulative ledger and daily flow charts"></a><br>
+  <sub>More views: <a href="docs/screenshots/README.md">orders, history and mobile screenshots</a>.</sub>
+</p>
+
+## The models
+
+<details>
+<summary><b>Epsilon and Delta</b>: the models we ran on Sunday</summary>
+
+**Early Epsilon** ([models/epsilon-early.json](models/epsilon-early.json)) is Delta plus
+`premium_min_slack_minutes: 1440`. Epsilon's tuning notes:
+[epsilon-tuning](docs/research/epsilon-tuning.md), [Epsilon Prime](docs/research/epsilon-prime.md).
 
 **Delta** ([models/delta.json](models/delta.json)) takes on more work and offers it to
 drivers better: a 42% win target instead of 30%, stops posted for the whole span an order
@@ -29,106 +182,15 @@ weeks by €682/week (+€518/week over 27 paired weeks). The pricing experiment
 [Delta results](docs/research/delta-results.md) · [next steps](docs/research/delta-next-steps.md) ·
 [testing plan](docs/research/delta-testing-plan.md).
 
-[Delta next steps](docs/research/delta-next-steps.md): ranked service-protection tweaks for tonight and larger ideas parked for the next model.
+Model code lives in the [models package](models/), alongside its JSON configs.
+Runners and tools stay at the root and in `scripts/`. Old imports and saved factory
+names still work through one-line module aliases; see
+[model compatibility](docs/reference.md#model-package-compatibility).
 
-> Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki**. The final: Sunday **15 November 2026, 08:00 Helsinki**, about 34 minutes; submission by **10:00**.
-> **Final mode:** `python final.py models/delta.json` waits for the (test) final and plays it from the live stream; rerun the same command to rejoin after a crash. `--rehearse SEED` creates or resumes a paced practice rehearsal. Keep `runs/final/` for checkpoints and quote receipts. See the [recovery handoff](docs/research/final-rejoin-recovery.md) for the outage findings, offline validation and kill/restart drill.
-> [Schedule and run limits](docs/reference.md#event-schedule-and-run-limits) · [Challenge constraints](docs/challenge.md).
+</details>
 
-## Standings
-
-Our public team is **Guardians of the Moonlight**. **Early Epsilon completed
-all five level-8 runs in round 11 ("Sunday 03:00", 15 November 2026, Helsinki time).**
-The runs launched at **05:00 Helsinki (03:00 UTC)** with
-[models/epsilon-early.json](models/epsilon-early.json): Delta plus
-`premium_min_slack_minutes: 1440`.
-At **2026-11-15 05:16:23 Helsinki (2026-11-15 03:16:23.416 UTC)**, we are
-**#28 of 44 ranked teams**, **€69,301.34 gross margin**,
-**95.85% on time**. All five weeks qualified; the worst was
-93.63% on time (90% required in every week).
-**The round was still open until 06:00 Helsinki (04:00 UTC); positions can change.**
-
-| Early Epsilon run | Gross margin | On time | Orders won | Ranked |
-| --- | ---: | ---: | ---: | :---: |
-| 1 | €13,985.11 | 96.45% | 310 | Yes |
-| 2 | €12,122.31 | 97.12% | 313 | Yes |
-| 3 | €9,229.95 | 93.63% | 314 | Yes |
-| 4 | €19,254.35 | 95.77% | 378 | Yes |
-| 5 | €14,709.62 | 96.28% | 349 | Yes |
-| **Total** | **€69,301.34** | **95.85%** | **1664** | **5 / 5** |
-
-Leader **Seekers**: €85,282.54; tenth place **Upsala**:
-€76,872.81 (we are **€7,571.47 behind**).
-Seventh place **iliada**: €77,655.64
-(**€8,354.30 ahead**).
-Organisers' **House best**: €56,128.21.
-House teams have no public rank and are excluded from the ranked-team count.
-
-![Round 11 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round11-totals.svg)
-![Early Epsilon's five round-11 margins versus the round leader](docs/screenshots/round11-runs.svg)
-
-*Charts use exact-cent official public figures retrieved 2026-11-15 03:16:23.416 UTC.*
-
-![Public leaderboard: round 11, Sunday 03:00 Helsinki, level 8, leaders](docs/screenshots/leaderboard-round11.png)
-![Public leaderboard: Guardians of the Moonlight and neighbours after five Early Epsilon runs](docs/screenshots/leaderboard-round11-team.png)
-
-*Real public-page screenshots captured 2026-11-15 03:16:31 UTC (leaders) and
-2026-11-15 03:16:47 UTC (our row), while the round was open.
-[Run table, model provenance and snapshot evidence](docs/research/epsilon-board-round11.md).*
-
-**Delta**, round 10 ("Sunday 00:00", 15 November, Helsinki), finished
-**38th of 58 ranked teams**, **€72,322.03**, **96.27% on time**, all five qualified.
-Saved provenance and all five trace headers confirm `models/delta.json`,
-`premium_min_slack_minutes: 600`, at
-[`cae1e58`](https://github.com/KotvicCodes/Cheap-Drive/commit/cae1e58b8ce3234260328f78dcf2283cd2ebced7).
-
-**Delta**, round 9 ("Saturday 21:00", 14 November), was **31st of 52**,
-€75,763.55, 96.72% on time at its open-round snapshot (2026-11-14 21:34:23 UTC).
-[Round-9 evidence](docs/research/delta-board-round9.md).
-**Early Delta**, round 8 ("Saturday 18:00"), was **37th of 58**,
-€55,639.62, 96.96% on time at its open-round snapshot (2026-11-14 17:53:55 UTC).
-[Round-8 evidence](docs/research/delta-board-round8.md).
-**Gamma** finished round 7 ("Saturday 15:00") **41st of 62**,
-€66,880.48, 96.75% on time, all five qualified.
-[Round-7 evidence](docs/research/gamma-board-round7.md).
-Different rounds use different secret weeks; their totals are not a paired
-model comparison. See [paired Delta evidence](docs/research/delta-results.md).
-
-### Test final
-
-In the test final on **14 November 2026, 20:00 Helsinki (18:00 UTC)**,
-**Delta via `final.py`** finished **#42 of 75 ranked teams**, with
-**€12,816.67 gross margin**, **99.61% on time** and **256 orders won**.
-The public final feed, retrieved **2026-11-14 18:40:38 UTC**, reports leader
-**Juhus at €19,592.05** and tenth-place **Team Moonshot at €16,622.58**.
-
-The run was interrupted: during a server restart the connection dropped twice
-around Friday of the simulated week (world minute 6871) and the runner rebuilt
-its desk on Saturday (minute 7849). Requests that arrived in that gap went
-unanswered; how many is not measured. After the rebuild the world sent no
-further price requests, so the flat order count from Saturday is not a quoting
-failure.
-
-![Public test final: The final heading, ended status and leading teams](docs/screenshots/test-final-2-leaders.png)
-![Public test final: Guardians of the Moonlight at rank 42 and neighbouring teams](docs/screenshots/test-final-2-team.png)
-
-*Real public-page screenshots captured on 14 November 2026 at 18:41:23 UTC
-(leaders) and 18:41:39 UTC (our row); the page rounds euros and percentages.
-[Exact figures and interruption details](docs/research/delta-test-final-2.md).*
-
-## Schedule & Run Limits (Official Rules)
-
-All event times are **Helsinki time (EET, UTC+2)**:
-
-| Run Type | Schedule (Starts / Opens) | How Many You Can Submit |
-| --- | --- | --- |
-| **Ranking Rounds** (`--board` / `board: true`) | **Opens** at:<br>• **Fri:** `19:30`<br>• **Sat:** `00:00`, `09:00`, `12:00`, **`15:00`**, `18:00`, `21:00`<br>• **Sun:** `00:00`, `03:00`, `06:00`<br>*(e.g. the 15:00 round **starts** at 15:00 and stays open until 18:00)* | **5 runs per level, per round** (played one at a time in order 1–5; each secret week once).<br>• After 5 runs at a level, `board: true` returns `409` until the next round opens.<br>• Deleting an unfinished ranking run **still counts** (the server runs it to completion without your system).<br>• Runs started before the next round opens still count in the round they were created in. |
-| **Practice Runs** (`--seed` / regular) | Anytime | **Unlimited** total runs.<br>• **Max 8 active (unended) worlds** at once per team (including `fork` copies and active ranking runs). Ended/deleted practice worlds free their slot. |
-| **Test Finals** (`--final`) | **Starts** on **Sat** at **`14:00`** and **`20:00`** (~19 min each; set 15 min before at `13:45` and `19:45`) | **1 live world per team** per test final (2 test finals total). Restarting reconnects to the same world. |
-| **The Final** (`--final`) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
-| **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
-
-## Current qualified baseline: Gamma
+<details>
+<summary><b>Gamma</b>: the first fully qualified baseline</summary>
 
 Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
 8/8 more profitable**, gaining **€2,031/week (+20.21%)**, with **96.95% worst
@@ -141,13 +203,6 @@ routes, short-route/premium-car fee controls, and two-car pairs. Fresh pairs
 open at 0.72 × summed reference fees; waiting-car rescue pairs open at 0.78 ×
 with a new 60-minute flat period. Pair idle wait at the second pickup is capped
 at 60 minutes. The brake, roster scaling and town caps remain disabled.
-
-Beta remains available in [models/beta.json](models/beta.json). The original
-notes-unaware guarded-700 candidate failed an earlier held-out week; it has
-been replaced in `models/gamma.json`, and its [historical results](docs/research/gamma-results.md)
-remain documented. Practice qualification does not validate final-clock integration.
-
-## Results
 
 Fresh confirmation on `gamma-v09` … `gamma-v16`, selected before any candidate
 outcome on those seeds. On-time means are means of weekly shares.
@@ -162,26 +217,15 @@ noncancelled long-route orders was late (0.68%, including undelivered orders).
 Gamma also ranked on all eight screening weeks and three known difficult weeks;
 those are exposed diagnostics, separate from confirmation.
 
-Earlier results: [Gamma guarded-route research](docs/research/gamma-results.md),
-[Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
-The next proposed experiments and known note cases are in the
-[Delta handoff](docs/research/delta-handoff.md).
+Beta remains available in [models/beta.json](models/beta.json). The original
+notes-unaware guarded-700 candidate failed an earlier held-out week; its
+[historical results](docs/research/gamma-results.md) remain documented.
+Earlier results: [Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
+Practice qualification does not validate final-clock integration.
 
-For context, round 6’s leading teams averaged about €18–22k and 430–470
-orders/week on different ranking worlds; practice results are not directly comparable.
+</details>
 
-Public ranking evidence is from Beta: [rounds 5 and 6](docs/research/beta-results.md#ranking-round-5-level-8),
-with [round-6 charts](docs/screenshots/README.md#leaderboard-visuals). Those dated
-results describe completed rounds, not current standings.
-
-## What drove the changes
-
-- List price ≈ driver cost away from the shortest routes; price each option from its own list.
-- The markup must find each week's market; a fixed markup won very different volumes across weeks.
-- Drivers learned to wait for fee raises. Open lower and spread the rise over the order's own time.
-- Long routes caused half the late orders; the 500 km limit made all eight weeks rank.
-
-## Setup
+## Quick start
 
 Python 3.9+; GitHub practice uses 3.12, CI checks 3.9, 3.12 and 3.14.
 
@@ -189,7 +233,7 @@ Python 3.9+; GitHub practice uses 3.12, CI checks 3.9, 3.12 and 3.14.
 bash scripts/setup.sh
 source .venv/bin/activate
 python -m unittest discover -s tests
-python dispatch.py --demo
+python dispatch.py --demo          # offline scripted demo; synthetic score, no key
 ```
 
 Copy `.env.example` to git-ignored `.env`; set `SPREAD_KEY`
@@ -199,15 +243,13 @@ load it with `set -a; source .env; set +a`. The app does not load `.env` itself.
 **Settings → Secrets and variables → Actions**; secrets apply only to Actions.
 [Setup and GitHub workflow details](docs/reference.md#setup).
 
-## Run
+<details>
+<summary><b>Run practice weeks, comparisons, sweeps and ranking runs</b></summary>
 
 Run from the repository root with the environment activated; live runs need
 `SPREAD_KEY`. The team shares **8 unfinished practice-world slots**; completed weeks free slots. Keep traces and reports private under git-ignored `runs/`.
 
 ```bash
-# Offline scripted demo; synthetic score, no key.
-python dispatch.py --demo
-
 # One fixed-price practice week.
 python dispatch.py --level 4 --seed cheap-drive-1
 
@@ -251,10 +293,35 @@ Failed `dispatch.py` / `compare.py` worlds are preserved and may hold slots;
 `--delete-on-error` deletes this invocation's failed worlds.
 [Capture, reports, comparisons and workflow reference](docs/reference.md).
 
-## Prototype conventions
+</details>
 
-Use Greek-letter names in order: Alpha, Beta, Gamma, and so on; see [PROTOTYPES.md](PROTOTYPES.md).
-The private story lives in git-ignored `prototype-story/` and must never be committed.
+<details>
+<summary><b>Final mode</b>: playing a live final and rejoining after a crash</summary>
+
+`python final.py models/delta.json` waits for the (test) final and plays it from the
+live stream; rerun the same command to rejoin after a crash. `--rehearse SEED` creates
+or resumes a paced practice rehearsal. Keep `runs/final/` for checkpoints and quote
+receipts. See the [recovery handoff](docs/research/final-rejoin-recovery.md) for the
+outage findings, offline validation and kill/restart drill, and the
+[surprise-final post-mortem](docs/research/surprise-final-postmortem.md).
+
+</details>
+
+<details>
+<summary><b>Event schedule and run limits</b> (official rules, Helsinki time)</summary>
+
+| Run Type | Schedule (Starts / Opens) | How Many You Can Submit |
+| --- | --- | --- |
+| **Ranking Rounds** (`--board` / `board: true`) | **Opens** at:<br>• **Fri:** `19:30`<br>• **Sat:** `00:00`, `09:00`, `12:00`, **`15:00`**, `18:00`, `21:00`<br>• **Sun:** `00:00`, `03:00`, `06:00`<br>*(e.g. the 15:00 round **starts** at 15:00 and stays open until 18:00)* | **5 runs per level, per round** (played one at a time in order 1–5; each secret week once).<br>• After 5 runs at a level, `board: true` returns `409` until the next round opens.<br>• Deleting an unfinished ranking run **still counts** (the server runs it to completion without your system).<br>• Runs started before the next round opens still count in the round they were created in. |
+| **Practice Runs** (`--seed` / regular) | Anytime | **Unlimited** total runs.<br>• **Max 8 active (unended) worlds** at once per team (including `fork` copies and active ranking runs). Ended/deleted practice worlds free their slot. |
+| **Test Finals** (`--final`) | **Starts** on **Sat** at **`14:00`** and **`20:00`** (~19 min each; set 15 min before at `13:45` and `19:45`) | **1 live world per team** per test final (2 test finals total). Restarting reconnects to the same world. |
+| **The Final** (`--final`) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
+| **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
+
+[Schedule and run limits](docs/reference.md#event-schedule-and-run-limits) · [Challenge constraints](docs/challenge.md) ·
+[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging).
+
+</details>
 
 ## Checks
 
@@ -265,6 +332,9 @@ python -m unittest discover -s tests
 Optional browser checks cover report controls, exports, security and mobile layout;
 [commands and coverage](docs/reference.md#checks). They start no server or simulator world.
 
-## Project icon
+## Conventions
 
+Prototypes take Greek-letter names in order: Alpha, Beta, Gamma, and so on; see [PROTOTYPES.md](PROTOTYPES.md).
+The private story lives in git-ignored `prototype-story/` and must never be committed.
 [The red-car SVG](assets/cheap-drive.svg) is the reusable project icon, with an accessible title and description.
+README visuals live in [docs/readme](docs/readme/); the film preview comes from the hosted film.
