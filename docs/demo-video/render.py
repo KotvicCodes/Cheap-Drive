@@ -480,7 +480,6 @@ def hero(t):
 def evolution(t):
     im = base_canvas('sunburst').copy()
     enter(im, 'Prototype. Test. Loop. Repeat.', 80, 80, 84, t, .05, color=INK, weight=700)
-    txt(im, 'Each dot ≈10 practice runs', 80, 185, 24, MUTED_INK, 600)
 
     # 3 headline summary pills from Slide 2 of the updated presentation
     summary_pills = [
@@ -605,7 +604,7 @@ def dispatcher(t):
     enter_model_hdr(im, 'Beta:', ' quote, then deliver', 80, 90, 84, t, .05, model_color='#EB7300', rest_color=INK, weight=700)
     phase = min(3, int(t / 1.7))
     cards = [
-        (80, 236, '1. Filter requests'),
+        (80, 236, '1. Filters'),
         (565, 236, '2. Price dealer trust'),
         (80, 616, '3. Time gig fees'),
         (565, 616, '4. Meet deadlines'),
@@ -713,7 +712,7 @@ def observability(t):
     details = [
         ('Note', 'Ready after 11:30'),
         ('Pickup window', 'Pickup opens 11:30'),
-        ('Outcome', 'Missed window. Late delivery.'),
+        ('Outcome', 'Missed window => Late delivery'),
     ]
     for i, (label, principal) in enumerate(details):
         yy = 450 + i * 170
