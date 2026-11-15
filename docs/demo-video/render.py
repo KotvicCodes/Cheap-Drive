@@ -479,26 +479,7 @@ def hero(t):
 # ---------------------------------------------------------------------------
 def evolution(t):
     im = base_canvas('sunburst').copy()
-    enter(im, 'Prototype. Test. Loop. Repeat.', 80, 80, 84, t, .05, color=INK, weight=700)
-
-    # 3 headline summary pills from Slide 2 of the updated presentation
-    summary_pills = [
-        '2,627 testing runs',
-        '5 models',
-        '2,1B+ tokens burned',
-    ]
-    pill_size = 20
-    pill_weight = 700
-    pill_gap = 12
-    pill_widths = []
-    for label in summary_pills:
-        b = font(pill_size, pill_weight, False).getbbox(label)
-        pad_x = max(18, round(pill_size * 0.72))
-        pill_widths.append((b[2] - b[0]) + 2 * pad_x)
-    px = 1840 - (sum(pill_widths) + pill_gap * (len(summary_pills) - 1))
-    for label, pw in zip(summary_pills, pill_widths):
-        badge(im, label, px, 182, color=INK, bg=CARD, border=ORANGE, size=pill_size, weight=pill_weight, fixed_w=pw)
-        px += pw + pill_gap
+    enter(im, 'Prototype. Test. Loop. Repeat.', 80, 88, 88, t, .05, color=INK, weight=700)
 
     p_car = clamp((t - 0.4) / 7.5)
     focus_idx = min(4, int(p_car * 4.999))
