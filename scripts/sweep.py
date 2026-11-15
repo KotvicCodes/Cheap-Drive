@@ -161,6 +161,56 @@ def summarize(out, plan):
     return "\n".join(lines[:4 + len(table)])
 
 
+def queued_jobs(plan, done):
+    """Allow disjoint per-arm seed assignments when peers share the queue."""
+    assignments = plan.get("variant_seeds", {})
+    if set(assignments) - set(plan["variants"]):
+        raise ValueError("variant_seeds contains an unknown variant")
+    if any(set(seeds) - set(plan["seeds"]) for seeds in assignments.values()):
+        raise ValueError("variant_seeds contains an unknown seed")
+    return [(label, seed) for seed in plan["seeds"] for label in plan["variants"]
+            if seed in assignments.get(label, plan["seeds"]) and (label, seed) not in done]
+
+
+def gate_failures(plan, rows):
+    """Evaluate only paired completed weeks; the control is never eliminated."""
+    gate = plan.get('sequential_gate')
+    if not gate:
+        return {}
+    control = {r['seed']: r for r in rows
+               if r.get('label') == gate['control'] and 'score' in r}
+    failures = {}
+    for label in plan['variants']:
+        if label == gate['control']:
+            continue
+        weeks = {r['seed']: r for r in rows
+                 if r.get('label') == label and 'score' in r}
+        pairs = [(w, control[seed]) for seed, w in weeks.items() if seed in control]
+        if len(pairs) < gate.get('min_pairs', 3):
+            continue
+        limits = {**gate, **gate.get('overrides', {}).get(label, {})}
+        gains = [w['score']['marginCents'] - c['score']['marginCents'] for w, c in pairs]
+        worst = min(w['score']['onTimeShare'] for w in weeks.values())
+        if (statistics.fmean(gains) < limits['min_gain_cents'] or
+                worst < limits['min_on_time'] or
+                (limits.get('half_positive', True) and sum(g > 0 for g in gains) * 2 < len(gains))):
+            failures[label] = dict(pairs=len(pairs), mean_gain_cents=statistics.fmean(gains),
+                                   positive=sum(g > 0 for g in gains), worst_on_time=worst)
+    return failures
+
+
+def next_job(jobs, active, plan, disabled):
+    """Choose a permitted queued job while respecting per-arm concurrency caps."""
+    caps = plan.get('variant_workers', {})
+    for index, (label, seed) in enumerate(jobs):
+        if label in disabled:
+            continue
+        if sum(job[0] == label for job in active) >= caps.get(label, WORKERS):
+            continue
+        return jobs.pop(index)
+    return None
+
+
 def main():
     out, plan_path = Path(sys.argv[1]), Path(sys.argv[2])
     plan = json.loads(plan_path.read_text())
@@ -172,25 +222,44 @@ def main():
         (out / sub).mkdir(parents=True, exist_ok=True)
     (out / "plan.json").write_text(json.dumps(plan, indent=2) + "\n")
     done = {(r["label"], r["seed"]) for r in load(out / "runs.jsonl") if "score" in r}
-    jobs = [(label, seed) for seed in plan["seeds"] for label in plan["variants"] if (label, seed) not in done]
+    jobs = queued_jobs(plan, done)
     print(f"{len(jobs)} weeks to play, {len(done)} already done", flush=True)
+    disabled = set()
     with cf.ProcessPoolExecutor(WORKERS) as pool:
-        futures = {pool.submit(play_week, str(out), plan["factory"], plan["level"], seed, label,
-                               plan["variants"][label], bool(plan.get("fast", True))): (label, seed)
-                   for label, seed in jobs}
-        for future in cf.as_completed(futures):
-            label, seed = futures[future]
-            row = {"label": label, "seed": seed, "settings": plan["variants"][label]}
-            try:
-                row.update(future.result())
-                s = row["score"]
-                print(f"{label} {seed}: margin {s['marginCents'] / 100:,.0f} on-time {100 * s['onTimeShare']:.1f}% "
-                      f"won {s['wonOrders']} ({row['seconds']}s)", flush=True)
-            except Exception as error:
-                row["error"] = str(error)
-                print(f"{label} {seed}: FAILED {error}", flush=True)
-            with (out / "runs.jsonl").open("a") as f:
-                f.write(json.dumps(row) + "\n")
+        futures = {}
+        while jobs or futures:
+            rows = load(out / 'runs.jsonl')
+            failures = gate_failures(plan, rows)
+            for label, evidence in failures.items():
+                if label not in disabled:
+                    print(f"GATE eliminated {label}: {evidence}", flush=True)
+            disabled.update(failures)
+            jobs[:] = [job for job in jobs if job[0] not in disabled]
+            while len(futures) < WORKERS:
+                job = next_job(jobs, list(futures.values()), plan, disabled)
+                if job is None:
+                    break
+                label, seed = job
+                future = pool.submit(play_week, str(out), plan['factory'], plan['level'], seed,
+                                     label, plan['variants'][label], bool(plan.get('fast', True)))
+                futures[future] = job
+            if not futures:
+                break
+            ready, _ = cf.wait(futures, return_when=cf.FIRST_COMPLETED)
+            for future in ready:
+                label, seed = futures.pop(future)
+                row = {"label": label, "seed": seed, "settings": plan["variants"][label]}
+                try:
+                    row.update(future.result())
+                    score = row['score']
+                    print(f"{label} {seed}: margin {score['marginCents'] / 100:,.0f} "
+                          f"on-time {100 * score['onTimeShare']:.1f}% won {score['wonOrders']} "
+                          f"({row['seconds']}s)", flush=True)
+                except Exception as error:
+                    row['error'] = str(error)
+                    print(f"{label} {seed}: FAILED {error}", flush=True)
+                with (out / 'runs.jsonl').open('a') as stream:
+                    stream.write(json.dumps(row) + '\n')
     print(summarize(out, plan), flush=True)
 
 
