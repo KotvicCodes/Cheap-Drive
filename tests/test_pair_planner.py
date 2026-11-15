@@ -456,6 +456,33 @@ class EarliestFinishTests(unittest.TestCase):
         self.assertTrue(desk._try_pair(new))
         self.assertIn('slow',next(iter(desk._pending_pairs.values())).orders)
 
+    def test_finish_band_keeps_low_transfer_unless_completion_gain_is_large(self):
+        for band,expected in ((0,'slow'),(30,'fast'),(60,'slow'),(180,'slow')):
+            desk=self.desk(pair_finish_band_minutes=band)
+            new,_,_=self.candidates(desk)
+            self.assertTrue(desk._try_pair(new))
+            pair=next(iter(desk._pending_pairs.values()))
+            self.assertIn(expected,pair.orders)
+
+    def test_finish_band_still_excludes_pairs_waiting_for_next_day(self):
+        for band in (60,180):
+            desk=self.desk(pair_finish_band_minutes=band)
+            new=pair_order(desk,'new',deadline=5000)
+            future=pair_order(desk,'future','c','a',deadline=5000)
+            future['legs'][0]['pickup']['window']['from']=2000
+            ready=pair_order(desk,'ready','d','c',deadline=5000)
+            desk.orders.update(new=new,future=future,ready=ready)
+            self.assertTrue(desk._try_pair(new))
+            self.assertIn('ready',next(iter(desk._pending_pairs.values())).orders)
+
+    def test_finish_band_validation_and_conflicts(self):
+        for value in (True,-1,'60',None):
+            with self.assertRaisesRegex(ValueError,'pair_finish_band_minutes'):
+                self.desk(pair_finish_band_minutes=value)
+        for mode in ('pair_earliest_finish','pair_economic_rank'):
+            with self.assertRaisesRegex(ValueError,'pair_finish_band_minutes'):
+                self.desk(pair_finish_band_minutes=60,**{mode:1})
+
     def test_mode_validation_and_conflicting_rank_modes(self):
         for value in (True,-1,2,'1',None):
             with self.assertRaisesRegex(ValueError,'pair_earliest_finish'):

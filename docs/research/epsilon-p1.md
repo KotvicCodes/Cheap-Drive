@@ -22,6 +22,7 @@ nineteen saved current-Delta weeks, not new Delta worlds.
 | `pair_self_time` | 0 | Count map self-road minutes while retaining zero same-town transfer distance |
 | `pair_economic_rank` | 0 | Prefer greatest combined reference less opening fee among feasible pairs |
 | `pair_earliest_finish` | 0 | Prefer `(finish, transfer_km, orders)` within the same legal candidate set |
+| `pair_finish_band_minutes` | 0 | Minimize transfer among candidates finishing within this many minutes of the fastest legal plan |
 
 The numeric step/transfer/guard defaults have no effect unless their policy
 is enabled. Existing `delta_pair_self_roads` is reused only in combination;
@@ -104,7 +105,7 @@ no further rescue-pricing worlds run without tight-roads.
 
 ## Earliest-completion priority (volume-gap steering)
 
-Screen `pair_earliest_finish=1` on confirmed Epsilon: unchanged Delta settings
+Screen `pair_earliest_finish=1` on Early Epsilon: unchanged Delta settings
 except the already confirmed premium admission slack of 1440 minutes. The
 control is the retained nineteen premium1440 weeks, with exact configuration
 matching checked. Also retain the matching Delta comparison. No new control
@@ -125,3 +126,21 @@ was cancelled before it created a world. Stop-spare combinations already in
 flight are retained. Target a confirmed result by 05:45 UTC, drain all worlds
 by 06:15, and retain the 03:00–03:45 launch pause. If confirmation is still
 running at the earlier 04:15 report checkpoint, report its partial state.
+
+
+## Volume follow-up and hard cutoff
+
+Strict earliest completion screened at -€169.28/week versus Early Epsilon,
+2/4 positive, floor 91.892%, and -2 completed orders/week. The conditional
+4400 arm is not authorized by its own dispatch-first gate and was not run.
+Two follow-ups retain low-transfer preference when candidates finish within
+60 or 180 minutes of the fastest plan, while excluding large readiness waits.
+A separate bounded-retry arm tests two attempts per order on the Early Epsilon
+base. These retain target4200, fees, route limits and all admission guards.
+
+For every new screen/extension, the plan base includes premium slack1440.
+The old Delta-base results remain historical and are never pooled with a
+new Early Epsilon candidate under the same label. The new hard deadlines
+are no practice starts after05:30, all worlds ended by05:50, final report
+by05:45. The launch gate has an independent05:30 timer. Use only fixed known
+paths and shallow own-worktree reads; no recursive scans across worktrees.

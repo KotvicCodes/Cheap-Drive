@@ -45,6 +45,7 @@ class DriverSideSettings:
     pair_economic_rank: int = 0
     pair_stop_spare: int = 0
     pair_earliest_finish: int = 0
+    pair_finish_band_minutes: int = 0
 
     def __post_init__(self):
         if self.fee_shape not in ("ramp", "review"):
@@ -64,8 +65,9 @@ class DriverSideSettings:
                 raise ValueError(f"{name} must be positive")
         if self.pair_rescue_floor_bps > 10000:
             raise ValueError("pair_rescue_floor_bps must be <= 10000")
-        if self.pair_economic_rank and self.pair_earliest_finish:
-            raise ValueError("pair_earliest_finish cannot combine with pair_economic_rank")
+        if sum(bool(value) for value in (self.pair_economic_rank, self.pair_earliest_finish,
+                                        self.pair_finish_band_minutes)) > 1:
+            raise ValueError("pair_earliest_finish, pair_economic_rank and pair_finish_band_minutes are mutually exclusive")
 
 
 @dataclass
@@ -479,6 +481,10 @@ class DriverSideMixin:
                                              p.transfer_km, p.finish, p.orders))
         elif self.driver_settings.pair_earliest_finish:
             pair = min(plans, key=lambda p: (p.finish, p.transfer_km, p.orders))
+        elif self.driver_settings.pair_finish_band_minutes:
+            end = min(p.finish for p in plans) + self.driver_settings.pair_finish_band_minutes
+            pair = min((p for p in plans if p.finish <= end),
+                       key=lambda p: (p.transfer_km, p.finish, p.orders))
         else:
             pair = min(plans, key=lambda p: (p.transfer_km, p.finish, p.orders))
         # Build everything before touching existing singles. Confirm withdrawal

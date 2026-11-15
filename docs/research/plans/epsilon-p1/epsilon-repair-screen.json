@@ -1,0 +1,47 @@
+{
+  "factory": "models.delta:make_delta",
+  "level": 8,
+  "seeds": [
+    "delta-f1-s07",
+    "delta-f2-s04",
+    "delta-f1-s01",
+    "delta-f1-s05"
+  ],
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "variants": {
+    "epsilon-rescue-spare": {
+      "pair_tight_windows": 1,
+      "delta_pair_self_roads": 1,
+      "delta_pair_stop_spare": 1,
+      "pair_rescue_floor_bps": 8500,
+      "pair_rescue_step_minutes": 25
+    },
+    "epsilon-aged-rescue": {
+      "pair_tight_windows": 1,
+      "delta_pair_self_roads": 1,
+      "pair_aged_guard_minutes": 180,
+      "pair_rescue_floor_bps": 8500,
+      "pair_rescue_step_minutes": 25
+    },
+    "epsilon-economic": {
+      "pair_economic_rank": 1
+    }
+  }
+}
