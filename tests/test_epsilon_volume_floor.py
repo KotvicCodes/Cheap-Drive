@@ -12,9 +12,12 @@ from tests.test_gamma_pairs import order_for
 
 
 class VolumeFloorCompositionTests(unittest.TestCase):
-    def test_all_six_combinations_keep_premium_guard_brake_and_recovery(self):
-        plan=json.loads((Path(__file__).resolve().parents[1]/'docs/research/plans/epsilon/volume-floor-screen.json').read_text())
-        for label,knobs in plan['variants'].items():
+    def test_volume_combinations_keep_premium_guard_brake_and_recovery(self):
+        folder=Path(__file__).resolve().parents[1]/'docs/research/plans/epsilon'
+        plans=[json.loads((folder/name).read_text()) for name in
+               ('volume-floor-screen.json','volume-floor-milder-screen.json')]
+        cases=[(plan,label,knobs) for plan in plans for label,knobs in plan['variants'].items()]
+        for plan,label,knobs in cases:
             with self.subTest(label=label):
                 settings={**plan['base'],**knobs}
                 desk=make_delta(GammaWorld(),8,500,Journal(io.StringIO()),**settings)
@@ -35,8 +38,8 @@ class VolumeFloorCompositionTests(unittest.TestCase):
                         req=request(identity='near'+str(i));req['note']={'text':''}
                         desk.requests[req['id']]=req
                         desk.orders[req['id']]=order_for(req,deadline=1000)
-                        if i==1:self.assertEqual(desk.win_target(),3000)
-                    self.assertEqual(desk.win_target(),2400)
+                        if i==1:self.assertEqual(desk.win_target(),knobs.get('delta_service_target_bps',3000))
+                    self.assertEqual(desk.win_target(),knobs.get('delta_service_hard_target_bps',2400))
                 recovered=make_delta(GammaWorld(),8,500,Journal(io.StringIO()),**settings)
                 restore_state(recovered,deepcopy(model_state(desk)))
                 self.assertEqual(recovered.win_target(),desk.win_target())
