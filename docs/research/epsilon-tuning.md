@@ -1145,3 +1145,30 @@ week, preserving the paired evidence from that started world.
 
 Final safety gate remains worst>=91.5% plus clear paired gain; otherwise
 Early is final. No new starts after05:30UTC; every started world completes.
+
+## Fresh service floor corrected; no remaining qualified challenger, 04:36 UTC
+
+The archived34-week Early cohort floor91.495601% is **not** the overall
+current minimum. On new `eps-sp-s001`, Early scores€11,493.60,350won,
+**90.000000% on time**,`ranked=true`. Split240 scores€9,561.05,348won,
+**87.931034%**,`ranked=false`; its gross-margin difference is−€1,932.55
+and its qualifying contribution is zero. Completed headers for both use
+level8, `models.delta:make_delta`, and exactly the recorded settings.
+The model choice remains the user's Early Epsilon selection; do not describe
+it as having a91.5% floor across all newly observed weeks.
+
+| Change | Paired weeks | Mean margin difference/week vs Early | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| split240, exact pooled settings including own week | 4 | −€266.57 | 3/4 | 87.931% | Reject: service and margin |
+| split480, completed external pairs so far | 2 | +€118.10 | 1/2 | 95.442% | Below continuation gate; orchestrator owns queue |
+| opening9000/steps4, external pairs so far | 2 | −€790.94 | 0/2 | 95.174% | Below continuation gate; orchestrator owns queue |
+| Original safe9700/backlog10, all completed current pairs | 12 | +€43.54 | 7/12 | 93.548% | Reject |
+
+The missing Early control for the already-started safe9700 confirmation
+week completed naturally: Early€12,855.46/287won/98.258% versus
+candidate€12,700.43/291won/96.907%. No candidate setting qualifies for
+replacement. All own practice weeks and missing controls have now completed;
+no new own candidate weeks are queued. The orchestrator owns remaining
+split/fee backfill; its started weeks continue untouched. Pooled results
+match full settings rather than labels and have no conflicting duplicate
+scores. Snapshot: `plans/epsilon/current-pooled-results.json`.
