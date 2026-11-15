@@ -292,3 +292,52 @@ Google GenerateContent transport; no live inference client, credential lookup
 or model-factory integration exists. `docs/research/delta-next-steps.md`
 parks live LLM notes pending independent evidence. No implemented decision
 API or live LLM dispatch path was found.
+
+
+## Margin queue and complete confirmations, 00:30 UTC
+
+| Change against current Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Projected brake 350/600, existing cohort | 19 | −€44.09 | 3/19 | 91.718% | No margin promotion; fresh comparison completing |
+| Pickup opportunity 360 min, 2/4, fresh cohort | 8 | −€537.13 | 2/8 | 92.963% | Rejected standalone: fresh margin cost |
+| Premium minimum slack 1440 min | 4 | +€213.41 | 3/4 | 91.667% | Survived screen; extend to remaining fifteen |
+| Premium minimum slack 2880 min | 4 | −€489.67 | 1/4 | 90.385% | Rejected: service and margin |
+| Opportunity 360 min, 2/4, mild targets 3600/3000 | 4 | −€293.42 | 1/4 | 90.278% | Rejected: service and margin |
+| Opportunity 360 min, 3/6, mild targets 3600/3000 | 4 | −€299.20 | 1/4 | 92.053% | Rejected: margin |
+| Opportunity 180 min, 2/4, mild targets 3600/3000 | 4 | −€231.12 | 1/4 | 91.716% | Rejected: margin |
+| Rescue pair opening hold 0 min (recovered exact Delta setting arm) | 4 | €0.00 | 0/4 | 91.117% | Rejected: no effect; do not replay |
+| Rescue pair opening hold 30 min (recovered exact Delta setting arm) | 4 | €0.00 | 0/4 | 91.117% | Rejected: no effect; do not replay |
+| Projected brake + normal win target 4600 | Pending (4) | — | — | — | Screen in flight |
+| Projected brake + normal win target 5000 | Pending (4) | — | — | — | Screen in flight |
+| Pickup-opportunity 360/2 brake + normal win target 4600 | Pending (4) | — | — | — | Screen in flight |
+| Pickup-opportunity 360/2 brake + normal win target 5000 | Pending (4) | — | — | — | Screen in flight |
+| Projected brake + pairable-request factor 9800 | Pending (4) | — | — | — | Screen in flight |
+| Projected brake + pairable-request factor 9500 | Pending (4) | — | — | — | Screen in flight |
+| Projected brake + pair reach 120 km / 720 min | Pending (4) | — | — | — | Prepared |
+| Projected brake + pair reach 150 km / 720 min | Pending (4) | — | — | — | Prepared |
+| Projected brake + long open cap 6 | Pending (4) | — | — | — | Prepared |
+| Projected brake + long open cap 10 | Pending (4) | — | — | — | Prepared |
+| Projected brake + initial-roster high target 4600 | Pending (4) | — | — | — | Prepared |
+| Projected brake + initial-roster mid/high targets 4600/5000 | Pending (4) | — | — | — | Prepared |
+| Projected brake + initial-roster mid/high targets 5000/5500 | Pending (4) | — | — | — | Prepared |
+
+Wider pair reach uses existing explicit driver settings with profile `off`,
+which disables the profile override rather than pairing. `pairs=1` and the
+720-minute drive maximum are explicit; all other pairing controls retain
+Delta's settings. A new contract test verifies the extra route, deadline
+rejection and twelve-hour cap. The larger long-order caps retain the 500/700 km
+boundaries, original slack and driver opening fees; they increase admission,
+not lane prices. The roster-volume screen retains existing 710/810 thresholds,
+uses low target 4200 and preserves all long distance limits at 700 km. This
+is an initial-supply volume hypothesis, not a real-time driver-location model.
+All 433 tests pass locally.
+
+Latest orchestrator authorization is **five sequential level-8 ranking runs at
+03:00 UTC**, with run five started before 04:00. The practice gate is scheduled
+for 03:00; resume twelve workers after the results are recorded and reported.
+At 00:20 the server still reported round 10 with all five team runs already
+played. Recheck the new active round and remaining sequence before creation;
+never spend an extra run in an already-completed round. Use confirmed positive
+Epsilon only, otherwise plain Delta. The post-freeze rehearsal may kill/restart
+only its own newly started PID and must use isolated output, run with no live
+final active, and finish before 05:15.
