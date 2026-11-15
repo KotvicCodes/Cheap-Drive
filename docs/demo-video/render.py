@@ -504,9 +504,9 @@ def evolution(t):
 
     protos = [
         ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', '#E59400', '#FFE066'),
-        ('β', 'Beta', 268, 27, 10602, 'Trust + fee timing', '#EB7300', '#FFB700'),
-        ('γ', 'Gamma', 242, 24, 11157, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
-        ('δ', 'Delta', 496, 50, 12975, 'Rescue windows + quantity', '#E62E00', '#FF4D2E'),
+        ('β', 'Beta', 268, 27, 10048, 'Trust + fee timing', '#EB7300', '#FFB700'),
+        ('γ', 'Gamma', 242, 24, 12079, 'Notes + two-car gigs', '#FF5500', '#FF8000'),
+        ('δ', 'Delta', 496, 50, 13760, 'Rescue windows + quantity', '#E62E00', '#FF4D2E'),
     ]
 
     curve_pts = []

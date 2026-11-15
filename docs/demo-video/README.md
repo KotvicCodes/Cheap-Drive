@@ -30,7 +30,7 @@ Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path
 | Time | Scene |
 | --- | --- |
 | 00:00–00:05 | Cheap-Drive — Move cars, Win margins. Full Finland map with 30 simulator towns. |
-| 00:05–00:13 | Prototype. Test. Loop. Repeat.: Graphical `α Alpha → β Beta → γ Gamma → δ Delta` iteration pipeline (`677`, `268`, `242`, `496` runs; `1,685 testing runs`, `5 models`, `1.5B tokens burned`) with run-volume matrices and rising margin trajectory (`€4.5k → €10.6k → €11.2k → €13.0k/wk`). |
+| 00:05–00:13 | Prototype. Test. Loop. Repeat.: Graphical `α Alpha → β Beta → γ Gamma → δ Delta` iteration pipeline (`677`, `268`, `242`, `496` runs; `1,685 testing runs`, `5 models`, `1.5B tokens burned`) with run-volume matrices and rising margin trajectory (`€4.5k → €10.0k → €12.1k → €13.8k/wk`). |
 | 00:13–00:20 | Beta: quote, then deliver — 2×2 Dispatch Bento (`Filter requests`, `Price dealer trust`, `Time gig fees 0.80× → 1.50×`, `Meet deadlines ≥90%`). |
 | 00:20–00:26 | Find what broke: Live demo app preview (`assets/live-demo-overview.png`) + `Note → Pickup window → Outcome` order inspection. |
 | 00:26–00:33 | Gamma: higher margin, but one week missed the gate (`+€830/wk`, `7/8 weeks ranked`, `W7` at `89.96%` on time). |

@@ -1,7 +1,7 @@
 {
   "README.md": {
     "bytes": 5892,
-    "sha256": "743384d6e9d0006df354434a1841a586c85a43b9f8e248a650342154ad0b9f8d"
+    "sha256": "55be4715f348aab56943e9c66fc65a7aab179095a8102e1326e440b659b8274b"
   },
   "requirements.txt": {
     "bytes": 50,
@@ -9,7 +9,7 @@
   },
   "render.py": {
     "bytes": 61545,
-    "sha256": "7dda3195f310897267efef53dff7637d83fd802a8e718a5930e36261d748ac79"
+    "sha256": "70ac47a01513d0ad74df66d8ef4c9e5722d5aa1f223952b10570bdd6c81e1345"
   },
   "captions.vtt": {
     "bytes": 1379,
@@ -93,7 +93,7 @@
   },
   "index.html": {
     "bytes": 1241,
-    "sha256": "4381ff73ae7e21dc5393391614e4334df598e7a2c9693dd73a688b2b97c8c32c"
+    "sha256": "38baf1c622b3c99b201e6620cf19f1d30d289c85815d1ab6f2b0302b885f724b"
   },
   "assets/cheap-drive-badge.png": {
     "bytes": 13475,
