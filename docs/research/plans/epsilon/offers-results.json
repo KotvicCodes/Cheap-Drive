@@ -1,0 +1,328 @@
+{
+  "verdict": "negative early stop: no accepted offers on completed screen weeks",
+  "stopped_at_utc": "2026-11-15T02:58:50Z",
+  "code_commit": "5dcbba78ec5492e7f642c97371dc84cf428dd9cf",
+  "requested_seeds": [
+    "delta-f1-s07",
+    "delta-f2-s04",
+    "delta-f1-s01",
+    "delta-f1-s05"
+  ],
+  "completed": [
+    {
+      "label": "offers-5000",
+      "seed": "delta-f1-s07",
+      "settings": {
+        "max_km": 500,
+        "win_target_bps": 5000,
+        "opening_fee_bps": 8000,
+        "long_max_km": 700,
+        "pairs": 1,
+        "short_fee_km": 45,
+        "short_opening_fee_bps": 11000,
+        "short_km": 45,
+        "short_bps": 9200,
+        "premium_opening_fee_bps": 10500,
+        "premium_min_slack_minutes": 1440,
+        "delta_note_fixes": 1,
+        "delta_rescue_windows": 1,
+        "delta_wide_windows": 1,
+        "delta_private_delivery_rescue": 1,
+        "delta_pairing": "extended",
+        "epsilon_offers": 1
+      },
+      "score": {
+        "marginCents": 860355,
+        "revenueCents": 4532650,
+        "marginShare": 0.1898128026651076,
+        "wonOrders": 406,
+        "onTimeShare": 0.8842364532019704,
+        "undeliveredShare": 0,
+        "ranked": false
+      },
+      "ledger": {
+        "revenue": 4532650,
+        "driver_fee": -3389278,
+        "late_refund": -275562,
+        "release_fee": -4455,
+        "waiting": -3000
+      },
+      "events": {
+        "price_request": 1030,
+        "order_won": 411,
+        "gig_viewed": 25304,
+        "gig_booked": 454,
+        "order_lost": 619,
+        "gig_started": 370,
+        "offer_answered": 645,
+        "picked_up": 406,
+        "delivered": 406,
+        "ledger": 830,
+        "release": 4,
+        "no_show": 2,
+        "deadline_close": 140,
+        "gig_dropped": 79,
+        "order_changed": 11,
+        "gig_expired": 104,
+        "forecast": 2,
+        "order_cancelled": 5,
+        "driver_late": 1
+      },
+      "offers": {
+        "sent": 645,
+        "ok": 645,
+        "declined": 132,
+        "expired": 513
+      },
+      "visit_failures": {},
+      "rejections": {
+        "Gig g104 is not open": 1,
+        "Gig g48 is not open": 1,
+        "Gig g161 is not open": 1,
+        "Gig g178 is not open": 1,
+        "Gig g231 is not open": 1,
+        "Gig g244 is not open": 1,
+        "Gig g327 is not open": 1,
+        "Gig g348 is not open": 1
+      },
+      "world_id": "w710544894f062bc588cd",
+      "trace": "offers-5000--delta-f1-s07.jsonl.gz",
+      "reveal": "offers-5000--delta-f1-s07.reveal.json.gz",
+      "seconds": 283,
+      "attempts": 1
+    },
+    {
+      "label": "offers-4200",
+      "seed": "delta-f1-s07",
+      "settings": {
+        "max_km": 500,
+        "win_target_bps": 4200,
+        "opening_fee_bps": 8000,
+        "long_max_km": 700,
+        "pairs": 1,
+        "short_fee_km": 45,
+        "short_opening_fee_bps": 11000,
+        "short_km": 45,
+        "short_bps": 9200,
+        "premium_opening_fee_bps": 10500,
+        "premium_min_slack_minutes": 1440,
+        "delta_note_fixes": 1,
+        "delta_rescue_windows": 1,
+        "delta_wide_windows": 1,
+        "delta_private_delivery_rescue": 1,
+        "delta_pairing": "extended",
+        "epsilon_offers": 1
+      },
+      "score": {
+        "marginCents": 1215413,
+        "revenueCents": 4160135,
+        "marginShare": 0.2921571054785482,
+        "wonOrders": 348,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 4160135,
+        "driver_fee": -2777427,
+        "release_fee": -2872,
+        "late_refund": -161423,
+        "waiting": -3000
+      },
+      "events": {
+        "price_request": 1030,
+        "order_won": 351,
+        "gig_viewed": 18470,
+        "gig_booked": 374,
+        "order_lost": 679,
+        "gig_started": 313,
+        "gig_dropped": 57,
+        "offer_answered": 669,
+        "picked_up": 348,
+        "delivered": 348,
+        "ledger": 694,
+        "release": 3,
+        "order_changed": 8,
+        "deadline_close": 77,
+        "gig_expired": 58,
+        "forecast": 2,
+        "order_cancelled": 3,
+        "no_show": 2
+      },
+      "offers": {
+        "sent": 669,
+        "ok": 669,
+        "declined": 106,
+        "expired": 563
+      },
+      "visit_failures": {},
+      "rejections": {
+        "Gig g44 is not open": 1,
+        "Gig g146 is not open": 1,
+        "Gig g151 is not open": 1
+      },
+      "world_id": "wbfeb6fcd92c3d0c4ae9b",
+      "trace": "offers-4200--delta-f1-s07-attempt2.jsonl.gz",
+      "reveal": "offers-4200--delta-f1-s07-attempt2.reveal.json.gz",
+      "seconds": 334,
+      "attempts": 2
+    },
+    {
+      "label": "offers-5500",
+      "seed": "delta-f1-s07",
+      "settings": {
+        "max_km": 500,
+        "win_target_bps": 5500,
+        "opening_fee_bps": 8000,
+        "long_max_km": 700,
+        "pairs": 1,
+        "short_fee_km": 45,
+        "short_opening_fee_bps": 11000,
+        "short_km": 45,
+        "short_bps": 9200,
+        "premium_opening_fee_bps": 10500,
+        "premium_min_slack_minutes": 1440,
+        "delta_note_fixes": 1,
+        "delta_rescue_windows": 1,
+        "delta_wide_windows": 1,
+        "delta_private_delivery_rescue": 1,
+        "delta_pairing": "extended",
+        "epsilon_offers": 1
+      },
+      "score": {
+        "marginCents": 975727,
+        "revenueCents": 4828778,
+        "marginShare": 0.20206499449757268,
+        "wonOrders": 440,
+        "onTimeShare": 0.8795454545454545,
+        "undeliveredShare": 0,
+        "ranked": false
+      },
+      "ledger": {
+        "revenue": 4828778,
+        "driver_fee": -3593937,
+        "late_refund": -253498,
+        "waiting": -3125,
+        "release_fee": -2491
+      },
+      "events": {
+        "price_request": 1030,
+        "order_won": 445,
+        "gig_viewed": 29689,
+        "gig_booked": 476,
+        "order_lost": 585,
+        "gig_started": 394,
+        "offer_answered": 668,
+        "picked_up": 440,
+        "delivered": 440,
+        "ledger": 893,
+        "release": 4,
+        "gig_dropped": 79,
+        "no_show": 1,
+        "deadline_close": 173,
+        "order_changed": 15,
+        "gig_expired": 126,
+        "forecast": 2,
+        "order_cancelled": 5
+      },
+      "offers": {
+        "sent": 668,
+        "ok": 668,
+        "declined": 102,
+        "expired": 566
+      },
+      "visit_failures": {},
+      "rejections": {
+        "Gig g55 is not open": 1,
+        "Gig g200 is not open": 1,
+        "Gig g268 is not open": 1,
+        "Gig g383 is not open": 1,
+        "Gig g519 is not open": 1
+      },
+      "world_id": "w8db873cae23eafbeb39d",
+      "trace": "offers-5500--delta-f1-s07.jsonl.gz",
+      "reveal": "offers-5500--delta-f1-s07.reveal.json.gz",
+      "seconds": 313,
+      "attempts": 1
+    },
+    {
+      "label": "offers-4200",
+      "seed": "delta-f2-s04",
+      "settings": {
+        "max_km": 500,
+        "win_target_bps": 4200,
+        "opening_fee_bps": 8000,
+        "long_max_km": 700,
+        "pairs": 1,
+        "short_fee_km": 45,
+        "short_opening_fee_bps": 11000,
+        "short_km": 45,
+        "short_bps": 9200,
+        "premium_opening_fee_bps": 10500,
+        "premium_min_slack_minutes": 1440,
+        "delta_note_fixes": 1,
+        "delta_rescue_windows": 1,
+        "delta_wide_windows": 1,
+        "delta_private_delivery_rescue": 1,
+        "delta_pairing": "extended",
+        "epsilon_offers": 1
+      },
+      "score": {
+        "marginCents": 1372042,
+        "revenueCents": 4110342,
+        "marginShare": 0.3338023940586939,
+        "wonOrders": 372,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0.002688172043010753,
+        "ranked": true
+      },
+      "ledger": {
+        "revenue": 4110342,
+        "driver_fee": -2575370,
+        "release_fee": -5718,
+        "waiting": -6000,
+        "late_refund": -130637,
+        "failed_visit": -5921,
+        "undelivered_penalty": -14654
+      },
+      "events": {
+        "price_request": 1033,
+        "order_won": 378,
+        "gig_viewed": 17765,
+        "gig_booked": 392,
+        "order_lost": 655,
+        "offer_answered": 716,
+        "gig_dropped": 55,
+        "gig_started": 334,
+        "picked_up": 371,
+        "delivered": 371,
+        "ledger": 744,
+        "gig_expired": 73,
+        "order_cancelled": 6,
+        "deadline_close": 101,
+        "order_changed": 11,
+        "forecast": 1,
+        "visit_failed": 1,
+        "release": 5
+      },
+      "offers": {
+        "sent": 716,
+        "ok": 716,
+        "expired": 581,
+        "declined": 135
+      },
+      "visit_failures": {
+        "not_ready": 1
+      },
+      "rejections": {
+        "Gig g237 is not open": 1,
+        "Gig g358 is not open": 1
+      },
+      "world_id": "we61969075d12a94f026b",
+      "trace": "offers-4200--delta-f2-s04.jsonl.gz",
+      "reveal": "offers-4200--delta-f2-s04.reveal.json.gz",
+      "seconds": 237,
+      "attempts": 1
+    }
+  ]
+}

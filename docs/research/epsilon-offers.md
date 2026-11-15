@@ -89,3 +89,39 @@ python scripts/sweep.py runs/epsilon-offers/screen \
 
 Only `runs.jsonl` and `summary.md` are used to assess results. Offer send/rejection
 and accepted/declined/expired counts are included in `runs.jsonl`.
+
+## Verdict: keep disabled; negative early stop
+
+Stopped the background screen at **02:58:50 UTC**, less than 20 minutes after
+starting the task, under the requested dud rule. Four weeks had completed: both
+hard seeds at 4200, and `delta-f1-s07` at 5000/5500. The other eight requested
+weeks were not completed. Two owned unfinished ordinary practice worlds were
+deleted after terminating only this sweep's process group; no owned unfinished
+worlds remained. No ranking/final worlds or processes were started or altered.
+
+All **2,698** offer actions passed API validation. **Zero** offers were accepted;
+475 were declined and 2,223 expired. There were no offer quota rejections.
+Both 4200 weeks exactly matched their saved Early Epsilon score, to the cent.
+Thus the tested current-app-fee offer policy did not demonstrate additional
+capacity. This does not establish that a higher-priced or differently targeted
+offer policy cannot work; that follow-up was not run.
+
+The table pairs each completed arm week with Early Epsilon on the **same seed**.
+Positive weeks mean strictly higher margin. Different arms have different week
+counts because of the early stop; do not compare the 4200 mean with the other
+arms as though their seed coverage were equal.
+
+| Arm | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Orders/week |
+|---|---:|---:|---:|---:|---:|
+| Offers ON, win target 4200 | 2 | €0.00 | 0/2 | 91.67% | 360 |
+| Offers ON, win target 5000 | 1 | −€3,550.58 | 0/1 | 88.42% | 406 |
+| Offers ON, win target 5500 | 1 | −€2,396.86 | 0/1 | 87.95% | 440 |
+
+**No arm passes the requested bar** of margin strictly above Early Epsilon and
+worst week ≥91.5% on time. The higher-target arms add volume but fail service;
+with zero accepted offers, their difference from the 4200 baseline is not evidence
+that offers themselves caused the service deterioration.
+
+Completed scores, settings, offer counts, ledger aggregates, timing and source
+paths are preserved in `plans/epsilon/offers-results.json`. The implementation
+under test is commit `5dcbba78ec5492e7f642c97371dc84cf428dd9cf`.

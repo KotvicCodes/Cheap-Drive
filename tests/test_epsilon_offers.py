@@ -239,3 +239,21 @@ class OffersTests(unittest.TestCase):
         journal.record('epsilon_offer_result', ok=False)
         journal.record('event', event=dict(kind='offer_answered', answer='accepted'))
         self.assertEqual(journal.metrics()['offers'], dict(sent=2, ok=1, rejected=1, accepted=1))
+
+    def test_full_practice_loop_sends_offers_and_reaches_end_with_pairs_on_or_off(self):
+        from dispatch import play_model
+        from tests.test_dispatch_performance import SyntheticWeek
+
+        class Week(SyntheticWeek):
+            def __init__(self):
+                super().__init__()
+                self.initial_map['places'] = [dict(id=p, lat=60, lon=24 + i) for i, p in enumerate('abcd')]
+                self.initial_roster[0]['homePlaceId'] = 'd'
+
+        for pairs in (0, 1):
+            with self.subTest(pairs=pairs):
+                world = Week()
+                play_model(world, 8, Journal(io.StringIO()),
+                           lambda w, l, n, j: make_delta(w, l, n, j, epsilon_offers=1, pairs=pairs), fast=True)
+                self.assertTrue(any(a['type'] == 'offer' for a in world.actions))
+                self.assertEqual(world.now, 1200)
