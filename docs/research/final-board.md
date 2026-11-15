@@ -58,7 +58,7 @@ the trace to `delta:make_delta`; the model file names the compatible
 `models.delta:make_delta` factory.
 
 Read-only provenance was found in sibling worktree
-`/home/agent/.t3/worktrees/Cheap-Drive/final-prime/`:
+`final-prime/`:
 
 - `runs/final/20261115T063024083406Z-final-fd21c913b2616e5aed02a.jsonl.gz`: header identifies final world `fd21c913b2616e5aed02a`, level 8, Epsilon Prime and `startsAt: "2026-11-15T07:00:00.000Z"`.
 - `runs/final/fd21c913b2616e5aed02a-checkpoint.json`: same world and model; `lastSeq: 14902`.

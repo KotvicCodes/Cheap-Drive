@@ -272,9 +272,6 @@ def replay_history(desk, snapshot, history, *, after=-1):
                 if receipt:
                     desk.now = max(desk.now, receipt["at"])
                     desk.quote(event["request"])
-                else:
-                    desk.requests.setdefault(event["request"]["id"], event["request"])
-                if receipt:
                     identity = event["request"]["id"]
                     # Public gig history can miss a rejected/withdrawn post and
                     # hence an admission decision. Local evidence wins.
@@ -289,6 +286,8 @@ def replay_history(desk, snapshot, history, *, after=-1):
                         desk.quote_trackers.pop(identity, None)
                         desk.town_pending.pop(identity, None)
                     desk.recovery_quotes[identity] = deepcopy(receipt)
+                else:
+                    desk.requests.setdefault(event["request"]["id"], event["request"])
                 desk.outbox = []  # never submit a past quote
             elif kind == "order_won":
                 order = event["order"]
@@ -477,7 +476,6 @@ def rejoin_model(desk, snapshot, history):
         for identity, request in open_requests.items():
             if identity in settled:
                 continue
-            identity = request["id"]
             if desk.now >= request["respondBy"]:
                 # A snapshot can straddle the decision boundary. Preserve an
                 # earlier accepted quote's pending feedback even though a new

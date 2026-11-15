@@ -16,24 +16,19 @@
     <div class="brand"><div class="brand-icon"><!-- BRAND --></div><div><strong>Cheap-Drive</strong></div></div>
     <button id="theme-toggle" class="theme-toggle" type="button"></button>
   </div>
-  <div class="run-card" id="run-card"></div>
   <nav id="nav" aria-label="Report sections"></nav>
   <div class="side-bottom">
     <div class="export-row">
       <button id="export-source" type="button">↓ JSONL</button>
       <button id="export-model" type="button">↓ JSON</button>
     </div>
-    <div class="offline" hidden><span class="dot" aria-hidden="true"></span>Offline</div>
-    <p id="version" hidden></p>
   </div>
 </aside>
 <main id="main" tabindex="-1">
   <div id="demo-bar" class="demo-bar" hidden></div>
   <header class="topbar">
-    <div><div class="eyebrow" id="run-label" hidden></div><h1 id="title">Overview</h1><p id="subtitle" hidden></p></div>
-    <div class="top-actions"><span id="mode" class="badge lg"></span></div>
+    <h1 id="title">Overview</h1>
   </header>
-  <div id="integrity-banner" class="integrity-banner" hidden></div>
   <section id="overview"></section>
   <section id="workspace" hidden>
     <div id="section-intro" class="section-intro"></div>
@@ -63,10 +58,8 @@
       <span id="page-info"></span>
       <div><button id="first" type="button" aria-label="First page">«</button><button id="prev" type="button">‹ Prev</button><label>Page <input id="page-number" type="number" min="1" value="1"></label><span id="page-total"></span><button id="next" type="button">Next ›</button><button id="last" type="button" aria-label="Last page">»</button></div>
     </div>
-    <p class="muted" id="filter-help" hidden></p>
   </section>
   <section id="captures" hidden></section>
-  <footer hidden></footer>
 </main>
 <dialog id="detail" aria-labelledby="detail-title">
   <div class="dialog-top">

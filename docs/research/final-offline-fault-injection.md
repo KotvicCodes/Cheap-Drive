@@ -44,11 +44,12 @@ the stronger operational requirement below remains FAIL.
 
 ## Reproduction
 
-Run with the supplied interpreter (pytest was installed externally by A):
+From the repository root, use `.venv/bin/python` (the original run used the
+supplied interpreter; pytest was installed externally by A):
 
 ```sh
 PYTHONPATH=/tmp/cheap-drive-final-audit-pytest \
-  /home/agent/.t3/worktrees/Cheap-Drive/t3-034ebca2-70a3ee396c687b47/.venv/bin/python \
+  .venv/bin/python \
   -m pytest -q
 ```
 

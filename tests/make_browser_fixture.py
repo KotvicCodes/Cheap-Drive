@@ -42,5 +42,6 @@ def fixture():
 
 if __name__=='__main__':
     output=ROOT/'.cache/browser-fixture.html'
+    output.parent.mkdir(exist_ok=True)
     output.write_text(render(analyze(fixture())))
     print('Synthetic browser fixture generated.')

@@ -143,7 +143,7 @@ and active pair timing. No private fixture or reveal was committed.
 Run the suite with the SDK environment supplied for this task:
 
 ```sh
-/home/agent/.t3/worktrees/Cheap-Drive/t3-a14884b2-9968a1fe51ca69bf/.venv/bin/python -m unittest discover -s tests
+.venv/bin/python -m unittest discover -s tests
 ```
 
 ## Operator rehearsal: deliberate kill and restart

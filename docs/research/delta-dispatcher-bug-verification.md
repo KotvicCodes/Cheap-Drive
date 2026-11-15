@@ -127,7 +127,7 @@ neutral-parity tests remain intact.
 Full offline command:
 
 ```sh
-/home/agent/.t3/worktrees/Cheap-Drive/t3-a14884b2-9968a1fe51ca69bf/.venv/bin/python -m unittest discover -s tests
+.venv/bin/python -m unittest discover -s tests
 ```
 
 All **328 tests pass**, including 23 new dispatcher tests. The first EV,

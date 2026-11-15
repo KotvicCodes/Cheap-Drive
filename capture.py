@@ -176,9 +176,7 @@ class CapturedWorld:
     def optional(self, kind, getter, phase=None):
         try:
             value = getter()
-        except (Exception, KeyboardInterrupt) as error:
-            if isinstance(error, KeyboardInterrupt):
-                raise
+        except Exception:
             # Exception messages can contain URLs, headers or credentials.
             self.journal.record('capability_unavailable', capability=kind, phase=phase)
             return None

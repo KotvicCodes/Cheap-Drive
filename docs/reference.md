@@ -30,7 +30,12 @@ and plays it from the live event stream; rerun the same command to rejoin after
 a crash. `--rehearse SEED` plays a paced level-8 practice world first.
 `dispatch.py`, `compare.py` and `scripts/sweep.py` run ordinary practice;
 `scripts/board.py` runs public practice rankings. A mid-week rejoin rebuilds
-orders and gigs from the server but not the learned price level or pair state.
+orders and gigs from the server. With the same model and preserved output
+directory, recovery restores learned pricing and pair state from a validated
+checkpoint, then replays later history using durable quote receipts. Without a
+usable checkpoint, it rebuilds from history and receipts where available;
+unknown in-flight actions remain uncertain. See the
+[recovery evidence](research/final-rejoin-recovery.md).
 
 ## Setup
 
@@ -240,12 +245,12 @@ configs. New configs use factories such as `models.delta:make_delta` and
 `scripts/sweep.py` also accept the old `delta:make_delta` spelling; saved plans,
 queues and historical journals do not need rewriting.
 
-The eleven one-line modules at the repository root are compatibility aliases.
-For example, `import gamma` and `import models.gamma` return the same module,
-including the same classes and monkeypatches. Old pickled module/class names
-resolve through these aliases. Keeping a root entry point for each old name
-lets a bare legacy import work before anything imports `models`, including
-from an extracted `git archive`; no installation or startup hook is needed.
+`models/__init__.py` registers import aliases for eleven legacy module names.
+After importing `models` (as the repository runners do), `import gamma` and
+`import models.gamma` return the same module, including the same classes and
+monkeypatches. Old pickled module/class names resolve through these aliases
+once the package is imported. There are no root shim files or startup hooks;
+standalone callers should import `models` first or use package imports.
 
 `load_model` and `model_from_spec` retain the old factory spelling in the
 returned `Model.spec` for these relocated modules. This keeps checkpoint and
@@ -289,10 +294,21 @@ export TMPDIR="$PWD/.cache/tmp"
 mkdir -p "$TMPDIR"
 python -m playwright install chromium
 python tests/check_browser.py
-# Optionally validate the known completed level-4 trace locally as well:
-python tests/check_browser.py --real-trace runs/<completed-level-4-trace>.jsonl
+# Optionally validate a completed trace locally as well:
+python tests/check_browser.py --real-trace runs/<completed-trace>.jsonl
 ```
+
+Real-trace checks derive source counts and fingerprints from the supplied journal instead of assuming one specific capture.
 
 `tests/make_browser_fixture.py` also writes a clearly labeled synthetic report under ignored `.cache/`. `tests/browser_checks.js` and `tests/real_browser_checks.js` can be evaluated in that report through an existing browser automation session. No browser test starts a server or a simulator world.
 
 The checks cover exact currency parsing, constant prices across delivery options and deadline warnings, rejected trade-in splitting, manual-licence retry handling, action rejection logging and the offline request-to-ledger flow. Comparison tests use scripted worlds to verify all-level pairing, both models' traces, qualification-first ranking, delta signs, ties, incomplete-result rejection, output preservation, failed-world retention and opt-in failure/interrupt cleanup. They make no claims about simulator performance.
+
+## Rebuilding the multi-run demo
+
+`scripts/build_demo.py` uses the original saved traces and archived runs; it
+does not create simulator worlds. By default it looks for source checkouts
+beside the current checkout and archives in `runs/`. Set
+`CHEAP_DRIVE_WORKTREES` to the source checkouts' parent and `CHEAP_DRIVE_RUNS`
+to the archived runs directory when they are stored elsewhere. The historical
+checkout names and trace filenames in the script identify the original evidence.

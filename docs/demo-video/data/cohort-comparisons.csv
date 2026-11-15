@@ -1,5 +1,0 @@
-comparison,n,seeds,baseline_mean_eur,candidate_mean_eur,mean_delta_eur,positive_seeds,baseline_qualified,candidate_qualified,baseline_worst_on_time,candidate_worst_on_time,baseline_mean_weekly_on_time,candidate_mean_weekly_on_time
-Original candidate: tuning,8,"gamma-t01,gamma-t02,gamma-t03,gamma-t04,gamma-t05,gamma-t06,gamma-t07,gamma-t08",11268.682499999999,12500.43,1231.7475,8,8,8,0.926923076923077,0.9297520661157025,0.9634838258708818,0.9551045648863202
-Original candidate: fresh holdout,8,"gamma-h01,gamma-h02,gamma-h03,gamma-h04,gamma-h05,gamma-h06,gamma-h07,gamma-h08",9552.33875,10382.7825,830.44375,7,8,7,0.9170506912442397,0.8995633187772926,0.9526622271580081,0.9435062878704779
-Revised candidate: screening,8,"gamma-v01,gamma-v02,gamma-v03,gamma-v04,gamma-v05,gamma-v06,gamma-v07,gamma-v08",11786.33,13372.282500000001,1585.9525,6,8,8,0.946058091286307,0.9457364341085271,0.96506972731265,0.9754396597351768
-Revised candidate: fresh confirmation,8,"gamma-v09,gamma-v10,gamma-v11,gamma-v12,gamma-v13,gamma-v14,gamma-v15,gamma-v16",10047.8675,12078.7125,2030.845,8,8,8,0.9367088607594937,0.9694656488549618,0.9569181643103245,0.9806209510937487
