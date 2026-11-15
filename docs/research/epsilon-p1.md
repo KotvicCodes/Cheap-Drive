@@ -43,9 +43,9 @@ monotone with unique timestamps.
 
 Bounded re-pairing records failed unordered combinations and per-order failure
 counts. It never withdraws booked or started gigs, restores singles after post
-failure, and retains the existing confirmed-withdrawal requirement. This arm
-needs checkpoint/history persistence before production adoption; the window
-and rescue-fee arms introduce no additional recovery state.
+failure, and retains the existing confirmed-withdrawal requirement. Failure counts and unordered bans survive checkpoints; public history and
+withdrawn gigs conservatively reconstruct missing attempts without double
+counting. The window and rescue-fee arms introduce no additional recovery state.
 
 Self-road timing and transfer-distance sorting are separate hypotheses. The
 existing road flag changes both; `pair_self_time` changes only driving time.
@@ -67,3 +67,17 @@ least 91.5% on time in both existing and fresh cohorts. A screen result is
 not promotion, and unchanged Delta itself misses the floor on f1-s07.
 No ranking or final worlds are authorized. Stop launching at 03:00 UTC,
 resume at 03:45, and drain all worlds by 06:15. Latest report deadline 04:15.
+
+
+## Predeclared fresh confirmation
+
+Reserve `epsilon-margin-confirm-20261115-s01` through `s08` for independent
+confirmation of a candidate selected from the nineteen old paired seeds.
+Reuse the orchestrator's `runs/epsilon/margin-fresh-reference/runs.jsonl`
+Delta scores when available. Do not tune against candidate outcomes on these
+seeds. The earlier `epsilon-confirm-20261115-s01..s08` brake cohort is not a
+new holdout for this lane.
+
+Exact-off comparison against the frozen origin driver mixin passed 300
+synthetic pair plans and 30 order/timer/receipt batches, yielding 45 identical
+actions. The tests construct no network client and read no saved traces.

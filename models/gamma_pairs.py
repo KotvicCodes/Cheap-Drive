@@ -291,14 +291,16 @@ class DriverSideMixin:
                 and identity not in self._picked and not self._pair_of(identity)):
             return False
         gigs = self.gigs_of(identity)
+        if any(g in self.booked or g in self._started for g in gigs):
+            return False
         s = self.driver_settings
-        if s.pair_aged_guard_minutes and gigs and self.now - self.first_posted.get(identity, self.now) > s.pair_aged_guard_minutes:
+        if (s.pair_aged_guard_minutes and gigs and
+                self.now - self.first_posted.get(identity, self.now) > s.pair_aged_guard_minutes):
             current = self._single_action(order)["schedule"][0]["feeCents"]
             typical = self.requests[identity]["referenceFeeCents"]
             if current * 10000 >= typical * s.pair_aged_guard_bps:
                 return False
-        return (not any(g in self.booked or g in self._started for g in gigs)
-                and (self._pair_failures[identity] < s.pair_retry_limit if s.pair_retry_limit else
+        return ((self._pair_failures[identity] < s.pair_retry_limit if s.pair_retry_limit else
                      not s.pair_once or identity not in self._split_orders)
                 and (self.driver_settings.pair_with_waiting or not gigs))
 
@@ -556,8 +558,13 @@ class DriverSideMixin:
     def _record_failed_pair(self, pair):
         self._split_orders.update(pair.orders)
         if self.driver_settings.pair_retry_limit:
-            self._failed_pairs.add(frozenset(pair.orders))
-            self._pair_failures.update(pair.orders)
+            self._remember_pair_failure(pair.orders)
+
+    def _remember_pair_failure(self, members):
+        key = frozenset(members)
+        if key not in self._failed_pairs:
+            self._failed_pairs.add(key)
+            self._pair_failures.update(key)
 
     def _safe_split_pair(self, pair, reason, **kwargs):
         try:

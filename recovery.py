@@ -40,6 +40,9 @@ def model_state(desk):
     state["recovery_quotes"] = deepcopy(desk.recovery_quotes)
     if hasattr(desk, "_pairs"):
         state["_pairs"] = {k: asdict(p) for k, p in desk._pairs.items()}
+        if desk.driver_settings.pair_retry_limit:
+            state["_failed_pairs"] = sorted(sorted(pair) for pair in desk._failed_pairs)
+            state["_pair_failures"] = dict(desk._pair_failures)
     return state
 
 
@@ -68,6 +71,9 @@ def restore_state(desk, state):
         desk._pairs = {k: _Pair(**{**v, "orders": tuple(v["orders"])})
                        for k, v in state.get("_pairs", {}).items()}
         desk._pending_pairs.clear()
+        if desk.driver_settings.pair_retry_limit:
+            desk._failed_pairs = {frozenset(pair) for pair in state.get("_failed_pairs", [])}
+            desk._pair_failures = Counter(state.get("_pair_failures", {}))
 
 
 class CheckpointStore:
@@ -249,7 +255,9 @@ def replay_history(desk, snapshot, history, *, after=-1):
             action = desk.posts.get(pair_gig, {})
             members = {s["orderId"] for s in action.get("stops", [])}
             if hasattr(desk, "_pairs") and pair_gig in desk._pairs:
-                members.update(desk._pairs[pair_gig].orders)
+                pair = desk._pairs[pair_gig]
+                if pair.active or not desk.driver_settings.pair_cancel_cleanup:
+                    members.update(pair.orders)
             is_pair = bool(getattr(getattr(desk, "driver_settings", None), "pairs", 0) and len(members) > 1)
             intercepted = is_pair and (kind in ("gig_dropped", "no_show", "gig_expired", "order_changed")
                                       or kind == "deadline_close" and pair_gig in desk.booked)
@@ -261,6 +269,8 @@ def replay_history(desk, snapshot, history, *, after=-1):
             if is_pair and (kind in ("gig_dropped", "no_show", "gig_expired")
                             or kind == "order_changed" and pair_gig not in desk.booked):
                 desk._split_orders.update(members)
+                if desk.driver_settings.pair_retry_limit:
+                    desk._remember_pair_failure(members)
             if kind == "price_request":
                 receipt = receipts.get(event["request"]["id"])
                 if receipt:
@@ -339,6 +349,13 @@ def _restore_pairs(desk, snapshot):
             # Public history cannot distinguish a timer split from another
             # withdrawal. Conservatively exclude former members from re-pairing.
             desk._split_orders.update(members)
+            if desk.driver_settings.pair_retry_limit:
+                # A public withdrawn gig conservatively consumes one attempt.
+                # A checkpoint or history event may already have counted it.
+                # Completed pairs do not limit still-actionable orders.
+                if any(m in desk.orders and desk.orders[m]["status"] not in ("cancelled", "delivered")
+                       for m in members):
+                    desk._remember_pair_failure(members)
             continue
         pair = desk._pairs.get(gig["id"])
         action = _post_action(gig)

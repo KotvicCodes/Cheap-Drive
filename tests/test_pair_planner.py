@@ -250,6 +250,36 @@ class PairRescueTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'delta_pair_latest0_windows'):
                 self.desk(delta_pair_latest0_windows=value)
 
+    def test_retry_checkpoint_preserves_rejected_posts_and_does_not_double_count(self):
+        from recovery import model_state, restore_state
+        desk = self.desk(pair_retry_limit=2)
+        one = pair_order(desk,'one')
+        two = pair_order(desk,'two','b','c')
+        desk.orders.update(one=one,two=two)
+        pair, _ = desk._plan(one,two)
+        desk._pending_pairs[id(pair.action)] = pair
+        desk.read_results([pair.action],[{'ok':False,'reason':'rejected'}])
+        rebuilt = self.desk(pair_retry_limit=2)
+        restore_state(rebuilt,json_roundtrip(model_state(desk)))
+        self.assertEqual(rebuilt._failed_pairs,desk._failed_pairs)
+        self.assertEqual(rebuilt._pair_failures,desk._pair_failures)
+        rebuilt._remember_pair_failure(('two','one'))
+        self.assertEqual(rebuilt._pair_failures['one'],1)
+        self.assertTrue(rebuilt._eligible(rebuilt.orders['one']))
+
+    def test_retry_public_history_recovers_timer_split_and_caps_future_attempts(self):
+        from tests.test_recovery import paired, rebuild
+        desk, history, gig = paired(pair_retry_limit=2)
+        desk._split_pair(desk._pairs[gig],'time')
+        desk.send()
+        rebuilt = rebuild(desk,history,pairs=1,pair_retry_limit=2)
+        self.assertEqual(rebuilt._pair_failures['one'],1)
+        self.assertEqual(rebuilt._pair_failures['two'],1)
+        self.assertEqual(rebuilt._failed_pairs,{frozenset(('one','two'))})
+        self.assertTrue(rebuilt._eligible(rebuilt.orders['one']))
+        self.assertEqual(rebuilt._plan(rebuilt.orders['one'],rebuilt.orders['two']),
+                         (None,'failed_pair'))
+
 
 def json_roundtrip(value):
     import json

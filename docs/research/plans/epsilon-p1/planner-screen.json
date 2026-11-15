@@ -2,10 +2,21 @@
   "factory": "models.delta:make_delta",
   "level": 8,
   "seeds": [
-    "delta-f1-s07",
-    "delta-f2-s04",
-    "delta-f1-s06",
-    "delta-f1-s08"
+    "delta-f1-s01",
+    "delta-f1-s02",
+    "delta-f1-s03",
+    "delta-f1-s04",
+    "delta-f1-s05",
+    "delta-f1-s09",
+    "delta-f1-s10",
+    "delta-f1-s11",
+    "delta-f2-s01",
+    "delta-f2-s02",
+    "delta-f2-s03",
+    "delta-f2-s05",
+    "delta-f2-s06",
+    "delta-f2-s07",
+    "delta-f2-s08"
   ],
   "base": {
     "max_km": 500,
@@ -26,18 +37,9 @@
     "delta_pairing": "extended"
   },
   "variants": {
-    "tight-selftime": {
+    "tight-roads": {
       "pair_tight_windows": 1,
-      "pair_self_time": 1
-    },
-    "tight-econ": {
-      "pair_tight_windows": 1,
-      "pair_economic_rank": 1
-    },
-    "tight-retry2": {
-      "pair_tight_windows": 1,
-      "pair_retry_limit": 2,
-      "pair_cancel_cleanup": 1
+      "delta_pair_self_roads": 1
     }
   }
 }
