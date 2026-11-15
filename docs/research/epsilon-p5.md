@@ -307,3 +307,34 @@ Only the best positive-mean, ranked, all-weeks>=91.5% screen arm extends to the
 If no arm qualifies, the handoff explicitly says no eligible survivor and no
 extension is launched. The existing03:00–03:45 pause and05:30/05:50 deadlines
 remain enforced. Long slack1440 and premium1440 remain unchanged in A–D.
+
+
+### User-requested two-pool SAFE/REST learner
+
+At 03:03 UTC the orchestrator requested one additional default-off build:
+`delta_segmented_targets=1`, `win_target_safe_bps=5000` or5500, with REST
+fixed4200. SAFE requires total route<=300 km, maximum offered deadline minus
+request arrival>=2160 minutes, and final-delivery `near30 >5`. Unknown delivery
+supply stays REST. This uses delivery supply as explicitly requested; Gemini's
+related timing analysis used pickup supply, so its forecasts do not validate
+this exact classifier. `near30` counts frozen public homes by directed road km,
+not available compatible drivers. Maximum lead is not note-aware option slack.
+
+Separate tracker keys retain SAFE and REST markups, daily starts and pending
+feedback; target values encoded in the keys survive existing checkpoint and
+action-receipt replay. SAFE outcomes never train REST or the old global markup.
+REST stays4200 even if a former admission bundle used global4600 or an optional
+capacity/brake policy asks for a lower target. No discounts, markup offsets,
+reference floors or extra admission changes are bundled. Concurrent use of the
+older safe-price experiments or alternative markup scopes is rejected.
+
+The standalone A–D controller was stopped while its sweep continues, so it
+cannot automatically extend before the new comparison. After all four-seed
+admission results, the best eligible arm (or best observed arm, explicitly
+marked unsafe if none qualifies) is handed off. Its admission settings become
+the base of the two segmented screens; global target is kept4200 in their
+plan because SAFE/REST supply the targets. The best combined survivor extends
+against cached Delta/Early Epsilon and its admission-only control to19, then
+uses a separately reserved unseen cohort of four segmented holdout seeds.
+Reported volume will be compared against both Early Epsilon and the admission
+control; a margin increase alone does not establish the requested volume gain.
