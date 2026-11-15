@@ -688,3 +688,33 @@ screen was+€229.12 versus Delta(3/4), +€15.71 versus premium(2/4), floor91.6
 but the added package-s03 regression remained91.495601%, so no extension.
 Premium1800 was stopped after its first two old weeks: −€679.51,0/2positive,
 floor91.304%. No component from this cancelled queue was adopted.
+
+
+## Explicit ranking exception and tighter shutdown, 02:20 UTC
+
+The orchestrator/user explicitly selected **premium1440 Epsilon for03:00**
+after reviewing the extra fresh91.495601173% week: the91.5% miss is at
+rounding scale; Delta's observed floor on the same combined seed set is
+lower at91.117%; premium1440 remains ahead on paired margin over27+weeks.
+This is a documented selection exception for that named ranking model,
+not a claim that91.495601% mathematically meets91.5%. New volume candidates
+still need the strict91.5% worst-week floor. The controller's explicit-model
+metadata now records this authorization and reasoning.
+
+New hard deadlines: **no new practice after05:30 UTC; every own world ended
+by05:50; final report by05:45.** A quiet rehearsal then needs the machine
+idle because concurrent sweep load caused11-second fsync stalls. No more
+recursive filesystem scans across worktrees. Own stop guard gates launches
+at05:29 (one minute early for in-flight request margin), drains and stops
+own sweeps, and ends any remaining own nonranking practice by05:40. It never
+touches final processes or live-final files. Existing04:30 freeze remains.
+
+First two hard weeks show every initial volume arm below91.5%. Pickup
+win4600/5000/5500 reduce orders by40.5/49.0/32.5 per week versus premium1440;
+projectedwin5500 adds only5 while losing€624/week versus premium. Finish
+the requested four-week screens, with no extensions for floor failures.
+Next volume test keeps pickup horizon360/thresholds2&4 but relaxes the
+braked targets from3000/2400 to3600/3000 or4200/3600, each with outside
+target4600/5000/5500. This tests whether less drastic cuts preserve volume
+while the same trouble signal still protects service. It changes existing
+settings only; no fee, note or service-code micro-item is resumed.
