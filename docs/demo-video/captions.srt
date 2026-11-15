@@ -1,0 +1,43 @@
+1
+00:00:00,200 --> 00:00:04,800
+Cheap-Drive: Move cars, Win margins.
+
+2
+00:00:05,100 --> 00:00:12,800
+Prototype. Test. Loop. Repeat. 2,627 testing runs, 5 models, and 2,1B+ tokens burned across Alpha, Beta, Gamma, Delta, and Epsilon.
+
+3
+00:00:13,100 --> 00:00:19,800
+Beta: filter requests, price for dealer trust, raise gig fees after pickup opens, and meet the 90% on-time delivery minimum.
+
+4
+00:00:20,100 --> 00:00:25,800
+Find what broke: inspect dealer notes, pickup windows, and late delivery outcomes in the live week analysis report.
+
+5
+00:00:26,100 --> 00:00:32,800
+Gamma: higher margin (+€830/wk), but one week missed the gate at 89.96% on time in the first eight-week holdout.
+
+6
+00:00:33,100 --> 00:00:39,800
+Gamma: read dealer notes and combine cars in one gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
+
+7
+00:00:40,100 --> 00:00:46,800
+Delta in production: +€1,664 per week vs Early Delta across 19 ranked practice weeks, and €75,764 across 5 ranked Round 9 weeks.
+
+8
+00:00:47,100 --> 00:00:52,800
+Delta: Quantity > the best margins, lifting weekly orders won from 257 (30% win target) to 342 (42% win target).
+
+9
+00:00:53,100 --> 00:00:59,800
+Epsilon: keep experimenting. Trailing 24h service brakes and volume tuning lift Epsilon Prime to 370 orders/wk and +€456/wk across 38 paired weeks.
+
+10
+00:01:00,100 --> 00:01:06,800
+More runs cleared the ranking gate across 2,627 practice runs: Alpha (677), Beta (268), Gamma (242), Delta (528), and Epsilon (910).
+
+11
+00:01:07,100 --> 00:01:11,800
+Cheap-Drive: Win the right work. Deliver it. Try it yourself.

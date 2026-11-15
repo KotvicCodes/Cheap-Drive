@@ -1,0 +1,114 @@
+{
+  "README.md": {
+    "bytes": 6164,
+    "sha256": "4e2c96da7c90eab7e2e40a412cffcb6d8d398c2d34ceeefde2811a045b446d44"
+  },
+  "requirements.txt": {
+    "bytes": 50,
+    "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
+  },
+  "render.py": {
+    "bytes": 63515,
+    "sha256": "df5e7808c9e62723e3558a771f9d23ce2ae7155b52fba0f409669c424eee53ca"
+  },
+  "captions.vtt": {
+    "bytes": 1581,
+    "sha256": "efac248e577c79f927690465fd377910112852ef150c4a477910a58588c0de50"
+  },
+  "captions.srt": {
+    "bytes": 1597,
+    "sha256": "de973dfed891aaa6f257dba5d2f4c4c0a994a46e16f74506cecfddc5fd48c3ed"
+  },
+  "data/graph-data.json": {
+    "bytes": 526287,
+    "sha256": "e65bbdf9041d5ce22808444ab24602fb8d57bf8f4eff5aec9f06fb778e8c17e6"
+  },
+  "data/chart-data.json": {
+    "bytes": 28866,
+    "sha256": "39934db76593c96b448af87f24065ada275ca90dbe70ee9f6562113f8dc4953b"
+  },
+  "data/cohort-comparisons.csv": {
+    "bytes": 1163,
+    "sha256": "2b86341ff46dab35a8f90f3d9fd2758518757b04b534295402240f17264858cd"
+  },
+  "data/paired-weeks.csv": {
+    "bytes": 5230,
+    "sha256": "0baf34a5f347a30416c41dd09a2b60a0d7793a88ca51dbb1ed392a9e1cd2a91c"
+  },
+  "data/official-rounds.csv": {
+    "bytes": 186,
+    "sha256": "878b2f39e8b62c0a49599389a1937cbe46f1af33dead9ad6e1e4ed268a61e06e"
+  },
+  "data/official-five-weeks.csv": {
+    "bytes": 312,
+    "sha256": "d90990dce95bcef63db075a08cb99a2876aa1ce2471ebd45d1b3ed291310ac05"
+  },
+  "data/per-seed-comparisons.csv": {
+    "bytes": 20706,
+    "sha256": "6ac665283f706c1a2fede104e20532401a614e49e2c1289b7f8a950a616f217c"
+  },
+  "assets/IBMPlexMono-OFL.txt": {
+    "bytes": 4456,
+    "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  },
+  "assets/IBMPlexMono.ttf": {
+    "bytes": 135580,
+    "sha256": "6a3412f058c7d8dfd9170c41e85ade48e5156ecb89356110ca57a0a27734af46"
+  },
+  "assets/SpaceGrotesk.ttf": {
+    "bytes": 136676,
+    "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72"
+  },
+  "assets/SpaceGrotesk-OFL.txt": {
+    "bytes": 4495,
+    "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+  },
+  "assets/all-run-margins.png": {
+    "bytes": 432500,
+    "sha256": "ac2c017b60b86b1c7c8848363303a3d7236e514e26d4a9451d2262a0757eb4d4"
+  },
+  "assets/learning-stages.png": {
+    "bytes": 368953,
+    "sha256": "109b2bbd542a2b067219a061f2d23c767c9b98e8a492e16d53bc07ce3c5566f4"
+  },
+  "assets/gamma-confirmation.png": {
+    "bytes": 221035,
+    "sha256": "b432eb8fc4d4569f94563633dfa16232cc758bb30aa67e7311dd3f745178e5dd"
+  },
+  "assets/official-rounds.png": {
+    "bytes": 162339,
+    "sha256": "7c004ffecce341d28c72a51ab9b6b20c5543a5bfdd938739598c6d049acc91fa"
+  },
+  "assets/poster.png": {
+    "bytes": 149010,
+    "sha256": "717363041794e8d90490c1763c267ce71491e104d49b8ca8e4aab372f872e921"
+  },
+  "assets/contact-sheet.jpg": {
+    "bytes": 571540,
+    "sha256": "2409c565e9cef7dd865c670824e58840fe5a68cfac6b6ed1d1274659e5fe51bb"
+  },
+  "../../docs/screenshots/week-overview.png": {
+    "bytes": 311202,
+    "sha256": "d3e3f873a5ea26a536ac74dcabf0aba8b5e7518f5382db913d9083186e2733eb"
+  },
+  "index.html": {
+    "bytes": 1233,
+    "sha256": "af086ebd22aab9d161442d196fdea08d56d354cb2bacd7e792a28580b70f3ebe"
+  },
+  "assets/cheap-drive-badge.png": {
+    "bytes": 13475,
+    "sha256": "590f32752efa5fd27b352eb1e6d6d15db5f5d95736e4f4335f22e09b8c81eba9"
+  },
+  "data/run-data.json": {
+    "bytes": 1426567,
+    "sha256": "21b727e3a5b9b1ad95484348f447f06a50b9f0e6e436236982aa43ca40f0e692"
+  },
+  "assets/DejaVuSans-Bold.ttf": {
+    "bytes": 704128,
+    "sha256": "b184b89e3c1075f22f6b71575b6fc20d4972b3cfd3b23322ca6fd596dcaef167"
+  },
+  "assets/live-demo-overview.png": {
+    "bytes": 139214,
+    "sha256": "7c3214513912adc002d8b6f313a1577d38ce67cb1ab928f2d9741c22b71cc236"
+  }
+}

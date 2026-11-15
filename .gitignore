@@ -8,4 +8,6 @@ runs/
 .cache/
 AGENTS.md
 CLAUDE.md
+!/AGENTS.md
+!/CLAUDE.md
 /prototype-story/
