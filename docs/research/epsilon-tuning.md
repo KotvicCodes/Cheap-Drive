@@ -591,3 +591,29 @@ Queued after current screens: premium1440 plus readiness200/400bps or a
 parameter tests; none is adopted before full paired and fresh confirmation.
 A neighboring premium threshold screen is also prepared. Builder combinations
 were cancelled before launch. Freeze04:30 and practice cutoff06:15 unchanged.
+
+
+## Rehearsal ownership and five-slot tuning allocation, 01:48 UTC
+
+The orchestrator assigned the entire rehearsal/kill-restart drill to a
+dedicated agent. This manager will not start a rehearsal or signal any
+`final.py`. Own tuning allocation is now five slots, leaving one rehearsal
+slot. To release one immediately, paused launches, ended one already-rejected
+floor-screen world, let its sibling finish, then resumed only the unfinished
+week with one worker. Completed scores remain resume-safe.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Readiness early cut800 | 4 | −€351.47 | 1/4 | 90.909% | Reject |
+| Saturday bare-weekday parser, preceding scope version | 4 | −€2.84 | 2/4 | 90.566% | Reject; later scope correction unpromoted |
+| Anticipated note urgency | 4 | +€167.25 | 2/4 | 90.836% | Reject standalone: service |
+| Premium1440 + floor11000 | 4 | +€235.19 | 2/4 | 91.066% | Reject: service; only+€21.77 versus premium |
+| Premium1440 + floor11500 | 3 (last resumed) | +€44.45 | 2/3 | 90.984% | Reject: service; complete screen pending |
+| Premium1440 + readiness200 | Pending4 | — | — | — | Screen running |
+| Premium1440 + readiness400 | Pending4 | — | — | — | Screen running |
+| Premium1440 + nonurgent fee cap14500 | Pending4 | — | — | — | Screen running |
+| Premium1440 + anticipated note urgency | Pending4 | — | — | — | Queued, incremental comparison required |
+
+New package seeds were reserved before outcomes. Delta and confirmed premium
+references run on all eight. The neighbor1200/1800 premium-threshold screen
+is deferred behind testing additions to the confirmed1440 guard.
