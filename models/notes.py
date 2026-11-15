@@ -126,7 +126,7 @@ _SATURDAY_CLOSED = re.compile(
     r'|lauantai(?:sin|na)?\s+(?:kiinni|suljettu)'
     r'|(?:stangt|stangd)\s+(?:pa\s+)?lordag(?:ar)?'
     r'|lordag(?:ar)?\s+(?:stangt|stangd)'
-    r'|inga?\s+(?:(?:hamt\w*|leveran\w*)\s+(?:pa\s+)?)?lordag(?:ar)?)\b')
+    r'|(?:inga|ingen)\s+(?:(?:hamt\w*|leveran\w*)\s+(?:pa\s+)?)?lordag(?:ar)?)\b')
 
 
 def parse_note(note, arrived_at, *, weekday_saturday=False):
@@ -154,7 +154,9 @@ def parse_note(note, arrived_at, *, weekday_saturday=False):
     saturday_closed = set()
     for clause in clauses:
         clause = _word_hours(clause)
-        negative_prefix = r'(?<!\bno)(?<!\bei)(?<!\binte)' if weekday_saturday else ''
+        negative_prefix = (r'(?<!\bno)(?<!\bei)(?<!\binte)(?<!\binga)(?<!\bingen)'
+                           r'(?<!\bno saturday)(?<!\bno saturdays)'
+                           r'(?<!\bei lauantaisin)(?<!\bei lauantaina)') if weekday_saturday else ''
         pieces = re.split(negative_prefix + r'\s+(?=(?:ready for pickup|pick(?:up|\s+up)|collect(?:ion)?|nouto|toimit\w*|destination|deliver\w*|arriv\w*|recipient|oltava perilla|perilla|leverans\w*|framme)\b)', clause)
         for part in pieces:
             if not part.strip():

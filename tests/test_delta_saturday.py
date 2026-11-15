@@ -34,6 +34,13 @@ class SaturdayNoteTests(unittest.TestCase):
             with self.subTest(text=text):self.assertNotIn(5,facts.pickup_weekdays)
         facts=parse_note('Pickup weekdays 9-18; Delivery weekdays 9-18; no deliveries on Saturday',540,weekday_saturday=True)
         self.assertIn(5,facts.pickup_weekdays);self.assertNotIn(5,facts.delivery_weekdays)
+        for closure in ('No Saturday deliveries', 'Ei lauantaisin toimituksia',
+                        'Inga leveranser på lördagar', 'Ingen leverans på lördag'):
+            scoped=parse_note('Pickup weekdays 9-18; Delivery weekdays 9-18; '+closure,
+                              540,weekday_saturday=True)
+            with self.subTest(closure=closure):
+                self.assertIn(5,scoped.pickup_weekdays)
+                self.assertNotIn(5,scoped.delivery_weekdays)
         facts=parse_note('No Saturday pickups; Pickup weekdays 9-18',540,weekday_saturday=True)
         self.assertNotIn(5,facts.pickup_weekdays)
         facts=parse_note('Ready for pickup not before Saturday 12:00',540,weekday_saturday=True)

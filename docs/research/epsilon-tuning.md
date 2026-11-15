@@ -564,3 +564,30 @@ The quote floors' combination screens are new candidates; no floor-failing
 component was adopted or advanced to19 by itself. Their margin evidence
 motivates testing whether the confirmed premium guard changes the service
 interaction. They must independently pass the full promotion gates.
+
+
+## Continued selection, 01:38 UTC
+
+Pooled premium1440 result:27 paired weeks,+€171.97/week,17/27 positive,
+worst91.667%. Already adopted in`a4cd6b3`;03:00 ranking selection is Epsilon.
+The orchestrator withdrew builder merge instructions after both leads lost
+margin on extension. Do not merge P1/P5. Reserve a new eight-seed package
+cohort before seeing package outcomes, with both Delta and premium1440
+references; additions must improve confirmed Epsilon as well as Delta.
+
+The rejected Saturday experiment received a scope regression correction for
+“No Saturday deliveries” and analogous FI/SV orderings. The earlier screen
+uses the preceding parser version and remains rejected; this correction is
+not adopted or claimed to inherit those scores. Defaults/off remain exact.
+Local463 tests pass after this correction.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Urgent fee-clock memory | 4 | −€1,114.73 | 0/4 | 91.057% | Reject: cost and service |
+| Readiness early cut600 | 4 | −€266.59 | 2/4 | 90.191% | Reject: margin and service |
+
+Queued after current screens: premium1440 plus readiness200/400bps or a
+14500bps nonurgent cap. These are smaller, separate fee levers with existing
+parameter tests; none is adopted before full paired and fresh confirmation.
+A neighboring premium threshold screen is also prepared. Builder combinations
+were cancelled before launch. Freeze04:30 and practice cutoff06:15 unchanged.
