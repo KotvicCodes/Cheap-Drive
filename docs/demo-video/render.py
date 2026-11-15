@@ -83,6 +83,7 @@ LIVE_DEMO = Image.open(ROOT / 'assets/live-demo-overview.png').convert('RGB')
 LIVE_DEMO_SCROLL = Image.open(ROOT / 'assets/live-demo-scroll.png').convert('RGB')
 LOGO_BADGE = Image.open(ROOT / 'assets/cheap-drive-badge.png').convert('RGBA').resize((124, 124), Image.Resampling.LANCZOS)
 LOGO_BADGE_SM = Image.open(ROOT / 'assets/cheap-drive-badge.png').convert('RGBA').resize((76, 76), Image.Resampling.LANCZOS)
+QR_CODE = Image.open(ROOT / 'assets/qr-live-demo.png').convert('RGB').resize((268, 268), Image.Resampling.LANCZOS)
 GREEK_FONT = ImageFont.truetype(str(ROOT / 'assets/DejaVuSans-Bold.ttf'), 26)
 
 
@@ -999,7 +1000,7 @@ def delta_iteration(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 10 (61–66s): Sol's closing highway slide
+# Slide 10 (61–66s): Sol's closing highway slide + QR code ("Try it yourself")
 # ---------------------------------------------------------------------------
 def ending(t):
     im = base_canvas('juicy').copy()
@@ -1009,10 +1010,19 @@ def ending(t):
     line(road_layer, [(1160, 1080), (1600, 650), (1400, 350), (1830, -50)], SUNBURST, 6)
     im.paste(road_layer, (0, 0))
 
-    im.paste(LOGO_BADGE_SM, (80, 128), LOGO_BADGE_SM)
-    enter(im, 'Cheap-Drive', 176, 138, 52, t, .02, color='#231A14', weight=700)
-    enter(im, 'Win the right work.', 80, 346, 108, t, .08, color=INK, weight=700)
-    enter(im, 'Deliver it.', 80, 492, 138, t, .20, color=CARD, weight=700)
+    im.paste(LOGO_BADGE_SM, (80, 96), LOGO_BADGE_SM)
+    enter(im, 'Cheap-Drive', 176, 106, 52, t, .02, color='#231A14', weight=700)
+    enter(im, 'Win the right work.', 80, 236, 102, t, .08, color=INK, weight=700)
+    enter(im, 'Deliver it.', 80, 370, 128, t, .18, color=CARD, weight=700)
+
+    # QR code + "Try it yourself" lockup
+    qr_x, qr_y = 80, 628
+    qr_mask = Image.new('L', (268, 268), 0)
+    ImageDraw.Draw(qr_mask).rounded_rectangle((0, 0, 267, 267), radius=24, fill=255)
+    im.paste(QR_CODE, (qr_x, qr_y), qr_mask)
+    rect(im, (qr_x, qr_y, qr_x + 268, qr_y + 268), None, outline=INK, r=24, width=3)
+
+    enter(im, 'Try it yourself', qr_x + 304, qr_y + 92, 64, t, .26, color=INK, weight=700)
 
     road = [(1370, 1020), (1690, 650), (1490, 350), (1825, 15)]
     for idx_c, offset_p in enumerate([0.12, 0.54]):
