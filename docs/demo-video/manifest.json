@@ -1,23 +1,23 @@
 {
   "README.md": {
-    "bytes": 5496,
-    "sha256": "a8f8d354a3fc9af85ddac8bae4516a5f1e32019cd2ca133317e2be03814ecaf9"
+    "bytes": 5665,
+    "sha256": "8cfe38f06498b77cd0e7ed51c1abe2f829af77826424b9d6b8dd4e172e5fbdc1"
   },
   "requirements.txt": {
     "bytes": 50,
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 47989,
-    "sha256": "0f57d1eeaafddfaef6ea729cd92f45f639a6f932f09e12ab4eaaa0512d1cd54b"
+    "bytes": 48774,
+    "sha256": "162b648c2caa81f3be138f7a23bf23e3013db094feb55e55c082ab157aa4baa0"
   },
   "captions.vtt": {
-    "bytes": 1196,
-    "sha256": "f90aa3f616295c7819b4b5dabb1d06eb74c361098c4a4102838d1ce466d439d1"
+    "bytes": 1220,
+    "sha256": "3858197c3a890263d323d9abf7ffa1275151156cf7974b3c6b6291fd2ad52d7f"
   },
   "captions.srt": {
-    "bytes": 1206,
-    "sha256": "4f859dd6c9d3b63963f2ee8e7a46135edf7fe30c4a5bb7fc3fec9c56c6674d5b"
+    "bytes": 1230,
+    "sha256": "af0d957f94552405eae67517d4baac10e530419c1135a1a368544ada1657eb0d"
   },
   "data/graph-data.json": {
     "bytes": 526287,
@@ -64,8 +64,8 @@
     "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
   },
   "assets/all-run-margins.png": {
-    "bytes": 298482,
-    "sha256": "d85575d382bc2fb8cbea733dcf169ff417e25ac91d21b67806ee7fd016c6dbc9"
+    "bytes": 324424,
+    "sha256": "11fb90433b9dcc21198aae1ef0165ba12a7f857e22802eea68458afdd7e6df55"
   },
   "assets/learning-stages.png": {
     "bytes": 368953,
@@ -84,8 +84,8 @@
     "sha256": "039f277d43fbe98e90100a35aa3fcdcf05b6b12913adc1b52802e474cfae2e80"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 576236,
-    "sha256": "f196a38da24b08ca40b31a69bbae3937d393e2d0f1eee6f47d2206cba38b25f7"
+    "bytes": 590067,
+    "sha256": "78bd1196528fe36ef351a0cf112d1961fe39bce6895cc4cfd9c8db1591999ac4"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
@@ -100,8 +100,8 @@
     "sha256": "590f32752efa5fd27b352eb1e6d6d15db5f5d95736e4f4335f22e09b8c81eba9"
   },
   "data/run-data.json": {
-    "bytes": 793805,
-    "sha256": "bd9421dd02569639e27534ae639e2f03d39e7793fdd07b3dad678b8ae5fb549f"
+    "bytes": 897960,
+    "sha256": "a2841b92fd565c1fbf8d894191e935f92bc28ca04cac4a76b39e32ee8eed2c00"
   },
   "assets/DejaVuSans-Bold.ttf": {
     "bytes": 704128,
