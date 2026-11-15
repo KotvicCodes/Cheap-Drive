@@ -803,3 +803,13 @@ The new fee-grid commit was transplanted onto authoritative remote history
 after an unintended local history rewrite. Old local state is preserved
 on the unpushed `backup/rewrite-f4768bd` branch. No force push, no builder
 merge, and no final runner/process/files were touched.
+
+Added the orchestrator's zero-code capacity arm on Early Epsilon:
+`capacity_valve=1`, backlog bands12/20, targets5200/4400/3000. Existing
+keys are verified; five boundary cases check the actual target and its
+checkpoint restoration. This arm joins the fee screen at the same4-worker
+quota. At02:48 the first fee sweep process exited143 unexpectedly; registry
+showed4 owned ordinary practice worlds and no sweep processes. Ended only
+those orphaned worlds, then resumed the same sweep with finished rows
+skipped. Ranking gate/controller and shutdown guard remained live. No
+ranking or final world was ended, and no final process was touched.

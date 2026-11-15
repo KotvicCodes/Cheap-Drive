@@ -10,6 +10,24 @@ from tests.test_gamma_pairs import order_for
 
 
 class VolumeFeeCompositionTests(unittest.TestCase):
+    def test_capacity_grid_uses_backlog_bands_and_restores_them(self):
+        path = Path(__file__).resolve().parents[1] / 'docs/research/plans/epsilon/volume-buy-service-with-brake-remainder.json'
+        plan = json.loads(path.read_text())
+        knobs = plan['variants']['premium1440-capacity12-20-win5200-4400-3000']
+        settings = {**plan['base'], **knobs}
+        for count, target in ((0, 5200), (12, 5200), (13, 4400), (20, 4400), (21, 3000)):
+            with self.subTest(open_orders=count):
+                desk = new_desk(**settings)
+                for i in range(count):
+                    req = request(identity='open-' + str(i))
+                    desk.requests[req['id']] = req
+                    desk.orders[req['id']] = order_for(req)
+                self.assertEqual(desk.win_target(), target)
+                recovered = new_desk(**settings)
+                restore_state(recovered, deepcopy(model_state(desk)))
+                self.assertEqual(recovered.win_target(), target)
+                self.assertEqual(recovered.settings.premium_min_slack_minutes, 1440)
+
     def test_fee_grid_keeps_volume_and_ages_urgent_fees_after_recovery(self):
         path = Path(__file__).resolve().parents[1] / 'docs/research/plans/epsilon/volume-buy-service-screen.json'
         plan = json.loads(path.read_text())

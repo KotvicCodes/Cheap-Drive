@@ -116,6 +116,14 @@
       "delta_service_target_bps": 4200,
       "delta_service_hard_target_bps": 3600,
       "win_target_bps": 5500
+    },
+    "premium1440-capacity12-20-win5200-4400-3000": {
+      "capacity_valve": 1,
+      "open_low": 12,
+      "open_high": 20,
+      "win_target_high_bps": 5200,
+      "win_target_mid_bps": 4400,
+      "win_target_low_bps": 3000
     }
   }
 }
