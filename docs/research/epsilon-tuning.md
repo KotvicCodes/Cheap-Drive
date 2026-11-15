@@ -608,7 +608,7 @@ week with one worker. Completed scores remain resume-safe.
 | Saturday bare-weekday parser, preceding scope version | 4 | −€2.84 | 2/4 | 90.566% | Reject; later scope correction unpromoted |
 | Anticipated note urgency | 4 | +€167.25 | 2/4 | 90.836% | Reject standalone: service |
 | Premium1440 + floor11000 | 4 | +€235.19 | 2/4 | 91.066% | Reject: service; only+€21.77 versus premium |
-| Premium1440 + floor11500 | 3 (last resumed) | +€44.45 | 2/3 | 90.984% | Reject: service; complete screen pending |
+| Premium1440 + floor11500 | 4 | +€16.43 | 2/4 | 90.984% | Reject: service; −€196.98 versus premium |
 | Premium1440 + readiness200 | Pending4 | — | — | — | Screen running |
 | Premium1440 + readiness400 | Pending4 | — | — | — | Screen running |
 | Premium1440 + nonurgent fee cap14500 | Pending4 | — | — | — | Screen running |
@@ -617,3 +617,27 @@ week with one worker. Completed scores remain resume-safe.
 New package seeds were reserved before outcomes. Delta and confirmed premium
 references run on all eight. The neighbor1200/1800 premium-threshold screen
 is deferred behind testing additions to the confirmed1440 guard.
+
+
+## Additional fresh week withdraws ranking qualification, 01:57 UTC
+
+The new pre-reserved package reference cohort revealed a strict-floor miss:
+`epsilon-package-confirm-20261115-s03`, premium1440, onTimeShare
+**0.9149560117302052 =91.4956011730%**, margin€13,892.16,341 won,
+zero undelivered, server ranked=true. This remains above the official90%
+threshold, but is **below our91.5% selection gate**; rounding to91.5% would
+conceal that miss. Original19+8 confirmation evidence remains accurately
+recorded above. Additional observations cannot be excluded from the safety
+minimum merely because adoption happened earlier.
+
+The03:00 ranking-choice file now falls back to plain`models/delta.json`
+unless another candidate completes the gates. Epsilon JSON stays1440 pending
+further tuning; this preserves the previously selected specification while
+ranking eligibility is withdrawn. The orchestrator was told immediately.
+Rehearsal remains wholly owned by the dedicated agent.
+
+Next settings-only screen: premium1200 and1800, with existing premium guard
+unit coverage in`tests/test_gamma_segments.py`,`test_delta.py` and
+`test_delta_lanes.py`. Each needs all19 old pairs and a newly reserved
+independent confirmation cohort before promotion. Fees remain lower priority
+after all three smaller-cut arms missed service on a hard week.
