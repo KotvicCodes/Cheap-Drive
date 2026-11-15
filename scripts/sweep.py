@@ -18,6 +18,8 @@ directory (git-ignored): traces/*.jsonl.gz, reveals/*.json.gz, runs.jsonl
 Set SWEEP_PAUSE_FILE to a shared file path for drain-and-resume control.
 Creating that file blocks new worlds (including retries) while active weeks
 finish. Removing it resumes queued weeks; completed scores are still reused.
+Set SWEEP_TEAM_WORLD_LIMIT=12 to check the team's unfinished worlds before
+each creation, including retries, and wait while the shared capacity is full.
 """
 from __future__ import annotations
 
@@ -52,6 +54,19 @@ def wait_for_launch():
         time.sleep(1)
 
 
+def wait_for_team_capacity(client):
+    limit = int(os.environ.get('SWEEP_TEAM_WORLD_LIMIT', '0'))
+    if limit < 0:
+        raise ValueError('SWEEP_TEAM_WORLD_LIMIT must be nonnegative')
+    if not limit:
+        return
+    while True:
+        wait_for_launch()
+        if sum(not world['ended'] for world in client.worlds()) < limit:
+            return
+        time.sleep(3)
+
+
 def play_week(out, factory_name, level, seed, label, settings, fast):
     from performance import PracticeClient as Client
     from compare import MetricsJournal
@@ -65,6 +80,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
         world = None
         try:
             wait_for_launch()
+            wait_for_team_capacity(client)
             world = client.create(level=level, seed=seed, board=False)
             (out / "worlds" / world.id).write_text(tag)
             started = time.time()
