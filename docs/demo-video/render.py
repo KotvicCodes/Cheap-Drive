@@ -931,19 +931,23 @@ def delta_production(t):
     txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 80, 240, 134, ORANGE, 700)
     txt(im, 'gross margin/week vs Early Delta', 80, 404, 30, INK, 650)
 
-    # Card 1: 19/19 practice weeks ranked
+    # Card 1: 19/19 on left-center, "practice weeks ranked" + "17/19 weeks ahead" stacked on right
     rect(im, (80, 486, 690, 694), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, '19/19', 112, 502, 74, ORANGE, 700)
-    txt(im, 'practice weeks ranked', 318, 559, 26, INK, 700)
+    f19 = font(84, 700, False)
+    bb19 = f19.getbbox('19/19')
+    txt(im, '19/19', 216 - (bb19[0] + bb19[2]) / 2, 590 - (bb19[1] + bb19[3]) / 2, 84, ORANGE, 700)
+
+    rx = 356
+    txt(im, 'practice weeks ranked', rx, 540, 26, INK, 700)
     b1_lbl = '17/19 weeks ahead'
     b1_f = font(21, 700, False)
     b1_bb = b1_f.getbbox(b1_lbl)
     b1_cap = b1_f.getbbox('H')
-    b1_w = (b1_bb[2] - b1_bb[0]) + 24
-    b1_h = 34
-    b1_x = 385 - b1_w / 2
-    b1_y = 620
-    rect(im, (b1_x, b1_y, b1_x + b1_w, b1_y + b1_h), MARIGOLD, outline=ORANGE, r=9, width=2)
+    b1_w = (b1_bb[2] - b1_bb[0]) + 28
+    b1_h = 38
+    b1_x = rx
+    b1_y = 594
+    rect(im, (b1_x, b1_y, b1_x + b1_w, b1_y + b1_h), MARIGOLD, outline=ORANGE, r=10, width=2)
     txt(im, b1_lbl, b1_x + b1_w / 2 - (b1_bb[0] + b1_bb[2]) / 2, b1_y + b1_h / 2 - (b1_cap[1] + b1_cap[3]) / 2, 21, INK, weight=700)
 
     # Card 2: €75,764 round 9 total
