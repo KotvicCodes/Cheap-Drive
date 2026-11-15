@@ -287,3 +287,23 @@ drained before switching screens. An additional default-off lane gate now
 serializes slot checks, world creation and ownership-marker writes with a file
 lock. This lane uses `SWEEP_LANE_WORLD_LIMIT=3` and `SWEEP_LANE_ROOT=runs/epsilon-p5`
 in addition to the team12 gate. Tests:465 passing.
+
+
+### Converged queue: A–D only, exact240/300 settings
+
+At 02:58 UTC the orchestrator requested convergence on A–D and immediate
+loop-manager handoff after their four-seed screen. The final screen therefore
+uses base slack240/same-day300, with A alone; B adding long cap10/max900/all
+three long options; C adding trade-ins; and D adding target4600. All four exact
+configs instantiate successfully. They use new unique labels/output so the
+earlier permitted360-minute variants cannot be pooled by mistake. The narrower
+360/cap4 comparison and all pricing follow-ups are stopped.
+
+Only these A–D arms run after the old weeks drain. The handoff is atomically
+written to the requested scratchpad `admission-best.json` with complete
+settings, overrides, paired Delta/Early Epsilon statistics and per-seed scores.
+Only the best positive-mean, ranked, all-weeks>=91.5% screen arm extends to the
+19 paired seeds, then the reserved admission fresh cohort if it survives.
+If no arm qualifies, the handoff explicitly says no eligible survivor and no
+extension is launched. The existing03:00–03:45 pause and05:30/05:50 deadlines
+remain enforced. Long slack1440 and premium1440 remain unchanged in A–D.
