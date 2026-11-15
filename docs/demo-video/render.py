@@ -80,6 +80,7 @@ DELTA_CONFIRM = [
 CHART_ALL = Image.open(ROOT / 'assets/all-run-margins.png').convert('RGB')
 CHART_STAGES = Image.open(ROOT / 'assets/learning-stages.png').convert('RGB')
 LIVE_DEMO = Image.open(ROOT / 'assets/live-demo-overview.png').convert('RGB')
+LIVE_DEMO_SCROLL = Image.open(ROOT / 'assets/live-demo-scroll.png').convert('RGB')
 LOGO_BADGE = Image.open(ROOT / 'assets/cheap-drive-badge.png').convert('RGBA').resize((124, 124), Image.Resampling.LANCZOS)
 LOGO_BADGE_SM = Image.open(ROOT / 'assets/cheap-drive-badge.png').convert('RGBA').resize((76, 76), Image.Resampling.LANCZOS)
 GREEK_FONT = ImageFont.truetype(str(ROOT / 'assets/DejaVuSans-Bold.ttf'), 26)
@@ -663,11 +664,32 @@ def observability(t):
 
     rect(im, (80, 336, 1020, 978), INK, r=18)
     bezel_w, bezel_h = 1004 - 96, 962 - 352
-    framed = Image.new('RGB', (1430, 960))
-    top_strip = LIVE_DEMO.crop((0, 0, 1430, 1)).resize((1430, 16), Image.Resampling.NEAREST)
-    framed.paste(top_strip, (0, 0))
-    framed.paste(LIVE_DEMO.crop((0, 0, 1430, 944)), (0, 16))
-    app_view = framed.resize((bezel_w, bezel_h), Image.Resampling.LANCZOS)
+    # Build a 1430x960 browser viewport with fixed sidebar + pinned top switcher + smooth-scrolling main pane
+    viewport = Image.new('RGB', (1430, 960), '#141413')
+    # Fixed left sidebar & top run-switcher bar from LIVE_DEMO (shows Delta Late €18,058)
+    top_strip = LIVE_DEMO.crop((0, 0, 1430, 1)).resize((1430, 14), Image.Resampling.NEAREST)
+    viewport.paste(top_strip, (0, 0))
+    viewport.paste(LIVE_DEMO.crop((0, 0, 214, 946)), (0, 14))
+    viewport.paste(LIVE_DEMO.crop((214, 0, 1430, 106)), (214, 14))
+
+    # Smoothly scroll the full 1715px report body inside the main content pane (x=214..1430, y=120..960)
+    pane_w, pane_h = 1430 - 214, 960 - 120
+    crop_top = mix(0.0, float(1715 - 168 - pane_h), smooth((t - 0.30) / 4.9))
+    scrolled_pane = LIVE_DEMO_SCROLL.resize(
+        (pane_w, pane_h),
+        Image.Resampling.BICUBIC,
+        box=(232.0, 168.0 + crop_top, 1430.0, 168.0 + pane_h + crop_top),
+    )
+    viewport.paste(scrolled_pane, (214, 120))
+
+    # Subtle top shadow under the pinned run-switcher header when scrolling
+    shade = Image.new('RGBA', (pane_w, 26))
+    sh_alpha = round(190 * clamp(crop_top / 80.0))
+    for sy_i in range(26):
+        ImageDraw.Draw(shade).line((0, sy_i, pane_w, sy_i), fill=(20, 20, 19, round(sh_alpha * (1 - sy_i / 26))))
+    viewport.paste(shade, (214, 120), shade)
+
+    app_view = viewport.resize((bezel_w, bezel_h), Image.Resampling.LANCZOS)
     mask = Image.new('L', (bezel_w, bezel_h), 0)
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, bezel_w - 1, bezel_h - 1), radius=12, fill=255)
     im.paste(app_view, (96, 352), mask)
