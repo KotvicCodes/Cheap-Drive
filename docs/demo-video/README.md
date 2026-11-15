@@ -30,13 +30,13 @@ Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path
 | Time | Scene |
 | --- | --- |
 | 00:00–00:05 | Cheap-Drive — Move cars, Win margins. Full Finland map with 30 simulator towns. |
-| 00:05–00:13 | 1,492 runs: Graphical `Alpha → Beta → Gamma → Delta` iteration pipeline (`677`, `268`, `242`, `303`) with run-volume matrices and rising margin trajectory (`€4.5k → €10.6k → €11.2k → €12.9k/wk`). |
-| 00:13–00:20 | 2×2 Dispatch Bento: Screen, Quote, Escalate fee (`0.80× → 1.50×`), Qualify (`≥ 90%`). |
-| 00:20–00:26 | Observability: Real offline HTML report screenshot with scrolling details. |
-| 00:26–00:34 | 1,492 completed practice runs across `Baseline` (2), `Alpha` (677), `Beta` (268), `Gamma` (242), and `Delta` (303). |
-| 00:34–00:41 | Tuning vs. validation: Stress seed `gamma-t04` (`89.80%` OT) and why Gamma Early failed its first fresh holdout (`gamma-h07` at `89.956%` OT, `7/8 qualified`). |
-| 00:41–00:48 | Gamma confirmed on 8 untouched weeks (`v09–v16`): `+€2,031/week (+20.21%)`, `8/8 positive`, `8/8 qualified`, worst on-time `96.95%`. |
-| 00:48–00:55 | Delta confirmed on 11 untouched weeks (`f01–f11`): `+€682/week vs Gamma`, `11/11 fresh weeks ahead`, `300/303 Delta runs ranked`, `93.7%` worst fresh on-time. |
+| 00:05–00:13 | Prototype. Test. Loop. Repeat.: Graphical `α Alpha → β Beta → γ Gamma → δ Delta` iteration pipeline (`677`, `268`, `242`, `496` runs; `1,685` total practice runs) with run-volume matrices and rising margin trajectory (`€4.5k → €10.6k → €11.2k → €13.0k/wk`). |
+| 00:13–00:20 | Beta: quote, then deliver — 2×2 Dispatch Bento (`Filter requests`, `Price dealer trust`, `Time gig fees 0.80× → 1.50×`, `Meet deadlines ≥90%`). |
+| 00:20–00:26 | Find what broke: Live demo app preview (`assets/live-demo-overview.png`) + `Note → Pickup window → Outcome` order inspection. |
+| 00:26–00:34 | More runs cleared the ranking gate (`1,685 practice runs` across `Baseline: 2`, `Alpha: 677`, `Beta: 268`, `Gamma: 242`, `Delta: 496`). |
+| 00:34–00:41 | Gamma: more margin. One week missed the gate (`+€830/wk`, `7/8 weeks ranked`, `W7` at `89.96%` on time). |
+| 00:41–00:48 | Gamma reads notes and pairs two cars (`+€2,031/week vs Beta` across 8 new practice weeks, `8/8 weeks qualified`, `96.95%` worst on time). |
+| 00:48–00:55 | Delta: use freed capacity (+42% target) (`+€1,664/week vs Early Delta` across 19 paired practice weeks, `19/19 weeks ranked`, `17/19 ahead`, `91.1%` worst on time, `342 won/wk`). |
 | 00:55–01:00 | Highway close (`Win the right work. Deliver it.`). |
 
 ## Evidence and limits

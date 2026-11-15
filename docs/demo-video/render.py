@@ -55,17 +55,25 @@ ROUND6_RUNS = OFFICIAL_RUNS[5:10]
 PAIRED_OLD = list(csv.DictReader((ROOT / 'data/per-seed-comparisons.csv').open()))
 
 DELTA_CONFIRM = [
-    ('f01', 7353.40, 8178.10, 824.70, 97.0, 96.6),
-    ('f02', 11918.61, 13468.72, 1550.11, 96.3, 97.8),
-    ('f03', 11620.83, 12000.00, 379.17, 98.4, 98.0),
-    ('f04', 14102.64, 14357.99, 255.35, 98.5, 98.5),
-    ('f05', 10663.96, 11063.43, 399.47, 97.2, 97.2),
-    ('f06', 15844.85, 16630.83, 785.98, 97.0, 97.0),
-    ('f07', 10001.28, 12015.18, 2013.90, 94.9, 93.7),
-    ('f08', 10566.66, 10586.94, 20.28, 97.2, 97.2),
-    ('f09', 12836.87, 13601.21, 764.34, 97.4, 98.5),
-    ('f10', 13810.94, 13962.56, 151.62, 98.6, 97.8),
-    ('f11', 9770.47, 10128.71, 358.24, 97.1, 97.1),
+    ('W1', 8178.10, 9711.04, 1532.94, 96.60, 95.74),
+    ('W2', 13468.72, 15218.71, 1749.99, 97.81, 96.97),
+    ('W3', 12000.00, 14376.53, 2376.53, 98.04, 97.00),
+    ('W4', 14357.99, 16230.16, 1872.17, 98.51, 97.77),
+    ('W5', 11063.43, 13499.61, 2436.18, 97.18, 96.18),
+    ('W6', 16630.83, 18366.42, 1735.59, 97.05, 94.78),
+    ('W7', 12015.18, 11462.67, -552.51, 93.68, 91.12),
+    ('W8', 10586.94, 11575.92, 988.98, 97.24, 95.27),
+    ('W9', 13601.21, 15608.46, 2007.25, 98.53, 98.57),
+    ('W10', 13962.56, 17344.20, 3381.64, 97.82, 97.54),
+    ('W11', 10128.71, 13098.79, 2970.08, 97.08, 96.57),
+    ('W12', 13711.55, 16020.64, 2309.09, 98.05, 95.85),
+    ('W13', 10508.26, 12712.21, 2203.95, 96.80, 97.32),
+    ('W14', 10428.83, 11161.66, 732.83, 94.07, 93.33),
+    ('W15', 13944.07, 14206.55, 262.48, 94.77, 91.64),
+    ('W16', 9533.15, 10967.42, 1434.27, 96.34, 96.21),
+    ('W17', 10011.06, 9894.92, -116.14, 96.58, 94.23),
+    ('W18', 14309.52, 16115.66, 1806.14, 95.62, 95.25),
+    ('W19', 11391.33, 13872.46, 2481.13, 98.81, 96.47),
 ]
 
 CHART_ALL = Image.open(ROOT / 'assets/all-run-margins.png').convert('RGB')
@@ -455,7 +463,7 @@ def evolution(t):
         ('α', 'Alpha', 677, 68, 4466, 'Formula quotes', MARIGOLD),
         ('β', 'Beta', 268, 27, 10602, 'Trust + fee timing', MANGO),
         ('γ', 'Gamma', 242, 24, 11157, 'Notes + two-car gigs', MANGO),
-        ('δ', 'Delta', 303, 30, 12905, 'Rescue windows', MANGO),
+        ('δ', 'Delta', 496, 50, 12975, 'Capacity + 42% target', MANGO),
     ]
 
     curve_pts = []
@@ -628,13 +636,13 @@ def experiments(t):
     im = base_canvas('chart').copy()
     im.paste(graph_all_small(), (80, 230))
     enter(im, 'More runs cleared the ranking gate', 80, 56, 72, t, 0.05, color=INK, weight=700)
-    txt(im, '1,492 practice runs', 84, 148, 28, MUTED_INK, 650)
+    txt(im, '1,685 practice runs', 84, 148, 28, MUTED_INK, 650)
 
     stages = [
         (1, 'Alpha: 84.6% ranked'),
         (2, 'Beta: 88.1% ranked'),
         (3, 'Gamma: 97.9% ranked'),
-        (4, 'Delta: 99.0% ranked'),
+        (4, 'Delta: 98.6% ranked'),
     ]
     if t > 0.4:
         frac = clamp((t - 0.4) / 6.8)
@@ -713,19 +721,19 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
     rect(im, (755, 236, 1840, 966), CARD, GOLD_LINE, r=18, width=2)
     txt(im, label, 790, 264, 30, INK, 700)
     if diff_only:
-        txt(im, 'Extra margin vs Gamma', 790, 320, 24, ORANGE, 700)
+        txt(im, f'Extra margin vs {baseline}', 790, 320, 24, ORANGE, 700)
     else:
         txt(im, 'Gross margin / week', 790, 320, 23, MUTED_INK)
         for x, name, col in [(1434, baseline, GOLD_TRACK), (1630, candidate, ORANGE)]:
             rect(im, (x, 325, x + 26, 345), col, r=4)
             txt(im, name, x + 38, 319, 23, INK, 650)
 
-    base_y, left, right = 650, 842, 1796
+    base_y, left, right = (615 if diff_only else 650), 842, 1796
     if diff_only:
-        for value in [0, 1000, 2000]:
-            yy = base_y - 268 * value / 2200
+        for value in [0, 1500, 3000]:
+            yy = base_y - 235 * value / 3500
             line(im, [(left - 16, yy), (right + 12, yy)], GOLD_LINE if value == 0 else APRICOT, 2 if value == 0 else 1)
-            txt(im, f'+€{value // 1000}k' if value else '€0', 818, yy, 17, MUTED_INK, mono=True, anchor='rm')
+            txt(im, f'+€{value / 1000:.1f}k' if value == 1500 else (f'+€{value // 1000}k' if value else '€0'), 818, yy, 17, MUTED_INK, mono=True, anchor='rm')
     else:
         for value in [0, 5000, 10000, 15000]:
             yy = base_y - 268 * value / 18000
@@ -738,22 +746,25 @@ def paired_chart(im, t, rows, baseline, candidate, label, diff_only=False):
     ot_b, ot_c = [], []
     for i, (bv, cv, bot, cot) in enumerate(rows):
         cx = left + (i + .5) * step
-        pp = ease((t - .3 - i * .11) / .6)
+        pp = ease((t - .25 - i * .07) / .5)
         if diff_only:
-            dv = max(0.0, cv - bv)
-            dh = 268 * (dv / 2200.0) * pp
-            rect(im, (cx - bw * 0.75, base_y - dh, cx + bw * 0.75, base_y), ORANGE, r=6)
+            dv = cv - bv
+            dh = 235 * (abs(dv) / 3500.0) * pp
+            if dv >= 0:
+                rect(im, (cx - bw * 0.82, base_y - dh, cx + bw * 0.82, base_y), ORANGE, r=4)
+            else:
+                rect(im, (cx - bw * 0.82, base_y, cx + bw * 0.82, base_y + dh), MANGO, r=4)
         else:
             rect(im, (cx - bw - 2, base_y - 268 * bv / 18000 * pp, cx - 2, base_y), GOLD_TRACK, GOLD_LINE, r=4)
             rect(im, (cx + 2, base_y - 268 * cv / 18000 * pp, cx + bw + 2, base_y), ORANGE, r=4)
         ot_b.append((cx, 882 - 130 * (bot - 89) / 11))
         ot_c.append((cx, 882 - 130 * (cot - 89) / 11))
-        txt(im, f'W{i + 1}', cx, 910, 20 if n == 8 else 18, INK, mono=True, anchor='ma')
+        txt(im, f'W{i + 1}', cx, 910, 20 if n == 8 else 14, INK, mono=True, anchor='ma')
 
     txt(im, 'On time', 790, 694, 23, MUTED_INK, 650)
-    line(im, [(1410, 710), (1446, 710)], MUTED_INK, 3)
-    circle(im, 1428, 710, 4, CARD, MUTED_INK, 2)
-    txt(im, baseline, 1458, 695, 21, MUTED_INK, 650)
+    line(im, [(1360, 710), (1396, 710)], MUTED_INK, 3)
+    circle(im, 1378, 710, 4, CARD, MUTED_INK, 2)
+    txt(im, baseline, 1408, 695, 21, MUTED_INK, 650)
     line(im, [(1610, 710), (1646, 710)], ORANGE, 4)
     circle(im, 1628, 710, 6, ORANGE, INK, 2)
     txt(im, candidate, 1658, 695, 21, ORANGE, 700)
@@ -795,28 +806,28 @@ def gain(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 8 (48–55s): Sol's Delta slide
+# Slide 8 (48–55s): Sol's Delta slide with updated 19-week capacity numbers
 # ---------------------------------------------------------------------------
 def delta_confirm(t):
     im = base_canvas('sunburst').copy()
-    enter(im, 'Delta: rescue stranded orders', 80, 88, 80, t, .05, weight=700)
-    txt(im, f'+€{682.11 * ease((t - .2) / 1):,.0f}', 76, 278, 138, ORANGE, 700)
-    txt(im, 'gross margin/week vs Gamma', 84, 448, 30, INK, 650)
-    badge(im, '11/11 weeks ranked', 84, 540, color=INK, bg=MARIGOLD, border=ORANGE, size=29)
-    badge(im, '93.7% worst on time', 84, 622, color=INK, bg=ORANGE, size=29)
+    enter(im, 'Delta: use freed capacity (+42% target)', 80, 88, 72, t, .05, weight=700)
+    txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 278, 134, ORANGE, 700)
+    txt(im, 'gross margin/week vs Early Delta', 84, 448, 30, INK, 650)
+    badge(im, '19/19 weeks ranked (17/19 ahead)', 84, 538, color=INK, bg=MARIGOLD, border=ORANGE, size=27)
+    badge(im, '91.1% worst on time · 342 won/wk', 84, 616, color=INK, bg=ORANGE, size=27)
 
-    rect(im, (84, 738, 690, 948), CARD, GOLD_LINE, r=18, width=2)
-    txt(im, 'Expired window → next open pickup', 114, 762, 24, INK, 700)
-    rect(im, (118, 834, 290, 902), '#FFE5E5', outline=DANGER, r=10, width=2)
-    txt(im, 'Closed', 204, 868, 23, DANGER, 700, anchor='mm')
-    line(im, [(310, 868), (395, 868)], ORANGE, 5)
-    line(im, [(380, 856), (395, 868), (380, 880)], ORANGE, 4)
-    rect(im, (415, 834, 656, 902), APRICOT, outline=ORANGE, r=10, width=2)
-    car(im, 468, 868, color=ORANGE, scale=0.95, angle=0)
-    txt(im, 'Rescued', 575, 868, 24, INK, 700, anchor='mm')
+    rect(im, (84, 726, 690, 948), CARD, GOLD_LINE, r=18, width=2)
+    txt(im, 'Wider windows + 90 km pairs → 42% target', 110, 752, 22, INK, 700)
+    rect(im, (114, 826, 310, 902), APRICOT, outline=GOLD_LINE, r=10, width=2)
+    txt(im, '30% · 257 won', 212, 864, 21, MUTED_INK, 700, anchor='mm')
+    line(im, [(328, 864), (398, 864)], ORANGE, 5)
+    line(im, [(383, 852), (398, 864), (383, 876)], ORANGE, 4)
+    rect(im, (416, 826, 660, 902), ORANGE, r=10)
+    car(im, 464, 864, color=INK, scale=0.92, angle=0)
+    txt(im, '42% · 342 won', 575, 864, 21, CARD, 700, anchor='mm')
 
     rows = [(r[1], r[2], r[4], r[5]) for r in DELTA_CONFIRM]
-    paired_chart(im, t, rows, 'Gamma', 'Delta', '11 paired practice weeks', diff_only=True)
+    paired_chart(im, t, rows, 'Early Delta', 'Delta', '19 paired practice weeks', diff_only=True)
     return im
 
 
@@ -995,17 +1006,17 @@ def render(out, draft=False):
 
 
 def validate():
-    assert RUN_DATA['summary']['completed_practice'] == 1492
+    assert RUN_DATA['summary']['completed_practice'] == 1685
     assert RUN_DATA['summary']['chart_groups'] == {
         'Baseline': 2,
         'Alpha': 677,
         'Beta': 268,
         'Gamma': 242,
-        'Delta': 303,
+        'Delta': 496,
     }
     assert {name: round(group['ranked'] / group['runs'] * 100, 1)
             for name, group in RUN_DATA['groups'].items() if name != 'Baseline'} == {
-                'Alpha': 84.6, 'Beta': 88.1, 'Gamma': 97.9, 'Delta': 99.0}
+                'Alpha': 84.6, 'Beta': 88.1, 'Gamma': 97.9, 'Delta': 98.6}
     first_holdout = next(c for c in CHART_DATA['cohorts']
                          if c['comparison'] == 'Original candidate: fresh holdout')
     assert round(first_holdout['mean_delta_eur']) == 830
@@ -1014,9 +1025,9 @@ def validate():
     assert len(CONFIRM_WEEKS) == 8
     assert all(r['candidate_qualified'] == 'True' and float(r['delta_eur']) > 0 for r in CONFIRM_WEEKS)
     assert round(sum(float(r['delta_eur']) for r in CONFIRM_WEEKS) / 8, 3) == 2030.845
-    assert len(DELTA_CONFIRM) == 11
-    assert all(d[3] > 0 for d in DELTA_CONFIRM)
-    assert round(sum(d[3] for d in DELTA_CONFIRM) / 11, 2) == 682.11
+    assert len(DELTA_CONFIRM) == 19
+    assert sum(d[3] > 0 for d in DELTA_CONFIRM) == 17
+    assert round(sum(d[3] for d in DELTA_CONFIRM) / 19, 2) == 1663.82
     stress = next(r for r in PAIRED_OLD if r['suite'] == 't1' and r['variant'] == 'km600-t38' and r['seed'] == 'gamma-t04')
     assert int(stress['won_orders']) == 294 and round(float(stress['on_time_share']) * 100, 2) == 89.80
 

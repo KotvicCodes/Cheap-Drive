@@ -4,7 +4,7 @@ WEBVTT
 Cheap-Drive: Move cars, Win margins.
 
 00:00:05.100 --> 00:00:12.800
-Prototype. Test. Loop. Repeat. Across four model generations: Alpha (677 runs), Beta (268 runs), Gamma (242 runs), and Delta (303 runs).
+Prototype. Test. Loop. Repeat. Across four model generations: Alpha (677 runs), Beta (268 runs), Gamma (242 runs), and Delta (496 runs).
 
 00:00:13.100 --> 00:00:19.800
 Beta: filter requests, price for dealer trust, raise gig fees after pickup opens, and meet the 90% on-time gate.
@@ -13,7 +13,7 @@ Beta: filter requests, price for dealer trust, raise gig fees after pickup opens
 Find what broke: inspect dealer notes, pickup windows, and late delivery outcomes in the live week analysis report.
 
 00:00:26.100 --> 00:00:33.800
-More runs cleared the ranking gate across 1,492 practice runs: from 84.6% ranked in Alpha to 99.0% ranked in Delta.
+More runs cleared the ranking gate across 1,685 practice runs: from 84.6% ranked in Alpha to 98.6% ranked in Delta.
 
 00:00:34.100 --> 00:00:40.800
 Gamma: more margin, but one week missed the gate at 89.96% on time in the first eight-week holdout.
@@ -22,7 +22,7 @@ Gamma: more margin, but one week missed the gate at 89.96% on time in the first 
 Gamma reads notes and pairs two cars in one driver gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
 
 00:00:48.100 --> 00:00:54.800
-Delta rescues stranded orders by finding the next open pickup window, adding +€682 per week vs Gamma across 11 paired weeks.
+Delta uses freed capacity from wider windows and 90 km pairing with a 42% win target, adding +€1,664 per week vs Early Delta across 19 paired weeks.
 
 00:00:55.100 --> 00:00:59.800
 Cheap-Drive: Win the right work. Deliver it.

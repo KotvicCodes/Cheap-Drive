@@ -1,26 +1,26 @@
 {
   "summary": {
-    "snapshot_at": "2026-11-14T20:11:18.619397+00:00",
-    "scan_completed_at": "2026-11-14T20:11:34.604689+00:00",
-    "completed_practice": 1492,
-    "previous_completed_practice": 1155,
-    "added_practice": 337,
+    "snapshot_at": "2026-11-14T22:53:05.743511+00:00",
+    "scan_completed_at": "2026-11-14T22:53:23.344743+00:00",
+    "completed_practice": 1685,
+    "previous_completed_practice": 1492,
+    "added_practice": 193,
     "completed_official_ranking": 20,
     "completed_test_final": 1,
-    "completed_rehearsal_practice": 2,
-    "incomplete_worlds": 135,
+    "completed_rehearsal_practice": 3,
+    "incomplete_worlds": 139,
     "distinct_seed_level_scenarios": 87,
     "chart_groups": {
       "Baseline": 2,
       "Alpha": 677,
       "Beta": 268,
       "Gamma": 242,
-      "Delta": 303
+      "Delta": 496
     },
     "score_conflicts": 0,
-    "truncated_trace_files": 70,
-    "scanned_files": 2090,
-    "scanned_bytes": 887924100,
+    "truncated_trace_files": 72,
+    "scanned_files": 2510,
+    "scanned_bytes": 1009991457,
     "demo_or_synthetic_records_excluded": 9,
     "unknown_practice_classification": 0,
     "method": "Deduplicated by server world ID. Completed saved summaries or terminal trace scores only; daily scores excluded. Previously audited completed runs retained when raw files were archived. Official ranking and live test-final worlds excluded. A timed practice rehearsal is a practice world; its restarts count once. Source reads bounded by each file size at inventory. Repeated seeds are correlated.",
@@ -31,7 +31,7 @@
       "Baseline": 2,
       "Gamma Early": 123,
       "Gamma Late": 119,
-      "Delta": 303
+      "Delta": 496
     }
   },
   "groups": {
@@ -56,9 +56,9 @@
       "mean_margin_eur": 11156.651487603307
     },
     "Delta": {
-      "runs": 303,
-      "ranked": 300,
-      "mean_margin_eur": 12905.198976897691
+      "runs": 496,
+      "ranked": 489,
+      "mean_margin_eur": 12975.177620967743
     }
   },
   "runs": [
@@ -28409,6 +28409,3673 @@
         "ranked": true
       },
       "original_chart_group": "Gamma Late"
+    },
+    {
+      "world_id": "w0082ba474e50c82f7198",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-fee6600--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1175094,
+        "revenueCents": 2804234,
+        "marginShare": 0.41904277603081624,
+        "wonOrders": 252,
+        "onTimeShare": 0.9682539682539683,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w01a66cd30dd810c41fe2",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1822918,
+        "revenueCents": 4616908,
+        "marginShare": 0.3948352447135615,
+        "wonOrders": 361,
+        "onTimeShare": 0.9556786703601108,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w048bb53b268d7f62cae4",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce95--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1645453,
+        "revenueCents": 4162524,
+        "marginShare": 0.39530174480675667,
+        "wonOrders": 367,
+        "onTimeShare": 0.9809264305177112,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w0568efa6c7e330cb8f8c",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-wide-windows--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1262732,
+        "revenueCents": 3506425,
+        "marginShare": 0.36011949492716944,
+        "wonOrders": 334,
+        "onTimeShare": 0.9520958083832335,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w05cd515f9c2ea3eeff5c",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat0--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w05efbec708b603f1b9fd",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": null,
+      "mode": "rehearsal",
+      "score": {
+        "marginCents": 1436894,
+        "revenueCents": 3488253,
+        "marginShare": 0.4119236764076459,
+        "wonOrders": 274,
+        "onTimeShare": 0.9744525547445255,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w06f3c977e5e72eaf7d98",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1105148,
+        "revenueCents": 2820164,
+        "marginShare": 0.39187366408478375,
+        "wonOrders": 243,
+        "onTimeShare": 0.9794238683127572,
+        "undeliveredShare": 0.00411522633744856,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w06f77fa9b4a590e7ffd1",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1356893,
+        "revenueCents": 3354707,
+        "marginShare": 0.4044743698928103,
+        "wonOrders": 269,
+        "onTimeShare": 0.9776951672862454,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w08265e5b9b9640600dde",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1349961,
+        "revenueCents": 3598430,
+        "marginShare": 0.37515277496019095,
+        "wonOrders": 340,
+        "onTimeShare": 0.961764705882353,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w08338fc20218c44f9519",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat0--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w0d812539e91d89a05b2d",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1259708,
+        "revenueCents": 3175051,
+        "marginShare": 0.3967520521717604,
+        "wonOrders": 295,
+        "onTimeShare": 0.9593220338983051,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w0f6ac5569d3af160bf84",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1363685,
+        "revenueCents": 3285732,
+        "marginShare": 0.41503232765179876,
+        "wonOrders": 279,
+        "onTimeShare": 0.9713261648745519,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w11897f8663e66fec1e27",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1388645,
+        "revenueCents": 3587572,
+        "marginShare": 0.387070977251467,
+        "wonOrders": 337,
+        "onTimeShare": 0.9703264094955489,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w1301709ec175decd7b95",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "drive480--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1204548,
+        "revenueCents": 2794911,
+        "marginShare": 0.4309790186521145,
+        "wonOrders": 252,
+        "onTimeShare": 0.9722222222222222,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w132d6d9714f0224178e2",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1825206,
+        "revenueCents": 4579154,
+        "marginShare": 0.39859021994018984,
+        "wonOrders": 362,
+        "onTimeShare": 0.9613259668508287,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w13d214482fc71912b326",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-fee8400--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1199030,
+        "revenueCents": 2837719,
+        "marginShare": 0.4225330274068715,
+        "wonOrders": 255,
+        "onTimeShare": 0.9803921568627451,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w160606d3109d9fa968b8",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "spare120--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 940132,
+        "revenueCents": 2732309,
+        "marginShare": 0.3440796776645687,
+        "wonOrders": 305,
+        "onTimeShare": 0.9508196721311475,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w171cbf76ba4367931348",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "fresh-pairs-only--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1662517,
+        "revenueCents": 4206498,
+        "marginShare": 0.3952259100087531,
+        "wonOrders": 367,
+        "onTimeShare": 0.9754768392370572,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w18228ce59a2f765133fa",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "drive480--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1424161,
+        "revenueCents": 3451284,
+        "marginShare": 0.4126467135129998,
+        "wonOrders": 268,
+        "onTimeShare": 0.9850746268656716,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w1b13c7af59f9257cf1ad",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split30--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 931952,
+        "revenueCents": 2688016,
+        "marginShare": 0.3467062696055381,
+        "wonOrders": 303,
+        "onTimeShare": 0.9570957095709571,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w1b4a80c70d274520e45c",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split90--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1163197,
+        "revenueCents": 3242900,
+        "marginShare": 0.3586903697307965,
+        "wonOrders": 251,
+        "onTimeShare": 0.9402390438247012,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w1cad2d37efb0109b4674",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1075670,
+        "revenueCents": 2747521,
+        "marginShare": 0.3915056518221335,
+        "wonOrders": 256,
+        "onTimeShare": 0.98046875,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w1ea12248b6b85f324159",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w1edf4adeb2b2b45c5015",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1038076,
+        "revenueCents": 3348282,
+        "marginShare": 0.31003242857083124,
+        "wonOrders": 323,
+        "onTimeShare": 0.9256965944272446,
+        "undeliveredShare": 0.015479876160990712,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w201f4f5bba56c8967ae5",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1019689,
+        "revenueCents": 3448882,
+        "marginShare": 0.295657839265014,
+        "wonOrders": 321,
+        "onTimeShare": 0.9657320872274143,
+        "undeliveredShare": 0.006230529595015576,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2267363713e171fac5e9",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "fresh-pairs-only--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1007314,
+        "revenueCents": 4166508,
+        "marginShare": 0.2417645663946883,
+        "wonOrders": 352,
+        "onTimeShare": 0.8948863636363636,
+        "undeliveredShare": 0,
+        "ranked": false
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w23495a0fd4d49ddd43e0",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1243679,
+        "revenueCents": 3536557,
+        "marginShare": 0.35166377920672565,
+        "wonOrders": 318,
+        "onTimeShare": 0.9528301886792453,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2727ecdf1dc8d57a05f5",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1591596,
+        "revenueCents": 4022429,
+        "marginShare": 0.3956803215171728,
+        "wonOrders": 355,
+        "onTimeShare": 0.9492957746478873,
+        "undeliveredShare": 0.0028169014084507044,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w294ca11850aad257b044",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "reach52-480--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1199278,
+        "revenueCents": 2824709,
+        "marginShare": 0.4245669199906964,
+        "wonOrders": 253,
+        "onTimeShare": 0.9644268774703557,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w29ad36c2c084d07c16a9",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "spare120--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1396763,
+        "revenueCents": 3605301,
+        "marginShare": 0.3874192473804545,
+        "wonOrders": 339,
+        "onTimeShare": 0.9734513274336283,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2a6cf3d28e4d843a33fb",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1012730,
+        "revenueCents": 3518599,
+        "marginShare": 0.28782194276756173,
+        "wonOrders": 332,
+        "onTimeShare": 0.9397590361445783,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2b78fb8afcd99b505f75",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "max400--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 771503,
+        "revenueCents": 2040739,
+        "marginShare": 0.3780507943445977,
+        "wonOrders": 232,
+        "onTimeShare": 0.9568965517241379,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2ca1b1ecef196cefec4b",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1096742,
+        "revenueCents": 3412047,
+        "marginShare": 0.32143226631989535,
+        "wonOrders": 317,
+        "onTimeShare": 0.9621451104100947,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2e2d37aac45db828aff6",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected500--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2e3f7ff286e221cf0ec7",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1586567,
+        "revenueCents": 4441690,
+        "marginShare": 0.35719894904867294,
+        "wonOrders": 365,
+        "onTimeShare": 0.958904109589041,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w2fd9bfdba9f627072899",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1412219,
+        "revenueCents": 3698982,
+        "marginShare": 0.38178585351320987,
+        "wonOrders": 329,
+        "onTimeShare": 0.9179331306990881,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3059c98e3fb99654dff0",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1497980,
+        "revenueCents": 3567055,
+        "marginShare": 0.4199486691402291,
+        "wonOrders": 298,
+        "onTimeShare": 0.9664429530201343,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w30f012bc733c85a22e1b",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split30--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1121886,
+        "revenueCents": 4153254,
+        "marginShare": 0.270122174083261,
+        "wonOrders": 350,
+        "onTimeShare": 0.9114285714285715,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w339acbde122b354b612b",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1443955,
+        "revenueCents": 3592057,
+        "marginShare": 0.4019855475567342,
+        "wonOrders": 332,
+        "onTimeShare": 0.9728915662650602,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w370c38c7ef9c46d092fc",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3ac6dab7defb6fd87765",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 2010708,
+        "revenueCents": 4630066,
+        "marginShare": 0.4342719952588149,
+        "wonOrders": 362,
+        "onTimeShare": 0.9806629834254144,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3aca99e6cd37947077e9",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "max600--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 769840,
+        "revenueCents": 2104191,
+        "marginShare": 0.36586032351625875,
+        "wonOrders": 236,
+        "onTimeShare": 0.9576271186440678,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3cf2aff64c8560ef659b",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 984146,
+        "revenueCents": 3463396,
+        "marginShare": 0.2841563598271754,
+        "wonOrders": 336,
+        "onTimeShare": 0.9702380952380952,
+        "undeliveredShare": 0.002976190476190476,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3cf9a8c0429e22c5d057",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1073311,
+        "revenueCents": 2792036,
+        "marginShare": 0.3844187539129152,
+        "wonOrders": 248,
+        "onTimeShare": 0.9758064516129032,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3f0a446b918dd33f1083",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1600288,
+        "revenueCents": 3675067,
+        "marginShare": 0.435444578289321,
+        "wonOrders": 302,
+        "onTimeShare": 0.9801324503311258,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w3fc96934f7df9d43c9ae",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1836642,
+        "revenueCents": 4642742,
+        "marginShare": 0.39559424150642014,
+        "wonOrders": 364,
+        "onTimeShare": 0.9478021978021978,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4001f68c5d200abadfa1",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1532830,
+        "revenueCents": 3710278,
+        "marginShare": 0.4131307680987786,
+        "wonOrders": 314,
+        "onTimeShare": 0.9522292993630573,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w430569620c49cc4d61a0",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split30--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1795223,
+        "revenueCents": 4208187,
+        "marginShare": 0.42660247750397023,
+        "wonOrders": 368,
+        "onTimeShare": 0.9836956521739131,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w44e8fff7bba6a3d2afd7",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 989492,
+        "revenueCents": 3401695,
+        "marginShare": 0.29088204556845926,
+        "wonOrders": 312,
+        "onTimeShare": 0.9423076923076923,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4760b148839ff92878e2",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat30--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4b70c69d06284f05c671",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split90--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1685844,
+        "revenueCents": 3642567,
+        "marginShare": 0.46281756794041123,
+        "wonOrders": 271,
+        "onTimeShare": 0.981549815498155,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4de31ea6a1965d108588",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce105--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 920283,
+        "revenueCents": 2727175,
+        "marginShare": 0.33744919192937745,
+        "wonOrders": 306,
+        "onTimeShare": 0.9705882352941176,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4e14fa74aeee182b1d51",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat0--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1349961,
+        "revenueCents": 3598430,
+        "marginShare": 0.37515277496019095,
+        "wonOrders": 340,
+        "onTimeShare": 0.961764705882353,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4eeeb6f1782770814f0c",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1387246,
+        "revenueCents": 3621106,
+        "marginShare": 0.38310008047265115,
+        "wonOrders": 340,
+        "onTimeShare": 0.9647058823529412,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w4f49d152499030aac748",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce95--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1386602,
+        "revenueCents": 3610172,
+        "marginShare": 0.38408197725759324,
+        "wonOrders": 339,
+        "onTimeShare": 0.9705014749262537,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w501684f1c379c5fd238e",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-wide-windows--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1666264,
+        "revenueCents": 4078136,
+        "marginShare": 0.4085847063462327,
+        "wonOrders": 366,
+        "onTimeShare": 0.9726775956284153,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w518a49677e488422cfc7",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1629614,
+        "revenueCents": 4060510,
+        "marginShare": 0.4013323449517425,
+        "wonOrders": 353,
+        "onTimeShare": 0.9518413597733711,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w528c9a1adf58ef4b4c30",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-wide-windows--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 950846,
+        "revenueCents": 2741278,
+        "marginShare": 0.34686230291126985,
+        "wonOrders": 306,
+        "onTimeShare": 0.9607843137254902,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w54788fd3e4256d326c28",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce105--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1584463,
+        "revenueCents": 4164119,
+        "marginShare": 0.3805037752283256,
+        "wonOrders": 368,
+        "onTimeShare": 0.9836956521739131,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w5500c52bc217539096ae",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1251082,
+        "revenueCents": 3321381,
+        "marginShare": 0.3766752444239309,
+        "wonOrders": 256,
+        "onTimeShare": 0.9609375,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w5959889fbe8750da23a2",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1172770,
+        "revenueCents": 4098442,
+        "marginShare": 0.2861502004908207,
+        "wonOrders": 342,
+        "onTimeShare": 0.9093567251461988,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w5b5aa5f2093b20c9ea3b",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1153430,
+        "revenueCents": 3107326,
+        "marginShare": 0.371196971286566,
+        "wonOrders": 295,
+        "onTimeShare": 0.9661016949152542,
+        "undeliveredShare": 0.003389830508474576,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w5bc43d050d8955b59f20",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1573203,
+        "revenueCents": 3753678,
+        "marginShare": 0.4191097371697839,
+        "wonOrders": 320,
+        "onTimeShare": 0.971875,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w5e06a36e85fa9ee278ec",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat30--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1349961,
+        "revenueCents": 3598430,
+        "marginShare": 0.37515277496019095,
+        "wonOrders": 340,
+        "onTimeShare": 0.961764705882353,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w6054d90a184b7b6c0d84",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1116166,
+        "revenueCents": 3891554,
+        "marginShare": 0.28681755411848325,
+        "wonOrders": 375,
+        "onTimeShare": 0.9333333333333333,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w60a61074e8072c27c4dc",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1155655,
+        "revenueCents": 3121604,
+        "marginShare": 0.3702119166941098,
+        "wonOrders": 279,
+        "onTimeShare": 0.967741935483871,
+        "undeliveredShare": 0.0035842293906810036,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w619cf17a756a3bfe453d",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w63eed094825df25a6f83",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1372828,
+        "revenueCents": 3632357,
+        "marginShare": 0.3779441282891522,
+        "wonOrders": 334,
+        "onTimeShare": 0.9670658682634731,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w65b2d5d395826579ba36",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1271221,
+        "revenueCents": 3393286,
+        "marginShare": 0.3746283101394931,
+        "wonOrders": 298,
+        "onTimeShare": 0.9731543624161074,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w673322017ed459d366b4",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1560846,
+        "revenueCents": 3911408,
+        "marginShare": 0.39904965168553114,
+        "wonOrders": 350,
+        "onTimeShare": 0.9857142857142858,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w67c0970bc82ef56fa4d1",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1093655,
+        "revenueCents": 2968711,
+        "marginShare": 0.36839389216397284,
+        "wonOrders": 256,
+        "onTimeShare": 0.96484375,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w67fc4dfa17825a635d9c",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1070987,
+        "revenueCents": 3588264,
+        "marginShare": 0.2984693991300529,
+        "wonOrders": 337,
+        "onTimeShare": 0.9554896142433235,
+        "undeliveredShare": 0.005934718100890208,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w6c0f395bb4927b121999",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1473272,
+        "revenueCents": 4295375,
+        "marginShare": 0.34299030934435293,
+        "wonOrders": 399,
+        "onTimeShare": 0.9398496240601504,
+        "undeliveredShare": 0.007518796992481203,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w6e60cffdd2ab21c2d6dd",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split90--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1268072,
+        "revenueCents": 2904932,
+        "marginShare": 0.4365238153595334,
+        "wonOrders": 255,
+        "onTimeShare": 0.9921568627450981,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w6ec0c245f934ced8805f",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1570606,
+        "revenueCents": 3873561,
+        "marginShare": 0.4054682500159414,
+        "wonOrders": 330,
+        "onTimeShare": 0.9606060606060606,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w6f63bc15a84f2ea2d508",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1211620,
+        "revenueCents": 3472856,
+        "marginShare": 0.3488828791058426,
+        "wonOrders": 337,
+        "onTimeShare": 0.9643916913946587,
+        "undeliveredShare": 0.002967359050445104,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w70bb218eb8dc3883b9cc",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce105--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1326304,
+        "revenueCents": 3607189,
+        "marginShare": 0.3676835341868696,
+        "wonOrders": 339,
+        "onTimeShare": 0.9734513274336283,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w73be27dec6a6097e6da1",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1020274,
+        "revenueCents": 3106306,
+        "marginShare": 0.3284525091861523,
+        "wonOrders": 284,
+        "onTimeShare": 0.9647887323943662,
+        "undeliveredShare": 0.0035211267605633804,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w74d90b7577864705dbc2",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1808126,
+        "revenueCents": 4181091,
+        "marginShare": 0.4324531563651688,
+        "wonOrders": 366,
+        "onTimeShare": 0.9808743169398907,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w759b855c4d3b257b9073",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-fee7800--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1199515,
+        "revenueCents": 2837719,
+        "marginShare": 0.4227039393259163,
+        "wonOrders": 255,
+        "onTimeShare": 0.9803921568627451,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w792e330609b4204ee377",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1720424,
+        "revenueCents": 3744829,
+        "marginShare": 0.4594132335548566,
+        "wonOrders": 277,
+        "onTimeShare": 0.9855595667870036,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w797116805453b237aebb",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-pairing--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1722194,
+        "revenueCents": 4180459,
+        "marginShare": 0.4119628968972067,
+        "wonOrders": 368,
+        "onTimeShare": 0.9836956521739131,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w79c0a1d835f5f466b1db",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "reach52-480--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1292378,
+        "revenueCents": 3300151,
+        "marginShare": 0.3916117777641084,
+        "wonOrders": 264,
+        "onTimeShare": 0.9583333333333334,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w7c56b69e501d69e0a60d",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "fresh-pairs-only--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1197914,
+        "revenueCents": 3615057,
+        "marginShare": 0.3313679424695102,
+        "wonOrders": 339,
+        "onTimeShare": 0.9616519174041298,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w7f5c7e30454538370f04",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1000348,
+        "revenueCents": 2778165,
+        "marginShare": 0.3600750855330767,
+        "wonOrders": 309,
+        "onTimeShare": 0.9611650485436893,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w7f6d2edb3b160c1952ce",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "fresh-pairs-only--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 889504,
+        "revenueCents": 2778989,
+        "marginShare": 0.3200818715007508,
+        "wonOrders": 308,
+        "onTimeShare": 0.9642857142857143,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w7f7acba171ca4f4838d0",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1096742,
+        "revenueCents": 3412047,
+        "marginShare": 0.32143226631989535,
+        "wonOrders": 317,
+        "onTimeShare": 0.9621451104100947,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w80d470e3a7e21d5f59d8",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1420655,
+        "revenueCents": 4111907,
+        "marginShare": 0.34549784321483923,
+        "wonOrders": 371,
+        "onTimeShare": 0.9164420485175202,
+        "undeliveredShare": 0.0026954177897574125,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w80f5f2ec9b51a4b66fb2",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1172857,
+        "revenueCents": 3478018,
+        "marginShare": 0.3372199338818833,
+        "wonOrders": 318,
+        "onTimeShare": 0.9622641509433962,
+        "undeliveredShare": 0.006289308176100629,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w839cd8b3a705a5d4897e",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1597046,
+        "revenueCents": 4241293,
+        "marginShare": 0.37654696339064525,
+        "wonOrders": 354,
+        "onTimeShare": 0.9717514124293786,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8460abb38748c7714de9",
+      "seed": "delta-f1-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1454691,
+        "revenueCents": 4391470,
+        "marginShare": 0.3312537715161438,
+        "wonOrders": 361,
+        "onTimeShare": 0.9584487534626038,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8578b8d6d3e94d00ee32",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "selected--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1560846,
+        "revenueCents": 3911408,
+        "marginShare": 0.39904965168553114,
+        "wonOrders": 350,
+        "onTimeShare": 0.9857142857142858,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w85b96c935a4f9df45862",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1247133,
+        "revenueCents": 4099151,
+        "marginShare": 0.3042417807980238,
+        "wonOrders": 347,
+        "onTimeShare": 0.9164265129682997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w86f760f72bb8f422670f",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1437653,
+        "revenueCents": 3613827,
+        "marginShare": 0.39782009487449177,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8857a85caa39c7ee95f0",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "spare120--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1028535,
+        "revenueCents": 4134770,
+        "marginShare": 0.2487526512962027,
+        "wonOrders": 350,
+        "onTimeShare": 0.8942857142857142,
+        "undeliveredShare": 0,
+        "ranked": false
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w88bdc997aa9478760d79",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-best-valve--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1340488,
+        "revenueCents": 3209453,
+        "marginShare": 0.41766868061317614,
+        "wonOrders": 273,
+        "onTimeShare": 0.978021978021978,
+        "undeliveredShare": 0.003663003663003663,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8a842aaa4520c619cf68",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-fee7800--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1442400,
+        "revenueCents": 3485402,
+        "marginShare": 0.4138403547137461,
+        "wonOrders": 268,
+        "onTimeShare": 0.9850746268656716,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8d31a044880db0ea2b60",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce95--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1089464,
+        "revenueCents": 4185848,
+        "marginShare": 0.26027318717736525,
+        "wonOrders": 349,
+        "onTimeShare": 0.9140401146131805,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8d8b371047ec7ce7561f",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1611566,
+        "revenueCents": 4117143,
+        "marginShare": 0.391428230692983,
+        "wonOrders": 358,
+        "onTimeShare": 0.952513966480447,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8e28ea9c84e8f01dc1b0",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat0--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1146267,
+        "revenueCents": 4119106,
+        "marginShare": 0.27828052980428275,
+        "wonOrders": 349,
+        "onTimeShare": 0.9111747851002865,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w8fe9579eb2a92372d614",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1390331,
+        "revenueCents": 3601760,
+        "marginShare": 0.3860143374350318,
+        "wonOrders": 339,
+        "onTimeShare": 0.9616519174041298,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w915015ae9eecc9f332c7",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "selected--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1560846,
+        "revenueCents": 3911408,
+        "marginShare": 0.39904965168553114,
+        "wonOrders": 350,
+        "onTimeShare": 0.9857142857142858,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w9164e42012b685f718f3",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-pairing--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1262523,
+        "revenueCents": 3598855,
+        "marginShare": 0.35081241116966366,
+        "wonOrders": 339,
+        "onTimeShare": 0.9646017699115044,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w91e7801e8e11366a2c02",
+      "seed": "delta-f1-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1511367,
+        "revenueCents": 4316756,
+        "marginShare": 0.35011638369182785,
+        "wonOrders": 354,
+        "onTimeShare": 0.9717514124293786,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w95a3218c4df4da80d4ed",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1405785,
+        "revenueCents": 3951965,
+        "marginShare": 0.3557179782715687,
+        "wonOrders": 370,
+        "onTimeShare": 0.9513513513513514,
+        "undeliveredShare": 0.002702702702702703,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w95ba4402ba6359d35d7d",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split90--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1059099,
+        "revenueCents": 2728611,
+        "marginShare": 0.38814583683786363,
+        "wonOrders": 248,
+        "onTimeShare": 0.967741935483871,
+        "undeliveredShare": 0.004032258064516129,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w95c19eefc3af05041596",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1096248,
+        "revenueCents": 3108338,
+        "marginShare": 0.35267979222336826,
+        "wonOrders": 284,
+        "onTimeShare": 0.9647887323943662,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w968de086128f00d23f17",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1114488,
+        "revenueCents": 3103655,
+        "marginShare": 0.3590888806906696,
+        "wonOrders": 275,
+        "onTimeShare": 0.9745454545454545,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w9a305f5f42aa2a00f4cb",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1387246,
+        "revenueCents": 3621106,
+        "marginShare": 0.38310008047265115,
+        "wonOrders": 340,
+        "onTimeShare": 0.9647058823529412,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w9ab7acfe3417d80b54ce",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1271221,
+        "revenueCents": 3393286,
+        "marginShare": 0.3746283101394931,
+        "wonOrders": 298,
+        "onTimeShare": 0.9731543624161074,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "w9b890f721a55b86b1577",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1493362,
+        "revenueCents": 3936568,
+        "marginShare": 0.3793563327243426,
+        "wonOrders": 372,
+        "onTimeShare": 0.978494623655914,
+        "undeliveredShare": 0.005376344086021506,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa01904244d3f407714f6",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "transfer52--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1242569,
+        "revenueCents": 3318218,
+        "marginShare": 0.3744687660666056,
+        "wonOrders": 266,
+        "onTimeShare": 0.9699248120300752,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa12977f977adcac4990d",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1236860,
+        "revenueCents": 3194457,
+        "marginShare": 0.38718943469891753,
+        "wonOrders": 296,
+        "onTimeShare": 0.9695945945945946,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa16725503ee6d20b853f",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1139567,
+        "revenueCents": 4180671,
+        "marginShare": 0.27257992795893293,
+        "wonOrders": 350,
+        "onTimeShare": 0.9114285714285715,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa24133686b12ca8d0971",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "selected--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1437653,
+        "revenueCents": 3613827,
+        "marginShare": 0.39782009487449177,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa351a821cd98029dab2e",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1316082,
+        "revenueCents": 3582593,
+        "marginShare": 0.36735459484233907,
+        "wonOrders": 337,
+        "onTimeShare": 0.9614243323442137,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa4ca5ebd144dc0ac7e3a",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1248406,
+        "revenueCents": 3771757,
+        "marginShare": 0.3309879188929722,
+        "wonOrders": 299,
+        "onTimeShare": 0.9230769230769231,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa4fcf9dd91ea170e8032",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 928076,
+        "revenueCents": 3984164,
+        "marginShare": 0.23294121426728417,
+        "wonOrders": 401,
+        "onTimeShare": 0.912718204488778,
+        "undeliveredShare": 0.0199501246882793,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa76160683d89c659a087",
+      "seed": "delta-f1-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1521871,
+        "revenueCents": 4447007,
+        "marginShare": 0.34222365739473765,
+        "wonOrders": 363,
+        "onTimeShare": 0.9696969696969697,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa77dac4afc1cc8923174",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split90--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1452556,
+        "revenueCents": 3527918,
+        "marginShare": 0.41173179195208054,
+        "wonOrders": 268,
+        "onTimeShare": 0.9776119402985075,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa7f967e87e78bcbff7d0",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1510655,
+        "revenueCents": 3817387,
+        "marginShare": 0.3957301159143676,
+        "wonOrders": 348,
+        "onTimeShare": 0.985632183908046,
+        "undeliveredShare": 0.0028735632183908046,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wa96e1c3745de0a70dce4",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1280410,
+        "revenueCents": 3183062,
+        "marginShare": 0.4022573232943625,
+        "wonOrders": 296,
+        "onTimeShare": 0.9864864864864865,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wac3c0118320ce147eea8",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1059759,
+        "revenueCents": 3444780,
+        "marginShare": 0.3076419974570219,
+        "wonOrders": 323,
+        "onTimeShare": 0.9287925696594427,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wacdd22b0822af7d83cea",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 2061088,
+        "revenueCents": 4791927,
+        "marginShare": 0.43011673591855637,
+        "wonOrders": 386,
+        "onTimeShare": 0.9792746113989638,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "waeed9d2672e8eda50603",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1211864,
+        "revenueCents": 3419822,
+        "marginShare": 0.35436464237027543,
+        "wonOrders": 316,
+        "onTimeShare": 0.9556962025316456,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "waf46d6216110ffd7185b",
+      "seed": "delta-f2-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1375464,
+        "revenueCents": 3596218,
+        "marginShare": 0.3824751447214824,
+        "wonOrders": 339,
+        "onTimeShare": 0.9410029498525073,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wb1074d3adbdca9e90b6b",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 989492,
+        "revenueCents": 3401695,
+        "marginShare": 0.29088204556845926,
+        "wonOrders": 312,
+        "onTimeShare": 0.9423076923076923,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wb2204ab74479404aad89",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1504060,
+        "revenueCents": 3858870,
+        "marginShare": 0.38976695250163906,
+        "wonOrders": 351,
+        "onTimeShare": 0.98005698005698,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wb3cbb7ff9ef7b8169d60",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-fee6600--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1435845,
+        "revenueCents": 3485566,
+        "marginShare": 0.4119402702459228,
+        "wonOrders": 268,
+        "onTimeShare": 0.9850746268656716,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wb688508692a3be9faf23",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1420655,
+        "revenueCents": 4111907,
+        "marginShare": 0.34549784321483923,
+        "wonOrders": 371,
+        "onTimeShare": 0.9164420485175202,
+        "undeliveredShare": 0.0026954177897574125,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wb84c0767c39a1cd8aaaa",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1009799,
+        "revenueCents": 3315500,
+        "marginShare": 0.30456914492535064,
+        "wonOrders": 317,
+        "onTimeShare": 0.9305993690851735,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wbd81d18333ea904b3eda",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1318081,
+        "revenueCents": 4246212,
+        "marginShare": 0.31041337549797327,
+        "wonOrders": 386,
+        "onTimeShare": 0.9404145077720207,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wbd961a5c9dadcf954ed8",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1611566,
+        "revenueCents": 4117143,
+        "marginShare": 0.391428230692983,
+        "wonOrders": 358,
+        "onTimeShare": 0.952513966480447,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wbeb9018de6ea8b9390e0",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1390248,
+        "revenueCents": 3589191,
+        "marginShare": 0.387342997349542,
+        "wonOrders": 337,
+        "onTimeShare": 0.9703264094955489,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wbecac701ec2270d894ea",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1504904,
+        "revenueCents": 3672685,
+        "marginShare": 0.40975580535766065,
+        "wonOrders": 315,
+        "onTimeShare": 0.9492063492063492,
+        "undeliveredShare": 0.0031746031746031746,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc00a483b8482417079a2",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected500--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1093691,
+        "revenueCents": 3993429,
+        "marginShare": 0.273872654302856,
+        "wonOrders": 331,
+        "onTimeShare": 0.9033232628398792,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc0c7e0749aec5caf140b",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1541526,
+        "revenueCents": 3878026,
+        "marginShare": 0.39750275011049435,
+        "wonOrders": 348,
+        "onTimeShare": 0.985632183908046,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc0eb6cf63986ddf3e30a",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split30--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1252546,
+        "revenueCents": 3521931,
+        "marginShare": 0.35564183398255106,
+        "wonOrders": 338,
+        "onTimeShare": 0.9644970414201184,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc1fb2d36e0f033503288",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-fee8400--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1340100,
+        "revenueCents": 3353564,
+        "marginShare": 0.39960471903920725,
+        "wonOrders": 265,
+        "onTimeShare": 0.9773584905660377,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc4a48130333b56c33358",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1485565,
+        "revenueCents": 3767915,
+        "marginShare": 0.3942671212062905,
+        "wonOrders": 332,
+        "onTimeShare": 0.9608433734939759,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc6a6737abe27eb312cab",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1189382,
+        "revenueCents": 3769991,
+        "marginShare": 0.31548669479582314,
+        "wonOrders": 302,
+        "onTimeShare": 0.9304635761589404,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc765c41f1178b85843ab",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1260770,
+        "revenueCents": 3755954,
+        "marginShare": 0.3356723751142852,
+        "wonOrders": 304,
+        "onTimeShare": 0.9375,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wc99b0ea0083d10afcb4d",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat30--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wca62c7a3f74d471ee9ec",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1255588,
+        "revenueCents": 3796726,
+        "marginShare": 0.3307028213255315,
+        "wonOrders": 340,
+        "onTimeShare": 0.9029411764705882,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcac75b5bd2b077eba73c",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1072502,
+        "revenueCents": 3341709,
+        "marginShare": 0.32094416360012196,
+        "wonOrders": 312,
+        "onTimeShare": 0.9807692307692307,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcaea10d049867b8cd553",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1316264,
+        "revenueCents": 3910867,
+        "marginShare": 0.336565779403902,
+        "wonOrders": 343,
+        "onTimeShare": 0.9125364431486881,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcb157b53934cb2123df3",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-pairing--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1011223,
+        "revenueCents": 4097001,
+        "marginShare": 0.24682029611415765,
+        "wonOrders": 350,
+        "onTimeShare": 0.8914285714285715,
+        "undeliveredShare": 0,
+        "ranked": false
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcb8b98d8347c74758f67",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "spare180--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 896469,
+        "revenueCents": 2709970,
+        "marginShare": 0.33080403104093403,
+        "wonOrders": 305,
+        "onTimeShare": 0.940983606557377,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcbed434590e6aa299bd3",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-fee8400--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1218986,
+        "revenueCents": 2839558,
+        "marginShare": 0.4292872341399612,
+        "wonOrders": 255,
+        "onTimeShare": 0.9803921568627451,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcd4b15f2c3a7b7a9a7ec",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-pairing--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 860765,
+        "revenueCents": 2747503,
+        "marginShare": 0.3132899217944439,
+        "wonOrders": 305,
+        "onTimeShare": 0.9508196721311475,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wce9dc649c539137dccb4",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 944748,
+        "revenueCents": 3356525,
+        "marginShare": 0.28146609961194985,
+        "wonOrders": 305,
+        "onTimeShare": 0.9278688524590164,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wcf4a97d11f0c5619abf5",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1260252,
+        "revenueCents": 3517262,
+        "marginShare": 0.35830484052652317,
+        "wonOrders": 335,
+        "onTimeShare": 0.9611940298507463,
+        "undeliveredShare": 0.005970149253731343,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd2d9af976af0ddf995e8",
+      "seed": "delta-f2-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1096742,
+        "revenueCents": 3412047,
+        "marginShare": 0.32143226631989535,
+        "wonOrders": 317,
+        "onTimeShare": 0.9621451104100947,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd3772c8f5a075b532d4c",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd4f92b823bb9fa31a7ea",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-no-wide-windows--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1247133,
+        "revenueCents": 4099151,
+        "marginShare": 0.3042417807980238,
+        "wonOrders": 347,
+        "onTimeShare": 0.9164265129682997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd518aabfeda6c8780be4",
+      "seed": "delta-f2-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1516473,
+        "revenueCents": 4091796,
+        "marginShare": 0.37061305109052356,
+        "wonOrders": 376,
+        "onTimeShare": 0.9574468085106383,
+        "undeliveredShare": 0.0026595744680851063,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd54f2cdb867ffa89f334",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1157592,
+        "revenueCents": 3495230,
+        "marginShare": 0.33119193872792346,
+        "wonOrders": 338,
+        "onTimeShare": 0.9526627218934911,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd724cdfd6abba3db7858",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "rescue-flat30--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1146267,
+        "revenueCents": 4119106,
+        "marginShare": 0.27828052980428275,
+        "wonOrders": 349,
+        "onTimeShare": 0.9111747851002865,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd83abc916f84ad529275",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-fee8400--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1435110,
+        "revenueCents": 3506074,
+        "marginShare": 0.4093210810724474,
+        "wonOrders": 268,
+        "onTimeShare": 0.9738805970149254,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd90ef328ec8be72e7a14",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1518449,
+        "revenueCents": 3960784,
+        "marginShare": 0.38337081749471824,
+        "wonOrders": 355,
+        "onTimeShare": 0.9577464788732394,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wd99510d930ab951dd96c",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce95--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 920320,
+        "revenueCents": 2747831,
+        "marginShare": 0.33492598343930174,
+        "wonOrders": 304,
+        "onTimeShare": 0.9572368421052632,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wde820bff317921dadbab",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1623016,
+        "revenueCents": 4288256,
+        "marginShare": 0.37847926989433467,
+        "wonOrders": 359,
+        "onTimeShare": 0.9777158774373259,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we1692b96b9d03e238f0a",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 963520,
+        "revenueCents": 3355716,
+        "marginShare": 0.28712799295291974,
+        "wonOrders": 306,
+        "onTimeShare": 0.934640522875817,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we43c868c27185fede23d",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1602064,
+        "revenueCents": 3963493,
+        "marginShare": 0.40420507870204386,
+        "wonOrders": 337,
+        "onTimeShare": 0.9584569732937686,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we488bc9250806e3519c6",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1049844,
+        "revenueCents": 3822572,
+        "marginShare": 0.27464335531155465,
+        "wonOrders": 375,
+        "onTimeShare": 0.928,
+        "undeliveredShare": 0.013333333333333334,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we4fa3f9a17a67781c2a4",
+      "seed": "delta-f2-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1009341,
+        "revenueCents": 2999826,
+        "marginShare": 0.33646651505787334,
+        "wonOrders": 269,
+        "onTimeShare": 0.966542750929368,
+        "undeliveredShare": 0.0037174721189591076,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we55e090475e8b49bdd59",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1417975,
+        "revenueCents": 3743232,
+        "marginShare": 0.37881034357475035,
+        "wonOrders": 332,
+        "onTimeShare": 0.9337349397590361,
+        "undeliveredShare": 0.006024096385542169,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we918f0cfb707840e1a7b",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1260236,
+        "revenueCents": 3523579,
+        "marginShare": 0.3576579381361962,
+        "wonOrders": 321,
+        "onTimeShare": 0.9626168224299065,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we93df0df3e528a4aa05b",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "split45--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1159157,
+        "revenueCents": 3481135,
+        "marginShare": 0.3329824899063093,
+        "wonOrders": 339,
+        "onTimeShare": 0.943952802359882,
+        "undeliveredShare": 0.0029498525073746312,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we95985caf7686fc10dd2",
+      "seed": "delta-f2-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200--delta-f2-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1602064,
+        "revenueCents": 3963493,
+        "marginShare": 0.40420507870204386,
+        "wonOrders": 337,
+        "onTimeShare": 0.9584569732937686,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "we96e42ac2bcba0a21d85",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1271221,
+        "revenueCents": 3393286,
+        "marginShare": 0.3746283101394931,
+        "wonOrders": 298,
+        "onTimeShare": 0.9731543624161074,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "web12b13c36f96367ecd4",
+      "seed": "delta-f2-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f2-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1116166,
+        "revenueCents": 3891554,
+        "marginShare": 0.28681755411848325,
+        "wonOrders": 375,
+        "onTimeShare": 0.9333333333333333,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "web5b8d27fa525704819f",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "scarce105--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 896561,
+        "revenueCents": 4084864,
+        "marginShare": 0.21948368415692665,
+        "wonOrders": 349,
+        "onTimeShare": 0.9025787965616046,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wed4e2e99756ea7553c35",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-3000--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1088688,
+        "revenueCents": 3268383,
+        "marginShare": 0.3330968249437107,
+        "wonOrders": 315,
+        "onTimeShare": 0.9365079365079365,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wee097c531129cdd6e119",
+      "seed": "delta-f1-s03",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "selected--delta-f1-s03",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1437653,
+        "revenueCents": 3613827,
+        "marginShare": 0.39782009487449177,
+        "wonOrders": 333,
+        "onTimeShare": 0.96996996996997,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "weeb4033b0bdd38a4c171",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-3600--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1183462,
+        "revenueCents": 3096901,
+        "marginShare": 0.38214395616779484,
+        "wonOrders": 260,
+        "onTimeShare": 0.9692307692307692,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "weedb4ecc4bbff9a041f7",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1666264,
+        "revenueCents": 4078136,
+        "marginShare": 0.4085847063462327,
+        "wonOrders": 366,
+        "onTimeShare": 0.9726775956284153,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "weff180c9a6ea6931fbbc",
+      "seed": "delta-f2-s02",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s02",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1181646,
+        "revenueCents": 3266876,
+        "marginShare": 0.3617051886879086,
+        "wonOrders": 293,
+        "onTimeShare": 0.962457337883959,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf0258c3b19228cd8799f",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1247585,
+        "revenueCents": 3754535,
+        "marginShare": 0.3322874869990558,
+        "wonOrders": 360,
+        "onTimeShare": 0.9527777777777777,
+        "undeliveredShare": 0.005555555555555556,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf07f8fd33f8f80df1eb3",
+      "seed": "delta-f1-s08",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s08",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1181175,
+        "revenueCents": 3562628,
+        "marginShare": 0.3315459823478623,
+        "wonOrders": 359,
+        "onTimeShare": 0.9498607242339833,
+        "undeliveredShare": 0.005571030640668524,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf10d85ae936e6f1bbe6a",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1140473,
+        "revenueCents": 3683262,
+        "marginShare": 0.30963667531660793,
+        "wonOrders": 344,
+        "onTimeShare": 0.9593023255813954,
+        "undeliveredShare": 0.00872093023255814,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf2fcbe9676ea7917c1fb",
+      "seed": "delta-f1-s06",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s06",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1861473,
+        "revenueCents": 4172108,
+        "marginShare": 0.4461708565550077,
+        "wonOrders": 317,
+        "onTimeShare": 0.9684542586750788,
+        "undeliveredShare": 0.0031545741324921135,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf3ef31bd8059d797afde",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf516fb8a868e77a287df",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1211541,
+        "revenueCents": 4229224,
+        "marginShare": 0.28646886521026077,
+        "wonOrders": 374,
+        "onTimeShare": 0.9251336898395722,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf564929b76677d7176b5",
+      "seed": "delta-f1-s11",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected600--delta-f1-s11",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1309879,
+        "revenueCents": 3571530,
+        "marginShare": 0.36675570413800246,
+        "wonOrders": 321,
+        "onTimeShare": 0.9657320872274143,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf6bdb1ddec2e94568085",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4600--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1709286,
+        "revenueCents": 4319771,
+        "marginShare": 0.395689030737972,
+        "wonOrders": 395,
+        "onTimeShare": 0.9772151898734177,
+        "undeliveredShare": 0.002531645569620253,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf6ced331b43378188543",
+      "seed": "delta-f1-s09",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s09",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1454685,
+        "revenueCents": 3526896,
+        "marginShare": 0.41245474774419205,
+        "wonOrders": 312,
+        "onTimeShare": 0.9871794871794872,
+        "undeliveredShare": 0.003205128205128205,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wf7598307b64ff2f6d61a",
+      "seed": "delta-f1-s07",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "spare180--delta-f1-s07",
+      "mode": "practice",
+      "score": {
+        "marginCents": 991538,
+        "revenueCents": 4110029,
+        "marginShare": 0.2412484194150455,
+        "wonOrders": 349,
+        "onTimeShare": 0.8939828080229226,
+        "undeliveredShare": 0,
+        "ranked": false
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wfa709e5ad0b7967f08d7",
+      "seed": "delta-f1-s01",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "cap-4200-brake-2600--delta-f1-s01",
+      "mode": "practice",
+      "score": {
+        "marginCents": 971104,
+        "revenueCents": 2730063,
+        "marginShare": 0.3557075422801598,
+        "wonOrders": 305,
+        "onTimeShare": 0.9573770491803278,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wfb75284d6d3814843909",
+      "seed": "delta-f2-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-4200--delta-f2-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1488766,
+        "revenueCents": 4205832,
+        "marginShare": 0.3539765734817748,
+        "wonOrders": 376,
+        "onTimeShare": 0.9308510638297872,
+        "undeliveredShare": 0.005319148936170213,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wfe56f777417477830ea8",
+      "seed": "delta-f1-s05",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected500--delta-f1-s05",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1349961,
+        "revenueCents": 3598430,
+        "marginShare": 0.37515277496019095,
+        "wonOrders": 340,
+        "onTimeShare": 0.961764705882353,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wff2dc007c2ed221b5323",
+      "seed": "delta-f1-s04",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "pair-3600--delta-f1-s04",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1358566,
+        "revenueCents": 3739501,
+        "marginShare": 0.36330141374477504,
+        "wonOrders": 310,
+        "onTimeShare": 0.9548387096774194,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
+    },
+    {
+      "world_id": "wfff3eeb6f308e41f5c38",
+      "seed": "delta-f1-s10",
+      "level": 8,
+      "chart_group": "Delta",
+      "factory": "delta:make_delta",
+      "label": "projected500--delta-f1-s10",
+      "mode": "practice",
+      "score": {
+        "marginCents": 1734420,
+        "revenueCents": 4114662,
+        "marginShare": 0.4215218649794321,
+        "wonOrders": 366,
+        "onTimeShare": 0.9754098360655737,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "original_chart_group": "Delta"
     }
   ]
 }
