@@ -1010,47 +1010,37 @@ def delta_iteration(t):
 
 
 # ---------------------------------------------------------------------------
-# Slide 9 (53–60s): Epsilon: keep experimenting (matching presentation Slide 9)
+# Slide 9 (53–60s): Epsilon: keep experimenting (clean comparison vs Delta)
 # ---------------------------------------------------------------------------
 def epsilon_slide(t):
     im = base_canvas('sunburst').copy()
     eps_col = '#7C4DFF'
     enter_model_hdr(im, 'Epsilon:', ' keep experimenting', 80, 88, 78, t, .05, model_color=eps_col, rest_color=INK, weight=700)
 
-    # Left column: Two clean top-accented cards ("Test the brakes", "Push the volume") aligned to y = 966
+    # Left column: Two clean, bold pillar cards matching Presentation Slide 9
     rect(im, (80, 236, 760, 584), CARD, None, r=18)
-    rect(im, (80, 236, 760, 250), eps_col, None, r=18)
-    rect(im, (80, 244, 760, 250), eps_col, None, r=0)
+    rect(im, (80, 236, 760, 252), eps_col, None, r=18)
+    rect(im, (80, 244, 760, 252), eps_col, None, r=0)
     rect(im, (80, 236, 760, 584), None, eps_col, r=18, width=3)
-    txt(im, 'Test the brakes', 116, 276, 36, INK, 700)
-    txt(im, '24h on-time < 95%', 116, 356, 56, eps_col, 700)
-    txt(im, 'Throttle intake to protect ≥90% on time', 116, 452, 26, MUTED_INK, 650)
+    txt(im, 'Test the', 120, 326, 76, INK, 700)
+    txt(im, 'brakes', 120, 418, 76, eps_col, 700)
 
     rect(im, (80, 618, 760, 966), CARD, None, r=18)
-    rect(im, (80, 618, 760, 632), eps_col, None, r=18)
-    rect(im, (80, 626, 760, 632), eps_col, None, r=0)
+    rect(im, (80, 618, 760, 634), eps_col, None, r=18)
+    rect(im, (80, 626, 760, 634), eps_col, None, r=0)
     rect(im, (80, 618, 760, 966), None, GOLD_LINE, r=18, width=2)
-    txt(im, 'Push the volume', 116, 658, 36, INK, 700)
-    txt(im, '343 → 370', 116, 734, 76, eps_col, 700)
-    txt(im, 'orders won / week (+27/wk)', 116, 846, 28, MUTED_INK, 650)
+    txt(im, 'Push the', 120, 708, 76, INK, 700)
+    txt(im, 'volume', 120, 800, 76, eps_col, 700)
 
-    # Right column: Epsilon Prime across 38 paired practice weeks + Keep what survives new weeks
+    # Right column: Clean comparison of Epsilon vs Delta (no extra text clutter)
     rect(im, (800, 236, 1840, 966), CARD, GOLD_LINE, r=20, width=2)
-    txt(im, 'Epsilon Prime · 38 paired practice weeks', 844, 268, 32, INK, 700)
-    badge(im, '910 Epsilon runs', 1528, 262, color=CARD, bg=eps_col, size=24, weight=700)
-
     p_cnt = ease((t - 0.2) / 0.9)
-    txt(im, f'+€{456.04 * p_cnt:,.0f}', 844, 356, 142, eps_col, 700)
-    txt(im, 'gross margin / week vs Early Epsilon', 848, 524, 30, INK, 650)
+    txt(im, f'+€{456.04 * p_cnt:,.0f}', 864, 304, 156, eps_col, 700)
+    txt(im, 'gross margin / week vs Delta', 870, 492, 36, INK, 700)
 
-    line(im, [(844, 616), (1796, 616)], GOLD_LINE, 2)
-    txt(im, '38/38', 844, 648, 72, eps_col, 700)
-    txt(im, 'weeks ≥ 90% on time (90.09% worst)', 844, 744, 26, INK, 650)
-
-    txt(im, '28/38', 1340, 648, 72, eps_col, 700)
-    txt(im, 'weeks ahead in gross margin', 1340, 744, 26, INK, 650)
-
-    txt(im, 'Keep what survives new weeks', 844, 864, 34, eps_col, 700)
+    line(im, [(864, 608), (1776, 608)], GOLD_LINE, 2)
+    txt(im, '342 → 370', 864, 658, 108, eps_col, 700)
+    txt(im, 'orders won / week vs Delta', 870, 796, 34, INK, 700)
 
     return im
 
