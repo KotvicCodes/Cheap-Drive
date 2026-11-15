@@ -12,6 +12,7 @@ from .delta_safe_quote import DeltaSafeQuoteMixin
 from .delta_safe_target import DeltaSafeTargetMixin
 from .delta_segmented_targets import DeltaSegmentedTargetsMixin
 from .delta_service import DeltaServiceMixin
+from .epsilon_breaker import EpsilonBreakerMixin
 from .delta_intake import DeltaIntakeMixin, DeltaIntakeSettings
 from .delta_pair_quote import DeltaPairQuoteMixin
 from .delta_pair_guard import DeltaPairGuardMixin
@@ -273,7 +274,9 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
                delta_service_hard_orders=6, delta_service_target_bps=3000,
-               delta_service_hard_target_bps=2400, **settings):
+               delta_service_hard_target_bps=2400,
+               epsilon_breaker=0, epsilon_breaker_on_time_bps=9400,
+               epsilon_breaker_min_orders=20, **settings):
     if not isinstance(delta_pairing, str) or delta_pairing not in PAIRING_PROFILES:
         raise ValueError('delta_pairing must be off, regional or extended')
     if type(delta_pair_same_audience) is not int or delta_pair_same_audience not in (0, 1):
@@ -282,7 +285,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pair_self_roads must be 0 or 1')
     intake = DeltaIntakeSettings(**{k: settings.pop(k) for k in list(settings)
                                   if k in DeltaIntakeSettings.__dataclass_fields__})
-    class DeltaDesk(DeltaSegmentedTargetsMixin, DeltaSafeTargetMixin, DeltaSafeQuoteMixin, DeltaIntakeMixin, DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaNoteUrgencyMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+    class DeltaDesk(EpsilonBreakerMixin, DeltaSegmentedTargetsMixin, DeltaSafeTargetMixin, DeltaSafeQuoteMixin, DeltaIntakeMixin, DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaNoteUrgencyMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
@@ -326,6 +329,9 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         transfer, drive = PAIRING_PROFILES[delta_pairing]
         driver = replace(driver, pair_transfer_km=transfer, pair_max_drive_minutes=drive)
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver, intake_settings=intake,
+                     epsilon_breaker=epsilon_breaker,
+                     epsilon_breaker_on_time_bps=epsilon_breaker_on_time_bps,
+                     epsilon_breaker_min_orders=epsilon_breaker_min_orders,
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,

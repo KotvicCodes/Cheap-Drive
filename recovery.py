@@ -26,8 +26,10 @@ SETS = ("booked", "urgent", "pending", "brake_warned", "brake_late", "town_won_i
         "_split_orders", "_failed_orders", "_picked", "_started", "_skip_logged")
 DICTS = ("requests", "orders", "leg_gigs", "posts", "trust", "dealers", "markups",
          "quote_trackers", "day_starts", "brake_last_held", "near30", "town_pending",
-         "first_posted", "delta_b1_pending", "delta_lane_counts", "delta_b1_counts", "delta_urgent_since")
-SCALARS = ("markup", "brake_mode", "supply_roster_size", "now")
+         "first_posted", "delta_b1_pending", "delta_lane_counts", "delta_b1_counts", "delta_urgent_since",
+         "epsilon_breaker_outcomes")
+SCALARS = ("markup", "brake_mode", "supply_roster_size", "now",
+           "epsilon_breaker_active", "epsilon_breaker_at")
 DEQUES = ("brake_warnings", "brake_drops")
 
 
@@ -68,6 +70,8 @@ def restore_state(desk, state):
         desk._pairs = {k: _Pair(**{**v, "orders": tuple(v["orders"])})
                        for k, v in state.get("_pairs", {}).items()}
         desk._pending_pairs.clear()
+    if hasattr(desk, 'apply_epsilon_breaker'):
+        desk.apply_epsilon_breaker()
 
 
 class CheckpointStore:
@@ -90,7 +94,7 @@ class CheckpointStore:
             if (value["version"] != VERSION or value["worldId"] != self.world_id
                     or value["model"] != self.model_spec or type(value["lastSeq"]) is not int
                     or not isinstance(value["state"], dict)
-                    or not all(k in value["state"] for k in (*DICTS[:11], *SCALARS, *DEQUES,
+                    or not all(k in value["state"] for k in (*DICTS[:11], *SCALARS[:4], *DEQUES,
                                                              "town_wins", "pending", "booked", "urgent"))):
                 return None
             state = value["state"]
