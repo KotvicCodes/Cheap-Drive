@@ -471,6 +471,11 @@ def rejoin_model(desk, snapshot, history):
                 # quote can no longer be sent.
                 desk.requests.setdefault(identity, deepcopy(request))
                 continue
+            receipt = desk.recovery_quotes.get(identity)
+            if receipt and receipt["ok"]:
+                # Open until settlement does not mean we may quote again.
+                # Keep the accepted quote's receipt and pending feedback.
+                continue
             desk.requests.pop(identity, None)  # known request != answered after rejoin
             desk.pending.discard(identity)
             desk.quote_trackers.pop(identity, None)

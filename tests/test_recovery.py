@@ -98,11 +98,12 @@ def rebuild(original, history, snap=None, **settings):
 
 
 class RecoveryTests(unittest.TestCase):
-    def test_known_open_request_is_quoted_once_through_normal_pricing(self):
+    def test_unreceipted_known_open_request_is_quoted_once_through_normal_pricing(self):
         desk, history = new_desk(), []
         req = request()
         emit(desk, history, 600, 'price_request', request=req)
         expected = desk.world.actions[-1]['prices']
+        desk.recovery_quotes.clear()  # Known metadata alone does not prove submission.
         resumed = rebuild(desk, history, snapshot(desk, at=605, open_requests=[req]))
         quotes = [a for a in resumed.world.actions if a['type'] == 'quote']
         self.assertEqual(len(quotes), 1)
@@ -375,6 +376,49 @@ class CheckpointTests(unittest.TestCase):
 
 
 class ReceiptAndBoundaryTests(unittest.TestCase):
+    def test_restart_does_not_requote_accepted_open_request_or_erase_feedback(self):
+        # In the paced crash drill, the snapshot still listed a request whose
+        # quote had been accepted after the last checkpoint. Requoting returned
+        # "not open", overwrote its receipt and erased pending loss feedback.
+        for factory in (make_gamma, make_delta):
+            for checkpoint_at in ('none', 'before_quote', 'after_quote'):
+                for competitive in (True, False):
+                    with self.subTest(factory=factory.__name__, checkpoint=checkpoint_at,
+                                      competitive=competitive):
+                        settings = {} if competitive else {'max_km': 1}
+                        original, history = new_desk(factory=factory, **settings), []
+                        before = model_state(original)
+                        req = request()
+                        emit(original, history, 600, 'price_request', request=req)
+                        receipt = deepcopy(original.recovery_quotes['one'])
+                        self.assertTrue(receipt['ok'])
+                        self.assertEqual(receipt['competitive'], competitive)
+                        world = World()
+                        world.recovery_quote_receipts = deepcopy(original.recovery_quotes)
+                        if checkpoint_at != 'none':
+                            world.recovery_checkpoint = dict(worldId=world.id,
+                                lastSeq=-1 if checkpoint_at == 'before_quote' else 0,
+                                state=before if checkpoint_at == 'before_quote' else model_state(original))
+                        def reject_duplicate(actions):
+                            world.actions.extend(deepcopy(actions))
+                            return [dict(ok=False, reason='Request one is not open') for _ in actions]
+                        world.act = reject_duplicate
+                        resumed = new_desk(world, now=605, factory=factory, **settings)
+                        resumed.rejoin(snapshot(original, at=605, open_requests=[req]), history)
+                        resumed.send()
+                        self.assertFalse(world.actions)
+                        self.assertEqual(resumed.recovery_quotes['one'], receipt)
+                        self.assertEqual(resumed.pending, original.pending)
+                        self.assertEqual(resumed.quote_trackers, original.quote_trackers)
+                        event = dict(seq=1, at=615, kind='order_lost', requestId='one')
+                        for desk in (original, resumed):
+                            desk.now = 615
+                            desk.handle(deepcopy(event))
+                        self.assertEqual(resumed.markup, original.markup)
+                        self.assertEqual(resumed.pending, original.pending)
+                        if competitive:
+                            self.assertLess(resumed.markup, 15000)
+
     def test_receipt_free_rebuild_keeps_the_state_of_a_desk_that_never_quoted(self):
         for factory in (make_gamma, make_delta):
             for scope in ('global', 'dealer', 'km'):
