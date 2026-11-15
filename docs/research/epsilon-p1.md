@@ -313,3 +313,13 @@ A watcher recomputes after each append and immediately closes the launch gate
 on failure. Final adoption still requires worst≥91.5%;the stored safe-quote
 arm's91.379% worst already misses that final bar despite passing continuation.
 Stop launches05:30,drain by05:50,report by05:45.
+
+
+## Centralized final handoff (04:01 UTC)
+
+The orchestrator stopped this lane's safe9800 sweep and deleted its open worlds.
+No new worlds are authorized. Final safe tally versus Early Epsilon:6 paired
+weeks,+€302.58/week,3/6 positive,worst91.379%. It receives no more local runs.
+The remaining local watcher and05:30 timer were stopped; all own world markers
+are empty. Final suite:492 tests. See epsilon-p1-final.md for the final handoff
+and epsilon-p1-results.md for complete paired tables.

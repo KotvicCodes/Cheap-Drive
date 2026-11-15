@@ -25,7 +25,7 @@ Candidate minus stored current-Delta scores on matching seeds. Existing and fres
 | epsilon-volume-stack-tilt-win4600-finish-band180 | existing | 4 | €-382.56 | 1/4 | 95.750% |
 | rescue85-step25 | existing | 4 | €+829.05 | 3/4 | 89.785% |
 | retry2 | existing | 3 | €+84.37 | 2/3 | 90.778% |
-| safe9800-backlog10 | existing | 3 | €+838.88 | 3/3 | 91.379% |
+| safe9800-backlog10 | existing | 6 | €+576.58 | 5/6 | 91.379% |
 | stop-spare | existing | 4 | €-31.96 | 0/4 | 91.117% |
 | tight | existing | 4 | €-55.59 | 0/4 | 91.117% |
 | tight-rescue85 | existing | 3 | €+812.88 | 2/3 | 89.785% |
@@ -57,7 +57,7 @@ Candidate minus stored current-Delta scores on matching seeds. Existing and fres
 | epsilon-retry120-slack720-win4600 | existing | 1 | €-2534.21 | 0/1 | 88.684% | +32.00 |
 | epsilon-retry2 | existing | 2 | €-290.42 | 1/2 | 91.379% | -0.50 |
 | epsilon-volume-stack-tilt-win4600-finish-band180 | existing | 4 | €-487.94 | 1/4 | 95.750% | +42.25 |
-| safe9800-backlog10 | existing | 3 | €+649.72 | 2/3 | 91.379% | +2.00 |
+| safe9800-backlog10 | existing | 6 | €+302.58 | 3/6 | 91.379% | +0.83 |
 | volume-stack-tilt-win4400 | existing | 7 | €+223.26 | 5/7 | 91.022% | +27.71 |
 | volume-stack-tilt-win4600 | existing | 5 | €+774.75 | 4/5 | 90.144% | +44.00 |
 
@@ -79,6 +79,7 @@ Only in-run aggregate data is used. Pool share requires at least two distinct or
 | epsilon-retry120-slack720-win4200 (existing) | 2 | 22.53% | €76.38 | €+1.86 | €45.26 |
 | epsilon-retry120-slack720-win4600 (existing) | 1 | 24.21% | €84.72 | €+4.91 | €48.91 |
 | epsilon-volume-stack-tilt-win4600-finish-band180 (existing) | 4 | 31.22% | €63.00 | €-4.87 | €41.97 |
+| safe9800-backlog10 (existing) | 3 | 27.92% | €67.68 | €-0.94 | €48.17 |
 | volume-stack-tilt-win4400 (existing) | 3 | 31.79% | €63.04 | €-5.59 | €46.79 |
 
 The tight-roads 19-week result fails the positive-margin gate. Its queued fresh block was cancelled before launch when earliest selection became the priority. The isolated latest0 screen also fails the service gate. No production model JSON was changed.
@@ -87,4 +88,4 @@ Initial screen: f1-s07, f2-s04, f1-s06, f1-s08. Rescue screen stopped after thre
 
 Tight-roads differs from the previously rejected road-only policy by −€4.54/week over the nineteen pairs. Its initial screen uplift did not survive the full extension.
 
-Completed records: 107. Error rows: 1. Raw outputs remain under ignored runs/epsilon-p1/. Only summary.md and runs.jsonl were read for selection.
+Completed records: 110. Error rows: 1. Raw outputs remain under ignored runs/epsilon-p1/. Only summary.md and runs.jsonl were read for selection.
