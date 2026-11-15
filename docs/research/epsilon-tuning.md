@@ -458,3 +458,18 @@ with explicit0 matches2277 batches/1943 actions. Local444 tests pass.
 | Readiness early cut800bps | Pending4 | — | — | — | Prepared |
 | Pickup-opportunity360/2 + cap14000 | 4 | −€245.43 | 1/4 | 92.199% | Reject: negative margin |
 | Pickup-opportunity360/2 + cap13000 | 4 | −€285.62 | 2/4 | 89.683% | Reject: service and margin |
+
+
+## Saturday phrase experiment
+
+`delta_note_weekday_saturday=0` keeps the original parser. Enabled bare
+`arkisin`/`weekdays` retains hours and allows Monday–Saturday; Sunday stays
+excluded. Explicit Monday–Friday phrases remain restricted. Bounded Saturday
+negatives in FI/EN/SV preserve pickup/delivery scope, including a negative
+preceding a role word. All Delta parser branches receive the flag. Private
+slots and explicit dates retain their constraints. Five focused tests pass;
+449 local tests pass and explicit0 matches the complete s07 action tape.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Bare weekday phrases preserve Saturday | Pending4 | — | — | — | Prepared; independent screen |
