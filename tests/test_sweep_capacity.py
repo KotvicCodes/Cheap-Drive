@@ -9,6 +9,17 @@ from scripts.sweep import LaunchWindowClosed, wait_for_launch, wait_for_team_cap
 
 
 class SweepCapacityTests(unittest.TestCase):
+    def test_disabled_screen_arm_never_checks_capacity_or_creates_a_world(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            disabled=Path(tmp)/'disabled.json'
+            disabled.write_text('["weak"]')
+            client=Mock()
+            with patch.dict(os.environ, {'SWEEP_DISABLED_LABELS_FILE':str(disabled)},clear=True):
+                with self.assertRaisesRegex(LaunchWindowClosed,'arm disabled'):
+                    with world_launch_slot(client,'weak'):self.fail('weak arm launched')
+                with world_launch_slot(client,'survivor'):pass
+            client.worlds.assert_not_called()
+
     def test_lane_wait_counts_only_its_unfinished_worlds_across_outputs(self):
         with tempfile.TemporaryDirectory() as tmp:
             lane=Path(tmp)

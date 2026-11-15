@@ -89,7 +89,7 @@ def wait_for_team_capacity(client):
 
 
 @contextmanager
-def world_launch_slot(client):
+def world_launch_slot(client, label=None):
     """Serialize lane checks through creation and writing its ownership marker."""
     limit = int(os.environ.get('SWEEP_LANE_WORLD_LIMIT', '0'))
     root = os.environ.get('SWEEP_LANE_ROOT')
@@ -105,6 +105,9 @@ def world_launch_slot(client):
             if limit:
                 fcntl.flock(stream, fcntl.LOCK_EX)
             wait_for_launch()
+            disabled = os.environ.get('SWEEP_DISABLED_LABELS_FILE')
+            if disabled and label in json.loads(Path(disabled).read_text()):
+                raise LaunchWindowClosed('arm disabled by screen monitor')
             wait_for_team_capacity(client)
             full = False
             if limit:
@@ -131,7 +134,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     for attempt in range(4):
         world = None
         try:
-            with world_launch_slot(client):
+            with world_launch_slot(client, label):
                 world = client.create(level=level, seed=seed, board=False)
                 (out / "worlds" / world.id).write_text(tag)
             started = time.time()

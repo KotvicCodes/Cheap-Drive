@@ -3,6 +3,12 @@
 Published branch: `t3/epsilon-p5b` (continued from `t3/epsilon-p5`, originally based on `origin/t3/epsilon-model`).
 Production `models/delta.json` and `models/epsilon.json` remain unchanged.
 
+**Current protocol (03:20 UTC update):** screen four seeds; require >=500 euros/
+week versus Early Epsilon, approximately380+ wins, and every week>=91.5%.
+Stop unsafe arms at once; only the strongest arm gets eight additional paired
+seeds, starting before04:45. No full19/27 extension or automatic fresh run is
+queued. Earlier full-cohort protocols below describe completed/abandoned stages.
+
 ## Evidence and selection rule
 
 The supplied top-7 strategy and its `top7-vetted.md` P5 review were checked
@@ -338,3 +344,26 @@ against cached Delta/Early Epsilon and its admission-only control to19, then
 uses a separately reserved unseen cohort of four segmented holdout seeds.
 Reported volume will be compared against both Early Epsilon and the admission
 control; a margin increase alone does not establish the requested volume gain.
+
+
+### Converged strong-signal protocol and current screen
+
+The ranking pause ended early at03:17 UTC on the orchestrator's instruction.
+A–D then all failed: A (2seeds) -1073.74/week vs Early Epsilon,87.696% worst;
+B (2seeds) -2606.36,86.146%; C (1seed) -2917.36,87.692%; D (1seed) -2159.89,
+87.560%. Remaining jobs were stopped after current worlds drained.
+
+The best prior admission observation was the narrower slack360/same-day480/
+long cap4/max700: +1387.74 vs Early Epsilon,93.239% on the first hard seed,
++7wins. This is **one seed, not a confirmed winner**. It is the provisional
+base of the newly requested SAFE5000/5500 screens, and its remaining three
+control seeds run alongside them. The existing first score is reused.
+
+The runner's optional `SWEEP_DISABLED_LABELS_FILE` allows a score-only monitor
+to stop future worlds immediately when an arm fails service, while active
+weeks finish. Tests:473 passing. Current handoff is the requested scratchpad
+`admission-best.json`; `segmented-volume-results.json` is the retained copy.
+Only the strongest four-seed arm reaching +500/week,380wins and91.5% service
+will get eight more seeds. Those eight were fixed before screen outcomes:
+f1-s02,s03,s04,s08 and f2-s01,s02,s03,s05. No admission-control extension or
+full19/fresh cohort is queued under the revised protocol.
