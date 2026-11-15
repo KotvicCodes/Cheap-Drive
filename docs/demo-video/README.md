@@ -35,9 +35,10 @@ Output defaults to `runs/demo-video/` (ignored by Git); `--output /absolute/path
 | 00:20–00:26 | Find what broke: Live demo app preview (`assets/live-demo-overview.png`) + `Note → Pickup window → Outcome` order inspection. |
 | 00:26–00:33 | Gamma: higher margin, but one week missed the gate (`+€830/wk`, `7/8 weeks ranked`, `W7` at `89.96%` on time). |
 | 00:33–00:40 | Gamma: read dealer notes and combine cars in one gig (`+€2,031/week vs Beta` across 8 new practice weeks, `8/8 weeks qualified`, `96.95%` worst on time). |
-| 00:40–00:46 | Delta: in production (`+€1,664/week vs Early Delta` across 19 paired practice weeks, `19/19 practice weeks ranked`, `€75,764` Round 9 total across `5/5 ranked weeks`). |
-| 00:46–00:52 | Delta: Quantity > the best margins (`Use freed capacity to win more requests`: wider gig windows, overdue rescue, `≤90 km` pairing, `30% → 42%` win target lifting volume from `257` to `342 orders/wk`). |
-| 00:52–01:00 | More runs cleared the ranking gate (`1,685 practice runs` across `Baseline: 2`, `Alpha: 677`, `Beta: 268`, `Gamma: 242`, `Delta: 496`). |
+| 00:40–00:47 | Delta: in production (`+€1,664/week vs Early Delta` across 19 paired practice weeks, `19/19 practice weeks ranked`, `€75,764` Round 9 total across `5/5 ranked weeks`). |
+| 00:47–00:53 | Delta: Quantity > the best margins (2×2 Bento: wider gig windows, overdue rescue, `≤90 km` pairing, `42%` win target lifting volume from `257` to `342 orders/wk`). |
+| 00:53–01:01 | More runs cleared the ranking gate (`1,685 practice runs` across `Baseline: 2`, `Alpha: 677`, `Beta: 268`, `Gamma: 242`, `Delta: 496`). |
+| 01:01–01:06 | Highway close (`Win the right work. Deliver it.`). |
 
 ## Evidence and limits
 
