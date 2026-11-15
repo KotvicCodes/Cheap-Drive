@@ -51,7 +51,7 @@ The current ten-slide deck has terminology and speaker-note updates, not a full 
 - Add the actual **final result** when available; do not substitute practice or test-final results
 - Recheck the **latest verified ranking-round result** before submission. Slide 8 now includes Delta round 9: €75,763.55 across five ranked weeks. Its 21:34:23 UTC standings snapshot was still an open round, so its rank is not final
 - Record any demonstrated restart, slow-network and live-clock behaviour separately; the Gamma practice test alone establishes none of these
-- The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 1B token figure is supplied by the presenter, not audited by simulation logs
+- The run count uses the frozen saved-file snapshot below; repeated runs are not independent unseen weeks. The 1,5B token figure is supplied by the presenter, not audited by simulation logs
 - Keep Beta's small historical fee/trust tests separate. Do not add their gains or describe them as Gamma effects
 - Keep chart footnotes off the graphs, as requested; their context belongs in these notes
 
@@ -84,7 +84,7 @@ Early and late versions are combined into Beta and Gamma. Gamma controls run dur
 - [Frozen scores and group membership](run-data.json)
 - [Replot script](plot-runs.py): run `python3 presentations/plot-runs.py` with Matplotlib installed to regenerate the standalone chart files
 
-The HTML embeds the same PNG for offline use. Regenerating standalone files does not replace the HTML image automatically. The local detailed audit is under git-ignored `runs/presentation-refresh-20261114T225305Z/`. The token total shown on slide 3 is **1B**, as supplied by the presenter.
+The HTML embeds the same PNG for offline use. Regenerating standalone files does not replace the HTML image automatically. The local detailed audit is under git-ignored `runs/presentation-refresh-20261114T225305Z/`. The token total shown on slide 3 is **1,5B**, as supplied by the presenter.
 
 ## Reader notes
 
@@ -114,7 +114,7 @@ Why we tested: one profitable practice week can hide a delivery failure on anoth
 
 The updated count is 1,685 completed practice runs at the 2026-11-14 22:53 UTC saved-file snapshot, 193 more than the previous 1,492-run snapshot. It includes three completed timed practice rehearsals; restarting a world does not add another run. We deduplicate by world ID and require a completed result or terminal trace score. The 20 saved official ranking worlds, one test-final world, synthetic demos and 139 identified worlds without final-score evidence are excluded from this practice total. All 193 newly counted worlds have terminal trace evidence; no simulation was launched for the refresh.
 
-Those 1,685 runs cover 87 seed-and-level scenarios with repeated configurations; they are not 1,685 independent unseen weeks. Counts show development effort, not the effect of an idea. The four model generations remain Alpha, Beta, Gamma and Delta. We report 1B tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality.
+Those 1,685 runs cover 87 seed-and-level scenarios with repeated configurations; they are not 1,685 independent unseen weeks. Counts show development effort, not the effect of an idea. The five models are Alpha, Beta, Gamma, Delta and Epsilon. Epsilon is being brought into the presentation; the dated run chart still covers the four earlier model families until its runs are audited. We report 1,5B tokens of development usage, as supplied by the presenter; the simulation logs do not audit this usage figure, and it is not evidence of dispatch quality.
 
 ### Slide 4: Alpha: formula tuned by gradient descent
 
