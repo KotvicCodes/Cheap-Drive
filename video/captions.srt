@@ -23,13 +23,17 @@ Gamma: higher margin (+€830/wk), but one week missed the gate at 89.96% on tim
 Gamma: read dealer notes and combine cars in one gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
 
 7
-00:00:40,100 --> 00:00:45,800
+00:00:40,100 --> 00:00:46,800
 Delta in production: +€1,664 per week vs Early Delta across 19 ranked practice weeks, and €75,764 across 5 ranked Round 9 weeks.
 
 8
-00:00:46,100 --> 00:00:51,800
+00:00:47,100 --> 00:00:52,800
 Delta: Quantity > the best margins. Wider windows, overdue rescue, 90 km pairing, and a 42% win target lift volume from 257 to 342 orders per week.
 
 9
-00:00:52,100 --> 00:00:59,800
+00:00:53,100 --> 00:01:00,800
 More runs cleared the ranking gate across 1,685 practice runs: from 84.6% ranked in Alpha to 98.6% ranked in Delta.
+
+10
+00:01:01,100 --> 00:01:05,800
+Cheap-Drive: Win the right work. Deliver it.
