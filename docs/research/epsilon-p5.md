@@ -135,3 +135,37 @@ The four screen seeds are unchanged. Only the highest paired-mean survivor
 with every observed week >=91.5% on time will extend to 19 and then the
 reserved four unseen confirmation seeds. All remaining older screen worlds
 were drained before the new two-worker sweep started.
+
+## Priority change: guarded safe-distance customer prices
+
+At 02:00 UTC the orchestrator redirected this lane to lever 2 of the supplied
+`volume-gap.md`. The pending scarce-roster extension was cancelled; the
+completed screen found scarce-only +575.37/week (2/4 positive) and backlog valve
++453.15/week (3/4), both with 92.749% worst on time. They are unconfirmed.
+
+`delta_safe_quote_bps=0` is the new default-off control. Enabled factors apply
+only to admitted single-leg, nonpremium, nonprivate options at 50–300 km,
+with note-aware slack >=720 minutes and unbooked backlog <=15. The exact final
+cent-rounded discounted quote must be >=110% of raw reference fee; otherwise
+the original factors and price are retained. It changes customer quotes only;
+global target stays 4200 and existing admission, fees, and feedback stay intact.
+The existing scalar learner can offset the segment discount as wins change,
+so net volume and margin must be measured rather than inferred from the pool.
+
+The three strengths are 9900, 9800, and 9600 basis points (1%, 2%, 4% discount).
+The frozen base is confirmed Epsilon: Delta settings plus premium slack 1440.
+All 19 Epsilon references were recovered from existing `runs.jsonl` rows with
+exact matching settings. Both Delta and Epsilon are paired references. Screen
+seeds are f1-s07, f2-s04, f1-s01, f1-s05. The largest positive paired mean versus
+Epsilon among service-safe arms advances to 19; adoption also needs positive
+means versus Delta and Epsilon and every observed week >=91.5% on time, followed
+by the four reserved unseen seeds. No pricing/roster controls are bundled.
+
+The quota returned to three after the rehearsal obtained its own slot.
+Subsequent sweep commands use `SWEEP_WORKERS=3`, `SWEEP_TEAM_WORLD_LIMIT=12`;
+the runner checks `client.worlds()` before each creation (including retries)
+and waits while 12 or more worlds are unfinished. The 03:00–03:45 launch pause
+remains in force. Revised confirmation/report target is 05:45 UTC, and all
+worlds must finish by 06:15 UTC. Tests: 453 passing, including exact-off action/
+journal parity, distance/slack/backlog boundaries, exclusions, final rounding,
+reference floor, unchanged learning state, recovery, and the team-cap wait.
