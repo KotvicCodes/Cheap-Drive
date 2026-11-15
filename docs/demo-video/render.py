@@ -262,10 +262,11 @@ MAP_NODES = [(120, 590), (280, 500), (410, 610), (530, 415), (710, 460), (810, 2
 MAP_EDGES = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 1), (7, 3), (4, 9), (9, 10), (10, 11), (11, 5), (11, 4), (2, 9), (0, 2)]
 
 MAP_TRIPS = [
-    ([8, 7, 6, 5], 0.06, 0.12, INK, True),
-    ([0, 1, 3, 4], 0.08, 0.12, ORANGE, True),
-    ([2, 9, 10, 11], 0.05, 0.12, INK, False),
-    ([5, 11], 0.10, 0.11, ORANGE, False),
+    ([8, 7, 6], 0.06, 0.12, INK, True),
+    ([0, 1, 2, 3], 0.08, 0.12, ORANGE, True),
+    ([2, 9, 10], 0.05, 0.12, INK, True),
+    ([5, 11, 10], 0.10, 0.11, ORANGE, True),
+    ([3, 4, 5], 0.07, 0.12, INK, True),
 ]
 
 
@@ -279,12 +280,12 @@ def network(im, t, box=(820, 100, 1840, 980), active=True, bg=CARD, border=GOLD_
         for gy in range(int(y) + 36, int(y2) - 20, 52):
             circle(im, gx, gy, 1, '#FFD480')
     for a, b in MAP_EDGES:
-        line(im, [pts[a], pts[b]], '#FFC266', 2)
+        line(im, [pts[a], pts[b]], '#FFC266', 3)
     if active:
         for t_idx, (nodes, p0, spd, c_col, is_prim) in enumerate(MAP_TRIPS):
             r_path = [pts[k] for k in nodes]
             p = clamp(p0 + t * spd)
-            path_partial(im, r_path, p, ORANGE if is_prim else MARIGOLD, 5 if is_prim else 4)
+            path_partial(im, r_path, p, ORANGE, 5)
     for i, p in enumerate(pts):
         is_hub = i in [0, 5, 10, 3, 8]
         circle(im, *p, 7 if is_hub else 5, CARD, ORANGE if is_hub else MANGO, 3 if is_hub else 2)
@@ -1318,6 +1319,14 @@ def validate():
     assert round(sum(d[3] for d in DELTA_CONFIRM) / 19, 2) == 1663.82
     stress = next(r for r in PAIRED_OLD if r['suite'] == 't1' and r['variant'] == 'km600-t38' and r['seed'] == 'gamma-t04')
     assert int(stress['won_orders']) == 294 and round(float(stress['on_time_share']) * 100, 2) == 89.80
+    edge_set = set(MAP_EDGES) | {(b, a) for a, b in MAP_EDGES}
+    for nodes, *_ in MAP_TRIPS:
+        for u, v in zip(nodes, nodes[1:]):
+            assert (u, v) in edge_set, f'Missing MAP_EDGE {(u, v)}'
+    road_set = set(FINLAND_ROADS) | {(b, a) for a, b in FINLAND_ROADS}
+    for corr, *_ in FINLAND_TRIPS:
+        for u, v in zip(corr, corr[1:]):
+            assert (u, v) in road_set, f'Missing FINLAND_ROAD {(u, v)}'
 
 
 if __name__ == '__main__':
