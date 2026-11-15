@@ -22,7 +22,7 @@ class DeltaServiceMixin:
         self.delta_service = values
         super().__init__(*args, **kwargs)
 
-    def service_risk_orders(self):
+    def service_risk_orders(self, *, horizon=None):
         """Count unbooked work whose last legal pickup opportunity is near.
 
         Derive this from current orders and gigs, so recovery needs no new
@@ -30,7 +30,7 @@ class DeltaServiceMixin:
         order urgent well before its absolute lastPickupAt.
         """
         risky = set()
-        horizon = self.delta_service['delta_service_horizon_minutes']
+        horizon = self.delta_service['delta_service_horizon_minutes'] if horizon is None else horizon
         for identity in self.orders_without_driver():
             order = self.orders[identity]
             remaining = [i for i in range(len(order['legs']))

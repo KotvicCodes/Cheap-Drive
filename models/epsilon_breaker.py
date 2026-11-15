@@ -4,7 +4,8 @@ from dataclasses import replace
 
 class EpsilonBreakerMixin:
     def __init__(self, *args, epsilon_breaker=0, epsilon_breaker_on_time_bps=9400,
-                 epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0, **kwargs):
+                 epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0,
+                 epsilon_breaker_risk_orders=0, epsilon_breaker_risk_horizon_minutes=360, **kwargs):
         if type(epsilon_breaker) is not int or epsilon_breaker not in (0, 1):
             raise ValueError('epsilon_breaker must be 0 or 1')
         if (type(epsilon_breaker_on_time_bps) is not int or
@@ -14,10 +15,16 @@ class EpsilonBreakerMixin:
             raise ValueError('epsilon_breaker_min_orders must be positive')
         if type(epsilon_breaker_window_minutes) is not int or epsilon_breaker_window_minutes < 0:
             raise ValueError('epsilon_breaker_window_minutes must be nonnegative')
+        for name, value in (('epsilon_breaker_risk_orders', epsilon_breaker_risk_orders),
+                            ('epsilon_breaker_risk_horizon_minutes', epsilon_breaker_risk_horizon_minutes)):
+            if type(value) is not int or value < 0:
+                raise ValueError(name + ' must be nonnegative')
         self.epsilon_breaker = epsilon_breaker
         self.epsilon_breaker_on_time_bps = epsilon_breaker_on_time_bps
         self.epsilon_breaker_min_orders = epsilon_breaker_min_orders
         self.epsilon_breaker_window_minutes = epsilon_breaker_window_minutes
+        self.epsilon_breaker_risk_orders = epsilon_breaker_risk_orders
+        self.epsilon_breaker_risk_horizon_minutes = epsilon_breaker_risk_horizon_minutes
         self.epsilon_breaker_active = False
         self.epsilon_breaker_at = None
         # One outcome per order: True is fully delivered on time, False is
@@ -25,6 +32,26 @@ class EpsilonBreakerMixin:
         self.epsilon_breaker_outcomes = {}
         self.epsilon_breaker_resolved_at = {}
         super().__init__(*args, **kwargs)
+
+    def trip_epsilon_breaker(self, at, **signal):
+        if self.epsilon_breaker_active:
+            return
+        self.epsilon_breaker_active = True
+        self.epsilon_breaker_at = at
+        self.apply_epsilon_breaker()
+        self.journal.record('epsilon_breaker', at=at, mode='conservative', **signal)
+
+    def quote(self, request):
+        # Decide before admitting more work, using only the current public books.
+        # The route calculation includes notes, site closures and missing posts;
+        # booked legs and already delivered legs never count as unserved risk.
+        if self.epsilon_breaker and not self.epsilon_breaker_active and self.epsilon_breaker_risk_orders:
+            risky = self.service_risk_orders(horizon=self.epsilon_breaker_risk_horizon_minutes)
+            if len(risky) >= self.epsilon_breaker_risk_orders:
+                self.trip_epsilon_breaker(self.now, signal='unbooked_pickup_risk',
+                                          riskyOrders=len(risky), orderIds=sorted(risky),
+                                          horizonMinutes=self.epsilon_breaker_risk_horizon_minutes)
+        return super().quote(request)
 
     def apply_epsilon_breaker(self):
         """Also called after checkpoint restoration; never alters existing gigs."""
@@ -68,10 +95,7 @@ class EpsilonBreakerMixin:
         count, on_time = len(recent), sum(recent)
         if (not self.epsilon_breaker_active and count >= self.epsilon_breaker_min_orders
                 and on_time * 10000 < self.epsilon_breaker_on_time_bps * count):
-            self.epsilon_breaker_active = True
-            self.epsilon_breaker_at = event['at']
-            self.apply_epsilon_breaker()
-            self.journal.record('epsilon_breaker', at=event['at'], mode='conservative',
-                                resolvedOrders=count, onTimeOrders=on_time,
-                                thresholdBps=self.epsilon_breaker_on_time_bps,
-                                windowMinutes=window)
+            self.trip_epsilon_breaker(event['at'], signal='realized_service',
+                                      resolvedOrders=count, onTimeOrders=on_time,
+                                      thresholdBps=self.epsilon_breaker_on_time_bps,
+                                      windowMinutes=window)

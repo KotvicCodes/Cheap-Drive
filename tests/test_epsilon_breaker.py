@@ -10,6 +10,7 @@ from dispatch import Journal, play_model
 from models.delta import make_delta
 from recovery import model_state, restore_state, replay_history
 from tests.test_gamma import GammaWorld, request
+from tests.test_gamma_pairs import order_for
 from tests.test_performance import LossWorld
 
 
@@ -42,6 +43,35 @@ class EpsilonBreakerTests(unittest.TestCase):
             self.delivery(desk, f'recovered-{n}')
         self.assertTrue(desk.epsilon_breaker_active)
         self.assertEqual(desk.win_target(), 4200)
+
+    def test_leading_pickup_risk_switches_before_any_delivery_or_new_quote(self):
+        desk = self.desk(epsilon_breaker_risk_orders=2)
+        for identity in ('risk1', 'risk2'):
+            req = request(identity)
+            req['note'] = {'text': ''}
+            desk.requests[identity] = req
+            desk.orders[identity] = order_for(req, deadline=1000)
+        self.assertEqual(desk.epsilon_breaker_outcomes, {})
+        desk.quote(request('new'))
+        self.assertTrue(desk.epsilon_breaker_active)
+        self.assertEqual(desk.epsilon_breaker_at, 500)
+        self.assertEqual(desk.win_target(), 4200)
+        restored = self.desk(epsilon_breaker_risk_orders=2)
+        restore_state(restored, deepcopy(model_state(desk)))
+        self.assertEqual(restored.settings, desk.settings)
+
+    def test_booked_and_far_work_do_not_fire_leading_breaker(self):
+        desk = self.desk(epsilon_breaker_risk_orders=2)
+        for identity, deadline in (('booked', 1000), ('near', 1000), ('far', 6000)):
+            req = request(identity)
+            req['note'] = {'text': ''}
+            desk.requests[identity] = req
+            desk.orders[identity] = order_for(req, deadline=deadline)
+        desk.leg_gigs['booked'] = {0: 'booked-gig'}
+        desk.booked.add('booked-gig')
+        desk.quote(request('new'))
+        self.assertFalse(desk.epsilon_breaker_active)
+        self.assertEqual(desk.win_target(), 4400)
 
     def test_switch_changes_quote_tilt_slack_corridor_and_new_trade_intake(self):
         desk = self.desk(epsilon_breaker_min_orders=1)
@@ -134,6 +164,8 @@ class EpsilonBreakerTests(unittest.TestCase):
                       {'epsilon_breaker_on_time_bps': 10001},
                       {'epsilon_breaker_on_time_bps': 9400.0},
                       {'epsilon_breaker_window_minutes': -1},
+                      {'epsilon_breaker_risk_orders': -1},
+                      {'epsilon_breaker_risk_horizon_minutes': True},
                       {'epsilon_breaker_min_orders': 0}):
             with self.subTest(knobs=knobs), self.assertRaises(ValueError):
                 self.desk(**knobs)

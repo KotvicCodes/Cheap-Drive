@@ -276,7 +276,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_service_hard_orders=6, delta_service_target_bps=3000,
                delta_service_hard_target_bps=2400,
                epsilon_breaker=0, epsilon_breaker_on_time_bps=9400,
-               epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0, **settings):
+               epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0,
+               epsilon_breaker_risk_orders=0, epsilon_breaker_risk_horizon_minutes=360, **settings):
     if not isinstance(delta_pairing, str) or delta_pairing not in PAIRING_PROFILES:
         raise ValueError('delta_pairing must be off, regional or extended')
     if type(delta_pair_same_audience) is not int or delta_pair_same_audience not in (0, 1):
@@ -333,6 +334,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                      epsilon_breaker_on_time_bps=epsilon_breaker_on_time_bps,
                      epsilon_breaker_min_orders=epsilon_breaker_min_orders,
                      epsilon_breaker_window_minutes=epsilon_breaker_window_minutes,
+                     epsilon_breaker_risk_orders=epsilon_breaker_risk_orders,
+                     epsilon_breaker_risk_horizon_minutes=epsilon_breaker_risk_horizon_minutes,
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
