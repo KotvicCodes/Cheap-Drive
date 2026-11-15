@@ -18,11 +18,15 @@ directory (git-ignored): traces/*.jsonl.gz, reveals/*.json.gz, runs.jsonl
 Set SWEEP_PAUSE_FILE to a shared file path for drain-and-resume control.
 Creating that file blocks new worlds (including retries) while active weeks
 finish. Removing it resumes queued weeks; completed scores are still reused.
+Optional SWEEP_LAUNCH_BLACKOUT_UTC=03:00-03:30 and
+SWEEP_LAUNCH_CUTOFF_UTC=05:30 gate every creation, including retries.
+SWEEP_ACTIVE_WORLD_LIMIT gates creations using the team's unfinished worlds.
 """
 from __future__ import annotations
 
 import concurrent.futures as cf
 from contextlib import redirect_stdout
+from datetime import datetime, timezone
 import gzip
 import io
 import json
@@ -48,8 +52,29 @@ EVENTS = ("price_request", "order_won", "gig_booked", "gig_dropped", "gig_expire
 def wait_for_launch():
     """Pause only at world boundaries; never interfere with an active week."""
     path = os.environ.get("SWEEP_PAUSE_FILE")
-    while path and Path(path).exists():
+    while True:
+        minute = datetime.now(timezone.utc).strftime('%H:%M')
+        cutoff = os.environ.get('SWEEP_LAUNCH_CUTOFF_UTC')
+        if cutoff and minute >= cutoff:
+            raise RuntimeError('UTC world launch cutoff reached')
+        blackout = os.environ.get('SWEEP_LAUNCH_BLACKOUT_UTC', '')
+        start, _, end = blackout.partition('-')
+        blocked = bool(end and start <= minute < end)
+        if not blocked and not (path and Path(path).exists()):
+            return
         time.sleep(1)
+
+
+def wait_for_capacity(client):
+    """Optional shared-team ceiling; each worker still owns only one world."""
+    limit = int(os.environ.get('SWEEP_ACTIVE_WORLD_LIMIT', '0'))
+    while True:
+        wait_for_launch()
+        if not limit or sum(not w['ended'] for w in client.worlds()) < limit:
+            # Recheck after the read, which can cross a UTC boundary.
+            wait_for_launch()
+            return
+        time.sleep(5)
 
 
 def play_week(out, factory_name, level, seed, label, settings, fast):
@@ -64,7 +89,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
     for attempt in range(4):
         world = None
         try:
-            wait_for_launch()
+            wait_for_capacity(client)
             world = client.create(level=level, seed=seed, board=False)
             (out / "worlds" / world.id).write_text(tag)
             started = time.time()
@@ -108,6 +133,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
             return {"score": score, "ledger": diag["ledger"], "events": diag["events"],
                     **({'fee_escalation': diag['fee_escalation']} if 'fee_escalation' in diag else {}),
                     **({'interventions': diag['interventions']} if 'interventions' in diag else {}),
+                    **({"offers": diag["offers"]} if "offers" in diag else {}),
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
                     "seconds": round(time.time() - started), "attempts": attempt + 1}

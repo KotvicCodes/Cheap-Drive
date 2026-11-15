@@ -5,6 +5,7 @@ from dataclasses import replace
 import re
 
 from .gamma import GammaCoreDesk, GammaSettings
+from .epsilon_offers import EpsilonOffersMixin, OfferSettings
 from .delta_b1 import DeltaB1Mixin, validate_b1
 from .delta_lanes import DeltaLanesMixin, validate_lanes
 from .delta_option_spread import DeltaOptionSpreadMixin, validate_option_spread
@@ -264,17 +265,20 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
                delta_service_hard_orders=6, delta_service_target_bps=3000,
-               delta_service_hard_target_bps=2400, **settings):
+               delta_service_hard_target_bps=2400, epsilon_offers=0,
+               offer_after_minutes=120, offer_before_pickup_minutes=360,
+               offer_interval_minutes=30, offer_max_eta_minutes=240,
+               offer_fee_bps=10000, **settings):
     if not isinstance(delta_pairing, str) or delta_pairing not in PAIRING_PROFILES:
         raise ValueError('delta_pairing must be off, regional or extended')
     if type(delta_pair_same_audience) is not int or delta_pair_same_audience not in (0, 1):
         raise ValueError('delta_pair_same_audience must be 0 or 1')
     if type(delta_pair_self_roads) is not int or delta_pair_self_roads not in (0, 1):
         raise ValueError('delta_pair_self_roads must be 0 or 1')
-    class DeltaDesk(DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaNoteUrgencyMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+    class DeltaDesk(EpsilonOffersMixin, DeltaReferenceFloorMixin, DeltaReadinessFeeMixin, DeltaUrgentFeeMixin, DeltaNoteUrgencyMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
-        passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
+        passive_wake_events = frozenset() if settings.get('pairs', 0) or epsilon_offers else GammaCoreDesk.passive_wake_events
 
         def fees_for(self, order, cars):
             schedule = self._note_fees(order, cars, super().fees_for)
@@ -315,6 +319,9 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         transfer, drive = PAIRING_PROFILES[delta_pairing]
         driver = replace(driver, pair_transfer_km=transfer, pair_max_drive_minutes=drive)
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver,
+                     offer_settings=OfferSettings(epsilon_offers, offer_after_minutes,
+                                                  offer_before_pickup_minutes, offer_interval_minutes,
+                                                  offer_max_eta_minutes, offer_fee_bps),
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,

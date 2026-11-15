@@ -1,0 +1,74 @@
+{
+  "settings": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "weeks": [
+    {
+      "seed": "delta-f1-s07",
+      "score": {
+        "marginCents": 1215413,
+        "revenueCents": 4160135,
+        "marginShare": 0.2921571054785482,
+        "wonOrders": 348,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f2-s04",
+      "score": {
+        "marginCents": 1372042,
+        "revenueCents": 4110342,
+        "marginShare": 0.3338023940586939,
+        "wonOrders": 372,
+        "onTimeShare": 0.9166666666666666,
+        "undeliveredShare": 0.002688172043010753,
+        "ranked": true
+      },
+      "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s01",
+      "score": {
+        "marginCents": 1007318,
+        "revenueCents": 2773404,
+        "marginShare": 0.36320637022229724,
+        "wonOrders": 307,
+        "onTimeShare": 0.9609120521172638,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/service-next-screen/runs.jsonl"
+    },
+    {
+      "seed": "delta-f1-s05",
+      "score": {
+        "marginCents": 1378578,
+        "revenueCents": 3543934,
+        "marginShare": 0.38899652194425743,
+        "wonOrders": 336,
+        "onTimeShare": 0.9672619047619048,
+        "undeliveredShare": 0,
+        "ranked": true
+      },
+      "source": "/home/agent/.t3/worktrees/Cheap-Drive/t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/service-next-screen/runs.jsonl"
+    }
+  ]
+}

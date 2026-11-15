@@ -67,3 +67,27 @@ class SweepPauseTests(unittest.TestCase):
             self.assertTrue(flag.exists())
             client.create.assert_called_once()
             world.delete.assert_not_called()
+
+    def test_utc_blackout_blocks_then_resumes_and_cutoff_refuses_launch(self):
+        from datetime import datetime, timezone
+        env = {'SWEEP_LAUNCH_BLACKOUT_UTC': '03:00-03:30', 'SWEEP_LAUNCH_CUTOFF_UTC': '05:30'}
+        with patch.dict(os.environ, env, clear=True), patch('scripts.sweep.datetime') as clock, \
+                patch('scripts.sweep.time.sleep') as sleep:
+            clock.now.side_effect = [datetime(2026, 11, 15, 3, 0, tzinfo=timezone.utc),
+                                     datetime(2026, 11, 15, 3, 30, tzinfo=timezone.utc)]
+            wait_for_launch()
+            sleep.assert_called_once_with(1)
+            clock.now.side_effect = None
+            clock.now.return_value = datetime(2026, 11, 15, 5, 30, tzinfo=timezone.utc)
+            with self.assertRaisesRegex(RuntimeError, 'cutoff'):
+                wait_for_launch()
+
+    def test_shared_capacity_gate_checks_worlds_before_launch(self):
+        from scripts.sweep import wait_for_capacity
+        client = Mock()
+        client.worlds.side_effect = [[dict(ended=False)] * 12, [dict(ended=False)] * 10]
+        with patch.dict(os.environ, {'SWEEP_ACTIVE_WORLD_LIMIT': '12'}, clear=True), \
+                patch('scripts.sweep.time.sleep') as sleep:
+            wait_for_capacity(client)
+        self.assertEqual(client.worlds.call_count, 2)
+        sleep.assert_called_once_with(5)

@@ -89,10 +89,14 @@ class MetricsJournal(Journal):
         self.rejections = Counter()
         self.visit_failures = Counter()
         self.ledger = Counter()
+        self.offers = Counter()
 
     def record(self, kind, **fields):
         super().record(kind, **fields)
         events, results = [], []
+        if kind == "epsilon_offer_result":
+            self.offers["sent"] += 1
+            self.offers["ok" if fields["ok"] else "rejected"] += 1
         if kind == "event":
             events = [fields["event"]]
         elif kind == "action_result":
@@ -104,6 +108,8 @@ class MetricsJournal(Journal):
             results = fields["response"]["results"]
         for event in events:
             self.events[event["kind"]] += 1
+            if event["kind"] == "offer_answered":
+                self.offers[event["answer"]] += 1
             if event["kind"] == "visit_failed":
                 self.visit_failures[event["reason"]] += 1
             if event["kind"] == "ledger":
@@ -115,7 +121,8 @@ class MetricsJournal(Journal):
 
     def metrics(self):
         return {"events": dict(self.events), "rejections": dict(self.rejections),
-                "visit_failures": dict(self.visit_failures), "ledger": dict(self.ledger)}
+                "visit_failures": dict(self.visit_failures), "ledger": dict(self.ledger),
+                **({"offers": dict(self.offers)} if self.offers else {})}
 
 
 def code_revision():
