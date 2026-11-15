@@ -13,6 +13,24 @@ from tests.test_gamma_pairs import order_for
 
 
 class VolumeStackTests(unittest.TestCase):
+    def test_deep_queue_replaces_old_admission_overrides_in_combo(self):
+        folder = Path(__file__).resolve().parents[1] / 'docs/research/plans/epsilon'
+        plan = json.loads((folder / 'volume-long.json').read_text())
+        self.assertEqual(len(plan['variants']) - 1, 4)  # plus the paired fresh control
+        self.assertEqual(len(plan['seeds']), 27)
+        self.assertEqual(plan['base']['premium_min_slack_minutes'], 1440)
+        settings = {**plan['base'], **plan['variants']['volume-stack-tilt-admit360-win4600']}
+        desk = make_delta(GammaWorld(), 8, 500, Journal(io.StringIO()), **settings)
+        self.assertEqual(desk.win_target(), 4600)
+        self.assertEqual(desk.intake_settings.delta_relaxed_slack_minutes, 0)
+        self.assertEqual(desk.intake_settings.delta_corridor_open_cap, 0)
+        self.assertEqual(desk.settings.long_open_cap, 4)
+        for slack in (350, 470, 490):
+            req = request(slacks=(slack,))
+            req['note'] = {'text': ''}
+            options, _ = desk.eligible_options(req, 100, 0)
+            self.assertEqual(bool(options), slack >= 480)
+
     def test_combined_settings_keep_floor_fee_distance_and_recovery(self):
         path = Path(__file__).resolve().parents[1] / 'docs/research/plans/epsilon/volume-stack-screen.json'
         plan = json.loads(path.read_text())

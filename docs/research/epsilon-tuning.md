@@ -955,3 +955,38 @@ paired seeds, starting byabout04:45. Reserved fresh volume seeds remain
 unexposed and can supply this confirmation. No new worlds after05:30;
 report05:45; all own worlds ended before05:50. Early Epsilon remains the
 selected model until a complete combined candidate earns adoption.
+
+
+## One deep queue replaces wave-by-wave launches, 03:31 UTC
+
+Latest explicit user order controls: one sweep.py process,6 workers, all4
+current top arms on4screen+15remaining paired+8reserved fresh seeds.
+Priority: tilt4600, tilt+admit360, tilt4400, admit360-cap4-max700. Added
+Early Epsilon as a paired control for the eight new fresh seeds; its19old
+rows are cached, not replayed. The four candidates remain the4-arm grid.
+Reused24 complete rows (19Early,3tilt,2admission), including P5's full
+existing rows from the explicitly identified running output directory.
+Every new launch remains ordinary practice; no extra ranking run.
+
+The combo retains tilt's young re-pairing and guarded trade-ins, replaces
+the older custom300-minute/cap5 admissions with P5's global minimum360,
+same-day480, long-open-cap4/max700. The old custom relaxation/corridor
+flags are zero in this combo so they cannot bypass those limits.
+Tilt4400 changes only the original tilt's target. The admission-only arm
+is exactly Early Epsilon plus P5's four overrides. Unit boundaries prove
+that the combo rejects same-day slack350/470 and accepts490.
+
+All four original stack arms eventually failed91.5%; the tilt nonetheless
+showed+€1,063.57/week over3pairs,2positive,386.3wins,90.144%floor. The user
+explicitly ordered further tilt exploration despite this floor miss.
+This is authorization to gather evidence, not an adoption exception for
+tilt. The weak uniform and floor/fee arms were ended and removed. No
+final process/world/file was touched. New strict adoption gate remains.
+
+Deep plan: `docs/research/plans/epsilon/volume-long.json`. Finished rows
+are skipped on resume. Incremental reports separate screen, all existing
+pairs and fresh; only paired fresh rows count once the control finishes.
+Stage1strong-signal targets remain+€500/week,~380wins and floor>=91.5%;
+only the strongest1–2 policies should earn final adoption after additional
+paired/fresh confidence. Do not promote tilt based on its positive mean
+while ignoring90.144%floor. No new practice starts after05:30.
