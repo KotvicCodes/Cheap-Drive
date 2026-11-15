@@ -813,3 +813,45 @@ showed4 owned ordinary practice worlds and no sweep processes. Ended only
 those orphaned worlds, then resumed the same sweep with finished rows
 skipped. Ranking gate/controller and shutdown guard remained live. No
 ranking or final world was ended, and no final process was touched.
+
+
+## Converged combined-volume mission, 03:03 UTC
+
+Standalone brake, fee and capacity-valve queues were cancelled on explicit
+orchestrator instruction. Active weeks drained, then only their own paused
+sweep processes were stopped. No new practice while the five ranking runs
+play. Six workers are authorized afterwards (offers builder freed2 slots).
+The next grid has at most4 arms and combines vetted admission and re-pair
+capacity survivors on Early Epsilon, target4600/5000, the requested tilt,
+and a measured fee variant. No candidate is adopted from these partials.
+
+| Change on Early Epsilon | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| premium1440-buyservice-fasturgent-win5000 | 2 | €-3502.97 | 0/2 | 90.976% | Reject: service floor; standalone queue cancelled |
+| premium1440-buyservice-fasturgent-win5500 | 1 | €-7855.66 | 0/1 | 90.138% | Reject: service floor; standalone queue cancelled |
+| premium1440-buyservice-opening8500-fasturgent-win5000 | 2 | €-4411.77 | 0/2 | 90.148% | Reject: service floor; standalone queue cancelled |
+| premium1440-buyservice-opening8500-fasturgent-win5500 | 1 | €-6262.24 | 0/1 | 89.245% | Reject: service floor; standalone queue cancelled |
+| premium1440-buyservice-opening8500-win5000 | 2 | €-502.22 | 0/2 | 88.679% | Reject: service floor; standalone queue cancelled |
+| premium1440-buyservice-opening8500-win5500 | 1 | €-2088.62 | 0/1 | 89.165% | Reject: service floor; standalone queue cancelled |
+| premium1440-capacity12-20-win5200-4400-3000 | 1 | €-1043.47 | 0/1 | 92.593% | Drop: margin and volume loss |
+| premium1440-pickup360-2-floor3600-3000-win4600 | 4 | €-917.61 | 0/4 | 90.909% | Reject: service floor; standalone queue cancelled |
+| premium1440-pickup360-2-floor3600-3000-win5000 | 4 | €-480.11 | 1/4 | 91.254% | Reject: service floor; standalone queue cancelled |
+| premium1440-pickup360-2-floor3600-3000-win5500 | 3 | €-1282.38 | 0/3 | 89.683% | Reject: service floor; standalone queue cancelled |
+| premium1440-pickup360-2-floor4200-3600-win4600 | 4 | €-624.24 | 0/4 | 90.223% | Reject: service floor; standalone queue cancelled |
+| premium1440-pickup360-2-floor4200-3600-win5000 | 4 | €-1086.97 | 1/4 | 89.602% | Reject: service floor; standalone queue cancelled |
+| premium1440-pickup360-2-floor4200-3600-win5500 | 3 | €-673.24 | 0/3 | 89.628% | Reject: service floor; standalone queue cancelled |
+
+Faster review retains high intake but loses roughly€5–8k on s07 and
+increases expiries; opening8500 is the least costly fee arm, not an adopted
+service fix. The capacity valve has only1 pair, loses€1,043 and51 wins,
+so it is not clearly positive and is dropped. Unplayed rows remain resumable
+but are no longer queued. Early Epsilon is unchanged.
+
+Verified tilt keys: `short_km=300`, `short_bps=9300`,
+`long_markup_bps=10500`, with `short_fee_km=45` retained. `long_markup_bps`
+applies only to `max_km < km <= effective_long_max_km` (currently >500km),
+so the literal arm does not raise300–500km prices. Quotes below45km move
+from9200 to9300bps;45–300km receive9300;300–500km remain10000.
+The optional roster/backlog arm also uses existing keys, but is lower
+priority than combining the builders' actual survivors and stays within
+the same4-arm cap. No branch-wide builder merge is performed.
