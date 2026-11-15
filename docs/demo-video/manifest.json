@@ -1,7 +1,7 @@
 {
   "README.md": {
-    "bytes": 5665,
-    "sha256": "8cfe38f06498b77cd0e7ed51c1abe2f829af77826424b9d6b8dd4e172e5fbdc1"
+    "bytes": 5685,
+    "sha256": "588a52c5b3be3a6a0a4b957b3669d5d9660e45ea110b1b3faafd14f7afa5833a"
   },
   "requirements.txt": {
     "bytes": 50,
@@ -9,15 +9,15 @@
   },
   "render.py": {
     "bytes": 49979,
-    "sha256": "44b8c20238a0e548b601d4442f5939178668f90ca199e411818ca8c27317d1d7"
+    "sha256": "d709d31ab04df4e3295f52a961b9b6b91ee93cff727be44e5bd356283aef0f0c"
   },
   "captions.vtt": {
-    "bytes": 1220,
-    "sha256": "3858197c3a890263d323d9abf7ffa1275151156cf7974b3c6b6291fd2ad52d7f"
+    "bytes": 1179,
+    "sha256": "8fafad0ac072590feb7e40ab605e74aef3165ac6dbaebacf0a77284344c062b1"
   },
   "captions.srt": {
-    "bytes": 1230,
-    "sha256": "af0d957f94552405eae67517d4baac10e530419c1135a1a368544ada1657eb0d"
+    "bytes": 1189,
+    "sha256": "632ab585ebab2ffede64b88ee6fb0033f6704389a624fe799f44a29b9057dde0"
   },
   "data/graph-data.json": {
     "bytes": 526287,
@@ -84,8 +84,8 @@
     "sha256": "039f277d43fbe98e90100a35aa3fcdcf05b6b12913adc1b52802e474cfae2e80"
   },
   "assets/contact-sheet.jpg": {
-    "bytes": 597561,
-    "sha256": "5b7d5294e9e6fc3060549f53cdc9ddbd811032213bbf071a244554168ee9ef42"
+    "bytes": 597689,
+    "sha256": "afaebe00e90774d57291f656b97a745f3f64c2f5b8b15b77a98589c00fb55ef3"
   },
   "../../docs/screenshots/week-overview.png": {
     "bytes": 311202,
@@ -93,7 +93,7 @@
   },
   "index.html": {
     "bytes": 1238,
-    "sha256": "adeae3e3258cd515a698fc8fe7e5c540fd63c1ffbaddab8ad13dac1d140871c1"
+    "sha256": "e46876d4e32254d697b9f117c0e00deed09694aabeaf4a0f356e568c620a157b"
   },
   "assets/cheap-drive-badge.png": {
     "bytes": 13475,

@@ -15,20 +15,20 @@ Beta: filter requests, price for dealer trust, raise gig fees after pickup opens
 Find what broke: inspect dealer notes, pickup windows, and late delivery outcomes in the live week analysis report.
 
 5
-00:00:26,100 --> 00:00:33,800
-More runs cleared the ranking gate across 1,685 practice runs: from 84.6% ranked in Alpha to 98.6% ranked in Delta.
+00:00:26,100 --> 00:00:32,800
+Gamma: higher margin, but one week missed the gate at 89.96% on time in the first eight-week holdout.
 
 6
-00:00:34,100 --> 00:00:40,800
-Gamma: more margin, but one week missed the gate at 89.96% on time in the first eight-week holdout.
+00:00:33,100 --> 00:00:39,800
+Gamma: read dealer notes and combine cars in one gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
 
 7
-00:00:41,100 --> 00:00:47,800
-Gamma reads notes and pairs two cars in one driver gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
+00:00:40,100 --> 00:00:46,800
+Delta: Quantity > the best margins, adding +€1,664 per week vs Early Delta across 19 paired practice weeks.
 
 8
-00:00:48,100 --> 00:00:54,800
-Delta uses freed capacity from wider windows and 90 km pairing with a 42% win target, adding +€1,664 per week vs Early Delta across 19 paired weeks.
+00:00:47,100 --> 00:00:54,800
+More runs cleared the ranking gate across 1,685 practice runs: from 84.6% ranked in Alpha to 98.6% ranked in Delta.
 
 9
 00:00:55,100 --> 00:00:59,800

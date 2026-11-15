@@ -36,10 +36,10 @@ SCENES = [
     (5, 13),
     (13, 20),
     (20, 26),
-    (26, 34),
-    (34, 41),
-    (41, 48),
-    (48, 55),
+    (26, 33),
+    (33, 40),
+    (40, 47),
+    (47, 55),
     (55, 60),
 ]
 
@@ -880,7 +880,7 @@ def ending(t):
     return im
 
 
-FUNCS = [hero, evolution, dispatcher, observability, experiments, failure, gain, delta_confirm, ending]
+FUNCS = [hero, evolution, dispatcher, observability, failure, gain, delta_confirm, experiments, ending]
 
 
 def frame(t):
@@ -954,7 +954,7 @@ def soundtrack(path):
                 noise = rng.standard_normal(len(ts))
                 noise = np.diff(np.r_[0, noise]) * np.exp(-ts * 95)
                 add(start + j * (beat_sec / 2), noise, .012 if j % 2 else .006, (-1 if j % 2 else 1) * .3)
-    for cut in [5, 13, 20, 26, 34, 41, 48, 55]:
+    for cut in [5, 13, 20, 26, 33, 40, 47, 55]:
         ts = np.arange(round(sr * 0.7)) / sr
         noise = rng.standard_normal(len(ts))
         noise = np.convolve(noise, np.ones(12) / 12, mode='same')
@@ -972,7 +972,7 @@ def soundtrack(path):
 
 
 def stills(out):
-    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 28.5, 32.0, 38.0, 45.0, 52.0, 57.5]
+    times = [2.2, 7.5, 11.2, 15.0, 18.2, 23.0, 29.5, 36.5, 43.5, 49.0, 53.0, 57.5]
     thumbs = []
     for p in out.glob('frame-*.png'):
         p.unlink()
