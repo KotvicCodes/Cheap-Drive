@@ -5,7 +5,7 @@ from dataclasses import replace
 class EpsilonBreakerMixin:
     def __init__(self, *args, epsilon_breaker=0, epsilon_breaker_on_time_bps=9400,
                  epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0,
-                 epsilon_breaker_risk_orders=0, epsilon_breaker_risk_horizon_minutes=360, **kwargs):
+                 epsilon_breaker_risk_orders=3, epsilon_breaker_risk_horizon_minutes=360, **kwargs):
         if type(epsilon_breaker) is not int or epsilon_breaker not in (0, 1):
             raise ValueError('epsilon_breaker must be 0 or 1')
         if (type(epsilon_breaker_on_time_bps) is not int or

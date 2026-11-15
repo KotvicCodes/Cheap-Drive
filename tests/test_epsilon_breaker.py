@@ -126,6 +126,9 @@ class EpsilonBreakerTests(unittest.TestCase):
             self.assertTrue(restored.epsilon_breaker_active)
             self.assertEqual(restored.settings, desk.settings)
             self.assertEqual(restored.intake_settings, desk.intake_settings)
+            self.assertEqual(restored.driver_settings, desk.driver_settings)
+            self.assertEqual(restored.delta_pair_max_wait_minutes, 0)
+            self.assertEqual(restored.delta_pair_min_slack_minutes, 0)
             self.assertEqual(restored.epsilon_breaker_outcomes, desk.epsilon_breaker_outcomes)
 
     def test_default_off_keeps_actions_and_journal_identical(self):
