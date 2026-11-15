@@ -440,3 +440,21 @@ Default-off action replay of the complete hard s07 week matched all2277
 batches and1943 actions, including clocks; explicit0 matched too. Local439
 tests and1689 subtests pass. This replay establishes equivalence, not
 counterfactual profit. Epsilon JSON still equals Delta.
+
+
+## Readiness discount implementation
+
+`delta_readiness_early_cut_bps` defaults0. Eligible45–500km nonpremium,
+nonprivate singles have at least720 minutes until the original/parsed pickup
+readiness. Manual/plates, urgent, level1, trade-in and fewer-than-three-rung
+schedules are excluded. Only the first two remaining rungs fall; independent
+segment floors and later cap amount/time remain. Equal adjacent fees merge.
+Focused boundary/floor/exclusion/post-age checks pass; complete s07 replay
+with explicit0 matches2277 batches/1943 actions. Local444 tests pass.
+
+| Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Readiness early cut600bps | Pending4 | — | — | — | Prepared |
+| Readiness early cut800bps | Pending4 | — | — | — | Prepared |
+| Pickup-opportunity360/2 + cap14000 | 4 | −€245.43 | 1/4 | 92.199% | Reject: negative margin |
+| Pickup-opportunity360/2 + cap13000 | 4 | −€285.62 | 2/4 | 89.683% | Reject: service and margin |
