@@ -17,6 +17,7 @@ import os
 from pathlib import Path
 import queue
 import threading
+import zlib
 
 from spread.starter import DAY, undelivered
 
@@ -147,7 +148,7 @@ class CheckpointStore:
                                     receipts[identity] = {**quotes[identity], "ok": result["ok"]}
                         elif kind == "model_quote_result":
                             receipts[row["requestId"]] = {k: row[k] for k in ("at", "ok", "competitive", "tracker")}
-            except (OSError, EOFError, ValueError, KeyError, StopIteration):
+            except (OSError, EOFError, ValueError, KeyError, TypeError, AttributeError, StopIteration, zlib.error):
                 continue
         return receipts
 
@@ -394,9 +395,12 @@ def rejoin_model(desk, snapshot, history):
             if (checkpoint["worldId"] == snapshot.get("worldId")
                     and checkpoint["state"]["now"] <= snapshot["now"]
                     and (seq == -1 or any(e["seq"] == seq for e in history))):
-                restore_state(desk, checkpoint["state"])
-                if not math.isfinite(desk.markup) or not desk.settings.markup_min_bps <= desk.markup <= desk.settings.markup_max_bps:
+                # Validate before restoration can apply a latched breaker's
+                # policy. Rolling back data alone cannot undo those settings.
+                markup = checkpoint["state"]["markup"]
+                if not math.isfinite(markup) or not desk.settings.markup_min_bps <= markup <= desk.settings.markup_max_bps:
                     raise ValueError("invalid checkpoint markup")
+                restore_state(desk, checkpoint["state"])
                 after = seq
         except (KeyError, TypeError, ValueError, AttributeError):
             restore_state(desk, initial)
