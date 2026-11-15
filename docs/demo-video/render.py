@@ -941,7 +941,7 @@ def gain(t):
 # ---------------------------------------------------------------------------
 def delta_production(t):
     im = base_canvas('sunburst').copy()
-    enter_model_hdr(im, 'Delta:', ' in production', 80, 88, 78, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
+    enter_model_hdr(im, 'Delta', ' in production', 80, 88, 78, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
     txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 240, 134, ORANGE, 700)
     txt(im, 'gross margin/week vs Early Delta', 84, 404, 30, INK, 650)
 

@@ -8,8 +8,8 @@
     "sha256": "1974d6dff3c4f993b444daaaa633be89ed330082a947905b99e2e98299043cfa"
   },
   "render.py": {
-    "bytes": 61546,
-    "sha256": "efac89095fc7624ad507759d8b3e7deda8bb34279fb723ee2060e3a98d92eb98"
+    "bytes": 61545,
+    "sha256": "7dda3195f310897267efef53dff7637d83fd802a8e718a5930e36261d748ac79"
   },
   "captions.vtt": {
     "bytes": 1379,
@@ -93,7 +93,7 @@
   },
   "index.html": {
     "bytes": 1241,
-    "sha256": "94245255257da3b962ea9243f7c9f81a94958da2c4d26ea6b9fa6947a6b48a5c"
+    "sha256": "4381ff73ae7e21dc5393391614e4334df598e7a2c9693dd73a688b2b97c8c32c"
   },
   "assets/cheap-drive-badge.png": {
     "bytes": 13475,
