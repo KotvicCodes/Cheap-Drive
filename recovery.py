@@ -366,11 +366,13 @@ def _restore_pairs(desk, snapshot):
         now = desk.now
         # A plan is safe only if recreating it at its ORIGINAL posting minute
         # produces the same stops and audience, including all note restrictions.
-        if len(members) == 2 and all(m in desk.orders and m in desk.requests for m in members):
+        if (len(members) == 2 or len(members) == 3 and desk.driver_settings.pair_chain3) and all(
+                m in desk.orders and m in desk.requests for m in members):
             desk.now = gig["postedAt"]
             try:
                 with _bookkeeping(desk):
-                    pair, _ = desk._plan(*(desk.orders[m] for m in members))
+                    orders = [desk.orders[m] for m in members]
+                    pair, _ = desk._plan(*orders) if len(members) == 2 else desk._plan_chain(orders)
             except Exception:
                 pair = None
             finally:

@@ -182,3 +182,33 @@ no extra model actions or calls, and never reopens saved traces.
 Only a profitable service-safe cost cut can be combined with target4600/5000;
 opening7000/7500 must also include a wider-pair policy. Existing saved Early
 Epsilon controls are reused.
+
+
+## Three-car chain implementation
+
+`pair_chain3=0` is the independent default-off switch. The enabled selector
+extends already-legal pair permutations with an eligible third unbooked single,
+checks all distinct resulting orders, and prefers a legal triple to a pair.
+It keeps existing pairs as fallback when no triple passes. Chain controls are
+`chain_transfer_km=35` per connection, `chain_max_drive_minutes=540`, and
+`chain_fee_bps=6800` against the combined raw references. These numeric defaults
+have no effect while the switch is off. The chain uses the ordinary ramp,
+rescue hold, 60-minute split, and confirmed withdrawals.
+
+Each chain excludes premium cars, checks the existing audience/calendar/note/
+plates/charging constraints, counts same-town map travel minutes, applies spare
+to actual delivery bounds, and posts latest(0) bounds on all six stops. No
+booked or working gig can be withdrawn. Failure restores all remaining singles.
+A shortened three-car gig keeps its two surviving orders protected; checkpoints
+and public reconstruction preserve six-stop plans. No three-car active-pair
+swapping or waiting buffer was introduced.
+
+Verified API fact: the live `/openapi.json` Action/post schema (02:42 UTC) has
+`stops.minItems=2` and no maxItems; the SDK also exposes List[StopRef]. This
+permits six stops structurally but is not proof of semantic server acceptance
+or profitability. The first practice screen must verify both. Gemini's claimed
+chain gains are not experimental results and are not used as a prior score.
+
+Full offline suite:487 tests. Against the frozen pre-chain implementation,
+1600 randomized pair plans and400 complete three-order selections produced
+identical reasons, posted actions and plan data with chain3 off.
