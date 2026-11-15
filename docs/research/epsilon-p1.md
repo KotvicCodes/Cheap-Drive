@@ -259,3 +259,24 @@ s07 at target4600. Three in-flight disqualified worlds were ended. One final
 settings-only probe narrows waiting age180→120 and pickup slack480→720,
 retaining pair_once0, idle120 and the original pair fees, at target4200/4600.
 It uses the same four seeds and retains the early service stop.
+
+
+## Deep queue overrides the screen-only protocol (03:29 UTC)
+
+On explicit orchestrator instruction, replace all re-pairing screens with one
+long three-worker sweep. Run `epsilon-finish-band180` and
+`epsilon-volume-stack-tilt-win4600-finish-band180` on all19 paired seeds plus
+the8 predeclared margin-confirmation seeds. The combo retains Early Epsilon
+and adds short_km300,short_bps9300,long_markup_bps10500,target4600,band180.
+No new policy code is involved. Reuse the two already-completed exact-setting
+finish-band180 rows;52 new worlds remain. All3 superseded tighter-guard worlds
+were ended before replacing their controller.
+
+The orchestrator was informed that finish-band180's+€406.17/week on the two
+hard seeds includes a90.811% on-time week, so it cannot pass the service gate.
+The latest instruction nevertheless explicitly requests this diagnostic full
+extension; it supersedes the prior prohibition on19/27-seed extensions and
+early stopping weak arms. Do not treat it as a promoted model. All workers
+remain filled from the deep queue; at05:30 the gate stops new worlds, active
+worlds finish, and then the controller is stopped. Drain by05:50 and publish
+the final paired report by05:45.
