@@ -73,6 +73,19 @@ class EpsilonBreakerTests(unittest.TestCase):
         self.assertFalse(desk.epsilon_breaker_active)
         self.assertEqual(desk.win_target(), 4400)
 
+    def test_history_rebuilds_leading_latch_without_quote_receipts(self):
+        desk = self.desk(epsilon_breaker_risk_orders=2)
+        for identity in ('risk1', 'risk2'):
+            req = request(identity)
+            req['note'] = {'text': ''}
+            desk.requests[identity] = req
+            desk.orders[identity] = order_for(req, deadline=1000)
+        history = [dict(seq=1, at=500, kind='price_request', request=request('new'))]
+        replay_history(desk, dict(gigs=[]), history, after=-1)
+        self.assertTrue(desk.epsilon_breaker_active)
+        self.assertEqual(desk.win_target(), 4200)
+        self.assertFalse(desk.recovery_quotes)
+
     def test_switch_changes_quote_tilt_slack_corridor_and_new_trade_intake(self):
         desk = self.desk(epsilon_breaker_min_orders=1)
         req = request(slacks=(350,))

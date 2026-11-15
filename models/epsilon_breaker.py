@@ -41,16 +41,19 @@ class EpsilonBreakerMixin:
         self.apply_epsilon_breaker()
         self.journal.record('epsilon_breaker', at=at, mode='conservative', **signal)
 
-    def quote(self, request):
+    def check_epsilon_pickup_risk(self, at):
         # Decide before admitting more work, using only the current public books.
         # The route calculation includes notes, site closures and missing posts;
         # booked legs and already delivered legs never count as unserved risk.
         if self.epsilon_breaker and not self.epsilon_breaker_active and self.epsilon_breaker_risk_orders:
             risky = self.service_risk_orders(horizon=self.epsilon_breaker_risk_horizon_minutes)
             if len(risky) >= self.epsilon_breaker_risk_orders:
-                self.trip_epsilon_breaker(self.now, signal='unbooked_pickup_risk',
+                self.trip_epsilon_breaker(at, signal='unbooked_pickup_risk',
                                           riskyOrders=len(risky), orderIds=sorted(risky),
                                           horizonMinutes=self.epsilon_breaker_risk_horizon_minutes)
+
+    def quote(self, request):
+        self.check_epsilon_pickup_risk(self.now)
         return super().quote(request)
 
     def apply_epsilon_breaker(self):
@@ -75,6 +78,10 @@ class EpsilonBreakerMixin:
         if not self.epsilon_breaker:
             return
         kind, identity = event['kind'], event.get('orderId')
+        if kind == 'price_request':
+            # Recovery may have no durable receipt for this historical quote.
+            # Observe the signal anyway, so replay cannot forget a week latch.
+            self.check_epsilon_pickup_risk(event['at'])
         outcomes = self.epsilon_breaker_outcomes
         if kind == 'delivered' and identity in self.orders:
             order = self.orders[identity]
