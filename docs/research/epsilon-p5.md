@@ -15,7 +15,7 @@ baseline, and later changes can still force a combined trade-in to split.
 
 All trials use level-8 practice via `scripts/sweep.py`. The initial allocation
 was `SWEEP_WORKERS=3`; the orchestrator reduced it to 2 at 01:45 UTC.
-Subsequent trials use `SWEEP_WORKERS=2`.
+The quota returned to three at 02:07 UTC after the readiness rehearsal secured its own slot.
 Only `summary.md` and `runs.jsonl` are used for live trial analysis. Existing
 19-seed Delta references are reused from sibling worktree
 `t3-cb1f1e60-3100c14e73a0d169/runs/epsilon/delta-baseline.jsonl`; their settings
@@ -156,8 +156,8 @@ The three strengths are 9900, 9800, and 9600 basis points (1%, 2%, 4% discount).
 The frozen base is confirmed Epsilon: Delta settings plus premium slack 1440.
 All 19 Epsilon references were recovered from existing `runs.jsonl` rows with
 exact matching settings. Both Delta and Epsilon are paired references. Screen
-seeds are f1-s07, f2-s04, f1-s01, f1-s05. The largest positive paired mean versus
-Epsilon among service-safe arms advances to 19; adoption also needs positive
+seeds are f1-s07, f2-s04, f1-s01, f1-s05. Every screen arm with positive paired mean versus
+Epsilon and Delta and all weeks >=91.5% advances to 19; adoption also needs positive
 means versus Delta and Epsilon and every observed week >=91.5% on time, followed
 by the four reserved unseen seeds. No pricing/roster controls are bundled.
 
@@ -166,6 +166,27 @@ Subsequent sweep commands use `SWEEP_WORKERS=3`, `SWEEP_TEAM_WORLD_LIMIT=12`;
 the runner checks `client.worlds()` before each creation (including retries)
 and waits while 12 or more worlds are unfinished. The 03:00–03:45 launch pause
 remains in force. Revised confirmation/report target is 05:45 UTC, and all
-worlds must finish by 06:15 UTC. Tests: 453 passing, including exact-off action/
+no new worlds may start after 05:30 UTC, all worlds must finish by 05:50 UTC, and the final report is due 05:45 UTC. Tests: 453 passing, including exact-off action/
 journal parity, distance/slack/backlog boundaries, exclusions, final rounding,
 reference floor, unchanged learning state, recovery, and the team-cap wait.
+
+
+### Discount screen and tighter service gates
+
+Completed first screen, candidate minus paired references, euros/week:
+
+| Candidate | Weeks | vs Delta | vs Epsilon | Positive vs Epsilon | Worst on time | Wins vs Epsilon |
+|---|---:|---:|---:|---:|---:|---:|
+| 1% discount | 4 | +50.59 | -162.82 | 2/4 | 91.444% | +1.75 |
+| 2% discount | 4 | +116.42 | -96.98 | 2/4 | 90.000% | +1.75 |
+| 4% discount | 4 | -188.63 | -402.04 | 1/4 | 88.889% | +5.25 |
+
+All fail the service floor and confirmed Epsilon margin; none advances. The
+next screen keeps the same base, distances, floor and seeds, testing 1% and 2%
+with backlog <=10, plus 1% with slack >=1440. All screen survivors extend to
+19; the strongest full-cohort survivor proceeds to the reserved fresh cohort.
+
+`SWEEP_START_BEFORE_UTC=2026-11-15T05:30:00+00:00` enforces the new launch
+cutoff inside pause/capacity waits and immediately before creation. A launch
+timer also blocks this lane at 03:00, resumes at 03:45, and blocks at 05:30.
+Tests: 455 passing. No recursive cross-worktree filesystem scans are used.

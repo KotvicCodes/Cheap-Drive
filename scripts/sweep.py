@@ -20,11 +20,14 @@ Creating that file blocks new worlds (including retries) while active weeks
 finish. Removing it resumes queued weeks; completed scores are still reused.
 Set SWEEP_TEAM_WORLD_LIMIT=12 to check the team's unfinished worlds before
 each creation, including retries, and wait while the shared capacity is full.
+SWEEP_START_BEFORE_UTC accepts a timezone-aware ISO timestamp; queued weeks
+stop at this cutoff, including during a pause or a capacity wait.
 """
 from __future__ import annotations
 
 import concurrent.futures as cf
 from contextlib import redirect_stdout
+from datetime import datetime, timezone
 import gzip
 import io
 import json
@@ -47,11 +50,27 @@ EVENTS = ("price_request", "order_won", "gig_booked", "gig_dropped", "gig_expire
           "visit_failed", "no_show", "order_cancelled")
 
 
+class LaunchWindowClosed(RuntimeError):
+    """A requested launch cutoff has passed; active weeks may still finish."""
+
+
+def check_launch_cutoff():
+    cutoff = os.environ.get('SWEEP_START_BEFORE_UTC')
+    if cutoff:
+        end = datetime.fromisoformat(cutoff)
+        if end.tzinfo is None:
+            raise ValueError('SWEEP_START_BEFORE_UTC must include a timezone')
+        if datetime.now(timezone.utc) >= end:
+            raise LaunchWindowClosed('practice launch cutoff reached')
+
+
 def wait_for_launch():
     """Pause only at world boundaries; never interfere with an active week."""
     path = os.environ.get("SWEEP_PAUSE_FILE")
+    check_launch_cutoff()
     while path and Path(path).exists():
         time.sleep(1)
+        check_launch_cutoff()
 
 
 def wait_for_team_capacity(client):
@@ -81,6 +100,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
         try:
             wait_for_launch()
             wait_for_team_capacity(client)
+            check_launch_cutoff()
             world = client.create(level=level, seed=seed, board=False)
             (out / "worlds" / world.id).write_text(tag)
             started = time.time()
@@ -126,6 +146,8 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
                     "seconds": round(time.time() - started), "attempts": attempt + 1}
+        except LaunchWindowClosed:
+            raise  # Active weeks finish; queued weeks never retry this cutoff.
         except Exception as error:  # network blips, slot races, server restarts
             last = f"{type(error).__name__}: {error}"
             with (out / "errors.log").open("a") as f:
