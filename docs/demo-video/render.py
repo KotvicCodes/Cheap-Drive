@@ -1019,8 +1019,9 @@ def epsilon_slide(t):
         im.paste(card_im, (80, y0), c_mask)
         rect(im, (80, y0, 760, y1), None, eps_col, r=18, width=3)
 
-    txt(im, 'Test the', 120, 326, 76, INK, 700)
-    txt(im, 'brakes', 120, 418, 76, eps_col, 700)
+    txt(im, 'Test the brakes', 116, 280, 40, INK, 700)
+    txt(im, '< 95% on time', 116, 360, 74, eps_col, 700)
+    txt(im, 'Accept fewer orders when on-time drops', 116, 476, 29, MUTED_INK, 650)
 
     txt(im, 'Push the volume', 116, 662, 40, INK, 700)
     txt(im, '342 → 370', 116, 742, 82, eps_col, 700)
