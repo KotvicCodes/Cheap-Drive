@@ -249,6 +249,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_b1="off", delta_lanes="off", delta_option_spread="off",
                delta_pairing="off", delta_pair_same_audience=0, delta_pair_quote_bps=0,
                delta_pair_self_roads=0,
+               delta_pair_latest0_windows=0,
                delta_pair_max_wait_minutes=0, delta_pair_min_slack_minutes=0,
                delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
@@ -260,6 +261,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pair_same_audience must be 0 or 1')
     if type(delta_pair_self_roads) is not int or delta_pair_self_roads not in (0, 1):
         raise ValueError('delta_pair_self_roads must be 0 or 1')
+    if type(delta_pair_latest0_windows) is not int or delta_pair_latest0_windows not in (0, 1):
+        raise ValueError('delta_pair_latest0_windows must be 0 or 1')
     class DeltaDesk(DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
@@ -287,6 +290,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
             return super().repost(gig_id)
 
     base, driver = _split_settings(GammaSettings, settings)
+    if delta_pair_latest0_windows:
+        driver = replace(driver, pair_tight_windows=1)
     validate_option_spread(delta_option_spread, base, driver, b1=delta_b1, lanes=delta_lanes,
                            note_fixes=delta_note_fixes, rescue_windows=delta_rescue_windows)
     validate_b1(delta_b1, base, driver, note_fixes=delta_note_fixes, rescue_windows=delta_rescue_windows)

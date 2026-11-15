@@ -32,6 +32,17 @@ class DriverSideSettings:
     pair_with_waiting: int = 1
     pair_split_minutes: int = 60
     pair_once: int = 1
+    pair_tight_windows: int = 0
+    pair_rescue_floor_bps: int = 0
+    pair_rescue_step_minutes: int = 0
+    pair_rescue_step_bps: int = 600
+    pair_retry_limit: int = 0
+    pair_retry_transfer_km: int = 30
+    pair_cancel_cleanup: int = 0
+    pair_aged_guard_minutes: int = 0
+    pair_aged_guard_bps: int = 10000
+    pair_self_time: int = 0
+    pair_economic_rank: int = 0
 
     def __post_init__(self):
         if self.fee_shape not in ("ramp", "review"):
@@ -39,7 +50,8 @@ class DriverSideSettings:
         for name, value in vars(self).items():
             if name != "fee_shape" and (type(value) is not int or value < 0):
                 raise ValueError(f"{name} must be a nonnegative integer")
-        for name in ("review_skip_night", "pairs", "pair_with_waiting", "pair_once"):
+        for name in ("review_skip_night", "pairs", "pair_with_waiting", "pair_once", "pair_tight_windows",
+                     "pair_cancel_cleanup", "pair_self_time", "pair_economic_rank"):
             if getattr(self, name) not in (0, 1):
                 raise ValueError(f"{name} must be 0 or 1")
         if not 0 < self.pair_max_drive_minutes <= 720:
@@ -47,6 +59,8 @@ class DriverSideSettings:
         for name in ("review_fee_bps", "pair_fee_bps", "pair_rescue_fee_bps", "pair_split_minutes"):
             if getattr(self, name) == 0:
                 raise ValueError(f"{name} must be positive")
+        if self.pair_rescue_floor_bps > 10000:
+            raise ValueError("pair_rescue_floor_bps must be <= 10000")
 
 
 @dataclass
@@ -112,6 +126,8 @@ class DriverSideMixin:
         self._pairs: dict[str, _Pair] = {}
         self._pending_pairs: dict[int, _Pair] = {}
         self._split_orders: set[str] = set()
+        self._failed_pairs: set[frozenset[str]] = set()
+        self._pair_failures: Counter = Counter()
         self._failed_orders: set[str] = set()
         self._picked: set[str] = set()
         self._started: set[str] = set()
@@ -275,8 +291,15 @@ class DriverSideMixin:
                 and identity not in self._picked and not self._pair_of(identity)):
             return False
         gigs = self.gigs_of(identity)
+        s = self.driver_settings
+        if s.pair_aged_guard_minutes and gigs and self.now - self.first_posted.get(identity, self.now) > s.pair_aged_guard_minutes:
+            current = self._single_action(order)["schedule"][0]["feeCents"]
+            typical = self.requests[identity]["referenceFeeCents"]
+            if current * 10000 >= typical * s.pair_aged_guard_bps:
+                return False
         return (not any(g in self.booked or g in self._started for g in gigs)
-                and (not self.driver_settings.pair_once or identity not in self._split_orders)
+                and (self._pair_failures[identity] < s.pair_retry_limit if s.pair_retry_limit else
+                     not s.pair_once or identity not in self._split_orders)
                 and (self.driver_settings.pair_with_waiting or not gigs))
 
     def _single_action(self, order):
@@ -298,15 +321,28 @@ class DriverSideMixin:
         openings; backward planning recomputes the first pickup's last start.
         """
         s = self.driver_settings
+        if s.pair_retry_limit and frozenset((first["id"], second["id"])) in self._failed_pairs:
+            return None, "failed_pair"
         transfer = self._road(first["legs"][0]["delivery"]["placeId"],
                               second["legs"][0]["pickup"]["placeId"])
         if transfer["km"] > s.pair_transfer_km:
             return None, "transfer_too_far"
+        if (s.pair_retry_limit and any(self._pair_failures[o["id"]] for o in (first, second))
+                and transfer["km"] > s.pair_retry_transfer_km):
+            return None, "retry_transfer_too_far"
         orders = [first, second]
         actions = [self._single_action(order) for order in orders]
         stops = actions[0]["stops"] + actions[1]["stops"]
         places = [o["legs"][0][kind] for o in orders for kind in ("pickup", "delivery")]
-        durations = [self._road(a["placeId"], b["placeId"])["minutes"] for a, b in zip(places, places[1:])]
+        durations = []
+        for a, b in zip(places, places[1:]):
+            route = (a["placeId"], b["placeId"])
+            road = self._road(*route)
+            if s.pair_self_time and route[0] == route[1]:
+                # Correct driving time without changing the transfer-distance
+                # preference that favors two orders meeting in the same town.
+                road = self.roads.get(route, road)
+            durations.append(road["minutes"])
         drive = sum(durations)
         if drive > min(720, s.pair_max_drive_minutes):
             return None, "drive_too_long"
@@ -352,7 +388,7 @@ class DriverSideMixin:
         if finish is None:
             return None, reason
 
-        def latest(spare):
+        def latest(spare, bounds=None):
             minute = float("inf")
             for index in range(3, -1, -1):
                 low, high = windows[index]
@@ -363,18 +399,48 @@ class DriverSideMixin:
                 minute = _previous_open(places[index], int(minute), low)
                 if minute is None:
                     return None
+                if bounds is not None:
+                    # Visit time includes plates fetched before pickup, but
+                    # excludes charging performed after the pickup visit.
+                    bounds[index] = minute
                 if stops[index].get("withPlates"):
                     minute -= 30
                 if index:
                     minute -= durations[index - 1]
             return minute
 
-        last, safe = latest(0), latest(s.pair_spare_minutes)
+        bounds = [None] * len(stops) if s.pair_tight_windows else None
+        last, safe = latest(0, bounds), latest(s.pair_spare_minutes)
         if last is None or safe is None:
             return None, "windows"
+        if bounds is not None:
+            if any(high < low for (low, _), high in zip(windows, bounds)):
+                return None, "tight_windows"
+            stops = [{**stop, "window": {"from": windows[index][0], "to": bounds[index]}}
+                     for index, stop in enumerate(stops)]
         typical = sum(self.requests[o["id"]]["referenceFeeCents"] for o in orders)
         rescue = any(self.gigs_of(o["id"]) for o in orders)
         schedule = self._pair_schedule(typical, last, rescue)
+        if rescue and (s.pair_rescue_floor_bps or s.pair_rescue_step_minutes):
+            # Preserve a fraction of the actual singles' current combined
+            # offer. Their schedules already include age and opening rules.
+            current = sum(max((step["feeCents"] for step in action["schedule"]
+                               if step["at"] <= self.now), default=action["schedule"][0]["feeCents"])
+                          for action in actions)
+            opening = max(schedule[0]["feeCents"],
+                          (current * s.pair_rescue_floor_bps + 9999) // 10000)
+            cap = max(opening, int(typical * self._fee_cap() / 10000 + 0.5))
+            steps = [(step["at"], max(opening, step["feeCents"])) for step in schedule]
+            if s.pair_rescue_step_minutes:
+                steps.append((self.now + s.pair_rescue_step_minutes,
+                              min(cap, opening + int(typical * s.pair_rescue_step_bps / 10000 + 0.5))))
+            schedule = []
+            for at, fee in sorted(steps):
+                if not schedule or fee > schedule[-1]["feeCents"]:
+                    if schedule and at == schedule[-1]["at"]:
+                        schedule[-1]["feeCents"] = fee
+                    else:
+                        schedule.append({"at": at, "feeCents": fee})
         action = dict(type="post", stops=stops, audience=audience, schedule=schedule)
         return _Pair(tuple(o["id"] for o in orders), action, transfer["km"], drive,
                      finish, last, safe, typical, self.now,
@@ -399,7 +465,11 @@ class DriverSideMixin:
             self.journal.record("gamma_pair_skip", at=self.now, orderId=order["id"], counts=dict(reasons))
         if not plans:
             return False
-        pair = min(plans, key=lambda p: (p.transfer_km, p.finish, p.orders))
+        if self.driver_settings.pair_economic_rank:
+            pair = min(plans, key=lambda p: (p.action["schedule"][0]["feeCents"] - p.typical,
+                                             p.transfer_km, p.finish, p.orders))
+        else:
+            pair = min(plans, key=lambda p: (p.transfer_km, p.finish, p.orders))
         # Build everything before touching existing singles. Confirm withdrawal
         # results before queuing a post, so a racing booking is never released.
         gigs = list(dict.fromkeys(g for identity in pair.orders for g in self.gigs_of(identity)))
@@ -474,13 +544,20 @@ class DriverSideMixin:
             self._outbox[:] = [a for a in self._outbox if a is not pair.action]
             self._pending_pairs.pop(id(pair.action), None)
         pair.active = False
-        self._split_orders.update(pair.orders)
+        if reason != "order_cancelled" or not self.driver_settings.pair_cancel_cleanup:
+            self._record_failed_pair(pair)
         self.journal.record("gamma_pair_split", at=self.now, gigId=pair.gig_id,
                             orders=list(pair.orders), reason=reason)
         for identity in pair.orders:
             if identity not in omit:
                 self._post_single(identity)
         return True
+
+    def _record_failed_pair(self, pair):
+        self._split_orders.update(pair.orders)
+        if self.driver_settings.pair_retry_limit:
+            self._failed_pairs.add(frozenset(pair.orders))
+            self._pair_failures.update(pair.orders)
 
     def _safe_split_pair(self, pair, reason, **kwargs):
         try:
@@ -577,7 +654,13 @@ class DriverSideMixin:
                 elif kind == "order_cancelled":
                     outcomes = {g["gigId"]: g["outcome"] for g in event["gigs"]}
                     outcome = outcomes.get(pair.gig_id)
-                    if outcome in ("withdrawn", "released"):
+                    if self.driver_settings.pair_cancel_cleanup and outcome in ("shortened", "continues"):
+                        pair.active = False
+                        if pair.gig_id in self.posts:
+                            self.posts[pair.gig_id]["stops"] = [
+                                stop for stop in self.posts[pair.gig_id]["stops"]
+                                if stop["orderId"] != identity]
+                    elif outcome in ("withdrawn", "released"):
                         self._safe_split_pair(pair, kind, gone=True, omit=(identity,))
                     elif pair.gig_id not in self.booked and pair.gig_id not in self._started:
                         self._safe_split_pair(pair, kind, omit=(identity,))
@@ -652,7 +735,7 @@ class DriverSideMixin:
                                             waitingWithdrawn=pair.waiting_withdrawn)
                     else:
                         pair.active = False
-                        self._split_orders.update(pair.orders)
+                        self._record_failed_pair(pair)
                         self._pair_error("post", orders=list(pair.orders), reason=result.get("reason"))
                         for identity in pair.orders:
                             self._post_single(identity)
