@@ -1061,3 +1061,46 @@ tweaks. Start with2seeds per arm, then keep only mean>=€300/week and
 worst>=91.0% after2–3pairs. Final replacement additionally requires a clear
 paired gain and worst>=91.5%; otherwise Early remains selected. No new
 worlds after05:30 UTC; every started world finishes naturally.
+
+## Safe-order pricing: first fresh screen and sequential elimination, 04:14 UTC
+
+All four policies use Early Epsilon plus the two stated flags;720minutes is
+the default option-slack minimum. Current-code Early controls ran on the same
+fresh seeds. No old reference scores enter this screen.
+
+| Change | Paired weeks | Mean margin difference/week vs Early | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| safe9800-backlog10 | 2 | +€92.34 | 1/2 | 95.536% | Reject: below€300 gate |
+| safe9700-backlog10, initial screen | 2 | +€545.20 | 2/2 | 95.294% | Extend immediately |
+| safe9900-backlog8 | 2 | −€30.46 | 0/2 | 93.134% | Reject |
+| safe9800-backlog12 | 2 | −€542.92 | 0/2 | 92.625% | Reject |
+| safe9700-backlog10, extension | 4 | +€104.19 | 3/4 | 95.294% | Reject: sequential margin gate |
+
+Safe9700 per-seed gains: s001+€222.10, s002+€868.29, s003+€376.36,
+s004−€1,049.98. The s004 completion first reduced the3-pair running mean to
++€13.47; the global monitor immediately gated future starts. The remaining
+already-started s003 improved the four-pair result but did not recover the
+€300 gate. Separately started hard/fresh confirmation weeks finish naturally;
+pending confirmation worlds are paused. No sweep with an active world was
+killed and no world was deleted or ended.
+
+Trace settings match the completed result rows. Both policies quote/decline
+922/108 requests on s001 and900/136 on s002. Safe9700 evaluates318 eligible
+option discounts on s001 (311applied) and226 on s002 (216applied). This rules
+out a missing flag or different admission policy as the initial positive
+signal. Reproducible screen and complete per-seed results are in
+`plans/epsilon/safe-pricing-screen.json` and `safe-pricing-results.json`.
+
+Next narrower safe-price screen, all fresh pairs, two seeds initially:
+
+| Change on Early | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| safe9700/backlog6/slack1440 | Pending2 | — | — | — | Screen |
+| safe9500/backlog6/slack1440 | Pending2 | — | — | — | Screen |
+| safe9900/backlog6/slack1440 | Pending2 | — | — | — | Screen |
+| safe9700/backlog8/slack1080 | Pending2 | — | — | — | Screen |
+
+These test whether limiting discounts to longer-lead, less-congested work
+retains margin. Same continuation gate: mean>=€300, at least half positive,
+worst>=91.0%. Final replacement still requires worst>=91.5% and a clear
+paired gain. The selected manifest remains Early Epsilon.

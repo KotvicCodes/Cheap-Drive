@@ -1,0 +1,104 @@
+{
+  "factory": "models.delta:make_delta",
+  "level": 8,
+  "fast": true,
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 1440,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "seeds": [
+    "epsilon-safe-pricing-20261115-s001",
+    "epsilon-safe-pricing-20261115-s002",
+    "epsilon-safe-pricing-20261115-s003",
+    "epsilon-safe-pricing-20261115-s004"
+  ],
+  "variants": {
+    "premium-slack1440": {},
+    "safe9800-backlog10": {
+      "delta_safe_quote_bps": 9800,
+      "delta_safe_quote_max_backlog": 10
+    },
+    "safe9700-backlog10": {
+      "delta_safe_quote_bps": 9700,
+      "delta_safe_quote_max_backlog": 10
+    },
+    "safe9900-backlog8": {
+      "delta_safe_quote_bps": 9900,
+      "delta_safe_quote_max_backlog": 8
+    },
+    "safe9800-backlog12": {
+      "delta_safe_quote_bps": 9800,
+      "delta_safe_quote_max_backlog": 12
+    }
+  },
+  "jobs": [
+    {
+      "label": "premium-slack1440",
+      "seed": "epsilon-safe-pricing-20261115-s001"
+    },
+    {
+      "label": "safe9800-backlog10",
+      "seed": "epsilon-safe-pricing-20261115-s001"
+    },
+    {
+      "label": "safe9700-backlog10",
+      "seed": "epsilon-safe-pricing-20261115-s001"
+    },
+    {
+      "label": "safe9900-backlog8",
+      "seed": "epsilon-safe-pricing-20261115-s001"
+    },
+    {
+      "label": "safe9800-backlog12",
+      "seed": "epsilon-safe-pricing-20261115-s001"
+    },
+    {
+      "label": "premium-slack1440",
+      "seed": "epsilon-safe-pricing-20261115-s002"
+    },
+    {
+      "label": "safe9800-backlog10",
+      "seed": "epsilon-safe-pricing-20261115-s002"
+    },
+    {
+      "label": "safe9700-backlog10",
+      "seed": "epsilon-safe-pricing-20261115-s002"
+    },
+    {
+      "label": "safe9900-backlog8",
+      "seed": "epsilon-safe-pricing-20261115-s002"
+    },
+    {
+      "label": "safe9800-backlog12",
+      "seed": "epsilon-safe-pricing-20261115-s002"
+    },
+    {
+      "label": "premium-slack1440",
+      "seed": "epsilon-safe-pricing-20261115-s003"
+    },
+    {
+      "label": "premium-slack1440",
+      "seed": "epsilon-safe-pricing-20261115-s004"
+    }
+  ],
+  "sequential_gate": {
+    "control": "premium-slack1440",
+    "min_pairs": 2,
+    "min_gain_cents": 30000,
+    "min_on_time": 0.91
+  }
+}
