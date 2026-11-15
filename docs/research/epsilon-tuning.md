@@ -11,8 +11,8 @@ top 7 on the official board while every week stays above 90% on time.
 ## Protocol and schedule
 
 Work started 14 November 2026 at 23:00 UTC. All tuning uses level-8 ordinary
-practice worlds through `scripts/sweep.py`, with at least two shared slots
-reserved. Checkpoint 1: 00:45 UTC; freeze: 03:30 UTC; practice stops by
+practice worlds through `scripts/sweep.py`, with the orchestrator controlling shared-slot capacity. Since the live final
+ended, the current allocation is twelve practice workers with no reserve. Checkpoint 1: 00:45 UTC; freeze: 03:30 UTC; practice stops by
 05:15 UTC. Never launch board or live final runs. Adopt only after at least
 eight paired weeks, all 19 existing f1/f2 weeks and independent fresh
 confirmation, with no observed week below 91.5% on time. Prioritise service
@@ -223,3 +223,26 @@ remains 4200. This is service-policy refinement before volume expansion.
 | Pickup opportunity 360 min, thresholds 2/4, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
 | Pickup opportunity 360 min, thresholds 3/6, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
 | Pickup opportunity 180 min, thresholds 2/4, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
+
+
+## Full-cohort service result, 00:16 UTC
+
+The pickup-opportunity brake with a 360-minute horizon, thresholds 2/4 and
+3000/2400 target caps completed all nineteen existing paired weeks. It raises
+the observed floor by 1.69 percentage points while sacrificing 25.6 wins/week.
+Its safety is promising, but the €328/week cost requires comparison against the
+cheaper projected brake. Eight pre-reserved fresh paired weeks are now in flight;
+no Epsilon setting is adopted before confirmation.
+
+| Change against current Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Pickup opportunity 360 min, thresholds 2/4, caps 3000/2400 | 19 | −€328.42 | 6/19 | 92.806% | Full cohort safe; fresh confirmation in flight |
+
+A protected-volume screen is prepared at global targets 4600 and 5000 with
+each of the two brakes independently retained. It will use the same four
+screen weeks, not fresh confirmation outcomes. This tests whether congestion
+protection can recover the margin surrendered by the stronger brake. Existing
+unit coverage exercises these settings; there is no new code path. Plans are
+retained under `docs/research/plans/epsilon/` for reproducibility. The shared
+pause file remains the drain-and-resume mechanism for ranking slot requests.
+CI at head `5626f4c` passed Python 3.9, 3.12 and 3.14.
