@@ -228,3 +228,34 @@ service floor (young retry4200:90.805%, rescue4200:90.751%, young retry4600:
 were drained, and the12 remaining screen worlds are gated until03:45. An
 interim pairing-best.json explicitly marks the screen incomplete, selects no
 experimental candidate, and retains Early Epsilon as the valid fallback.
+
+
+At03:17 the orchestrator ended the ranking pause early and returned this lane
+to three slots. Replaced the idle two-worker controller with three workers,
+removed the pause gate, and canceled the obsolete03:45 resume timer. Existing
+four scores are reused; only the12 remaining converged screen worlds run.
+The05:30 hard launch cutoff remains armed.
+
+
+## Revised screen-only protocol (03:18 UTC)
+
+The orchestrator replaced the full-cohort gate with four-seed screens, early
+termination of weak arms, and at most one roughly8-seed extension started by
+04:45. The signal sought is at least+€500/week versus Early Epsilon, around
+380+orders/week, and every observed week at least91.5% on time. Do not run
+19/27-seed extensions.
+
+All four isolated retry/rescue arms had already failed service on s07. Their
+three resumed f2 worlds were canceled and ended, rather than consuming more
+time on ineligible arms. No partial canceled world is a performance score.
+The next and only active screen combines the supplied young-retry and rescue
+offer settings at target4200/4600, on the same four predeclared seeds. It uses
+three workers. No new policy code, chains, wider reach, or target5000 is active.
+
+
+The combined retry/rescue screen also failed service:89.655% and89.544% on
+the two hard seeds at target4200, and88.127% plus one undelivered order on
+s07 at target4600. Three in-flight disqualified worlds were ended. One final
+settings-only probe narrows waiting age180→120 and pickup slack480→720,
+retaining pair_once0, idle120 and the original pair fees, at target4200/4600.
+It uses the same four seeds and retains the early service stop.
