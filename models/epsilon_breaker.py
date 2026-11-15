@@ -5,9 +5,12 @@ from dataclasses import replace
 class EpsilonBreakerMixin:
     def __init__(self, *args, epsilon_breaker=0, epsilon_breaker_on_time_bps=9400,
                  epsilon_breaker_min_orders=20, epsilon_breaker_window_minutes=0,
-                 epsilon_breaker_risk_orders=3, epsilon_breaker_risk_horizon_minutes=360, **kwargs):
+                 epsilon_breaker_risk_orders=3, epsilon_breaker_risk_horizon_minutes=360,
+                 epsilon_breaker_restore_pairing=1, **kwargs):
         if type(epsilon_breaker) is not int or epsilon_breaker not in (0, 1):
             raise ValueError('epsilon_breaker must be 0 or 1')
+        if type(epsilon_breaker_restore_pairing) is not int or epsilon_breaker_restore_pairing not in (0, 1):
+            raise ValueError('epsilon_breaker_restore_pairing must be 0 or 1')
         if (type(epsilon_breaker_on_time_bps) is not int or
                 not 0 < epsilon_breaker_on_time_bps <= 10000):
             raise ValueError('epsilon_breaker_on_time_bps must be in 1..10000')
@@ -25,6 +28,7 @@ class EpsilonBreakerMixin:
         self.epsilon_breaker_window_minutes = epsilon_breaker_window_minutes
         self.epsilon_breaker_risk_orders = epsilon_breaker_risk_orders
         self.epsilon_breaker_risk_horizon_minutes = epsilon_breaker_risk_horizon_minutes
+        self.epsilon_breaker_restore_pairing = epsilon_breaker_restore_pairing
         self.epsilon_breaker_active = False
         self.epsilon_breaker_at = None
         # One outcome per order: True is fully delivered on time, False is
@@ -67,9 +71,10 @@ class EpsilonBreakerMixin:
                                        delta_corridor_open_cap=0)
         # These gates affect future pair search only. Active pairs retain their
         # stored route, deadlines, fees and timers; no gig is withdrawn here.
-        self.driver_settings = replace(self.driver_settings, pair_once=1, pair_max_idle_minutes=60)
-        self.delta_pair_max_wait_minutes = 0
-        self.delta_pair_min_slack_minutes = 0
+        if self.epsilon_breaker_restore_pairing:
+            self.driver_settings = replace(self.driver_settings, pair_once=1, pair_max_idle_minutes=60)
+            self.delta_pair_max_wait_minutes = 0
+            self.delta_pair_min_slack_minutes = 0
         # Keep guarded trade routing/fees for previously accepted two-leg work.
         # trade_ins=0 prevents any new trade admission through Gamma's gate.
 

@@ -29,7 +29,8 @@
     "delta_intake_max_backlog": 12,
     "long_markup_bps": 10500,
     "epsilon_breaker_window_minutes": 1440,
-    "epsilon_breaker_risk_orders": 0
+    "epsilon_breaker_risk_orders": 0,
+    "epsilon_breaker_restore_pairing": 0
   },
   "variants": {
     "medium-breaker94": {

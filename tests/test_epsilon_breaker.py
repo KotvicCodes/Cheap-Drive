@@ -86,6 +86,16 @@ class EpsilonBreakerTests(unittest.TestCase):
         self.assertEqual(desk.win_target(), 4200)
         self.assertFalse(desk.recovery_quotes)
 
+    def test_quote_and_intake_only_fallback_preserves_pairing_screen(self):
+        desk = self.desk(epsilon_breaker_restore_pairing=0, epsilon_breaker_min_orders=1)
+        original_driver = desk.driver_settings
+        self.delivery(desk, 'late', late=True)
+        self.assertTrue(desk.epsilon_breaker_active)
+        self.assertEqual(desk.win_target(), 4200)
+        self.assertEqual(desk.driver_settings, original_driver)
+        self.assertEqual(desk.delta_pair_max_wait_minutes, 180)
+        self.assertEqual(desk.delta_pair_min_slack_minutes, 480)
+
     def test_switch_changes_quote_tilt_slack_corridor_and_new_trade_intake(self):
         desk = self.desk(epsilon_breaker_min_orders=1)
         req = request(slacks=(350,))
@@ -185,6 +195,7 @@ class EpsilonBreakerTests(unittest.TestCase):
                       {'epsilon_breaker_window_minutes': -1},
                       {'epsilon_breaker_risk_orders': -1},
                       {'epsilon_breaker_risk_horizon_minutes': True},
+                      {'epsilon_breaker_restore_pairing': 2},
                       {'epsilon_breaker_min_orders': 0}):
             with self.subTest(knobs=knobs), self.assertRaises(ValueError):
                 self.desk(**knobs)
