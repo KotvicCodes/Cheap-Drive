@@ -220,3 +220,11 @@ After four seeds per arm, publish the complete setting diff and paired table
 to the orchestrator's scratchpad/pairing-best.json. Extend only a qualifying
 positive-margin arm with every week at least91.5% on time; if none qualifies,
 report Early Epsilon as the fallback rather than promote an unsafe screen.
+
+
+At03:00 all four converged arms had completed s07 and every arm failed the
+service floor (young retry4200:90.805%, rescue4200:90.751%, young retry4600:
+89.182%, rescue4600:89.153%). No5000 or chain world started. All own worlds
+were drained, and the12 remaining screen worlds are gated until03:45. An
+interim pairing-best.json explicitly marks the screen incomplete, selects no
+experimental candidate, and retains Early Epsilon as the valid fallback.
