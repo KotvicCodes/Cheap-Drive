@@ -11,6 +11,7 @@ from .delta_option_spread import DeltaOptionSpreadMixin, validate_option_spread
 from .delta_service import DeltaServiceMixin
 from .delta_pair_quote import DeltaPairQuoteMixin
 from .delta_pair_guard import DeltaPairGuardMixin
+from .delta_intake import DeltaIntakeMixin, DeltaIntakeSettings
 from .gamma_notes import GammaNotesMixin, _daily_window, visit_window
 from .gamma_pairs import DriverSideMixin, _split_settings
 from .notes import NoteFacts, parse_note
@@ -260,7 +261,9 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pair_same_audience must be 0 or 1')
     if type(delta_pair_self_roads) is not int or delta_pair_self_roads not in (0, 1):
         raise ValueError('delta_pair_self_roads must be 0 or 1')
-    class DeltaDesk(DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+    intake = DeltaIntakeSettings(**{k: settings.pop(k) for k in list(settings)
+                                  if k in DeltaIntakeSettings.__dataclass_fields__})
+    class DeltaDesk(DeltaIntakeMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
@@ -300,7 +303,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
             raise ValueError('delta_pairing requires pairs=1')
         transfer, drive = PAIRING_PROFILES[delta_pairing]
         driver = replace(driver, pair_transfer_km=transfer, pair_max_drive_minutes=drive)
-    return DeltaDesk(world, level, now, journal, base, driver_settings=driver,
+    return DeltaDesk(world, level, now, journal, base, driver_settings=driver, intake_settings=intake,
                      delta_note_fixes=delta_note_fixes, delta_rescue_windows=delta_rescue_windows,
                      delta_ev_rule=delta_ev_rule,
                      delta_private_delivery_rescue=delta_private_delivery_rescue,
