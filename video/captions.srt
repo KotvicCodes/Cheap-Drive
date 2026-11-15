@@ -4,7 +4,7 @@ Cheap-Drive: Move cars, Win margins.
 
 2
 00:00:05,100 --> 00:00:12,800
-Prototype. Test. Loop. Repeat. 2,627 testing runs, 5 models, and 2B tokens burned across Alpha, Beta, Gamma, Delta, and Epsilon.
+Prototype. Test. Loop. Repeat. 2,627 testing runs, 5 models, and 2,1B+ tokens burned across Alpha, Beta, Gamma, Delta, and Epsilon.
 
 3
 00:00:13,100 --> 00:00:19,800
