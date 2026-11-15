@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from spread import Client, SpreadError
 
-from alpha import AlphaDesk
+from models.alpha import AlphaDesk
 from dispatch import Journal, JournalDesk, handle_batch, play_model
 from performance import PracticeClient
 from test_alpha import MarketWorld

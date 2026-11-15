@@ -141,6 +141,31 @@ class SourceTests(unittest.TestCase):
         for source in (b'{"password":"fixture",\xff', b'{"api\\u004bey":"fixture",\xff', b'{"x":"Bearer fixture","x":0}\n'):
             with self.subTest(source=source), self.assertRaises(UnsafeSource):analyze(source)
 
+    def test_decoded_credentials_in_arrays_and_overwritten_values_are_refused(self):
+        # Escapes hide these strings from the raw-source scan. Check scalar
+        # roots, nested arrays, and values discarded by duplicate object keys.
+        secret = b'"\\u0042earer synthetic-fixture"'
+        samples = [secret, b'[[[' + secret + b']]]',
+                   b'{"safe":[[{"note":' + secret + b',"note":"ordinary"}]]}',
+                   b'{"safe":[[{"api\\u004bey":"fixture"}]],"safe":0}']
+        for source in samples:
+            with self.subTest(source=source), self.assertRaises(UnsafeSource):
+                analyze(source + b'\n')
+
+    def test_escaped_keys_and_nested_arrays_keep_exact_source_and_last_values(self):
+        source = b'{"type":"future","na\\u006de":[[{"caf\\u00e9":"first","caf\\u00e9":"last"}],"ordinary"]}\n'
+        model = analyze(source)
+        self.assertEqual(base64.b64decode(model['source']['base64']), source)
+        self.assertEqual(model['records'][0]['value']['name'], [[{'café': 'last'}], 'ordinary'])
+        self.assertEqual(model['integrity']['invalidLines'], 1)
+
+    def test_invalid_control_character_in_key_remains_an_invalid_source_line(self):
+        source = b'{"api\x00key":"fixture"}\n'
+        model = analyze(source)
+        self.assertEqual(model['integrity']['invalidLines'], 1)
+        self.assertIsNone(model['records'][0]['value'])
+        self.assertEqual(base64.b64decode(model['source']['base64']), source)
+
     def test_duplicate_batch_returns_do_not_create_false_accepted_actions(self):
         m=analyze(journal({'type':'action_intent','batchId':1,'actions':[{'type':'post','stops':[]}]}, {'type':'act_result','batchId':1,'results':[{'ok':True,'id':'first'}]}, {'type':'act_result','batchId':1,'results':[{'ok':True,'id':'second'}]}))
         actions=[x for x in m['timeline'] if x.get('action')]

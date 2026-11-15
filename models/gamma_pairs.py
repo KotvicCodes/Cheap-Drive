@@ -8,7 +8,7 @@ from collections import Counter
 from dataclasses import dataclass, fields
 from functools import wraps
 
-from beta import BetaDesk, BetaSettings, FEE_CAP, FEE_STEPS, WARNING, closing
+from .beta import BetaDesk, BetaSettings, FEE_CAP, FEE_STEPS, WARNING, closing
 from capture import CapturedWorld
 from spread.starter import DAY, HOUR, Retry
 
@@ -258,17 +258,24 @@ class DriverSideMixin:
         return [p for p in [*self._pairs.values(), *self._pending_pairs.values()] if p.active]
 
     def _pair_of(self, identity):
-        return next((p for p in self._live_pairs() if identity in p.orders
-                     and (p.gig_id is None or self.leg_gigs.get(identity, {}).get(0) == p.gig_id)), None)
+        # Keep committed-before-pending order, but stop at the first match
+        # instead of allocating/scanning the full live-pair list each time.
+        for pairs in (self._pairs, self._pending_pairs):
+            for pair in pairs.values():
+                if (pair.active and identity in pair.orders
+                        and (pair.gig_id is None or self.leg_gigs.get(identity, {}).get(0) == pair.gig_id)):
+                    return pair
+        return None
 
     def _eligible(self, order):
         identity = order["id"]
-        gigs = self.gigs_of(identity)
-        return (self.level >= 3 and len(order["legs"]) == 1 and order["deliveredAt"] == [None]
+        if not (self.level >= 3 and len(order["legs"]) == 1 and order["deliveredAt"] == [None]
                 and order["status"] not in ("cancelled", "delivered", "moving")
                 and identity not in self.urgent and identity not in self._failed_orders
-                and identity not in self._picked and not self._pair_of(identity)
-                and not any(g in self.booked or g in self._started for g in gigs)
+                and identity not in self._picked and not self._pair_of(identity)):
+            return False
+        gigs = self.gigs_of(identity)
+        return (not any(g in self.booked or g in self._started for g in gigs)
                 and (not self.driver_settings.pair_once or identity not in self._split_orders)
                 and (self.driver_settings.pair_with_waiting or not gigs))
 
@@ -674,7 +681,7 @@ def make_pairs_beta(world, level, now, journal, **settings):
 
 def make_gamma_pairs(world, level, now, journal, **settings):
     # Gamma may be updated independently while a sweep imports this module.
-    from gamma import GammaCoreDesk, GammaSettings
+    from .gamma import GammaCoreDesk, GammaSettings
 
     class GammaPairsDesk(DriverSideMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get("pairs", 0) else GammaCoreDesk.passive_wake_events

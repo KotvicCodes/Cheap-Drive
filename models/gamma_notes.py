@@ -1,10 +1,10 @@
 """Note-aware Gamma variants; the historical Beta and Gamma factories stay intact."""
 from __future__ import annotations
 
-from gamma import GammaCoreDesk, GammaSettings
-from notes import NoteFacts, parse_note
+from .gamma import GammaCoreDesk, GammaSettings
+from .notes import parse_note
 from spread.starter import DAY, Retry
-from beta import WARNING
+from .beta import WARNING
 
 
 def _daily_window(place, kind, facts, day):
@@ -230,7 +230,7 @@ def make_gamma_notes(world, level, now, journal, **settings):
 
 
 def make_gamma_notes_pairs(world, level, now, journal, **settings):
-    from gamma_pairs import DriverSideMixin, _split_settings
+    from .gamma_pairs import DriverSideMixin, _split_settings
 
     class GammaNotesPairsDesk(DriverSideMixin, GammaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events

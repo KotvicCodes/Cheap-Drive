@@ -5,58 +5,113 @@
 # Cheap-Drive
 
 A Python dispatcher for the Spread challenge, using the official client.
-[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard)
+[How it works](https://spread.bahnexpress.com/how) · [Judging](https://spread.bahnexpress.com/judging) · [Leaderboard](https://spread.bahnexpress.com/leaderboard) · [Live analytics demo](https://kotviccodes.github.io/Cheap-Drive/)
 
-[Presentation: from Alpha to Epsilon](presentations/cheap-drive-alpha-to-gamma.html).
+[Presentation: from Alpha to Epsilon](presentations/cheap-drive-alpha-to-gamma.html) · [PDF](presentations/Cheap-Drive-from-Alpha-to-Epsilon.pdf)
 
-> **Final is close — as of 14 November 2026, 15:20 Helsinki (UTC+2).**
-> Sunday **15 November 2026, 08:00 Helsinki (06:00 UTC)**, lasts about 34 minutes.
-> Registration closes **07:30 Helsinki (05:30 UTC)** that Sunday; start the dispatcher before **08:00**.
-> Final submission: Sunday **15 November 2026, 10:00 Helsinki (08:00 UTC)**.
-> Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki (12:00 and 18:00 UTC)**.
-> **Missing: Alpha/Beta/Gamma dispatch has not been validated on final clocks; there is no final-mode runner yet.**
-> [Schedule details](AI%20overview.md#event-deadlines-and-submission).
+Model code lives in the [models package](models/), alongside its JSON configs
+(for example [models/delta.py](models/delta.py)). Runners and tools stay at the
+root and in `scripts/`. Old imports and saved factory names still work through
+one-line module aliases; see [model compatibility](docs/reference.md#model-package-compatibility).
+
+**Delta** ([models/delta.json](models/delta.json)) takes on more work and offers it to
+drivers better: a 42% win target instead of 30%, stops posted for the whole span an order
+allows, pairs searched over 90 km, and rescue for overdue private deliveries. Over 19
+paired practice weeks it earned **€1,664/week more than Early Delta** (17 of 19 weeks
+ahead; 8 of the weeks unseen: +€1,389, 7 of 8), winning 342 orders a week instead of 257,
+every week ranked. On time is lower: 95.7% on average against 96.9%, worst week 91.1%
+against 93.7%.
+
+**Early Delta** ([models/delta-early.json](models/delta-early.json)) is Gamma plus two
+repairs: bounded note corrections and a rescue-window fix. It beat Gamma on 11 of 11 unseen
+weeks by €682/week (+€518/week over 27 paired weeks). The pricing experiments in between
+(segments, lanes, small intake changes, learner, price spread) did not hold on fresh weeks.
+[Delta results](docs/research/delta-results.md) · [next steps](docs/research/delta-next-steps.md) ·
+[testing plan](docs/research/delta-testing-plan.md).
+
+[Delta next steps](docs/research/delta-next-steps.md): ranked service-protection tweaks for tonight and larger ideas parked for the next model.
+
+> Test finals: Saturday **14 November 2026, 14:00 and 20:00 Helsinki**. The final: Sunday **15 November 2026, 08:00 Helsinki**, about 34 minutes; submission by **10:00**.
+> **Final mode:** `python final.py models/delta.json` waits for the (test) final and plays it from the live stream; rerun the same command to rejoin after a crash. `--rehearse SEED` creates or resumes a paced practice rehearsal. Keep `runs/final/` for checkpoints and quote receipts. See the [recovery handoff](docs/research/final-rejoin-recovery.md) for the outage findings, offline validation and kill/restart drill.
+> [Schedule and run limits](docs/reference.md#event-schedule-and-run-limits) · [Challenge constraints](docs/challenge.md).
 
 ## Standings
 
-Our public team is **Guardians of the Moonlight**. **Gamma completed all five
-level-8 runs in round 7 ("Saturday 15:00", 14 November 2026, Helsinki time).**
-At 2026-11-14 15:05:59 UTC, we are **#32 of 45 ranked teams**, with
-**€66,880.48 total gross margin** and **96.75% on time**
-on the official board. All five weeks qualified; the worst week was
-91.35% on time (90% required in every week).
-The round stays open until 18:00 Helsinki (16:00 UTC), so positions can change.
+Our public team is **Guardians of the Moonlight**. **Delta completed all five
+level-8 runs in round 10 ("Sunday 00:00", 15 November 2026, Helsinki time).**
+At 2026-11-14 23:13:42 UTC, we are **#31 of 45 ranked teams**,
+with **€72,322.03 total gross margin** and **96.27% on time**.
+All five weeks qualified; the worst week was 95.11% on time
+(90% required in every week). The round remains open until 01:00 UTC
+on 15 November, so positions can change.
+The runs used [models/delta.json](models/delta.json) at code revision
+[cae1e58](https://github.com/KotvicCodes/Cheap-Drive/commit/cae1e58b8ce3234260328f78dcf2283cd2ebced7).
 
-| Gamma run | Gross margin | On time | Orders won | Ranked |
+| Delta run | Gross margin | On time | Orders won | Ranked |
 | --- | ---: | ---: | ---: | :---: |
-| 1 | €14,924.75 | 97.52% | 282 | Yes |
-| 2 | €13,563.36 | 99.22% | 255 | Yes |
-| 3 | €9,385.40 | 91.35% | 289 | Yes |
-| 4 | €12,867.62 | 97.87% | 282 | Yes |
-| 5 | €16,139.35 | 98.18% | 275 | Yes |
-| **Total** | **€66,880.48** | **96.75%** | **1383** | **5 / 5** |
+| 1 | €15,397.99 | 96.32% | 353 | Yes |
+| 2 | €13,064.94 | 95.11% | 368 | Yes |
+| 3 | €12,341.81 | 95.79% | 356 | Yes |
+| 4 | €17,046.58 | 96.34% | 355 | Yes |
+| 5 | €14,470.71 | 98.06% | 310 | Yes |
+| **Total** | **€72,322.03** | **96.27%** | **1742** | **5 / 5** |
 
-Leader **source-exp**: €92,830.32; tenth place:
-€82,653.03 (we are €15,772.55 behind).
-Organisers' **House best**: €64,249.30.
+Leader **Juhus**: €102,581.93; tenth place:
+**AppleJuice**, €80,862.35 (we are €8,540.32 behind).
+Organisers' **House best**: €60,811.68.
 House teams have no public rank and are excluded from the ranked-team count.
 
-![Round 7 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round7-totals.svg)
-![Gamma's five round-7 margins versus the round leader](docs/screenshots/round7-runs.svg)
+![Round 10 totals: top ten, our neighbours and House best; our team highlighted](docs/screenshots/round10-totals.svg)
+![Delta's five round-10 margins versus the round leader](docs/screenshots/round10-runs.svg)
 
-*Charts generated from the official public leaderboard, retrieved 2026-11-14 15:05:59 UTC.
+*Charts generated from the official public leaderboard, retrieved 2026-11-14 23:13:42 UTC.
 Exact cents are retained; the public page rounds margins to whole euros.*
 
-![Public leaderboard: round 7, Saturday 15:00, level 8, leading teams](docs/screenshots/leaderboard-round7.png)
-![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Gamma runs](docs/screenshots/leaderboard-round7-team.png)
+![Public leaderboard: round 10, Sunday 00:00, level 8, leading teams](docs/screenshots/leaderboard-round10.png)
+![Public leaderboard: Guardians of the Moonlight and neighbouring teams after five Delta runs](docs/screenshots/leaderboard-round10-team.png)
 
-*Real public-page screenshots captured after all five Gamma runs on
-14 November 2026, 15:07 UTC (17:07 Helsinki). The first shows the round and leaders; the second shows our
-ranked row and nearby teams. [Run and snapshot details](docs/research/gamma-board-round7.md).*
+*Real public-page screenshots captured at 2026-11-14 23:14:25 UTC (leaders) and
+2026-11-14 23:14:11 UTC (our row), after all five Delta runs, while the round was open.
+[Run and snapshot details](docs/research/delta-board-round10.md).*
 
-Previous round: unchanged **Beta** finished round 6 ("Saturday 12:00")
-**45th of 58 ranked teams**, €59,528.62, with all five weeks qualified.
-The rounds use different secret weeks, so their totals are not a paired model comparison.
+Previous round: **Delta**, round 9 ("Saturday 21:00"), finished
+**34th of 56 ranked teams**, €75,763.55,
+96.72% on time, all five qualified (closed-round data retrieved 2026-11-14 23:13:42 UTC).
+[Earlier round-9 snapshot and evidence](docs/research/delta-board-round9.md).
+
+Previous rounds: **Early Delta**, round 8 ("Saturday 18:00"),
+**37th of 58 ranked teams**, €55,639.62, 96.96% on time, all five weeks qualified
+(open-round snapshot retrieved 2026-11-14 17:53:55 UTC).
+[Round-8 snapshot and evidence](docs/research/delta-board-round8.md).
+**Gamma** finished round 7 ("Saturday 15:00")
+**41st of 62 ranked teams**, €66,880.48, 96.75% on time,
+with all five weeks qualified (closed-round data retrieved 2026-11-14 17:53:55 UTC).
+[Earlier round-7 snapshot and evidence](docs/research/gamma-board-round7.md).
+These rounds used different secret weeks, so their totals are not a paired
+comparison of the models; the paired practice evidence is in
+[Delta results](docs/research/delta-results.md).
+
+### Test final
+
+In the test final on **14 November 2026, 20:00 Helsinki (18:00 UTC)**,
+**Delta via `final.py`** finished **#42 of 75 ranked teams**, with
+**€12,816.67 gross margin**, **99.61% on time** and **256 orders won**.
+The public final feed, retrieved **2026-11-14 18:40:38 UTC**, reports leader
+**Juhus at €19,592.05** and tenth-place **Team Moonshot at €16,622.58**.
+
+The run was interrupted: during a server restart the connection dropped twice
+around Friday of the simulated week (world minute 6871) and the runner rebuilt
+its desk on Saturday (minute 7849). Requests that arrived in that gap went
+unanswered; how many is not measured. After the rebuild the world sent no
+further price requests, so the flat order count from Saturday is not a quoting
+failure.
+
+![Public test final: The final heading, ended status and leading teams](docs/screenshots/test-final-2-leaders.png)
+![Public test final: Guardians of the Moonlight at rank 42 and neighbouring teams](docs/screenshots/test-final-2-team.png)
+
+*Real public-page screenshots captured on 14 November 2026 at 18:41:23 UTC
+(leaders) and 18:41:39 UTC (our row); the page rounds euros and percentages.
+[Exact figures and interruption details](docs/research/delta-test-final-2.md).*
 
 ## Schedule & Run Limits (Official Rules)
 
@@ -70,14 +125,14 @@ All event times are **Helsinki time (EET, UTC+2)**:
 | **The Final** (`--final`) | **Starts** on **Sun** at **`08:00`** (~34 min, ends ~`08:35`; set at `07:30`) | **1 live world per team** (Level 8). Top 10 ranked teams (≥90% on-time) advance to the jury. |
 | **Junction Submission** | **Prelim:** Fri `23:59`<br>**Final:** Sun `10:00` | **1 team submission** on the Junction platform (submission hash, code link, 5–10 slides or short video). |
 
-## Current model: Gamma
+## Current qualified baseline: Gamma
 
 Gamma passed a frozen eight-seed confirmation against Beta: **8/8 ranked and
 8/8 more profitable**, gaining **€2,031/week (+20.21%)**, with **96.95% worst
 on-time delivery**. See the [recovery results](docs/research/gamma-recovery-results.md)
 for the selection process, exact comparisons and remaining limits.
 
-[models/gamma.json](models/gamma.json) uses `gamma_notes:make_gamma_notes_pairs`:
+[models/gamma.json](models/gamma.json) uses `models.gamma_notes:make_gamma_notes_pairs`:
 correct note dates/readiness and recurring business hours, guarded 500–700 km
 routes, short-route/premium-car fee controls, and two-car pairs. Fresh pairs
 open at 0.72 × summed reference fees; waiting-car rescue pairs open at 0.78 ×
@@ -106,10 +161,15 @@ those are exposed diagnostics, separate from confirmation.
 
 Earlier results: [Gamma guarded-route research](docs/research/gamma-results.md),
 [Beta](docs/research/beta-results.md), [Alpha](docs/research/alpha-results.md).
-Further model work is parked in the [Delta handoff](docs/research/delta-handoff.md).
+The next proposed experiments and known note cases are in the
+[Delta handoff](docs/research/delta-handoff.md).
 
 For context, round 6’s leading teams averaged about €18–22k and 430–470
 orders/week on different ranking worlds; practice results are not directly comparable.
+
+Public ranking evidence is from Beta: [rounds 5 and 6](docs/research/beta-results.md#ranking-round-5-level-8),
+with [round-6 charts](docs/screenshots/README.md#leaderboard-visuals). Those dated
+results describe completed rounds, not current standings.
 
 ## What drove the changes
 
@@ -163,6 +223,9 @@ python scripts/board.py models/gamma.json --runs 5 --fast
 
 # Offline HTML report.
 python week_report.py runs/my-run.jsonl --output runs/my-week.html
+
+# Multi-run interactive analytics demo bundle.
+python scripts/build_demo.py
 ```
 
 `compare.py run`: `--workers` defaults to 1 (1–8), capped at

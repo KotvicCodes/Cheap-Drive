@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import unittest
 
-from alpha import AlphaDesk, AlphaSettings, quote_cents
+from models.alpha import AlphaDesk, AlphaSettings, quote_cents
 from compare import load_model
 from demo import DemoWorld, sample_request
 from dispatch import Journal, JournalDesk, play_model
