@@ -837,7 +837,7 @@ def gain(t):
 # ---------------------------------------------------------------------------
 def delta_confirm(t):
     im = base_canvas('sunburst').copy()
-    enter_model_hdr(im, 'Delta:', ' rescue windows and order quantity', 80, 88, 70, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
+    enter_model_hdr(im, 'Delta:', ' Quantity > the best margins', 80, 88, 76, t, .05, model_color='#E62E00', rest_color=INK, weight=700)
     txt(im, f'+€{1663.8205 * ease((t - .2) / 1):,.0f}', 76, 278, 134, ORANGE, 700)
     txt(im, 'gross margin/week vs Early Delta', 84, 448, 30, INK, 650)
     badge(im, '19/19 weeks ranked (17/19 ahead)', 84, 538, color=INK, bg=MARIGOLD, border=ORANGE, size=27)
