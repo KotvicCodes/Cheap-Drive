@@ -3,12 +3,33 @@
 Published branch: `t3/epsilon-p5b` (continued from `t3/epsilon-p5`, originally based on `origin/t3/epsilon-model`).
 Production `models/delta.json` and `models/epsilon.json` remain unchanged.
 
-**Current protocol (03:28 UTC user order):** one ordered deep queue with
-three workers: admission360/cap4/max700 on all19 paired then four reserved fresh
-seeds, followed by segmented SAFE5000 and5500 on the same cohorts. Fresh Delta/
-Early Epsilon references run last; retained baseline worlds are never replayed.
-Every new world checks the team12 and own-lane3 limits. Launches stop05:30;
-active worlds drain, with own-world cleanup before05:50. No PR or merge.
+**Current protocol (03:54 UTC user order):** validate `safe9800-backlog10`
+on new nonce seeds, with three workers and paired Early Epsilon controls.
+The stack4400 sweep was stopped before switching. The new queue checks P1 and
+loop-manager result files for seed collisions; its reserved prefix is
+`epsilon-p5-safe9800-20261115-f6ee9c93`. Every launch checks team12/own3 limits.
+No worlds start after05:30; own worlds end before05:50.
+
+The sequential monitor includes all three historical exact-setting pairs;
+it does not reset unfavorable evidence. From three pairs onward, stop if mean
+improvement is below EUR300/week, fewer than half are positive, or any week is
+below90.5%. The final adoption floor remains91.5%, which this candidate has
+**already missed** on historical seed `delta-f1-s07` (91.3793%). Continued fresh
+validation is explicitly user-directed research, not final eligibility.
+
+Exact settings difference from Early Epsilon:
+`delta_safe_quote_bps=9800`, `delta_safe_quote_max_backlog=10`.
+This applies a2% customer discount only to single-leg nonpremium public-address
+50–300km options with at least720min slack and <=10 unbooked orders, and only
+when the discounted quote remains >=110% of reference fee. Win target stays4200.
+
+| Candidate | Paired weeks | Mean EUR/week vs Early Epsilon | Positive | Worst on time | Status |
+|---|---:|---:|---:|---:|---|
+| safe9800/backlog10, historical |3|+649.72|2/3|91.379%|Fresh validation; below final floor|
+| admission360/cap4/max700 |8|-17.45|3/8|91.223%|Stopped: sequential gate|
+| full stack / tilt / target4400, stored |7|+223.26|5/7|91.022%|Stopped: sequential gate|
+
+All474 offline unit tests pass. Production model JSON files are unchanged.
 Earlier protocols below are historical and superseded.
 
 ## Evidence and selection rule
