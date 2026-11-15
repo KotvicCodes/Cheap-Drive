@@ -1,0 +1,66 @@
+{
+  "factory": "models.delta:make_delta",
+  "level": 8,
+  "base": {
+    "max_km": 500,
+    "win_target_bps": 4200,
+    "opening_fee_bps": 8000,
+    "long_max_km": 700,
+    "pairs": 1,
+    "short_fee_km": 45,
+    "short_opening_fee_bps": 11000,
+    "short_km": 45,
+    "short_bps": 9200,
+    "premium_opening_fee_bps": 10500,
+    "premium_min_slack_minutes": 600,
+    "delta_note_fixes": 1,
+    "delta_rescue_windows": 1,
+    "delta_wide_windows": 1,
+    "delta_private_delivery_rescue": 1,
+    "delta_pairing": "extended"
+  },
+  "seeds": [
+    "delta-f1-s07",
+    "delta-f2-s04",
+    "delta-f1-s01",
+    "delta-f1-s05"
+  ],
+  "variants": {
+    "projected350-pair-discount98": {
+      "brake": 1,
+      "brake_soft_bps": 350,
+      "brake_hard_bps": 600,
+      "brake_soft_warnings": 100000,
+      "brake_hard_warnings": 100000,
+      "brake_soft_drops": 100000,
+      "brake_hold_minutes": 120,
+      "brake_caution_target_bps": 3600,
+      "brake_target_bps": 3000,
+      "brake_caution_bump_bps": 10000,
+      "brake_bump_bps": 10000,
+      "brake_caution_same_day_slack_minutes": 480,
+      "brake_drop_same_day": 0,
+      "brake_min_slack_minutes": 480,
+      "brake_blocks_long": 0,
+      "delta_pair_quote_bps": 9800
+    },
+    "projected350-pair-discount95": {
+      "brake": 1,
+      "brake_soft_bps": 350,
+      "brake_hard_bps": 600,
+      "brake_soft_warnings": 100000,
+      "brake_hard_warnings": 100000,
+      "brake_soft_drops": 100000,
+      "brake_hold_minutes": 120,
+      "brake_caution_target_bps": 3600,
+      "brake_target_bps": 3000,
+      "brake_caution_bump_bps": 10000,
+      "brake_bump_bps": 10000,
+      "brake_caution_same_day_slack_minutes": 480,
+      "brake_drop_same_day": 0,
+      "brake_min_slack_minutes": 480,
+      "brake_blocks_long": 0,
+      "delta_pair_quote_bps": 9500
+    }
+  }
+}

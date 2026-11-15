@@ -229,6 +229,19 @@ class DeltaPairingTests(unittest.TestCase):
         extended.roads['a', 'b']['minutes'] = 391
         self.assertEqual(extended._plan(first, second)[1], 'drive_too_long')
 
+    def test_explicit_broader_pair_search_retains_deadline_and_drive_caps(self):
+        extended = self.desk('extended')
+        first, second = self.orders(extended, minutes=270, transfer_km=105)
+        self.assertEqual(extended._plan(first, second)[1], 'transfer_too_far')
+        broader = self.desk('off', pair_transfer_km=120, pair_max_drive_minutes=720)
+        first, second = self.orders(broader, minutes=270, transfer_km=105)
+        self.assertIsNone(broader._plan(first, second)[1])
+        first['deadline'] = 700
+        self.assertEqual(broader._plan(first, second)[1], 'windows')
+        first['deadline'] = 6000
+        broader.roads['a', 'b']['minutes'] = 391
+        self.assertEqual(broader._plan(first, second)[1], 'drive_too_long')
+
     def test_wider_limits_keep_window_and_audience_safety_checks(self):
         desk = self.desk('extended', delta_note_fixes=1, delta_rescue_windows=1)
         first, second = self.orders(desk)
