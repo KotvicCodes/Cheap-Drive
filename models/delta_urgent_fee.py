@@ -39,7 +39,8 @@ class DeltaUrgentFeeMixin:
         # Accepted single schedules can carry stronger current evidence on
         # recovery; never scale a two-order pair fee as one order's reference.
         for action in self.posts.values():
-            if {stop['orderId'] for stop in action['stops']} == {order['id']}:
+            if ({stop['orderId'] for stop in action['stops']} == {order['id']}
+                    and sum(stop['kind'] == 'pickup' for stop in action['stops']) == cars):
                 current = max([current, *(step['feeCents'] for step in action['schedule'] if step['at'] <= self.now)])
         result = [{'at': self.now, 'feeCents': current}]
         for step in original:

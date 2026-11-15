@@ -493,3 +493,11 @@ paid ledger cost remains the economic measure.
 | Change against Delta | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Decision |
 | --- | ---: | ---: | ---: | ---: | --- |
 | Urgent fee clock memory | Pending4 | — | — | — | Prepared; service gain must pay for increased fees |
+
+
+Urgent-clock edge review: receipt-free history deliberately skips normal
+observation for a booked pair warning, so its deadline branch now preserves
+the clock independently. Accepted-fee evidence must also match the requested
+car count, preventing a two-car trade-in offer from flooring a one-car split.
+Both have regression tests;457 local tests pass. No urgent worlds have been
+started with the preceding implementation.

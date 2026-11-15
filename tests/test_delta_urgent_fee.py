@@ -1,6 +1,6 @@
 from copy import deepcopy
 import unittest
-from recovery import model_state, restore_state
+from recovery import model_state, restore_state, replay_history
 from spread.starter import steep
 from tests.test_recovery import new_desk, request, emit, rebuild, snapshot, paired
 from tests.test_gamma_pairs import order_for
@@ -77,6 +77,24 @@ class UrgentFeeTests(unittest.TestCase):
         self.assertEqual(desk.fees_for(order,1),[{'at':730,'feeCents':100000}])
         desk.delta_urgent_since.clear()
         self.assertEqual(desk.fees_for(order,1),steep(730,desk.requests[order['id']]['referenceFeeCents'],8))
+
+    def test_booked_pair_warning_reconstruction_keeps_age(self):
+        desk,history,pair_id=paired(delta_urgent_fee_memory=1)
+        emit(desk,history,680,'gig_booked',gigId=pair_id,driverId='driver',feeCents=10000)
+        emit(desk,history,700,'deadline_close',orderId='one')
+        replayed=new_desk(pairs=1,delta_urgent_fee_memory=1)
+        replay_history(replayed,snapshot(desk,at=850),history)
+        self.assertEqual(replayed.delta_urgent_since,{'one':700})
+
+    def test_trade_in_evidence_uses_same_car_count(self):
+        desk,history,order=self.fixture()
+        order['legs']*=2
+        desk.now=850
+        gig=desk.leg_gigs[order['id']][0]
+        desk.posts[gig]['stops']*=2
+        desk.posts[gig]['schedule']=[{'at':700,'feeCents':100000}]
+        reference=desk.requests[order['id']]['referenceFeeCents']
+        self.assertEqual(desk.fees_for(order,1),[{'at':850,'feeCents':int(reference/2*2.5+0.5)}])
 
     def test_nonurgent_pair_and_off_state_unchanged(self):
         desk,history,pair_id=paired(delta_urgent_fee_memory=1)
