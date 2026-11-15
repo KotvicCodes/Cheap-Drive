@@ -13,6 +13,7 @@ from .delta_pair_quote import DeltaPairQuoteMixin
 from .delta_pair_guard import DeltaPairGuardMixin
 from .delta_intake import DeltaIntakeMixin, DeltaIntakeSettings
 from .delta_safe_quote import DeltaSafeQuoteMixin
+from .delta_safe_target import DeltaSafeTargetMixin
 from .gamma_notes import GammaNotesMixin, _daily_window, visit_window
 from .gamma_pairs import DriverSideMixin, _split_settings
 from .notes import NoteFacts, parse_note
@@ -254,6 +255,8 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
                delta_pair_max_wait_minutes=0, delta_pair_min_slack_minutes=0,
                delta_safe_quote_bps=0, delta_safe_quote_min_slack_minutes=720,
                delta_safe_quote_max_backlog=15,
+               delta_safe_target_bps=0, delta_safe_target_min_slack_minutes=720,
+               delta_safe_target_max_backlog=15,
                delta_service_brake=0,
                delta_service_horizon_minutes=360, delta_service_soft_orders=3,
                delta_service_hard_orders=6, delta_service_target_bps=3000,
@@ -266,7 +269,7 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         raise ValueError('delta_pair_self_roads must be 0 or 1')
     intake = DeltaIntakeSettings(**{k: settings.pop(k) for k in list(settings)
                                   if k in DeltaIntakeSettings.__dataclass_fields__})
-    class DeltaDesk(DeltaSafeQuoteMixin, DeltaIntakeMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
+    class DeltaDesk(DeltaSafeTargetMixin, DeltaSafeQuoteMixin, DeltaIntakeMixin, DeltaServiceMixin, DeltaPairQuoteMixin, DeltaOptionSpreadMixin,
                     DeltaB1Mixin, DeltaLanesMixin,
                     DeltaPairGuardMixin, DriverSideMixin, DeltaNotesMixin, GammaCoreDesk):
         passive_wake_events = frozenset() if settings.get('pairs', 0) else GammaCoreDesk.passive_wake_events
@@ -307,6 +310,9 @@ def make_delta(world, level, now, journal, *, delta_note_fixes=0, delta_rescue_w
         transfer, drive = PAIRING_PROFILES[delta_pairing]
         driver = replace(driver, pair_transfer_km=transfer, pair_max_drive_minutes=drive)
     return DeltaDesk(world, level, now, journal, base, driver_settings=driver, intake_settings=intake,
+                     delta_safe_target_bps=delta_safe_target_bps,
+                     delta_safe_target_min_slack_minutes=delta_safe_target_min_slack_minutes,
+                     delta_safe_target_max_backlog=delta_safe_target_max_backlog,
                      delta_safe_quote_bps=delta_safe_quote_bps,
                      delta_safe_quote_min_slack_minutes=delta_safe_quote_min_slack_minutes,
                      delta_safe_quote_max_backlog=delta_safe_quote_max_backlog,

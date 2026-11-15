@@ -190,3 +190,32 @@ with backlog <=10, plus 1% with slack >=1440. All screen survivors extend to
 cutoff inside pause/capacity waits and immediately before creation. A launch
 timer also blocks this lane at 03:00, resumes at 03:45, and blocks at 05:30.
 Tests: 455 passing. No recursive cross-worktree filesystem scans are used.
+
+
+### Separate safe-segment target fallback
+
+Prepared independently of the fixed-discount arms: `delta_safe_target_bps`
+(default 0/off) splits only qualified safe requests into a second learner. The
+screen uses 4200 (split-only control), 4600 and 5000, with the Early Epsilon
+base, the same four screen seeds, default min slack 720 and max backlog 15.
+No fixed discount is applied. Requests must be single-leg, nonpremium, both
+endpoints nonprivate, 50–300 km, and normal brake mode. **Every admitted menu
+option** must have enough note-aware slack and its actual scoped-learner price
+must clear 110% of raw reference; otherwise the request keeps ordinary pricing
+and learning. This stronger whole-menu gate is necessary because feedback
+resolves a request, not each independently quoted option. Admission is unchanged.
+
+The tracker name encodes the quoted target, so feedback, checkpoint restoration
+and durable action-receipt replay use that target even if backlog or brake mode
+changes later. Off mode preserves actions, calls, scores and journals. Alternate
+markup scopes and simultaneous fixed discounts are rejected when this is enabled.
+
+A separate unseen cohort, `epsilon-p5-target-holdout-20261115-s01..s04`, was
+reserved at 02:29 UTC before any target-arm screen results, in case the discount
+experiment consumes its own holdout. Screen survivors must beat Delta and Early
+Epsilon with all weeks >=91.5%; target uplift must also be compared against the
+4200 split-only control to distinguish structure from quantity.
+
+A queue handoff briefly duplicated the first guarded screen. The duplicate
+sweep was stopped, its single extra world deleted, and the intended three
+workers retained. All reported scores come from completed intended worlds.
