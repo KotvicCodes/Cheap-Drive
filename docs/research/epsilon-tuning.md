@@ -225,7 +225,7 @@ remains 4200. This is service-policy refinement before volume expansion.
 | Pickup opportunity 180 min, thresholds 2/4, targets 3600/3000 | Pending (4 planned) | — | — | — | Screen in flight |
 
 
-## Full-cohort service result, 00:16 UTC
+## Full-cohort service result, 00:11 UTC
 
 The pickup-opportunity brake with a 360-minute horizon, thresholds 2/4 and
 3000/2400 target caps completed all nineteen existing paired weeks. It raises
@@ -246,3 +246,18 @@ unit coverage exercises these settings; there is no new code path. Plans are
 retained under `docs/research/plans/epsilon/` for reproducibility. The shared
 pause file remains the drain-and-resume mechanism for ranking slot requests.
 CI at head `5626f4c` passed Python 3.9, 3.12 and 3.14.
+
+
+Prepared opt-in sweep-only fee instrumentation (`SWEEP_FEE_DIAGNOSTICS=1`).
+It joins successful post receipts with actual negative `driver_fee` ledger
+charges and nominal opening fees computed from the unchanged model. It reports
+all single charges, singles posted after an earlier successful post (including
+pair fallback), and the narrower expired-then-reposted subset separately.
+Paired gigs and unmatched charges are explicitly unmeasured; booking offers
+are not treated as paid ledger cost. These are gross charges above opening,
+not counterfactual savings or net spend after later positive refunds.
+This measurement does not modify model actions or write additional trace rows.
+Six tests cover ledger versus offers, failed posts, pair fallback, separate
+legs, receipt-before-event ordering and complete sweep opt-in parity.
+All 431 tests and the CI demo/CLI commands pass locally. A four-week unchanged
+Delta measurement batch is prepared before any fee-policy hypothesis.
