@@ -420,6 +420,21 @@ class EarliestFinishTests(unittest.TestCase):
         self.assertLess(selected[1].finish,selected[0].finish)
         self.assertGreater(selected[1].transfer_km,selected[0].transfer_km)
 
+    def test_ready_work_beats_zero_transfer_pair_waiting_until_tomorrow(self):
+        finishes=[]
+        for enabled,expected in ((0,'future'),(1,'ready')):
+            desk=self.desk(pair_earliest_finish=enabled)
+            new=pair_order(desk,'new',deadline=5000)
+            future=pair_order(desk,'future','c','a',deadline=5000)
+            future['legs'][0]['pickup']['window']['from']=2000
+            ready=pair_order(desk,'ready','d','c',deadline=5000)
+            desk.orders.update(new=new,future=future,ready=ready)
+            self.assertTrue(desk._try_pair(new))
+            plan=next(iter(desk._pending_pairs.values()))
+            self.assertIn(expected,plan.orders)
+            finishes.append(plan.finish)
+        self.assertGreater(finishes[0]-finishes[1],1000)
+
     def test_explicit_off_keeps_transfer_priority_and_default_state(self):
         for settings in ({},{'pair_earliest_finish':0}):
             desk=self.desk(**settings)

@@ -14,7 +14,12 @@ Candidate minus stored current-Delta scores on matching seeds. Existing and fres
 | tight-roads-stop-spare | existing | 4 | €+157.83 | 2/4 | 91.714% |
 | tight-roads-stop-spare-rescue85 | existing | 4 | €+212.11 | 3/4 | 91.501% |
 
-The tight-roads 19-week result fails the positive-margin gate. Its requested fresh block is diagnostic and cannot reverse that failed gate. The isolated latest0 screen also fails the service gate. No production model JSON was changed.
+## Earliest selection versus confirmed Epsilon
+
+| Policy | Cohort | Paired weeks | Mean margin difference/week | Positive weeks | Worst on time | Extra completed orders/week |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+
+The tight-roads 19-week result fails the positive-margin gate. Its queued fresh block was cancelled before launch when earliest selection became the priority. The isolated latest0 screen also fails the service gate. No production model JSON was changed.
 
 Initial screen: f1-s07, f2-s04, f1-s06, f1-s08. Rescue screen stopped after three seeds per arm on orchestrator instruction. Delivery-stop spare uses the common s07/f2-s04/s01/s05 screen. Partial rows are unconfirmed.
 
