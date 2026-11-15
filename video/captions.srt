@@ -4,7 +4,7 @@ Cheap-Drive: Move cars, Win margins.
 
 2
 00:00:05,100 --> 00:00:12,800
-Prototype. Test. Loop. Repeat. Across four model generations: Alpha (677 runs), Beta (268 runs), Gamma (242 runs), and Delta (496 runs).
+Prototype. Test. Loop. Repeat. 1,685 testing runs, 5 models, and 1.5B tokens burned across Alpha, Beta, Gamma, and Delta.
 
 3
 00:00:13,100 --> 00:00:19,800
@@ -16,20 +16,20 @@ Find what broke: inspect dealer notes, pickup windows, and late delivery outcome
 
 5
 00:00:26,100 --> 00:00:32,800
-Gamma: higher margin, but one week missed the gate at 89.96% on time in the first eight-week holdout.
+Gamma: higher margin (+€830/wk), but one week missed the gate at 89.96% on time in the first eight-week holdout.
 
 6
 00:00:33,100 --> 00:00:39,800
 Gamma: read dealer notes and combine cars in one gig, adding +€2,031 per week vs Beta across 8 new practice weeks.
 
 7
-00:00:40,100 --> 00:00:46,800
-Delta: Quantity > the best margins, adding +€1,664 per week vs Early Delta across 19 paired practice weeks.
+00:00:40,100 --> 00:00:45,800
+Delta in production: +€1,664 per week vs Early Delta across 19 ranked practice weeks, and €75,764 across 5 ranked Round 9 weeks.
 
 8
-00:00:47,100 --> 00:00:54,800
-More runs cleared the ranking gate across 1,685 practice runs: from 84.6% ranked in Alpha to 98.6% ranked in Delta.
+00:00:46,100 --> 00:00:51,800
+Delta: Quantity > the best margins. Wider windows, overdue rescue, 90 km pairing, and a 42% win target lift volume from 257 to 342 orders per week.
 
 9
-00:00:55,100 --> 00:00:59,800
-Cheap-Drive: Win the right work. Deliver it.
+00:00:52,100 --> 00:00:59,800
+More runs cleared the ranking gate across 1,685 practice runs: from 84.6% ranked in Alpha to 98.6% ranked in Delta.
