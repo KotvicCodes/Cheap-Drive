@@ -156,3 +156,29 @@ and changes only intra-town driving minutes (`pair_self_time=1`), independently
 and with latest(0) windows. It retains Early Epsilon's premium1440 guard and all
 route, fee, spare and quote-target settings. This is not a repeat of the old
 road-only arm. It starts only after the three-worker volume screen drains.
+
+
+## Cost per car mission (02:38 UTC)
+
+The orchestrator replaced the selector experiments with a cost-then-volume
+mission and reduced this lane to two world slots. The three in-flight selector
+worlds drained before their controller was stopped; both finish bands and retry2
+failed the service floor on the two completed hard seeds, so no extension is
+authorized. The queued timing-only screen is deferred.
+
+First screen larger candidate pools: transfer120/150km and second-pickup idle180
+minutes, leaving the physical720-minute drive cap, arrival180, spare60, fees,
+last-safe-start timer, premium1440 and target4200 unchanged. These are separate
+from the prior wider-reach screens on a projected-brake base. Profile `off`
+prevents its90km override; `pairs=1` remains explicit.
+
+Opt-in `SWEEP_PAIR_DIAGNOSTICS=1` adds aggregate realized pooling to runs.jsonl.
+A shared gig must actually deliver at least two distinct orders. A split trial,
+a dropped booking, and a shortened pair completing one car are not counted as
+pooled completions. Fee/car uses net driver-fee ledger charges, including fees
+on unsuccessful gigs and refunds. Diagnostic-only instrumentation introduces
+no extra model actions or calls, and never reopens saved traces.
+
+Only a profitable service-safe cost cut can be combined with target4600/5000;
+opening7000/7500 must also include a wider-pair policy. Existing saved Early
+Epsilon controls are reused.

@@ -70,7 +70,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
             started = time.time()
             name = tag if attempt == 0 else f"{tag}-attempt{attempt + 1}"
             with gzip.open(out / "traces" / f"{name}.jsonl.gz", "wt", encoding="utf-8") as stream:
-                journal = MetricsJournal(stream)
+                journal_type, journal_args = MetricsJournal, ()
                 if os.environ.get('SWEEP_FEE_DIAGNOSTICS') == '1':
                     from scripts.sweep_fees import FeeMetricsJournal
 
@@ -80,7 +80,11 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
                         typical = desk.requests[order['id']]['referenceFeeCents'] / len(order['legs'])
                         return max(1, int(typical * desk._opening_bps(order) / 10000 + 0.5))
 
-                    journal = FeeMetricsJournal(stream, nominal_opening)
+                    journal_type, journal_args = FeeMetricsJournal, (nominal_opening,)
+                if os.environ.get('SWEEP_PAIR_DIAGNOSTICS') == '1':
+                    from scripts.sweep_pairs import PairMetricsMixin
+                    journal_type = type('PairSweepJournal', (PairMetricsMixin, journal_type), {})
+                journal = journal_type(stream, *journal_args)
 
                 def make_desk(w, l, n, j):
                     nonlocal desk
@@ -107,6 +111,7 @@ def play_week(out, factory_name, level, seed, label, settings, fast):
             (out / "worlds" / world.id).unlink(missing_ok=True)
             return {"score": score, "ledger": diag["ledger"], "events": diag["events"],
                     **({'fee_escalation': diag['fee_escalation']} if 'fee_escalation' in diag else {}),
+                    **({'pairing': diag['pairing']} if 'pairing' in diag else {}),
                     "visit_failures": diag["visit_failures"], "rejections": diag["rejections"],
                     "world_id": world.id, "trace": f"{name}.jsonl.gz", "reveal": reveal_file,
                     "seconds": round(time.time() - started), "attempts": attempt + 1}
