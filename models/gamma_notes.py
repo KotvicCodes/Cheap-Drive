@@ -72,8 +72,8 @@ class GammaNotesMixin:
             self._note_cache[key] = parse_note(note, request['arrivedAt'])
         return self._note_cache[key]
 
-    def _latest_note_route(self, request, deadline, *, floor=None, legs=None):
-        facts = self.note_facts(request)
+    def _latest_note_route(self, request, deadline, *, floor=None, legs=None, facts=None):
+        facts = self.note_facts(request) if facts is None else facts
         floor = request['respondBy'] if floor is None else floor
         floor = max(floor, facts.ready_at or 0, facts.released_at or 0)
         minute = min(deadline, facts.deadline if facts.deadline is not None else deadline)
