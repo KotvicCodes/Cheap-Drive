@@ -115,16 +115,16 @@ checkout was immutable. Public results establish score and rank, not model prove
 - [Final totals](../screenshots/final-totals.svg): top ten and our two neighbours on each side; exact cents, our team highlighted, zero-based bars.
 - [Real public-page leaders](../screenshots/final-leaders.png): “The final”, “Ended” and leaders; captured **2026-11-15 07:58:29 UTC**.
 - [Our public-page row](../screenshots/final-team.png): rank 29 and neighbours; captured **2026-11-15 07:56:53 UTC**.
-- [Early live view](../screenshots/final-live-start.png): **€1,137** at **place 6, live** near the start of the final; team-supplied screenshot whose file name records 09:08:08 (capturing machine's clock). Live position only, not the result.
+- [Early live view](../screenshots/final-live-start.png): **€1,137** at **place 6, live** near the start of the final; team-supplied screenshot, 1568 × 1092 pixels, stored byte-for-byte; its original file name records 09:08:08 (capturing machine's clock). Live position only, not the result.
 - [Round 12 results and provenance](epsilon-prime-board-round12.md).
 - [Round 11 closed-position correction](epsilon-board-round11.md#closed-round-update).
 
-PNGs are unaltered public-page browser captures at a **1280 × 1000 CSS-pixel
+The leaders and team-row PNGs are unaltered public-page browser captures at a **1280 × 1000 CSS-pixel
 viewport** (**2560 × 2000 image pixels**). Only scrolling was used; no data
 changed, rows hidden, cropping or annotation. The page rounds our margin to
 **€16,760** and on time to **97.6%**; the feed and chart retain cents.
 Screenshots and feed have separate retrieval times. Final status was ended
-at both. Results from different secret weeks are not paired model comparisons.
+at both those captures and the feed retrieval; the early live view was taken while the final was running. Results from different secret weeks are not paired model comparisons.
 
 This evidence refresh used only public GET requests/page loads and read-only
 local file inspection. It created or advanced no game world or run, loaded no

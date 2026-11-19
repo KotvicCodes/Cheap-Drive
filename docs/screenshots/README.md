@@ -17,7 +17,7 @@ Real final (Epsilon Prime, 43% win target), Sunday **09:00 Helsinki**,
 - [final-totals.svg](final-totals.svg): top ten and our neighbours; our team highlighted, exact cents, zero-based bars. Feed retrieved 2026-11-15 07:55:28.929 UTC: **29 of 58**, **€16,760.47**, **97.61% on time**, **376 orders**. No House best entry is published for the final.
 - [final-leaders.png](final-leaders.png): unaltered real public-page “The final”, ended status and leaders; captured **2026-11-15 07:58:29 UTC**.
 - [final-team.png](final-team.png): unaltered real public-page rank 29 and neighbours; captured **2026-11-15 07:56:53 UTC**.
-- [final-live-start.png](final-live-start.png): early live view from the start of the final, **€1,137** at **place 6, live**. Supplied by the team and stored byte-for-byte (1568 × 1092 pixels); the file name records **09:08:08** on 15 November 2026 by the capturing machine's clock. A live snapshot, not the finishing position (29 of 58).
+- [final-live-start.png](final-live-start.png): early live view from the start of the final, **€1,137** at **place 6, live**. Supplied by the team and stored byte-for-byte (1568 × 1092 pixels); its original file name records **09:08:08** on 15 November 2026 by the capturing machine's clock. A live snapshot, not the finishing position (29 of 58).
 
 [Exact final figures, public JSON, model provenance and chart reproduction](../research/final-board.md).
 
