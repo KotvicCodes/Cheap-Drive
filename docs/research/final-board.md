@@ -115,6 +115,7 @@ checkout was immutable. Public results establish score and rank, not model prove
 - [Final totals](../screenshots/final-totals.svg): top ten and our two neighbours on each side; exact cents, our team highlighted, zero-based bars.
 - [Real public-page leaders](../screenshots/final-leaders.png): “The final”, “Ended” and leaders; captured **2026-11-15 07:58:29 UTC**.
 - [Our public-page row](../screenshots/final-team.png): rank 29 and neighbours; captured **2026-11-15 07:56:53 UTC**.
+- [Early live view](../screenshots/final-live-start.png): **€1,137** at **place 6, live** near the start of the final; team-supplied screenshot whose file name records 09:08:08 (capturing machine's clock). Live position only, not the result.
 - [Round 12 results and provenance](epsilon-prime-board-round12.md).
 - [Round 11 closed-position correction](epsilon-board-round11.md#closed-round-update).
 
